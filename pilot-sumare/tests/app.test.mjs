@@ -6,7 +6,7 @@ import {resumeUploadMarkup,attachResumeUpload} from '../app/resume-upload.mjs';
 import {createExtendedUI} from '../app/extended.mjs';
 import {createPortalUI} from '../app/portal.mjs';
 import {test} from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import vm from 'node:vm';import {createRequire} from 'node:module';
-const require=createRequire(import.meta.url),{parseHTML}=require('/workspace/scratch/dbced108869e/dom-check/node_modules/linkedom');
+const require=createRequire(import.meta.url),{parseHTML}=require('linkedom');
 const source=(await readFile(new URL('../app/app.mjs',import.meta.url),'utf8')).replace(/^import .*;\n/gm,'');
 const wait=()=>new Promise(resolve=>setTimeout(resolve,15));
 function fixture(config,locationOverrides={}){const {window}=parseHTML('<div id="status"></div><section id="app"></section>');window.HTMLElement.prototype.reset=function(){this.querySelectorAll('input,textarea').forEach(el=>el.value='');};const calls=[];let eventHandler;
