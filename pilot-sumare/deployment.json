@@ -1,0 +1,8 @@
+{
+  "updated_on": "2026-10-15",
+  "supabase": {"project_id": "mynjocetbsiaukefhkmz", "url": "https://mynjocetbsiaukefhkmz.supabase.co", "region": "us-east-2", "postgres_version": "17.11", "hosted_isolation_test": "passed"},
+  "migrations": ["20261015210327_pilot_accounts_profiles_and_goals", "20261015211042_pilot_reference_indexes"],
+  "cohort": {"id": "5d36b59c-4fec-45e1-a74a-c2423a16c3fe", "slug": "senai-sumare-2026", "max_learners": 300, "admissions_open": false},
+  "vercel": {"project_id": "prj_blDRD8MpBS3n0SXRDmEAYz6Lgv0z", "account_id": "team_yQbTAdddoLaIQyVfZnzIXAKw", "project_name": "o-empregador-online-piloto", "origin": "https://o-empregador-online-piloto.vercel.app", "deployment_id": "dpl_C4Py4eGjPdcABP8goPDB75zC2ZvX", "state": "READY", "deployment_protection": false, "public_entry_authorized_at": "2026-10-15T18:32:40-03:00", "anonymous_http_verified": true, "hosted_application_verified": false},
+  "pending": ["smtp_and_email_delivery", "auth_redirect_urls", "server_secrets", "vercel_project_team_read_access", "custom_domain", "school_admissions", "shared_portal_modules", "load_test"]
+}

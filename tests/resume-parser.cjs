@@ -1,0 +1,11 @@
+const assert=require('node:assert/strict'),fs=require('node:fs');const {parseResumeText,senaiEducation}=require('../web/resume-parser.js');
+const parsed=parseResumeText(fs.readFileSync('tests/fixtures/resume-senai.txt','utf8'));
+assert.equal(parsed.fields.name,'MARIA EXEMPLO');assert.equal(parsed.fields.email,'maria@example.com');assert.equal(parsed.fields.phone,'(19) 99999-1234');assert.equal(parsed.fields.city,'Sumaré');assert.equal(parsed.fields.uf,'SP');assert.equal(parsed.fields.cep,'13170-000');assert.match(parsed.fields.education,/SENAI Sumaré/);assert.match(parsed.fields.experience,/Empresa Modelo/);assert.match(parsed.fields.skills,/SolidWorks/);assert.equal(parsed.senai.senaiTraining,true);assert.equal(parsed.senai.senaiStatus,'completed');
+const course=senaiEducation('Técnico em Mecânica — SENAI — cursando, conclusão prevista em 2027');assert.equal(course.senaiStatus,'in_progress');assert.equal(senaiEducation('Curso de Excel — SENAC — concluído').senaiTraining,false);assert.equal(senaiEducation('Desejo fazer curso no SENAI').senaiTraining,false);assert.equal(senaiEducation('Não estudei no SENAI').senaiTraining,false);
+assert.equal(parseResumeText('PESSOA EXEMPLO\npessoa@example.com\nEXPERIÊNCIA PROFISSIONAL\nSENAI - Instrutor de cursos de mecânica, 2023 a 2026.').senai.senaiTraining,false);
+assert.equal(parseResumeText('PESSOA EXEMPLO\nFORMAÇÃO ACADÊMICA\nTécnico em Mecânica — Serviço Nacional de Aprendizagem Industrial — concluído').senai.senaiTraining,true);
+assert.throws(()=>parseResumeText('curto'),/suficiente/);assert.throws(()=>parseResumeText('x'.repeat(200001)),/limite/);
+assert.equal(senaiEducation('Técnico em Mecânica — SENAI — concluído\nGraduação em Engenharia — Faculdade Modelo — cursando').senaiStatus,'completed');
+assert.equal(senaiEducation('Técnico em Mecânica — SENAI — cursando\nCurso de Excel — SENAC — concluído').senaiStatus,'in_progress');
+assert.equal(parsed.fields.senaiTraining,undefined);assert(!('cpf' in parsed.fields));assert(!('salary' in parsed.fields));
+console.log('PASS: real text field extraction, SENAI completed/ongoing/manual-review detection; SENAC, future intent, negation and SENAI employer excluded; no fabricated documents/salary; size limits.');

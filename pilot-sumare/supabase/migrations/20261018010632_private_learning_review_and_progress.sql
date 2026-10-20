@@ -1,0 +1,11 @@
+create function pilot_private.learning_review_queue(p_cohort uuid) returns jsonb language plpgsql stable security definer set search_path='' as $$begin
+ if auth.uid() is null or pilot_private.portal_role(p_cohort) is distinct from 'pilot_owner' then raise exception 'Acesso negado';end if;
+ return coalesce((select jsonb_agg(to_jsonb(x)) from (select r.*,p.display_name as candidate_name from public.portal_learning_records r join public.pilot_profiles p on p.user_id=r.user_id where r.cohort_id=p_cohort order by r.created_at desc limit 200)x),'[]');end$$;
+create function public.portal_learning_review_queue(p_cohort uuid) returns jsonb language sql security invoker set search_path='' as $$select pilot_private.learning_review_queue(p_cohort)$$;
+create function pilot_private.learning_progress(p_cohort uuid) returns jsonb language plpgsql stable security definer set search_path='' as $$begin
+ if auth.uid() is null or coalesce(pilot_private.portal_role(p_cohort),'') not in ('learner','pilot_owner') then raise exception 'Acesso negado';end if;
+ return (select coalesce(jsonb_object_agg(sphere,points),'{}') from(select sphere,sum((case level when 'doctorate' then 1200 when 'masters' then 800 when 'postgraduate' then 400 when 'degree' then 300 when 'technical' then 200 when 'course' then hours when 'training' then hours*2 end)*(1+case when recommended and level in ('course','training') then .25 else 0 end+case when completed_on>=current_date-interval '24 months' then .20 else 0 end)) as points from public.portal_learning_records where cohort_id=p_cohort and user_id=auth.uid() and status='verified' group by sphere)x);end$$;
+create function public.portal_learning_progress(p_cohort uuid) returns jsonb language sql security invoker set search_path='' as $$select pilot_private.learning_progress(p_cohort)$$;
+revoke all on function pilot_private.learning_review_queue(uuid),public.portal_learning_review_queue(uuid),pilot_private.learning_progress(uuid),public.portal_learning_progress(uuid) from public,anon;
+grant execute on function pilot_private.learning_review_queue(uuid),public.portal_learning_review_queue(uuid),pilot_private.learning_progress(uuid),public.portal_learning_progress(uuid) to authenticated;
+notify pgrst,'reload schema';

@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {careerSeries} from '../src/career-model.mjs';
+test('career timeline sums concurrent jobs, applies promotions and removes ended jobs next day',()=>{const s=careerSeries([{starts_on:'2025-01-01',ends_on:'2025-03-01',salary:1000,level:1,events:[{date:'2025-02-01',salary:2000,level:3}]},{starts_on:'2025-02-01',salary:500,level:2,events:[]}],'2025-04-01');assert.deepEqual(s.map(x=>[x.date,x.salary,x.level]),[['2025-01-01',1000,1],['2025-02-01',2500,3],['2025-03-02',500,2],['2025-04-01',500,2]]);});

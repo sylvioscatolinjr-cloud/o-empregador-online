@@ -1,0 +1,32 @@
+begin;
+create temporary table cpf_probe(label text,id uuid default gen_random_uuid());
+insert into cpf_probe(label) values('company'),('school'),('candidate'),('department'),('school_department');
+grant select on cpf_probe to authenticated,service_role;
+insert into auth.users(id,email,email_confirmed_at) select id,'cpf-probe-'||id||'@example.invalid',now() from cpf_probe where label in ('company','school','candidate');
+insert into public.pilot_memberships(user_id,cohort_id,role,status) select id,'5d36b59c-4fec-45e1-a74a-c2423a16c3fe',case label when 'company' then 'recruiter' when 'school' then 'school_staff' else 'learner' end,'active' from cpf_probe where label in ('company','school','candidate');
+insert into public.pilot_profiles(user_id,display_name) select id,'Pessoa de teste transacional' from cpf_probe where label='candidate';
+insert into pilot_private.user_identities(user_id,identity_key,profile_type) select id,'CPF:'||repeat('a',64),'Candidato' from cpf_probe where label='candidate';
+insert into public.portal_departments(id,organization_id,cohort_id,name) select d.id,o.id,'5d36b59c-4fec-45e1-a74a-c2423a16c3fe','Teste transacional' from cpf_probe d,cpf_probe o where (d.label='department' and o.label='company') or (d.label='school_department' and o.label='school');
+set local role service_role;
+select public.portal_invite_team_by_identity((select id from cpf_probe where label='company'),'5d36b59c-4fec-45e1-a74a-c2423a16c3fe',(select id from cpf_probe where label='department'),'CPF:'||repeat('a',64));
+select public.portal_invite_team_by_identity((select id from cpf_probe where label='school'),'5d36b59c-4fec-45e1-a74a-c2423a16c3fe',(select id from cpf_probe where label='school_department'),'CPF:'||repeat('a',64));
+reset role;
+select set_config('request.jwt.claim.sub',(select id::text from cpf_probe where label='company'),true);
+set local role authenticated;
+do $$begin
+ if (select count(*) from public.portal_team_invitations where candidate_id=(select id from cpf_probe where label='candidate') and status='pending' and candidate_name='Aguardando aceite do candidato')<>1 then raise exception 'Organization isolation failed';end if;
+ begin perform public.portal_team_command(null,null,(select id from public.portal_team_invitations where candidate_id=(select id from cpf_probe where label='candidate')),'accepted');raise exception 'Organization accepted its own invite';exception when others then if sqlerrm='Organization accepted its own invite' then raise;end if;end;
+ if has_function_privilege(current_user,'public.portal_invite_team_by_identity(uuid,uuid,uuid,text)','execute') then raise exception 'Direct CPF lookup exposed';end if;
+end$$;
+reset role;
+select set_config('request.jwt.claim.sub',(select id::text from cpf_probe where label='candidate'),true);
+set local role authenticated;
+select public.portal_team_command(null,null,id,case when organization_id=(select id from cpf_probe where label='company') then 'accepted' else 'declined' end) from public.portal_team_invitations where candidate_id=(select id from cpf_probe where label='candidate');
+do $$begin
+ if (select count(*) from public.portal_team_invitations where candidate_id=auth.uid() and status='accepted' and candidate_name='Pessoa de teste transacional')<>1 then raise exception 'Acceptance failed';end if;
+ if (select count(*) from public.portal_team_invitations where candidate_id=auth.uid() and status='declined')<>1 then raise exception 'Decline failed';end if;
+ if (select count(*) from public.portal_notifications where user_id=auth.uid() and title='Convite de equipe')<>2 then raise exception 'Notification failed';end if;
+end$$;
+reset role;
+select 'CPF invitation, company and school, pending, isolation, exclusive candidate response and notices verified; all fixtures rolled back' as verification;
+rollback;

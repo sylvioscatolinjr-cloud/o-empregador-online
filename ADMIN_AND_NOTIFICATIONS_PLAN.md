@@ -1,0 +1,34 @@
+# Administração, avisos e campanhas pagas
+
+## Entregue nesta versão
+
+- A autenticação da hospedagem permanece ativa. O proprietário é identificado pelo e-mail confiável injetado pelo servidor da hospedagem, configurado como segredo; não por estado local, perfil escolhido ou e-mail preenchido no formulário.
+- Confirmação administrativa adicional por e-mail, documento informado e senha. Hash PBKDF2-HMAC-SHA256 com salt aleatório, 100.000 iterações; sessão HMAC ligada à identidade nativa, cookie Secure/HttpOnly/SameSite=Strict e duração de 8 horas. Cinco tentativas de senha por janela de 15 minutos. A senha nunca está no código, rascunhos ou armazenamento de perfis. Esta confirmação adicional não cria uma conta independente da hospedagem.
+- Quatro indicadores: currículos, vagas, cursos e receita bruta recebida de campanhas. Filtros de dia, semana (segunda a domingo), mês, trimestre civil, semestre civil e ano, com data de referência e horário de Brasília. Quatro gráficos com tabela acessível. Cursos e treinamentos são distintos; o indicador Cursos conta somente Curso.
+- Contadores reais usam os registros atualmente salvos no portal privado. Não contam o catálogo fictício. Registros antigos sem data aparecem nos totais, fora dos períodos; datas novas são atribuídas pelo servidor. A edição de um registro não altera a data inicial. A visualização fictícia é separada e identificada. Receitas de planos/créditos de IA ainda não estão integradas. A receita comercial permanece zero sem pagamentos de produção verificados.
+- Caixa de avisos de cada conta autenticada, sino com quantidade não lida, solicitações do próprio anunciante e solicitações de análise para o proprietário. Atualização com portal aberto a cada 30 segundos e ao retornar à aba. Confirmação de leitura explícita e idempotente; abrir uma mensagem não inventa uma leitura.
+- Avisos administrativos gratuitos por perfis (candidato/empresa/instituição) e Brasil, região geográfica, UF, cidade ou bairro. Endereços completos permitem comparar cidade+bairro dentro da UF, ignorando acentos e caixa.
+- Turbinar em cada publicação da organização: mensagem, anexo PNG/JPG/PDF até 3 MB, perfis e localização, prévia de destinatários e orçamento exato de 5 centavos por pessoa única. A prévia expira em 15 minutos e congela o público aceito. A conta do anunciante não entra no seu próprio público comercial. Anúncios exigem opção de recebimento habilitada; avisos administrativos não dependem dessa opção. Nenhuma lista de nomes ou endereços do público é exposta ao anunciante.
+- Público fictício de 120 contas exclusivo para teste do proprietário desbloqueado. Somente o proprietário real recebe a mensagem de teste destinada a sua conta; os demais destinatários são sintéticos. Pagamento fictício é exclusivo do proprietário, só depois de aprovação, e nunca registra receita comercial.
+- Moderação pendente → aprovada/aguardando pagamento ou recusada com motivo obrigatório. Recusa e evolução do pedido entram na central do anunciante. Só o proprietário autorizado muda a decisão, no servidor. Anexo privado só pode ser acessado pelo autor, pelo proprietário autorizado ou pelos destinatários depois do envio.
+- Relatório para autor/proprietário com centrais alcançadas, confirmações únicas, não confirmados e taxa de confirmação. A confirmação é uma declaração do usuário, não prova de atenção ao conteúdo.
+
+## CEP e distância
+
+CEP obrigatório no cadastro e na criação de toda vaga, curso e treinamento. BrasilAPI CEP v2 tenta obter endereço e coordenadas; ViaCEP é a alternativa de endereço, sem inventar latitude/longitude. Endereços consultados têm cache privado por 30 dias. Publicações usam suas próprias coordenadas e nunca herdam a sede do anunciante. O servidor obtém e preserva as coordenadas e devolve os metadados normalizados ao cliente.
+
+Na busca, referência escolhida pelo usuário tem prioridade; sem ela, usa-se a localização aproximada do cadastro do perfil ativo. Distância em linha reta. Sem coordenadas, a distância é desconhecida. Busca remota continua ignorando distância. Mantém-se destaque → plano → pontos → distância → alfabética. Exemplos e publicações legadas sem CEP não recebem distância inventada; novos cadastros/publicações exigem CEP.
+
+## Cobrança preparada; ativação externa pendente
+
+O adaptador Asaas usa PIX, cliente de cobrança e orçamento calculado no servidor. CNPJ de cobrança vai para dados privados do servidor, não para rascunhos locais. A campanha conserva o responsável de cobrança aceito. Aprovação cria cobrança no provedor quando chave e cadastro estão disponíveis. Reserva com gravação condicional e consulta por externalReference previnem duplicidade e recuperam resposta incerta. O anunciante pode emitir/verificar a cobrança; somente status RECEIVED verificado diretamente no provedor libera o envio. Sandbox nunca entra na receita de produção.
+
+Webhook `/api/portal/asaas-webhook`: token `asaas-access-token` exclusivo, não a chave da API; valida vínculo da cobrança e consulta o provedor antes de liberar. Recebimento, reembolso e chargeback são reconhecidos. Duplicatas não recriam campanhas nem leituras. Nesta hospedagem owner-private, o provedor não consegue passar automaticamente pela autenticação nativa; é preciso uma entrada de webhook autorizada/ponte antes de ativar callbacks. Não houve alteração de audiência para contornar isso. Chave/conta Asaas e webhook ainda não foram configurados. Sem essa ativação não existe cobrança ou entrega comercial automática.
+
+A Badging API é usada quando disponível e zera o badge ao zerar os não lidos. O suporte varia por navegador/sistema. Atualizações com aplicativo fechado exigem Push/Web Push e infraestrutura de entrega, ainda pendentes. Não existe coleta de assinatura push nem promessa de aviso em segundo plano nesta versão.
+
+## Validação e limites
+
+Testes servidor/DOM cobrem autorização real do proprietário, tentativas, falsificação de cookie, CSRF existente, segmentação/consentimento, cálculo no servidor, bloqueio sem pagamento, recusa, anexos privados, confirmação única, seis períodos, datas confiáveis, geocodificação por oportunidade, campos obrigatórios e a sequência da interface até o relatório. Testes existentes de currículo, carreira, processos, ranking, carrossel, qualidade, servidor e PWA continuam executados. QA DOM não confirma layout ou instalação em navegador real.
+
+Este é um portal privado de teste, não um sistema comercial lançado. A alternância dos três perfis e usuários secundários da organização ainda é demonstrativa. Antes de escala comercial, são necessárias contas e permissões próprias de cada organização, indexação/filas de distribuição e apuração financeira com histórico de estornos. Esta implementação lista objetos privados com limite de 15.000 chaves; não foi validada para campanhas de grande escala.

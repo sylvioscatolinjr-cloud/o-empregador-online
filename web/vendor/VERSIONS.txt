@@ -1,0 +1,5 @@
+Local resume readers — loaded on demand. No external model/API calls.
+PDF.js 6.4.299, legacy browser build with compatibility polyfills (Apache-2.0). Standard Foxit/Liberation font data; see bundled licenses.
+Mammoth 1.13.0, browser build (BSD-2-Clause).
+Tesseract.js 7.0.0 and tesseract.js-core 7.0.0 (Apache-2.0), LSTM core using adjacent WASM.
+Portuguese language data: @tesseract.js-data/por 1.0.0, 4.0.0_best_int/por.traineddata.gz (Apache-2.0).

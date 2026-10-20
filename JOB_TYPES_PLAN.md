@@ -1,0 +1,13 @@
+# Tipos de vaga e busca
+
+Os mesmos 11 valores alimentam a publicação e o filtro: CLT, PJ, MEI, Autônomo/Freelancer, Estágio, Jovem Aprendiz, Trabalho Temporário, Trabalho Intermitente, Trabalho Doméstico, Trabalho Voluntário e PCD. O seletor usa uma lista recolhível com botões de seleção e um botão de ajuda separado em cada linha. A ajuda abre e fecha somente por clique. Teclado: Tab para navegar, Enter/Espaço para acionar e Escape para recolher. Falta de seleção bloqueia a publicação antes do salvamento.
+
+PCD é armazenado como atributo independente. Ao escolher PCD, é obrigatório escolher também o regime; ao escolher diretamente um regime, pode-se marcar a vaga como destinada a PCD. Assim uma vaga CLT/PCD aparece nas duas buscas. Cursos e treinamentos não guardam esses campos. Anúncios antigos sem tipo continuam disponíveis na busca geral, com a informação “Tipo não informado”, e não são classificados por inferência.
+
+O filtro de tipo funciona sem palavras-chave, seleciona automaticamente o conteúdo Vaga e combina os demais filtros. O botão Pesquisar e Enter no campo de busca reaplicam a pesquisa. Escolher Curso/Treinamento/Currículo limpa o filtro de contratação. A filtragem ocorre antes da pontuação, ordenação, paginação e escolha do rodízio, incluindo a rotação automática de destaques. Exemplos fictícios cobrem as categorias para avaliação do proprietário; a plataforma segue privada e não expõe um catálogo de anúncios entre contas reais.
+
+Ordem: impulsionamento → plano → pontos relacionados → distância → alfabética em português. Vagas, cursos e treinamentos usam título; currículos usam nome. Distâncias desconhecidas empatam entre si. IDs desempatem apenas títulos/nomes também iguais. O rodízio de destaques permanece para distribuir exposição.
+
+Fontes para as descrições breves: CLT https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm; Lei do Estágio https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2008/lei/l11788.htm; trabalho temporário https://www.planalto.gov.br/ccivil_03/leis/l6019.htm; trabalho voluntário https://www.planalto.gov.br/ccivil_03/leis/l9608.htm; emprego doméstico https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp150.htm; inclusão PCD https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/inspecao-do-trabalho/areas-de-atuacao/inclusao-de-pessoa-com-deficiencia.
+
+Validação: tests/job-types.cjs cobre seleção e ajuda, publicação/persistência dos 11 tipos, combinação PCD/CLT, omissão em cursos, instituições, busca só por tipo e combinada, confidencialidade, destaque filtrado com 1.000 anúncios e cada nível de prioridade. Testes de fluxos, qualidade, carrossel, navegação PWA, servidor, manifest/offline e build continuam passando. QA DOM não substitui a conferência visual em navegador real.

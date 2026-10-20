@@ -1,0 +1,46 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');const {parseHTML}=require('/workspace/scratch/dbced108869e/dom-check/node_modules/linkedom');
+const {window}=parseHTML(fs.readFileSync('web/index.html','utf8'));window.scrollTo=()=>{};const document=window.document;const modal=document.querySelector('#detail');modal.showModal=function(){this.open=true};modal.close=function(){this.open=false};
+// linkedom does not order document capture listeners before bubble listeners.
+const nativeListen=document.addEventListener.bind(document),listeners={};document.addEventListener=(type,fn,capture=false)=>{if(!listeners[type]){listeners[type]=[];nativeListen(type,event=>{const stop=event.stopImmediatePropagation.bind(event);let stopped=false;event.stopImmediatePropagation=()=>{stopped=true;stop()};for(const phase of [true,false])for(const item of [...listeners[type]])if(item.capture===phase&&!stopped)item.fn(event)})}listeners[type].push({fn,capture:typeof capture==='object'?Boolean(capture.capture):Boolean(capture)})};
+class FD{constructor(f){this.entries=Array.from(f.querySelectorAll('input,select,textarea')).filter(x=>x.name&&!x.disabled&&(x.type!=='checkbox'||x.checked)).map(x=>[x.name,x.tagName==='SELECT'?((x.querySelector('option[selected]')||x.querySelector('option'))?.getAttribute('value')??(x.querySelector('option[selected]')||x.querySelector('option'))?.textContent??''):x.type==='checkbox'?(x.getAttribute('value')||'on'):x.value??''])}[Symbol.iterator](){return this.entries[Symbol.iterator]()}}
+const store=new Map();let persisted=null,seq=0,fail=false;const fetch=async(path,options={})=>{if(options.method==='PUT'){if(fail)return new Response('{}',{status:503});persisted=JSON.parse(options.body);return new Response('{}',{headers:{ETag:'"'+(++seq)+'"'}})}return new Response(JSON.stringify({user:{id:'tester',email:'tester@example.com'},state:null}));};
+const context={window,document,MutationObserver:window.MutationObserver,URL,URLSearchParams,location:{search:''},localStorage:{getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,v),removeItem:k=>store.delete(k)},FormData:FD,Event:window.Event,CustomEvent:window.CustomEvent,console,setTimeout,clearTimeout,setInterval:()=>0,fetch,Response,Blob};vm.createContext(context);for(const f of ['app','guidance','login','team','boosts','visibility','recruitment','career','improvements','progression','quality','job-types','carousel','cloud','portal'])vm.runInContext(fs.readFileSync('web/'+f+'.js','utf8'),context,{filename:f});const run=s=>vm.runInContext(s,context);const tick=()=>new Promise(r=>setTimeout(r,30));
+
+function selectValue(field,value){field.querySelectorAll('option').forEach(o=>{if(!o.hasAttribute('value'))o.setAttribute('value',o.textContent);o.removeAttribute('selected');if(o.value===value||o.textContent===value)o.setAttribute('selected','')});field.dispatchEvent(new window.Event('change',{bubbles:true}))}
+function choice(id,value){document.querySelectorAll('select').forEach(select=>{select.querySelectorAll('option').forEach(o=>{if(!o.hasAttribute('value'))o.setAttribute('value',o.textContent)});if(!select.querySelector('option[selected]'))select.querySelector('option')?.setAttribute('selected','')});const chooser=document.querySelector('[data-job-chooser="'+id+'"]');const button=[...chooser.querySelectorAll('[data-job-choice]')].find(b=>b.dataset.jobChoice===value);assert(button);button.click()}
+function newPost(){run("state.role='Empresa';state.plan='Grátis';tab='publicar';go('painel')");const form=document.querySelector('#postForm');selectValue(form.querySelector('[name=type]'),'Vaga');form.querySelector('[name=opportunityCEP]').value='13025-000';for(const key of ['title','city','skills','description'])form.querySelector('[name="'+key+'"]').value={title:'Vaga de teste',city:'Sumaré',skills:'CAD',description:'Descrição de teste'}[key];return form}
+function submitPost(form){form.dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}))}
+(async()=>{await tick();assert(run('cloudReady'));
+let form=newPost();const count=run('state.posts.length');submitPost(form);await tick();assert.equal(run('state.posts.length'),count);assert.equal(form.querySelector('.job-choice-error').hidden,false);assert.equal(form.querySelector('.job-chooser details').open,true);
+assert.equal(form.querySelectorAll('[data-job-choice]').length,11);assert.equal(form.querySelectorAll('[data-job-help]').length,11);
+let help=form.querySelector('[data-job-help]'),explanation=document.getElementById(help.getAttribute('aria-controls'));assert(explanation.hidden);help.click();assert(!explanation.hidden);assert.equal(form.querySelector('[name=jobType]').value,'');help.click();assert(explanation.hidden);
+for(const kind of run('jobTypes.map(x=>x.value)')){
+ form=newPost();choice('jobType',kind);if(kind==='PCD'){
+ submitPost(form);assert.equal(run('state.posts.length'),count+10);selectValue(form.querySelector('[name=pcdRegime]'),'CLT');
+ }
+ submitPost(form);await tick();const stored=run('state.posts[0]');assert.equal(stored.jobType,kind==='PCD'?'CLT':kind);assert.equal(stored.pcd,kind==='PCD');assert.equal(persisted.posts[0].jobType,stored.jobType);
+}
+assert.equal(run('state.posts.length'),count+11);
+form=newPost();choice('jobType','CLT');form.querySelector('[name=pcd]').checked=true;submitPost(form);await tick();assert.equal(run('state.posts[0].pcd'),true);
+form=newPost();choice('jobType','CLT');selectValue(form.querySelector('[name=type]'),'Curso');assert(form.querySelector('.vacancy-fields').hidden);submitPost(form);await tick();assert.equal(run('state.posts[0].type'),'Curso');assert(!('jobType' in run('state.posts[0]')));assert(!('pcd' in run('state.posts[0]')));
+run("state.role='Instituição de Ensino';tab='publicar';go('painel')");assert(document.querySelector('[data-job-chooser="jobType"]'));
+run("state.role='Candidato';query='';type='Todos';city='Todas';searchMode='';searchLevel='';searchSalary='';go('explorar')");
+for(const kind of run('jobTypes.map(x=>x.value)')){choice('jobTypeFilter',kind);document.querySelector('#searchOpportunities').click();const matches=run('matchedItems()');assert(matches.length,kind);for(const item of matches)assert(run('matchesJobType('+JSON.stringify(item)+','+JSON.stringify(kind)+')'));assert.equal(run('type'),'Vaga')}
+choice('jobTypeFilter','PJ');document.querySelector('#search').value='texto inexistente 93828';document.querySelector('#searchOpportunities').click();assert.equal(run('matchedItems().length'),0);
+document.querySelector('#search').value='';document.querySelector('#searchOpportunities').click();assert(run('matchedItems().length')>0);
+selectValue(document.querySelector('#type'),'Curso');assert.equal(run('searchJobType'),'');assert(run('matchedItems().every(x=>x.type==="Curso")'));
+// Total hierarchy, including stable Portuguese alphabetical order after all earlier criteria.
+const baseline={type:'Vaga',publisherPlan:'Grátis',_searchPoints:10,_searchDistance:2,title:'Zebra',id:'test-z'};
+function compare(a,b){return run('compareSearchItems('+JSON.stringify(a)+','+JSON.stringify(b)+')')}
+assert(compare({...baseline,exampleBoost:true},{...baseline,title:'Abelha',publisherPlan:'Premium',_searchPoints:999,_searchDistance:0})<0);
+assert(compare({...baseline,publisherPlan:'Premium'},{...baseline,title:'Abelha',_searchPoints:999,_searchDistance:0})<0);
+assert(compare({...baseline,_searchPoints:20},{...baseline,title:'Abelha',_searchDistance:0})<0);
+assert(compare({...baseline,_searchDistance:1},{...baseline,title:'Abelha'})<0);
+assert(compare({...baseline,title:'Árvore'},{...baseline,title:'Bancada'})<0);
+assert(compare({...baseline,title:'Técnico 2'},{...baseline,title:'Técnico 10'})<0);
+assert(compare({...baseline,type:'Currículo',org:'Ana',title:'Zebra'},{...baseline,type:'Currículo',org:'Bruno',title:'Abelha'})<0);
+run("state.searchLocation=null;searchJobType='PJ';query='';type='Vaga';city='Todas';searchMode='';searchLevel='';searchSalary='';go('explorar')");const selectedJob=run('matchedItems()[0]');assert(selectedJob);const detail=document.querySelector('[data-detail="'+selectedJob.id+'"]');assert(detail);detail.click();assert.match(document.querySelector('#detailBody').textContent,/PJ \(Pessoa Jurídica\)/);modal.close();
+run("state.posts.push({id:'private-clt',type:'Vaga',jobType:'CLT',hiddenOrganization:true,title:'Técnico privado',org:'Nome secreto',city:'Sumaré',skills:'CAD',description:'Teste',mode:'Presencial'});query='';searchJobType='CLT';go('explorar')");document.querySelector('[data-detail="private-clt"]').click();assert.match(document.querySelector('#detailBody').textContent,/CLT/);assert(!document.querySelector('#detailBody').textContent.includes('Nome secreto'));modal.close();
+run("state.demoVolume=true;searchJobType='MEI';type='Vaga';query='';city='Todas';go('explorar')");assert(run('matchedItems().length')>0);assert(run('matchedItems().every(x=>x.jobType==="MEI")'));assert(document.querySelectorAll('.showcase .card').length<=3);
+console.log('OK: 11 required job types, per-option click help, persistence, PCD+regime, institution support, course isolation, type-only/combined searches, 1,000-item carousel filtering, confidential details and boost/plan/score/distance/alphabet hierarchy.');
+})();

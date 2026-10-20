@@ -1,0 +1,25 @@
+begin;
+create temporary table wizard_probe(label text,id uuid default gen_random_uuid());insert into wizard_probe(label) values('candidate'),('company'),('job1'),('job2');grant select on wizard_probe to authenticated,service_role;
+insert into auth.users(id,email,email_confirmed_at) select id,'wizard-probe-'||id||'@example.invalid',now() from wizard_probe where label in ('candidate','company');
+insert into public.pilot_memberships(user_id,cohort_id,role,status) select id,'5d36b59c-4fec-45e1-a74a-c2423a16c3fe',case label when 'company' then 'recruiter' else 'learner' end,'active' from wizard_probe where label in ('candidate','company');
+insert into public.pilot_profiles(user_id,display_name) select id,'Teste de currículo' from wizard_probe where label='candidate';
+select set_config('request.jwt.claim.sub',(select id::text from wizard_probe where label='company'),true);set local role authenticated;
+insert into public.portal_organizations(user_id,cohort_id,name,logo_data) select id,'5d36b59c-4fec-45e1-a74a-c2423a16c3fe','Organização de teste','data:image/png;base64,AAAA' from wizard_probe where label='company';
+reset role;
+insert into public.portal_listings(id,cohort_id,publisher_id,kind,title,organization,description,postal_code,city,state_code,modality,job_type) select j.id,'5d36b59c-4fec-45e1-a74a-c2423a16c3fe',o.id,'job','Teste de currículo','Teste','Descrição de teste transacional.','13000000','Campinas','SP','Presencial','CLT' from wizard_probe j,wizard_probe o where j.label in ('job1','job2') and o.label='company';
+reset role;select set_config('request.jwt.claim.sub',(select id::text from wizard_probe where label='candidate'),true);set local role authenticated;
+update public.pilot_profiles set resume_details='{"version":1,"contact":{"first_name":"Teste","email":"test@example.invalid"},"share_contact":false,"share_photo":false}',photo_data='data:image/png;base64,AAAA' where user_id=auth.uid();
+insert into public.portal_applications(listing_id,cohort_id,candidate_id) select id,'5d36b59c-4fec-45e1-a74a-c2423a16c3fe',auth.uid() from wizard_probe where label='job1';
+update public.pilot_profiles set resume_details=jsonb_set(jsonb_set(resume_details,'{share_contact}','true'),'{share_photo}','true') where user_id=auth.uid();
+insert into public.portal_applications(listing_id,cohort_id,candidate_id) select id,'5d36b59c-4fec-45e1-a74a-c2423a16c3fe',auth.uid() from wizard_probe where label='job2';
+reset role;select set_config('request.jwt.claim.sub',(select id::text from wizard_probe where label='company'),true);set local role authenticated;
+do $$begin
+ if exists(select 1 from public.pilot_profiles where user_id=(select id from wizard_probe where label='candidate')) then raise exception 'Private profile leaked';end if;
+ if exists(select 1 from public.portal_applications where listing_id=(select id from wizard_probe where label='job1') and (resume_snapshot?'photo_data' or resume_snapshot?'contact')) then raise exception 'Unchecked optional data leaked';end if;
+ if not exists(select 1 from public.portal_applications where listing_id=(select id from wizard_probe where label='job2') and resume_snapshot->>'photo_data'='data:image/png;base64,AAAA' and resume_snapshot->>'contact'='test@example.invalid') then raise exception 'Selected optional data not shared';end if;
+ if (select count(*) from public.portal_listings where publisher_id=auth.uid() and logo_data='data:image/png;base64,AAAA')<>2 then raise exception 'Logo not persisted';end if;
+end$$;
+update public.portal_organizations set logo_data='' where user_id=auth.uid();
+do $$begin if exists(select 1 from public.portal_listings where publisher_id=auth.uid() and logo_data<>'') then raise exception 'Logo removal not synchronized';end if;end$$;
+reset role;select 'Private structured resume, opt-in snapshot, organization logo and removal verified; fixtures rolled back' as verification;
+rollback;

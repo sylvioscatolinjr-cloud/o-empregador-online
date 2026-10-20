@@ -1,0 +1,17 @@
+# Vantagens dos assinantes — 19/10/2026
+
+Regras aprovadas: níveis 1/2/3 com conversão de 20%/25%/30% do pacote em créditos de IA; R$ 1,00 por uso; sem acumulação entre ciclos. Preços candidatos 19,90/49,90/99,90 (último normalizado conforme preço anterior); empresas/instituições 99/599/2.990 preservados. Prioridade por nível descendente, respeitando filtros, permissões e impulsionamento anterior. Treinamentos progressivos até o nível contratado; não inclui automaticamente cursos vendidos por terceiros.
+
+Convenções explicitadas na interface: crédito arredondado a centavos sobre o pacote após descontos; validade pelo período contratado (mensal/trimestral/semestral/anual); usos completos pela parte inteira, centavos restantes não transferidos para próximo ciclo. Ainda sem carteira ativa: pagamentos reais, consumo transacional de IA, catálogo protegido de treinamentos e classificação por assinatura efetiva precisam integração operacional. Seleção de plano e pagamento sandbox não autorizam benefícios.
+
+Página inicial só mostra vantagens, sem preços nem seletor de pacote. Preços e conversão aparecem na tela de planos após login existente. Este controle é de apresentação, não sigilo comercial dos arquivos JavaScript. Não usar plano selecionado como assinatura paga.
+
+## Privacidade
+Consulta em 19/10/2026: LGPD consolidada (arts. 6, 7, 9, 18 e 46), https://planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709compilado.htm e Glossário ANPD https://www.gov.br/anpd/pt-br/documentos-e-publicacoes/glossario-anpd . Finalidade desta mudança é informar condições da assinatura; nenhuma nova coleta, divulgação de currículo ou remessa a IA. Preservadas RLS, consentimentos de cartões e restrições por perfil. Seleção privada permanece vinculada à conta, hipótese contratual/preliminar (art. 7 V) sujeita à implementação e aviso final. Retenção e direitos do cadastro permanecem existentes; nova carteira deverá guardar apenas lançamentos mínimos, validade e referência de operação, sem conteúdo de currículo em extratos. Risco: confundir preferência salva com pagamento; interface informa que os benefícios ainda não estão ativos. Revisão não constitui certificação jurídica.
+
+## Preparação financeira e dependência externa
+Inspeção das variáveis Vercel em 19/10: apenas chave ASAAS_SANDBOX_API_KEY presente. Proprietário deve criar chave na conta de produção Asaas em Integrações > Chaves de API, salvar como ASAAS_PRODUCTION_API_KEY, tipo Secret, somente Production, no projeto o-empregador-online-piloto. Não substituir a chave de testes. Endpoint proprietário GET /api/billing-production confere a chave e aprovação da conta sem criar clientes, cobranças ou notificações. Não aceita POST, não libera benefícios e não declara pronto apenas pela presença da chave.
+
+Antes de ativar vendas: integrar identidade/perfil real do contratante, pedidos financeiros isolados, eventos autenticados e idempotentes por pagamento, confirmação via API, renovação, cancelamento, reembolso/chargeback, períodos pagos e créditos com expiração; homologar fluxo. A autorização do usuário para produção está registrada, sem necessidade de pedir novamente. As funções progressivas dos agentes serão definidas pelo usuário depois.
+
+Fontes Asaas: https://docs.asaas.com/docs/chaves-de-api ; https://docs.asaas.com/docs/checkout-com-assinatura-recorrente ; https://docs.asaas.com/reference/consultar-situacao-cadastral-da-conta . Diagnóstico retorna apenas estado cadastral genérico ao proprietário; nenhuma informação bancária, chave ou documento é exposta.

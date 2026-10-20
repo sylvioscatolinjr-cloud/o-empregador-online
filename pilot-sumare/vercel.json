@@ -1,0 +1,69 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/conta/confirmar",
+      "destination": "/conta.html"
+    },
+    {
+      "source": "/conta/recuperar",
+      "destination": "/conta.html"
+    },
+    {
+      "source": "/laboratorio",
+      "destination": "https://o-empregador-online.mythicsage8.chatgpt.site/"
+    },
+    {
+      "source": "/laboratorio/:path*",
+      "destination": "https://o-empregador-online.mythicsage8.chatgpt.site/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/laboratorio",
+      "destination": "/laboratorio/",
+      "permanent": false
+    }
+  ],
+  "functions": {
+    "api/editorial.mjs": {
+      "maxDuration": 240
+    },
+    "api/subscriptions.mjs": {
+      "maxDuration": 240
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/editorial?action=scheduled",
+      "schedule": "0 11 * * *"
+    }
+  ]
+}

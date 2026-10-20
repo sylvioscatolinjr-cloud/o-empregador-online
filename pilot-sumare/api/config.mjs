@@ -1,0 +1,2 @@
+import {publicPilotConfig} from '../src/runtime-config.mjs';
+export default function handler(req,res){if(req.method!=='GET'){res.setHeader('Allow','GET');res.status(405).json({error:'Método não permitido.'});return;}res.setHeader('Cache-Control','private, no-store');res.setHeader('X-Robots-Tag','noindex');res.status(200).json({...publicPilotConfig(process.env),...(process.env.PUSH_VAPID_PUBLIC_KEY&&process.env.PUSH_VAPID_PRIVATE_KEY?{pushPublicKey:process.env.PUSH_VAPID_PUBLIC_KEY}:{})});}

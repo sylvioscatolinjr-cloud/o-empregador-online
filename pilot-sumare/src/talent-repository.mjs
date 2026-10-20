@@ -1,0 +1,19 @@
+export function createTalentRepository({supabase,access,cohortId}){
+ async function user(){if((await access.refresh()).phase!=='active')throw Error('Entre na sua conta.');const r=await supabase.auth.getUser();if(r.error||!r.data?.user?.email_confirmed_at)throw Error('Confirme seu e-mail.');return r.data.user;}
+ async function checked(q){const r=await q;if(r.error)throw Error(r.error.message||'Não foi possível concluir a operação.');return r.data;}
+ return {
+ async me(){return user();},
+ async upload(file,kind){const u=await user();if(!file||file.size>5242880||!file.size)throw Error('Use arquivo de até 5 MB.');const extension=file.name.split('.').pop().toLowerCase();if(!(kind==='resume'?['pdf','docx']:['pdf','png','jpg','jpeg']).includes(extension))throw Error('Formato de arquivo inválido.');const signature=new Uint8Array(await file.slice(0,12).arrayBuffer());if(extension==='pdf'&&new TextDecoder().decode(signature.slice(0,5))!=='%PDF-'||extension==='docx'&&(signature[0]!==80||signature[1]!==75)||extension==='png'&&signature.slice(0,4).join(',')!=='137,80,78,71'||['jpg','jpeg'].includes(extension)&&(signature[0]!==255||signature[1]!==216))throw Error('O conteúdo não corresponde ao tipo do arquivo.');const path=`${u.id}/${cohortId}/${kind}/${crypto.randomUUID()}.${extension}`;const type={pdf:'application/pdf',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg'}[extension];await checked(supabase.storage.from('portal-private-files').upload(path,file,{contentType:type,upsert:false,cacheControl:'0'}));return path;},
+ async fileURL(path){await user();return (await checked(supabase.storage.from('portal-private-files').createSignedUrl(path,60))).signedUrl;},
+ async learning(all=false){const u=await user();if(all)return checked(supabase.rpc('portal_learning_review_queue',{p_cohort:cohortId}));let q=supabase.from('portal_learning_records').select('*').eq('cohort_id',cohortId).order('created_at',{ascending:false}).limit(200);if(!all)q=q.eq('user_id',u.id);return checked(q);},
+ async saveLearning(input,file){const u=await user(),path=file?await this.upload(file,'evidence'):input.evidence_path;const record={title:input.title,institution:input.institution,level:input.level,hours:input.hours?Number(input.hours):null,completed_on:input.completed_on,sphere:input.sphere,competencies:input.competencies||'',evidence_path:path};if(input.id)return checked(supabase.from('portal_learning_records').update(record).eq('id',input.id).eq('user_id',u.id).select('id').single());return checked(supabase.from('portal_learning_records').insert({...record,user_id:u.id,cohort_id:cohortId}));},
+ async removeLearning(id){const u=await user();return checked(supabase.from('portal_learning_records').delete().eq('id',id).eq('user_id',u.id));},
+ async review(input){await user();return checked(supabase.rpc('portal_review_learning',{p_id:input.id,p_decision:input.decision,p_note:input.note,p_recommended:input.recommended==='on'}));},
+ async progress(){await user();return checked(supabase.rpc('portal_learning_progress',{p_cohort:cohortId}));},
+ async score(id){const u=await user();return checked(supabase.rpc('portal_learning_score',{p_user:id||u.id,p_cohort:cohortId}));},
+ async accesses(){await user();return checked(supabase.from('portal_org_access').select('*').eq('cohort_id',cohortId));},
+ async accessCommand(action,payload){await user();return checked(supabase.rpc('portal_org_access_command',{p_cohort:cohortId,p_action:action,p_payload:payload}));},
+ async delegated(org,action,payload={}){await user();return checked(supabase.rpc('portal_delegated_command',{p_cohort:cohortId,p_org:org,p_action:action,p_payload:payload}));},
+ async recruitment(org,action,payload={}){await user();return checked(supabase.rpc('portal_recruitment_command',{p_cohort:cohortId,p_org:org,p_action:action,p_payload:payload}));}
+ };
+}
