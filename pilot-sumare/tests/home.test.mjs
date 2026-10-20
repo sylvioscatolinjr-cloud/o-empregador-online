@@ -3,7 +3,7 @@ import {alternateDemoCards} from '../app/highlight-order.mjs';
 import {cardIdentity} from '../app/card-identity.mjs';
 import {mountHighlightCarousel} from '../app/highlight-carousel.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import vm from 'node:vm';import {createRequire} from 'node:module';import {quotePlan,cycles} from '../src/billing-plans.mjs';
-const require=createRequire(import.meta.url),{parseHTML}=require('/workspace/scratch/dbced108869e/dom-check/node_modules/linkedom');
+const require=createRequire(import.meta.url),{parseHTML}=require('linkedom');
 test('anonymous homepage shows opportunities and safe opt-in cards, with login/signup and no owner controls',async()=>{
  const html=await readFile(new URL('../app/index.html',import.meta.url),'utf8'),source=(await readFile(new URL('../app/home.mjs',import.meta.url),'utf8')).replace(/^import .*;\n/gm,'');const {document}=parseHTML(html),reads=[];
  

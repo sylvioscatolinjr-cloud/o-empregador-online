@@ -174,6 +174,15 @@ Implementado em `pilot-sumare/api/subscriptions.mjs` e `/assinatura.html`: check
 
 Atualização às 20h23 de 19/10/2026: acesso Vercel restabelecido, segredo exclusivo do webhook criado e versão financeira publicada em produção (`dpl_572q7SRThc3FH9kWyMcHwUkHZRwj`, READY). Conexão, aprovação da conta e configuração do webhook confirmadas no banco. `/assinatura.html` disponível no domínio. Pendentes: pagamento real pelo proprietário, homologação financeira e benefícios antes da abertura aos demais usuários.
 
+## Velocidade e cabeçalhos — 20/10/2026 (juntado ao main, publicação no Vercel a confirmar)
+
+- Logo: páginas usam `logo-web.webp` (85 KB, 1024 px), gerado de `app/logo.png` aprovado com a mesma regra branco→transparente do filtro SVG (`scripts/logo-web.mjs`). `logo-transparent.svg` continua gerado para links antigos. Visual comparado lado a lado.
+- Cache: HTML e `/api/*` seguem `private, no-store`; JS/CSS/manifesto revalidam a cada visita (`max-age=0, must-revalidate`, resposta 304 quando não mudou); imagens, fontes e arquivos do OCR ficam 1 dia em cache.
+- Segurança: `X-Frame-Options: SAMEORIGIN`, `Permissions-Policy` e CSP aplicada só nas diretivas sem risco (`frame-ancestors`, `base-uri`, `object-src`, `form-action`). CSP completa em modo Report-Only para observar violações antes de aplicar.
+- Contraste: cores originais da etiqueta dos planos e do sobretítulo da faixa final restauradas (WCAG AA).
+- LGPD: nenhuma mudança de finalidade, dados coletados, retenção ou acesso; páginas com dados pessoais continuam sem cache.
+- Medição local (Lighthouse, sem Supabase): desempenho 73→92, LCP 10,1 s→3,0 s, peso 1.828→362 KiB, acessibilidade 96→100.
+
 ## Redator de vagas com IA — 20/10/2026 (PR em revisão, não publicado)
 Autorização do usuário em 20/10/2026 ("segue a ordem... A, depois B, depois C"). Em "Publicar oportunidade", recrutadores e instituições abrem "Escrever com IA", descrevem a oportunidade e recebem título, descrição, modalidade e vínculo preenchidos no formulário, mais alertas de exigências discriminatórias removidas e lista do que falta. Nada é publicado sem o clique do próprio usuário em "Publicar anúncio". Servidor: `pilot-sumare/api/agents.mjs` com Claude (`claude-opus-5-5`, trocável por `AGENT_AI_MODEL`), saída em esquema JSON validada de novo no servidor. Limite de `AGENT_DAILY_LIMIT` usos por pessoa por dia (padrão 10), reservado de forma atômica em `portal_agent_runs`; falhas contam. Ativação exige `ANTHROPIC_API_KEY` no Vercel; sem ela a API responde 503 e não reserva uso. O limite diário não consome os créditos de IA dos planos; essa integração continua pendente.
 
