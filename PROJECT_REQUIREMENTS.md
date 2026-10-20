@@ -173,3 +173,12 @@ Variável ASAAS_PRODUCTION_API_KEY confirmada como Secret/Sensitive, exclusiva P
 Implementado em `pilot-sumare/api/subscriptions.mjs` e `/assinatura.html`: checkout recorrente em produção, histórico individual, reautenticação, cancelamento, conciliação autenticada e créditos por período sem acúmulo. Banco financeiro aplicado com RLS e acesso exclusivo pelo servidor. Contratação restrita ao proprietário enquanto os benefícios estão em implantação; ainda sem homologação de pagamento real. Cadastro de segredo do webhook bloqueado pela permissão 403 da conexão Vercel; requer ação no painel antes da ativação. Upload da nova versão também bloqueado por 403, portanto esta implementação ainda não foi publicada. Ver `pilot-sumare/docs/BILLING_LIVE.md`. IA por níveis, treinamentos, ranking pago, receita no painel geral e abertura comercial permanecem pendentes; não considerar implementados só porque existe cobrança.
 
 Atualização às 20h23 de 19/10/2026: acesso Vercel restabelecido, segredo exclusivo do webhook criado e versão financeira publicada em produção (`dpl_572q7SRThc3FH9kWyMcHwUkHZRwj`, READY). Conexão, aprovação da conta e configuração do webhook confirmadas no banco. `/assinatura.html` disponível no domínio. Pendentes: pagamento real pelo proprietário, homologação financeira e benefícios antes da abertura aos demais usuários.
+
+## Velocidade e cabeçalhos — 20/10/2026 (PR em revisão, não publicado)
+
+- Logo: páginas usam `logo-web.webp` (85 KB, 1024 px), gerado de `app/logo.png` aprovado com a mesma regra branco→transparente do filtro SVG (`scripts/logo-web.mjs`). `logo-transparent.svg` continua gerado para links antigos. Visual comparado lado a lado.
+- Cache: HTML e `/api/*` seguem `private, no-store`; JS/CSS/manifesto revalidam a cada visita (`max-age=0, must-revalidate`, resposta 304 quando não mudou); imagens, fontes e arquivos do OCR ficam 1 dia em cache.
+- Segurança: `X-Frame-Options: SAMEORIGIN`, `Permissions-Policy` e CSP aplicada só nas diretivas sem risco (`frame-ancestors`, `base-uri`, `object-src`, `form-action`). CSP completa em modo Report-Only para observar violações antes de aplicar.
+- Contraste: cores originais da etiqueta dos planos e do sobretítulo da faixa final restauradas (WCAG AA).
+- LGPD: nenhuma mudança de finalidade, dados coletados, retenção ou acesso; páginas com dados pessoais continuam sem cache.
+- Medição local (Lighthouse, sem Supabase): desempenho 73→92, LCP 10,1 s→3,0 s, peso 1.828→362 KiB, acessibilidade 96→100.
