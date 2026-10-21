@@ -46,7 +46,7 @@ const catalogs = {
   }
 };
 export function getAgentCatalog(role) {
-  const key = AGENT_ROLES[role];
+  const key = typeof role==='string'&&Object.hasOwn(AGENT_ROLES,role)?AGENT_ROLES[role]:null;
   if (!key) return null; // owner/admin is not implicitly another tenant
   const agent = catalogs[key];
   return {profile:key,title:agent.title,mission:agent.mission,
