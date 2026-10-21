@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {agentCatalogHandler} from '../api/agent-catalog.mjs';
+import {agentCatalogHandler} from '../src/agent-catalog-handler.mjs';
 const env={SUPABASE_URL:'https://example.supabase.co',SUPABASE_SECRET_KEY:'test-only',PILOT_COHORT_ID:'test-cohort'};
 function fixture({role='school_staff',status='active',verified=true}={}){
  const queries=[];
