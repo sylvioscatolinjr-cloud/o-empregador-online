@@ -4,7 +4,7 @@ Pedido do usuário em 21/10/2026: visão dos três agentes (Carreira, Gestão e 
 
 ## O que a Fase 1 entrega
 - **Um fornecedor, um adaptador.** `src/ai-provider.mjs` concentra a chamada ao Claude (`claude-opus-5-5`, trocável por `AGENT_AI_MODEL`). Redator de vagas, Revisor de currículo e o chat guiado do #5 usam o mesmo adaptador. A OpenAI sai do chat guiado; o agente editorial do proprietário continua como estava.
-- **Cobrança única.** `src/agent-metering.mjs`: cada uso reserva uma vaga diária (`AGENT_DAILY_LIMIT`, padrão 10 por agente), o primeiro uso do dia nas tarefas com dados do portal é gratuito (`AGENT_FREE_DAILY_LIMIT`, padrão 1), e os seguintes debitam R$ 1,00 dos créditos do plano pelas funções do #5 (`portal_ai_paid_reserve`/`portal_ai_paid_refund`). Falha da IA devolve o crédito. O chat guiado é sempre pago e só funciona com `AI_CHAT_METERING_ENABLED=true`. Proprietário não é cobrado. Contas fictícias não usam agentes.
+- **Cobrança única.** `src/agent-metering.mjs`: os assistentes são exclusivos dos planos pagos (decisão de 21/10/2026). Plano gratuito recebe 403 antes de qualquer reserva (`readTaskTier` em `src/agents-handler.mjs`). Cada uso reserva uma vaga diária (`AGENT_DAILY_LIMIT`, padrão 10 por agente) e debita R$ 1,00 dos créditos do plano pelas funções do #5 (`portal_ai_paid_reserve`/`portal_ai_paid_refund`); falha da IA devolve o crédito. Nada funciona sem `AI_CHAT_METERING_ENABLED=true`. Proprietário não é cobrado. Contas fictícias não usam agentes.
 - **Contexto do banco.** O revisor lê o currículo salvo (`pilot_profiles`) e a meta (`pilot_goals`) no servidor. O arquivo enviado é lido no aparelho, como na importação, e só o texto segue; o servidor retira nome, CPF, e-mail e telefone. O redator usa o nome da organização cadastrada.
 - **Escolha do candidato.** Para resumo, competências, cada experiência e cada texto livre (experiência, formação, cursos, certificações), a tela mostra "Atual" e "Sugestão da IA" com "Usar sugestão" ou "Manter original". Nada é gravado até "Salvar currículo". A revisão exige o currículo salvo.
 - **Histórico.** `portal_agent_history` guarda o resultado de cada uso concluído, visível e apagável só pelo dono (RLS), apagado após 180 dias. Aparece em Meus agentes, base da memória de objetivos da Fase 2.
@@ -24,3 +24,6 @@ Pedido do usuário em 21/10/2026: visão dos três agentes (Carreira, Gestão e 
 - Retenção e direitos: histórico de 180 dias, apagável pelo titular a qualquer momento; registro de uso guarda só contagens, modelo, tokens e situação.
 - Controle humano: nada é publicado nem gravado sem clique do usuário.
 - Riscos: inventar fatos (proibido no prompt e revisão do usuário), dado pessoal no texto (remoção automática), custo (teto diário, esforço baixo, medição por tokens).
+
+## LGPD da mudança de 21/10/2026 (fim do uso gratuito)
+A verificação do plano lê só pedidos e pagamentos do próprio usuário, que o servidor já usava no chat guiado. Nenhum dado novo é coletado ou enviado à Anthropic; usuários do plano gratuito deixam de enviar qualquer dado à IA.
