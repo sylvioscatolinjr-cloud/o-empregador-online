@@ -182,3 +182,4 @@ Atualização às 20h23 de 19/10/2026: acesso Vercel restabelecido, segredo excl
 - Contraste: cores originais da etiqueta dos planos e do sobretítulo da faixa final restauradas (WCAG AA).
 - LGPD: nenhuma mudança de finalidade, dados coletados, retenção ou acesso; páginas com dados pessoais continuam sem cache.
 - Medição local (Lighthouse, sem Supabase): desempenho 73→92, LCP 10,1 s→3,0 s, peso 1.828→362 KiB, acessibilidade 96→100.
+- Publicação: o projeto Vercel `o-empregador-online-piloto` publica o `main` pelo GitHub, com Root Directory `pilot-sumare`. Na raiz fica o protótipo, que não deve ir ao domínio.
