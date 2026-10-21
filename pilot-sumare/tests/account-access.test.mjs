@@ -29,3 +29,6 @@ test('background revalidation preserves confirmed navigation role and still reje
   f.setMember({role,status:'suspended'});await release();assert.equal((await pending).phase,'access_restricted');assert.equal(f.access.snapshot().role,null);
  }
 });
+
+
+test('reusing the current password keeps the recovery retry actionable without requesting a new email',async()=>{const f=fixture();f.supabase.auth.updateUser=async()=>({error:{code:'same_password'}});await assert.rejects(f.access.changePassword('fictitious-password-only'),error=>error.code==='same_password'&&/diferente da senha atual/.test(error.message)&&!/Solicite um novo link/.test(error.message));assert(!f.calls.some(call=>call[0]==='reset'));});
