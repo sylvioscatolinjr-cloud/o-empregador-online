@@ -26,7 +26,11 @@ As variáveis abaixo existiam somente na homologação e foram criadas em Produc
 
 Listagem posterior confirmou valores e escopos. Variáveis só entram em futuras implantações; nenhuma publicação ou redeploy em produção foi feito. Modelo atual da homologação preservado. OPENAI_API_KEY, SUPABASE_SECRET_KEY, chaves Asaas e demais Secrets não foram copiados, substituídos ou revelados. Conferência de cadastro da chave não equivale a validação de acesso ao modelo, cota ou conexão de runtime; conferir na publicação controlada antes de declarar IA operacional em produção. Nenhum crédito sintético foi transportado e nenhuma compra foi liberada por essas variáveis.
 
-## Pendência para concluir a etapa 3
+## Conferência de retornos do Auth — atualização pela captura do titular
+
+Captura image(20261021-233104).png visualizada: Site URL https://www.oempregadoronline.com.br e retornos oficiais /conta/confirmar e /conta/recuperar presentes. Dois retornos do endereço piloto também preservados. Os fluxos ativos em src/account-access.mjs e app/billing.mjs usam confirmar/recuperar; /conta.html não é necessário para esses callbacks. A lista abaixo era a expectativa anterior e sua entrada /conta.html é apenas compatibilidade opcional. Revisão dos endereços concluída, sem alteração manual adicional. SMTP/entrega e validação runtime continuam com os limites acima e devem ser conferidos na publicação.
+
+## Histórico da pendência anterior (resolvida quanto aos endereços)
 
 A conexão Supabase disponível oferece banco e projetos, mas não leitura/edição das configurações privadas do Auth. Navegador em nuvem do titular indisponível nesta etapa, conforme bloqueio anterior. É necessário conferir, por captura do painel do projeto de produção, Authentication → URL Configuration:
 
