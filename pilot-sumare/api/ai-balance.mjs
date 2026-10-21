@@ -14,9 +14,13 @@ export function aiBalanceHandler({env=process.env,clientFactory=createClient}={}
    const member=await db.from('pilot_memberships').select('role,status,is_fictitious').eq('cohort_id',env.PILOT_COHORT_ID).eq('user_id',user.id).maybeSingle();
    if(member.error)throw Error('membership');
    if(member.data?.status!=='active'||member.data?.is_fictitious||!['learner','recruiter','school_staff'].includes(member.data.role))return res.status(403).json({error:'Acesso não autorizado.'});
-   const wallet=await db.from('portal_ai_wallets').select('balance').eq('user_id',user.id).maybeSingle();
-   if(wallet.error)throw Error('wallet');
-   return res.status(200).json({balance:wallet.data?.balance??0,unit:'AI_CALL',active:env.AI_CHAT_METERING_ENABLED==='true'});
+   const orders=await db.from('billing_live_orders').select('id').eq('user_id',user.id);
+   if(orders.error)throw Error('orders');
+   const payments=orders.data?.length?await db.from('billing_live_payments').select('credit_cents,spent_cents,period_start,period_end,eligible').in('order_id',orders.data.map(o=>o.id)):{data:[],error:null};
+   if(payments.error)throw Error('payments');
+   const now=Date.now();
+   const availableCents=(payments.data||[]).filter(p=>p.eligible&&Date.parse(p.period_start)<=now&&Date.parse(p.period_end)>now).reduce((sum,p)=>sum+Math.max(0,p.credit_cents-p.spent_cents),0);
+   return res.status(200).json({availableCents,availableCalls:Math.floor(availableCents/100),unit:'BRL_CENT',active:env.AI_CHAT_METERING_ENABLED==='true'});
   }catch{return res.status(503).json({error:'Saldo temporariamente indisponível.'});}
  };
 }
