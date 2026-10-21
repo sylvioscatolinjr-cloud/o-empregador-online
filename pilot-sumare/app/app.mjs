@@ -16,6 +16,7 @@ const text=(name,label,value='')=>`<label class="wide">${label}<details class="f
 const profileTypes=['Candidato','Empresa','Instituição de Ensino'];
 let pushUI;
 let loggingOut=false;
+let pendingRecoveryHash=null;
 let config,client,access,repository,portalRepository,portalUI,extendedUI,talentRepo,talentUI,resumeUpload,resumeWizard,busy=false,recovering=location.pathname==='/conta/recuperar',sessionRevision=0,currentAccountId=null;
 function feedback(message,error=false){status.textContent=message;status.classList.toggle('error',error);}
 function panel(title,html){root.innerHTML=`<section class="panel"><h1>${title}</h1>${html}</section>`;const menu=root.querySelector('.space-nav');if(menu){const layout=document.createElement('div'),content=document.createElement('div');layout.className='workspace-shell';content.className='workspace-main';while(menu.nextSibling)content.append(menu.nextSibling);menu.before(layout);layout.append(menu,content);}const current={'Meus vínculos':'[data-extended=team]','Departamentos e equipe':'[data-extended=team]','Meus favoritos':'[data-extended=favorites]','Minha Carreira':'[data-extended=career]','Minha meta profissional':'[data-view=goal]','Meu espaço':'[data-view=account]','Meu currículo':'[data-view=account]','Central de avisos':'[data-portal=notifications]','Minha formação e pontos':'[data-talent=learning]','Buscar currículos públicos':'[data-portal=candidates]','Vagas, cursos e treinamentos':'[data-portal=listings]'}[title];if(current)root.querySelector('.space-nav '+current)?.setAttribute('aria-current','page');root.classList.toggle('connected',access?.snapshot().phase==='active');root.setAttribute('aria-busy','false');if(portalUI&&access?.snapshot().phase==='active')portalUI.refreshBadge();}
@@ -55,6 +56,12 @@ document.addEventListener('submit',event=>{event.preventDefault();if(!access)ret
  if(form.id==='login'){try{await access.signIn(values);}catch(error){if(error.code==='verification_required')verification(values.email);throw error;}await refresh();feedback('Acesso conferido.');}
  if(form.id==='verification'){feedback((await access.resendConfirmation(values.email)).message);}
  if(form.id==='forgot'){feedback((await access.requestPasswordReset(values.email)).message);form.reset();}
+ if(form.id==='recovery-confirm'){
+  const tokenHash=pendingRecoveryHash;pendingRecoveryHash=null;
+  if(!tokenHash)throw Error('Solicite um novo link de recuperação.');
+  try{const {data,error}=await client.auth.verifyOtp({token_hash:tokenHash,type:'recovery'});if(error||!data?.session)throw Error();passwordForm();feedback('Link validado. Defina sua nova senha.');}
+  catch{forgot();feedback('Não foi possível validar este link. Solicite uma nova recuperação abaixo.',true);}
+ }
  if(form.id==='password'){if(values.password!==values.confirmation)throw Error('As senhas precisam ser iguais.');await access.changePassword(values.password);recovering=false;history.replaceState({},'', '/conta.html');await refresh();feedback('Senha atualizada.');}
  if(form.id==='identity'){const {data,error}=await client.auth.getSession();if(error||!data.session)throw Error('Entre novamente na sua conta.');const response=await fetch('/api/identity',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+data.session.access_token},body:JSON.stringify({profileType:values.profileType,document:values.document})});const result=await response.json();if(!response.ok)throw Error(result.error||'Não foi possível concluir o cadastro.');form.reset();await refresh();feedback('Cadastro concluído. Seu acesso foi conferido.');}
  if(form.id==='invite'){await access.redeemInvitation(values.token.trim());await account();feedback('Seu ingresso no piloto foi confirmado.');}
@@ -69,6 +76,12 @@ async function boot(){try{const response=await fetch('/api/config',{cache:'no-st
  if(returnError){forgot();feedback(returnError==='otp_expired'?'Este link de recuperação é inválido, expirou ou já foi utilizado. Solicite um novo link abaixo e abra somente o e-mail mais recente, no mesmo navegador.':'Não foi possível validar o link recebido. Solicite um novo link de recuperação abaixo.',true);return;}
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&access.snapshot().phase==='active')portalUI.refreshBadge();});
  client.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'){setUnreadBadge(0);pushUI?.disable({server:false}).catch(()=>{});sessionRevision++;currentAccountId=null;root.innerHTML='';setTimeout(()=>{if(!loggingOut){recovering=false;signIn();}},0);}if(event==='SIGNED_IN'&&session?.user?.id!==currentAccountId){sessionRevision++;currentAccountId=session.user.id;root.innerHTML='';setTimeout(()=>{if(!busy&&!recovering)attempt(refresh);},0);}if(event==='PASSWORD_RECOVERY'){recovering=true;setTimeout(passwordForm,0);}});
+ if(recovering&&fragment.searchParams.has('recovery_token_hash')){
+  const tokenHash=fragment.searchParams.get('recovery_token_hash');history.replaceState({},'','/conta/recuperar');
+  if(!/^[a-zA-Z0-9_-]{32,256}$/.test(tokenHash||'')){forgot();feedback('Link de recuperação inválido. Solicite um novo link abaixo.',true);return;}
+  pendingRecoveryHash=tokenHash;
+  panel('Confirme a recuperação', '<p>Para continuar, confirme que você solicitou a recuperação da sua conta. O link só será validado depois deste clique.</p><form id="recovery-confirm"><button class="primary">Continuar e definir nova senha</button></form><p class="muted">Se você não solicitou esta recuperação, feche esta página. Nenhuma senha foi alterada.</p>');feedback('Aguardando sua confirmação.');return;
+ }
  const {data,error}=await client.auth.getSession();if(error){if(recovering){forgot();feedback('Não foi possível validar a recuperação neste navegador. Solicite um novo link abaixo e abra-o no mesmo navegador.',true);return;}throw Error('O link de confirmação ou recuperação não pôde ser validado. Solicite um novo link.');}if(data.session){history.replaceState({},'',recovering?'/conta/recuperar':('/conta.html'+(location.search||'')));if(recovering)passwordForm();else await refresh();feedback('Conta conectada.');}else{if(recovering){forgot();feedback('A recuperação não foi validada. Solicite um novo link abaixo e abra somente o e-mail mais recente no mesmo navegador.',true);}else{if(new URL(location.search||'',location.origin).searchParams.get('cadastro')==='1')signUp();else signIn();feedback('');}}
  }catch(error){panel('Acesso indisponível','<p>Não foi possível conectar ao serviço de contas. Tente novamente mais tarde.</p>');feedback(error.message,true);}}
 boot();

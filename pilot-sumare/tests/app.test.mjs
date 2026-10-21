@@ -32,6 +32,24 @@ test('backend failures remain failures and switching accounts clears rendered pe
 
 test('expired recovery link shows recovery form and never silently falls back to login',async()=>{const f=fixture({ready:true,origin:'https://pilot.example'},{pathname:'/conta/recuperar',search:'?error=access_denied&error_code=otp_expired',hash:'#error=access_denied'});await wait();assert(f.document.querySelector('#forgot'));assert(!f.document.querySelector('#login'));assert.match(f.document.querySelector('#status').textContent,/expirou ou já foi utilizado/);f.submit('forgot',{email:'pessoa@example.com'});await wait();assert.equal(f.calls.filter(x=>x[0]==='reset').length,1);});
 test('recovery without a session offers a new link rather than a normal login form',async()=>{const f=fixture({ready:true,origin:'https://pilot.example'},{pathname:'/conta/recuperar'});await wait();assert(f.document.querySelector('#forgot'));assert.match(f.document.querySelector('#status').textContent,/recuperação não foi validada/);});
+
+test('recovery hash waits for an explicit click, verifies once and never renders the token',async()=>{
+ const token='a'.repeat(64),f=fixture({ready:true,origin:'https://pilot.example'},{pathname:'/conta/recuperar',hash:'#recovery_token_hash='+token});
+ let verifyCalls=0,release;
+ f.client.auth.verifyOtp=async input=>{verifyCalls++;assert.equal(input.token_hash,token);assert.equal(input.type,'recovery');return new Promise(resolve=>{release=()=>resolve({data:{session:{user:{id:'fixture'}}},error:null});});};
+ await wait();assert.equal(verifyCalls,0);assert(f.document.querySelector('#recovery-confirm'));assert(!f.document.body.innerHTML.includes(token));assert(!f.document.querySelector('#password'));
+ f.submit('recovery-confirm',{});f.submit('recovery-confirm',{});await wait();assert.equal(verifyCalls,1);
+ release();await wait();assert(f.document.querySelector('#password'));assert.match(f.document.querySelector('#status').textContent,/Link validado/);
+});
+test('invalid or rejected recovery hash cannot reuse an existing session to show a password form',async()=>{
+ for(const token of ['bad','b'.repeat(64)]){
+  const f=fixture({ready:true,origin:'https://pilot.example'},{pathname:'/conta/recuperar',hash:'#recovery_token_hash='+token});let verified=0;
+  f.client.auth.getSession=async()=>({data:{session:{user:{id:'previous-user'}}}});
+  f.client.auth.verifyOtp=async()=>{verified++;return {error:{message:'private-provider-error'},data:{session:null}};};
+  await wait();if(token.length===64)f.submit('recovery-confirm',{});await wait();
+  assert.equal(verified,token.length===64?1:0);assert(f.document.querySelector('#forgot'));assert(!f.document.querySelector('#password'));assert(!f.document.body.textContent.includes('private-provider-error'));
+ }
+});
 test('valid recovery session opens new-password form and saves through auth service',async()=>{
  const f=fixture({ready:true,origin:'https://pilot.example'},{pathname:'/conta/recuperar'});
  f.client.auth.getSession=async()=>({data:{session:{user:{id:'fixture'}}}});
