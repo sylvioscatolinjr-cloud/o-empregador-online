@@ -67,3 +67,13 @@ Não representa certificação de conformidade jurídica integral.
 - Segundo candidato: 3→2 chamadas completas; segunda empresa: 19→18; segunda instituição: 19→18. Saldo inicial/fracionário preservado; débito de 100 centavos sintéticos por chamada. Perguntas somente inventadas sobre aprendizado.
 - Este ensaio DOM/API não é prova de sessão autenticada em Chrome, layout móvel ou interação visual completa. Login, envio e logout autenticados no navegador continuam pendentes; orientação browserAuth impede digitação automatizada de credenciais pela ferramenta de navegador. Não foram solicitadas senhas em conversa nem criados atalhos de autenticação.
 - Próximas etapas antes de produção: sessão autenticada no navegador, revisão móvel/acessibilidade, email/recuperação e limites por plano. Produção continua sem alteração.
+
+## Isolamento de sessão no assistente — 21/10/2026
+
+Problema reproduzido em dois testes de regressão: saída/expiração não limpava resposta já visível, e troca de conta durante uma chamada deixava a resposta antiga aparecer após retorno. Não foi observado vazamento de dados de usuários reais; reprodução usa somente texto sintético.
+
+Correção: onAuthStateChange limpa a área privada quando a conta sai ou muda. Cada chamada captura identidade/revisão, confere a sessão novamente após o retorno e descarta respostas antigas; callback permanece síncrono e não chama Auth, evitando bloqueio do SDK. O formulário desmontado não dispara atualização de saldo adicional. Troca silenciosa antes do evento também é coberta por terceiro teste. Não cancela processamento nem estorna automaticamente uma chamada legitimamente iniciada pela sessão anterior; só impede sua exibição na sessão seguinte.
+
+Validação: três regressões novas passam, sete testes DOM do assistente passam; bateria completa 147 aprovados, zero falhas, um PDF privado ignorado. Build aprovado. São testes DOM simulados, não ensaio autenticado de Chrome/celular. A limitação de sessão no navegador documentada anteriormente permanece.
+
+Privacidade: finalidade de impedir exposição de conteúdo entre sessões; nenhuma coleta, envio ou retenção nova, nenhuma alteração de autorização/RLS ou créditos. A limpeza remove texto da página, sem afirmar revogação de tokens pelo servidor. Consultados LGPD arts. 6/46 e Radar Tecnológico da ANPD nas referências acima; callback conferido em https://supabase.com/docs/reference/javascript/auth-onauthstatechange . Não representa certificação jurídica integral.

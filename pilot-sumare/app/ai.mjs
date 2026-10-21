@@ -1,12 +1,20 @@
 import {createClient} from '@supabase/supabase-js';
 const mount=document.querySelector('#ai-app');
 const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-let client,accountId,previewLogin=false;
+let client,accountId,previewLogin=false,authRevision=0;
+function invalidateSession(){
+ authRevision++;accountId=null;
+ if(previewLogin)signInForm();
+ else mount.textContent='Sua sessão mudou ou expirou. Entre novamente na sua conta.';
+}
 async function api(path,method='GET',payload){
+ const expectedId=accountId,revision=authRevision;
  const {data,error}=await client.auth.getSession();
- if(error||!data.session||data.session.user?.id!==accountId)throw Error('Entre novamente na sua conta.');
+ if(error||!expectedId||!data.session||data.session.user?.id!==expectedId){if(accountId===expectedId)invalidateSession();throw Error('Entre novamente na sua conta.');}
  const response=await fetch('/api/ai?action='+encodeURIComponent(path.replace(/^ai-/,'').replace('agent-catalog','catalog')),{method,cache:'no-store',headers:{Authorization:'Bearer '+data.session.access_token,...(payload?{'Content-Type':'application/json'}:{})},...(payload?{body:JSON.stringify(payload)}:{})});
  const result=await response.json();
+ const current=await client.auth.getSession();
+ if(revision!==authRevision||current.error||current.data?.session?.user?.id!==expectedId){if(accountId===expectedId)invalidateSession();throw Error('Entre novamente na sua conta.');}
  if(!response.ok)throw Error(result.error||'Serviço indisponível.');
  return result;
 }
@@ -37,8 +45,8 @@ async function showAgent(){
   event.preventDefault();if(busy||!balance.active||balance.availableCalls<1)return;
   const question=form.querySelector('[name="question"]').value;if(!question.trim())return;
   busy=true;update();status.textContent='Consultando o assistente…';let completed=false;
-  try{const response=await api('ai-chat','POST',{question});answer.textContent=response.answer;completed=true;status.textContent='Resposta concluída.';}
-  catch(error){status.textContent=error.message;}
+  try{const response=await api('ai-chat','POST',{question});if(!mount.contains(form))return;answer.textContent=response.answer;completed=true;status.textContent='Resposta concluída.';}
+  catch(error){if(!mount.contains(form))return;status.textContent=error.message;}
   try{balance=await api('ai-balance');if(completed)status.textContent=`Resposta concluída. Saldo: ${balance.availableCalls} chamadas completas.`;}
   catch{balance={active:false,availableCalls:0};status.textContent+=' Não foi possível atualizar o saldo. Recarregue a página antes de enviar outra pergunta.';}
   busy=false;update();
@@ -58,6 +66,9 @@ async function load(){
   const cfg=config.ready?config:config.aiPreview;
   if(!cfg||cfg.origin!==location.origin)throw Error(config.message||'Abra o portal oficial para acessar os agentes.');
   client=createClient(cfg.supabaseURL,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+  client.auth.onAuthStateChange?.((_event,session)=>{
+   if(accountId&&session?.user?.id!==accountId)invalidateSession();
+  });
   await showAgent();
  }catch(error){mount.textContent=error.message;}
 }
