@@ -11,3 +11,12 @@ Bateria completa com RESUME_TEST_PDF: 154 testes aprovados, zero falhas, zero ig
 Pendências reais: formulário completo com sessão no ambiente de homologação, salvar/reabrir via navegador hospedado; confirmação/recuperação e entrega de email; aparelho físico/teclado virtual; pagamento real e conciliação com Asaas antes de abertura comercial. Cadastro geral da prévia continua fechado e PILOT_EMAIL_ENABLED=false; não alterar essa flag apenas para encobrir testes pendentes. Não marcar plataforma integralmente homologada.
 
 Privacidade: propósito limitado a leitura e classificação/revisão solicitadas; somente arquivo autorizado local e dados sintéticos nas gravações. Nenhuma nova finalidade ou compartilhamento. Teste não muda retenção ou bases do tratamento do portal. Orientações LGPD/ANPD consultadas na etapa corrente em fontes oficiais registradas em AI-TASKS.md; acesso mínimo, escolha de compartilhamento e segregação preservados. Não há certificação de conformidade jurídica.
+
+
+## Ensaio hospedado de gravação — 21/10/2026
+
+Executado no projeto isolado xxirjbsbfxwzplrcbbjt com conta candidata, organização e anúncios sintéticos dentro de BEGIN/ROLLBACK. O roteiro antigo pressupunha logo público após upload e falhou com Logo not persisted: requisito obsoleto após migração de consentimento de imagem. Ajustado para primeiro exigir logo ausente, depois marcar show_card_image=true. Nenhuma regra da aplicação ou política foi relaxada.
+
+Resultado final: Private structured resume, opt-in snapshot, organization logo and removal verified; fixtures rolled back. Confirmados: gravação de resume_details/foto, candidatura sem contatos/foto quando não escolhidos, candidatura com dados selecionados, organização sem leitura direta do perfil privado, logo visível somente após escolha e remoção sincronizada. Consulta posterior contou zero contas wizard-probe no Auth. Sem email, dado real do PDF, chamada a IA ou pagamento externo.
+
+Essa etapa é SQL hospedado sob papel authenticated e identidade de teste; não equivale a salvar/reabrir pela interface Chrome. app/app.mjs permanece dependente de config.ready; a prévia mantém ready=false por PILOT_EMAIL_ENABLED=false, enquanto somente a entrada de IA tem configuração restrita separada. Não ligar envio de email ou ampliar o acesso para substituir a validação de entrega/recuperação. Regras e referências de privacidade anteriores continuam aplicáveis.

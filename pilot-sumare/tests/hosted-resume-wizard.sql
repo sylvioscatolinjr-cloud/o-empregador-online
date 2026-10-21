@@ -7,6 +7,9 @@ select set_config('request.jwt.claim.sub',(select id::text from wizard_probe whe
 insert into public.portal_organizations(user_id,cohort_id,name,logo_data) select id,'5d36b59c-4fec-45e1-a74a-c2423a16c3fe','Organização de teste','data:image/png;base64,AAAA' from wizard_probe where label='company';
 reset role;
 insert into public.portal_listings(id,cohort_id,publisher_id,kind,title,organization,description,postal_code,city,state_code,modality,job_type) select j.id,'5d36b59c-4fec-45e1-a74a-c2423a16c3fe',o.id,'job','Teste de currículo','Teste','Descrição de teste transacional.','13000000','Campinas','SP','Presencial','CLT' from wizard_probe j,wizard_probe o where j.label in ('job1','job2') and o.label='company';
+reset role;select set_config('request.jwt.claim.sub',(select id::text from wizard_probe where label='company'),true);set local role authenticated;
+do $$begin if exists(select 1 from public.portal_listings where publisher_id=auth.uid() and logo_data<>'') then raise exception 'Logo published without opt-in';end if;end$$;
+update public.portal_organizations set show_card_image=true where user_id=auth.uid();
 reset role;select set_config('request.jwt.claim.sub',(select id::text from wizard_probe where label='candidate'),true);set local role authenticated;
 update public.pilot_profiles set resume_details='{"version":1,"contact":{"first_name":"Teste","email":"test@example.invalid"},"share_contact":false,"share_photo":false}',photo_data='data:image/png;base64,AAAA' where user_id=auth.uid();
 insert into public.portal_applications(listing_id,cohort_id,candidate_id) select id,'5d36b59c-4fec-45e1-a74a-c2423a16c3fe',auth.uid() from wizard_probe where label='job1';
