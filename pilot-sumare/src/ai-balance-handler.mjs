@@ -15,7 +15,7 @@ export function aiBalanceHandler({env=process.env,clientFactory=createClient}={}
    if(auth.error||!user?.email_confirmed_at||user.banned_until&&Date.parse(user.banned_until)>Date.now())return res.status(401).json({error:'Confirme sua conta.'});
    stage='membership';
    const member=await db.from('pilot_memberships').select('role,status,is_fictitious').eq('cohort_id',env.PILOT_COHORT_ID).eq('user_id',user.id).maybeSingle();
-   if(member.error)throw Error('membership');
+   if(member.error)throw Object.assign(Error('membership'),{code:member.error.code});
    if(member.data?.status!=='active'||member.data?.is_fictitious||!['learner','recruiter','school_staff'].includes(member.data.role))return res.status(403).json({error:'Acesso não autorizado.'});
    stage='orders';
    const orders=await db.from('billing_live_orders').select('id').eq('user_id',user.id);
@@ -26,7 +26,7 @@ export function aiBalanceHandler({env=process.env,clientFactory=createClient}={}
    const now=Date.now();
    const availableCents=(payments.data||[]).filter(p=>p.eligible&&Date.parse(p.period_start)<=now&&Date.parse(p.period_end)>now).reduce((sum,p)=>sum+Math.max(0,p.credit_cents-p.spent_cents),0);
    return res.status(200).json({availableCents,availableCalls:Math.floor(availableCents/100),unit:'BRL_CENT',active:env.AI_CHAT_METERING_ENABLED==='true'});
-  }catch{console.error('AI balance unavailable', {stage});return res.status(503).json({error:'Saldo temporariamente indisponível.'});}
+  }catch(error){console.error('AI balance unavailable', {stage,code:/^[A-Z0-9]{3,12}$/.test(error?.code||'')?error.code:'unavailable',credentialType:env.SUPABASE_SECRET_KEY.startsWith('sb_secret_')?'secret':env.SUPABASE_SECRET_KEY.startsWith('sb_publishable_')?'publishable':'other'});return res.status(503).json({error:'Saldo temporariamente indisponível.'});}
  };
 }
 export default aiBalanceHandler();
