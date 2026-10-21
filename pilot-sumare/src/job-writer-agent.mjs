@@ -1,8 +1,8 @@
-import Anthropic from '@anthropic-ai/sdk';
+import {generateStructured,structuredRequest,DEFAULT_MODEL} from './ai-provider.mjs';
 import {jobTypes} from './portal-repository.mjs';
 export const kinds={job:'Vaga',course:'Curso com certificado',training:'Treinamento sem certificado'};
 export const modalities=['Presencial','Online','Híbrido'];
-export const DEFAULT_MODEL='claude-opus-5-5';
+export {DEFAULT_MODEL};
 const fail=m=>{throw Error(m||'A IA retornou um rascunho fora do formato. Tente novamente.');};
 const str=(v,min,max)=>{if(typeof v!=='string'||v.trim().length<min||v.trim().length>max)fail();return v.trim();};
 // Fixed text first so the prompt prefix stays cacheable across requests.
@@ -37,19 +37,12 @@ export function validateDraft(v,kind){
  out.missing=list(v.missing,10).map(m=>str(m,2,200));
  return out;
 }
-export function buildRequest(input,{model=DEFAULT_MODEL}={}){
+function userContent(input){
  const context=[`Tipo: ${kinds[input.kind]}`,input.organization&&`Organização: ${input.organization}`,(input.city||input.state_code)&&`Local: ${[input.city,input.state_code].filter(Boolean).join('/')}`].filter(Boolean).join('\n');
- return {model,max_tokens:8000,betas:['server-side-fallback-2026-07-01'],fallbacks:'default',
-  system:[{type:'text',text:instructions,cache_control:{type:'ephemeral'}}],
-  output_config:{effort:'low',format:{type:'json_schema',schema:outputSchema(input.kind)}},
-  messages:[{role:'user',content:`${context}\n\n<anotacoes_do_recrutador>\n${input.notes}\n</anotacoes_do_recrutador>`}]};
+ return `${context}\n\n<anotacoes_do_recrutador>\n${input.notes}\n</anotacoes_do_recrutador>`;
 }
-export async function generateJobDraft(input,{apiKey,model=DEFAULT_MODEL,client=new Anthropic({apiKey,timeout:55000,maxRetries:1})}={}){
- const response=await client.beta.messages.create(buildRequest(input,{model}));
- if(response.stop_reason==='refusal')fail('A IA não pôde redigir este anúncio. Revise as anotações e tente de novo.');
- if(response.stop_reason==='max_tokens')fail('O rascunho ficou longo demais. Resuma as anotações e tente de novo.');
- const text=response.content.filter(b=>b.type==='text').map(b=>b.text).join('');
- let parsed;try{parsed=JSON.parse(text);}catch{fail();}
- const u=response.usage||{};
- return {draft:validateDraft(parsed,input.kind),model:response.model||model,usage:{input_tokens:u.input_tokens||0,output_tokens:u.output_tokens||0,cache_read_input_tokens:u.cache_read_input_tokens||0}};
+export function buildRequest(input,{model}={}){return structuredRequest({system:instructions,user:userContent(input),schema:outputSchema(input.kind),model});}
+export async function generateJobDraft(input,{model,...options}={}){
+ const out=await generateStructured({system:instructions,user:userContent(input),schema:outputSchema(input.kind),model},{...options,messages:{refusal:'A IA não pôde redigir este anúncio. Revise as anotações e tente de novo.',truncated:'O rascunho ficou longo demais. Resuma as anotações e tente de novo.',format:'A IA retornou um rascunho fora do formato. Tente novamente.'}});
+ return {draft:validateDraft(out.value,input.kind),model:out.model,usage:out.usage};
 }

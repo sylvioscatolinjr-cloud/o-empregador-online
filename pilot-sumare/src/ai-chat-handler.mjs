@@ -1,11 +1,13 @@
-import {randomUUID} from 'node:crypto';
 import {createClient} from '@supabase/supabase-js';
 import {createAgentRequest,AgentPolicyError} from './ai-agent-policy.mjs';
 import {readTaskTier} from './ai-task-access.mjs';
 import {getGuidedTasks} from './ai-agent-catalog.mjs';
+import {generateText} from './ai-provider.mjs';
+import {meteredRun} from './agent-metering.mjs';
 const config={auth:{persistSession:false,autoRefreshToken:false}};
 const COST=1;
-export function aiChatHandler({env=process.env,clientFactory=createClient,fetchImpl=fetch}={}){
+const safeMessage=error=>error?.name==='ProviderError'?error.message:'Não foi possível obter a resposta.';
+export function aiChatHandler({env=process.env,clientFactory=createClient,generate=generateText}={}){
  return async(req,res)=>{
   res.setHeader('Cache-Control','private, no-store');
   if(req.method!=='POST')return res.status(405).json({error:'Método inválido.'});
@@ -29,34 +31,13 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
    try{request=createAgentRequest({role:m.data.role,question:req.body?.question,context:req.body?.context});
     request.system+=' Tarefa selecionada: '+task.instruction+' Limite-se a esta tarefa; pedidos de outras tarefas devem ser recusados.';}
    catch(e){if(e instanceof AgentPolicyError)return res.status(e.code==='forbidden'?403:400).json({error:e.message});throw e;}
-   // This switch is intentionally disabled until wallet grants and tests are validated.
-   if(env.AI_CHAT_METERING_ENABLED!=='true'||!env.OPENAI_API_KEY||!env.AI_CHAT_MODEL)
+   // Guided chat is always paid: it stays off until credit metering is switched on.
+   if(env.AI_CHAT_METERING_ENABLED!=='true'||!env.ANTHROPIC_API_KEY)
     return res.status(503).json({error:'Chat em preparação: aguardando ativação de créditos e modelo.',agent:request.agent});
-   const requestId=randomUUID();
-   const reserved=await db.rpc('portal_ai_paid_reserve',{p_user:user.id,p_request:requestId});
-   if(reserved.error)return res.status(402).json({error:'Créditos insuficientes ou indisponíveis. Nenhuma chamada à IA foi realizada.'});
-   let answer;
-   try{
-    const controller=new AbortController();
-    const timeout=setTimeout(()=>controller.abort(),20000);
-    try{
-     const response=await fetchImpl('https://api.openai.com/v1/responses',{
-      method:'POST',signal:controller.signal,
-      headers:{Authorization:'Bearer '+env.OPENAI_API_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({model:env.AI_CHAT_MODEL,max_output_tokens:700,store:false,
-       input:[{role:'system',content:request.system},{role:'user',content:request.user}]})
-     });
-     if(!response.ok)throw Error('provider rejected');
-     const data=await response.json();
-     answer=(data.output||[]).flatMap(o=>o.content||[]).filter(c=>c.type==='output_text').map(c=>c.text).join('\n').trim();
-     if(!answer)throw Error('empty provider response');
-    }finally{clearTimeout(timeout);}
-   }catch{
-    const refund=await db.rpc('portal_ai_paid_refund',{p_user:user.id,p_request:requestId});
-    if(refund.error)return res.status(503).json({error:'Falha na IA. A devolução dos créditos requer verificação administrativa.',requestId});
-    return res.status(503).json({error:'Não foi possível obter a resposta. Crédito devolvido.'});
-   }
-   return res.status(200).json({answer,agent:request.agent,creditsCharged:COST,remainingCreditCents:reserved.data,requestId});
+   const result=await meteredRun({db,env,userId:user.id,cohort:env.PILOT_COHORT_ID,agent:'guided_chat',task:task.id,inputChars:request.user.length,safe:safeMessage,
+    run:async()=>{const out=await generate({system:request.system,user:request.user,model:env.AGENT_AI_MODEL},{apiKey:env.ANTHROPIC_API_KEY});return {...out,history:{question:String(req.body.question).slice(0,4000),answer:out.text}};}});
+   if(!result.ok)return res.status(result.status).json({error:result.error});
+   return res.status(200).json({answer:result.out.text,agent:request.agent,creditsCharged:COST,remainingCreditCents:result.remainingCreditCents});
   }catch{return res.status(503).json({error:'Não foi possível validar a solicitação.'});}
  };
 }

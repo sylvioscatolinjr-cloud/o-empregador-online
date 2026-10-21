@@ -56,12 +56,10 @@ export function getAgentCatalog(role) {
 // Guided text assistance only; connected data tools above remain planned.
 const guided = {
  learner: [
-  ['resume_review','Revisar meu currículo',1,'Cole as experiências e a formação que deseja revisar. Remova contatos e documentos.','Revise o texto do currículo, preserve os fatos e indique melhorias sem inventar experiências.'],
-  ['interview_practice','Preparar uma entrevista',2,'Informe a vaga e suas competências, sem dados do entrevistador.','Sugira perguntas de treino e orientações para entrevista com base na vaga informada.'],
-  ['career_gps','Planejar minha carreira',3,'Informe objetivo, competências, prazo e disponibilidade.','Proponha uma trilha de desenvolvimento com etapas verificáveis; não prometa emprego ou renda.']
+  ['interview_practice','Preparar uma entrevista',1,'Informe a vaga e suas competências, sem dados do entrevistador.','Sugira perguntas de treino e orientações para entrevista com base na vaga informada.'],
+  ['career_gps','Planejar minha carreira',1,'Informe objetivo, competências, prazo e disponibilidade.','Proponha uma trilha de desenvolvimento com etapas verificáveis; não prometa emprego ou renda.']
  ],
  recruiter: [
-  ['job_description','Preparar descrição de vaga',1,'Informe função, atividades, requisitos técnicos e local.','Redija uma descrição de vaga com critérios profissionais objetivos e não discriminatórios.'],
   ['training_paths','Planejar treinamento da equipe',2,'Informe competências desejadas e lacunas, sem nomes ou avaliações individuais.','Proponha uma trilha de treinamento para as lacunas agregadas informadas.'],
   ['department_diagnosis','Analisar competências do setor',3,'Descreva objetivos e competências agregadas do setor, sem identificar pessoas.','Analise lacunas do setor e proponha ações verificáveis; não classifique nem decida sobre pessoas.']
  ],
@@ -74,3 +72,10 @@ const guided = {
 export function getGuidedTasks(role,tier=0){
  return (Object.hasOwn(guided,role)?guided[role]:[]).map(([id,label,minTier,hint,instruction])=>({id,label,minTier,hint,instruction,costCents:100,mode:'guided_text',available:Number.isInteger(tier)&&tier>=minTier}));
 }
+// Tasks that read the user's own saved data and open in the screen where results are applied. One free use a day, then credits.
+const structured={
+ learner:[['resume_review','Revisar meu currículo com IA','/conta.html?ia=curriculo','Lê o currículo salvo e o arquivo enviado. Você escolhe o que aceitar antes de salvar.']],
+ recruiter:[['job_description','Escrever anúncio de vaga com IA','/conta.html?ia=anuncio','Preenche o formulário de publicação a partir das suas anotações. Você revisa antes de publicar.']],
+ school_staff:[['job_description','Escrever anúncio de curso com IA','/conta.html?ia=anuncio','Preenche o formulário de publicação a partir das suas anotações. Você revisa antes de publicar.']]
+};
+export function getStructuredTasks(role){return (Object.hasOwn(structured,role)?structured[role]:[]).map(([id,label,href,hint])=>({id,label,href,hint,mode:'structured',available:true}));}

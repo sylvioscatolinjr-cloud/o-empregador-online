@@ -95,6 +95,9 @@
     "api/agents.mjs": {
       "maxDuration": 60
     },
+    "api/ai.mjs": {
+      "maxDuration": 60
+    },
     "api/editorial.mjs": {
       "maxDuration": 240
     },
