@@ -4,7 +4,7 @@ export function aiBalanceHandler({env=process.env,clientFactory=createClient}={}
  return async(req,res)=>{
   res.setHeader('Cache-Control','private, no-store');
   if(req.method!=='GET')return res.status(405).json({error:'Método inválido.'});
-  const token=/^Bearer ([^\\s]+)$/.exec(req.headers.authorization||'')?.[1];
+  const token=/^Bearer ([^\s]+)$/.exec(req.headers.authorization||'')?.[1];
   if(!token)return res.status(401).json({error:'Entre na sua conta.'});
   if(!env.SUPABASE_URL||!env.SUPABASE_SECRET_KEY||!env.PILOT_COHORT_ID)return res.status(503).json({error:'Serviço indisponível.'});
   try{
