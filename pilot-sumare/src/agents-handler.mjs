@@ -1,7 +1,7 @@
 import {createClient} from '@supabase/supabase-js';
-import {generateJobDraft,validateInput} from '../src/job-writer-agent.mjs';
-import {generateResumeReview,resumeInput} from '../src/resume-reviewer-agent.mjs';
-import {meteredRun} from '../src/agent-metering.mjs';
+import {generateJobDraft,validateInput} from './job-writer-agent.mjs';
+import {generateResumeReview,resumeInput} from './resume-reviewer-agent.mjs';
+import {meteredRun} from './agent-metering.mjs';
 const profileColumns='display_name,about,skills,certifications,experience,education,courses,resume_details';
 // Context comes from the database, never from the browser: the organization for ads, the saved resume and goal for reviews.
 const agents={
@@ -33,4 +33,3 @@ export function agentsHandler({clientFactory=createClient,generate,env=process.e
   return res.status(200).json({[agent.key]:result.out[agent.key],charge:result.charge,remainingCreditCents:result.remainingCreditCents});
  }catch(error){return res.status(503).json({error:safeMessage(error)});}
 };}
-export default agentsHandler();

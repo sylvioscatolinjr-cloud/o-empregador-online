@@ -13,6 +13,7 @@ Pedido do usuário em 21/10/2026: visão dos três agentes (Carreira, Gestão e 
 ## Ativação (nada é ativado por este PR)
 1. Aplicar no Supabase, em ordem: `20261020160000_portal_agent_runs.sql`, `20261020200000_portal_agent_resume_reviewer.sql`, `20261021190000_portal_agent_phase1.sql`, além das migrações do #5 em `pilot-sumare/migrations/`.
 2. Criar `ANTHROPIC_API_KEY` no Vercel (Production, Sensitive). Sem ela as rotas respondem 503 e não reservam uso.
+   Todos os agentes respondem pela mesma função `/api/ai` (`?action=agents`, `chat`, `balance`, `catalog`), porque o plano do Vercel aceita no máximo 12 funções por publicação.
 3. Ligar `AI_CHAT_METERING_ENABLED=true` só depois da homologação financeira do #5.
 4. Medir o custo real: `portal_agent_runs.usage` guarda tokens de cada uso; somar por tarefa antes de fixar limites e preços.
 
