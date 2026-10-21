@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {aiBalanceHandler} from '../api/ai-balance.mjs';
+import {aiBalanceHandler} from '../src/ai-balance-handler.mjs';
 function fixture({role='learner',status='active',balance=4}={}){
  const queried=[];
  const db={auth:{async getUser(){return {data:{user:{id:'uid',email_confirmed_at:'2026-10-21'}},error:null}}},from(table){queried.push(table);const q={select(){return q},eq(k,v){if(k==='user_id')assert.equal(v,'uid');return q},in(){return q},async maybeSingle(){return {data:{role,status,is_fictitious:false},error:null}}};if(table==='billing_live_orders')q.then=(resolve)=>Promise.resolve({data:[{id:'order-1'}],error:null}).then(resolve);if(table==='billing_live_payments')q.then=(resolve)=>Promise.resolve({data:[{credit_cents:balance*100,spent_cents:0,eligible:true,period_start:'2026-01-01T00:00:00Z',period_end:'2099-01-01T00:00:00Z'}],error:null}).then(resolve);return q}};
