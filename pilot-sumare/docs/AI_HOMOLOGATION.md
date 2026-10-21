@@ -1,6 +1,20 @@
 # Homologação isolada dos agentes de IA — 21/10/2026
 
-## Estado observado
+## Validação atual — 21/10/2026, após correção das credenciais
+
+- SUPABASE_SECRET_KEY e OPENAI_API_KEY configuradas em Preview, restritas a feature/oeo-ai-agents. Nenhum valor privado lido, retornado ou registrado.
+- A primeira credencial Supabase fornecida era publishable; diagnóstico seguro confirmou permission denied (42501) em membership. Proprietário substituiu pela chave secreta; o erro deixou de ocorrer.
+- Implantação verificada READY: dpl_EJ7BaUpoCepck6fvM2idAZUgiGL9, commit 2c033673b5d2f2a1d948e2e9eb1cc40dc7a9084c.
+- Login real via Auth e isolamento de vínculos passaram em seis contas técnicas (duas por perfil). Cada conta leu apenas seu vínculo; acesso direto à tabela de pagamentos foi bloqueado.
+- GET /api/ai?action=balance e POST /api/ai?action=chat passaram para learner, recruiter e school_staff, com resposta real OpenAI gpt-4.1-mini.
+- Por perfil foi feita uma chamada: candidato 398→298 centavos sintéticos; empresa 1980→1880; instituição 1980→1880. SQL confirmou spent_cents=100 por perfil, total de três usos sintéticos. Houve consumo normal da API do provedor, sem cobrança Asaas nem pagamento real.
+- Respostas inspecionadas: orientação de currículo sem inventar experiência, critérios profissionais de entrevista sob decisão humana e três módulos de curso sem dados de alunos.
+- Acesso anônimo ao saldo retornou HTTP 401.
+- Logs seguros da consulta de saldo mostram somente etapa, categoria de chave e código controlado de erro; nunca credencial, token, ID, pergunta ou currículo. Três testes unitários da consulta e build passaram após o ajuste.
+- Não equivale a homologação visual/browser, confirmação/recuperação de email, planos por nível, persistência de conversas, nem liberação da produção. PILOT_EMAIL_ENABLED=false continua impedindo abertura da interface autenticada nesta prévia; PUBLIC_REGISTRATION_OPEN=false e ingresso fechados. Esses pontos permanecem pendentes.
+- Finalidade e minimização preservadas: somente contas técnicas example.invalid e perguntas inventadas, sem dados de usuários reais enviados à OpenAI. Retenção/limpeza dos fixtures continua sob controle administrativo; período sintético expira após sete dias. Revisão LGPD permanece a descrita abaixo, sem certificação de conformidade integral.
+
+## Estado inicial da preparação (histórico)
 - Projeto Supabase: OEO Homologacao IA, `xxirjbsbfxwzplrcbbjt`, organização existente `dmrfruowhegmobthvxcs`, us-east-2. Cotação recebida: USD 0/mês.
 - Branch Vercel: `feature/oeo-ai-agents`; produção preservada.
 - Seis contas técnicas sintéticas no domínio reservado example.invalid: duas por learner/recruiter/school_staff. Não são as três contas reais do proprietário. Senhas aleatórias não registradas no repositório.
