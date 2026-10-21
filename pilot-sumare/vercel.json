@@ -92,6 +92,9 @@
     }
   ],
   "functions": {
+    "api/agents.mjs": {
+      "maxDuration": 60
+    },
     "api/editorial.mjs": {
       "maxDuration": 240
     },
