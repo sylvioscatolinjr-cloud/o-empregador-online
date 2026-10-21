@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {aiChatHandler} from '../api/ai-chat.mjs';
+import {aiChatHandler} from '../src/ai-chat-handler.mjs';
 const env={SUPABASE_URL:'https://example.supabase.co',SUPABASE_SECRET_KEY:'fake',PILOT_COHORT_ID:'cohort',APP_ORIGIN:'https://portal.example',OPENAI_API_KEY:'fake',AI_CHAT_MODEL:'gpt-4.1-mini',AI_CHAT_METERING_ENABLED:'true'};
 function fixture({balance=3,role='learner',providerOk=true,enabled=true}={}){
  const calls=[];
