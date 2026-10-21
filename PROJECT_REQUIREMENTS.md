@@ -174,7 +174,7 @@ Implementado em `pilot-sumare/api/subscriptions.mjs` e `/assinatura.html`: check
 
 Atualização às 20h23 de 19/10/2026: acesso Vercel restabelecido, segredo exclusivo do webhook criado e versão financeira publicada em produção (`dpl_572q7SRThc3FH9kWyMcHwUkHZRwj`, READY). Conexão, aprovação da conta e configuração do webhook confirmadas no banco. `/assinatura.html` disponível no domínio. Pendentes: pagamento real pelo proprietário, homologação financeira e benefícios antes da abertura aos demais usuários.
 
-## Velocidade e cabeçalhos — 20/10/2026 (PR em revisão, não publicado)
+## Velocidade e cabeçalhos — 20/10/2026 (juntado ao main; publicação automática pelo GitHub ligada no Vercel em 21/10/2026)
 
 - Logo: páginas usam `logo-web.webp` (85 KB, 1024 px), gerado de `app/logo.png` aprovado com a mesma regra branco→transparente do filtro SVG (`scripts/logo-web.mjs`). `logo-transparent.svg` continua gerado para links antigos. Visual comparado lado a lado.
 - Cache: HTML e `/api/*` seguem `private, no-store`; JS/CSS/manifesto revalidam a cada visita (`max-age=0, must-revalidate`, resposta 304 quando não mudou); imagens, fontes e arquivos do OCR ficam 1 dia em cache.
