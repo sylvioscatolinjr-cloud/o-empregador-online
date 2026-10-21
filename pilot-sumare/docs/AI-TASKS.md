@@ -1,5 +1,7 @@
 # Tarefas guiadas de IA — 21/10/2026
 
+> Atualizado pela Fase 1 (`AI-PHASE-1.md`): fornecedor passou a ser a Anthropic (Claude), revisão de currículo e anúncio saíram do chat para as telas com dados do portal, e as respostas ficam no histórico do titular por 180 dias.
+
 Interface /assistente.html: menu Meus agentes nos três perfis. Selecionar tarefa, ler orientações/custo, informar texto e Executar — R$ 1,00 em créditos. Selecionar não cobra. Botão bloqueado antes da seleção, durante chamada e sem saldo. Saldo só é confirmado pelo servidor. Sem upload, consulta automática ao currículo, busca de vagas ou execução externa nesta versão.
 
 | Perfil | Nível 1 | Nível 2 (inclui 1) | Nível 3 (inclui anteriores) |
