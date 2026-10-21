@@ -52,3 +52,25 @@ export function getAgentCatalog(role) {
   return {profile:key,title:agent.title,mission:agent.mission,
     capabilities:agent.capabilities.map(([id,label])=>({id,label,status:'planned'}))};
 }
+
+// Guided text assistance only; connected data tools above remain planned.
+const guided = {
+ learner: [
+  ['resume_review','Revisar meu currículo',1,'Cole as experiências e a formação que deseja revisar. Remova contatos e documentos.','Revise o texto do currículo, preserve os fatos e indique melhorias sem inventar experiências.'],
+  ['interview_practice','Preparar uma entrevista',2,'Informe a vaga e suas competências, sem dados do entrevistador.','Sugira perguntas de treino e orientações para entrevista com base na vaga informada.'],
+  ['career_gps','Planejar minha carreira',3,'Informe objetivo, competências, prazo e disponibilidade.','Proponha uma trilha de desenvolvimento com etapas verificáveis; não prometa emprego ou renda.']
+ ],
+ recruiter: [
+  ['job_description','Preparar descrição de vaga',1,'Informe função, atividades, requisitos técnicos e local.','Redija uma descrição de vaga com critérios profissionais objetivos e não discriminatórios.'],
+  ['training_paths','Planejar treinamento da equipe',2,'Informe competências desejadas e lacunas, sem nomes ou avaliações individuais.','Proponha uma trilha de treinamento para as lacunas agregadas informadas.'],
+  ['department_diagnosis','Analisar competências do setor',3,'Descreva objetivos e competências agregadas do setor, sem identificar pessoas.','Analise lacunas do setor e proponha ações verificáveis; não classifique nem decida sobre pessoas.']
+ ],
+ school_staff: [
+  ['course_planning','Planejar um curso',1,'Informe tema, público geral, carga horária e recursos disponíveis.','Proponha módulos de curso com objetivos de aprendizagem, sem prometer certificação ou emprego.'],
+  ['curriculum_review','Revisar conteúdo curricular',2,'Cole a ementa e os objetivos, sem dados de alunos.','Revise a ementa fornecida e sugira melhorias justificadas e atividades.'],
+  ['industry_partnerships','Planejar parceria com empresas',3,'Descreva a área, região e proposta, sem contatos ou dados pessoais.','Prepare uma proposta de parceria educacional e próximos passos; não alegue contato ou acordo firmado.']
+ ]
+};
+export function getGuidedTasks(role,tier=0){
+ return (Object.hasOwn(guided,role)?guided[role]:[]).map(([id,label,minTier,hint,instruction])=>({id,label,minTier,hint,instruction,costCents:100,mode:'guided_text',available:Number.isInteger(tier)&&tier>=minTier}));
+}

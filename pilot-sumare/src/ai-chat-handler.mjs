@@ -1,6 +1,8 @@
 import {randomUUID} from 'node:crypto';
 import {createClient} from '@supabase/supabase-js';
 import {createAgentRequest,AgentPolicyError} from './ai-agent-policy.mjs';
+import {readTaskTier} from './ai-task-access.mjs';
+import {getGuidedTasks} from './ai-agent-catalog.mjs';
 const config={auth:{persistSession:false,autoRefreshToken:false}};
 const COST=1;
 export function aiChatHandler({env=process.env,clientFactory=createClient,fetchImpl=fetch}={}){
@@ -19,8 +21,13 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
    const m=await db.from('pilot_memberships').select('role,status,is_fictitious').eq('cohort_id',env.PILOT_COHORT_ID).eq('user_id',user.id).maybeSingle();
    if(m.error)throw Error('Membership unavailable');
    if(m.data?.status!=='active'||m.data?.is_fictitious)return res.status(403).json({error:'Conta não autorizada.'});
+   const task=getGuidedTasks(m.data.role,0).find(t=>t.id===req.body?.taskId);
+   if(!task)return res.status(400).json({error:'Selecione uma tarefa válida para seu perfil.'});
+   const tier=await readTaskTier(db,user.id,m.data.role);
+   if(tier<task.minTier)return res.status(403).json({error:'Esta tarefa exige plano nível '+task.minTier+' ou superior.'});
    let request;
-   try{request=createAgentRequest({role:m.data.role,question:req.body?.question,context:req.body?.context});}
+   try{request=createAgentRequest({role:m.data.role,question:req.body?.question,context:req.body?.context});
+    request.system+=' Tarefa selecionada: '+task.instruction+' Limite-se a esta tarefa; pedidos de outras tarefas devem ser recusados.';}
    catch(e){if(e instanceof AgentPolicyError)return res.status(e.code==='forbidden'?403:400).json({error:e.message});throw e;}
    // This switch is intentionally disabled until wallet grants and tests are validated.
    if(env.AI_CHAT_METERING_ENABLED!=='true'||!env.OPENAI_API_KEY||!env.AI_CHAT_MODEL)

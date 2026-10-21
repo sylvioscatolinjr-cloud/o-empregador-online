@@ -1,5 +1,6 @@
 import {createClient} from '@supabase/supabase-js';
-import {getAgentCatalog} from './ai-agent-catalog.mjs';
+import {readTaskTier} from './ai-task-access.mjs';
+import {getGuidedTasks,getAgentCatalog} from './ai-agent-catalog.mjs';
 
 /** Authenticated, read-only capability discovery. No model invocation or billing. */
 export function agentCatalogHandler({env=process.env,clientFactory=createClient}={}){
@@ -21,7 +22,9 @@ export function agentCatalogHandler({env=process.env,clientFactory=createClient}
    if(member.data?.status!=='active')return res.status(403).json({error:'Acesso não autorizado.'});
    const catalog=getAgentCatalog(member.data.role);
    if(!catalog)return res.status(403).json({error:'Perfil sem agente habilitado.'});
-   return res.status(200).json({agent:catalog,available:false,message:'Agente em desenvolvimento. Recursos ainda não habilitados.'});
+   const tier=await readTaskTier(db,user.id,member.data.role);
+   const tasks=getGuidedTasks(member.data.role,tier).map(({instruction,...task})=>task);
+   return res.status(200).json({agent:catalog,tier,tasks,available:tasks.some(t=>t.available),message:'Orientação com texto informado por você. Integrações automáticas ainda em preparação.'});
   }catch{return res.status(503).json({error:'Não foi possível verificar o acesso.'});}
  };
 }
