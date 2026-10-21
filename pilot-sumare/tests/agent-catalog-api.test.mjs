@@ -13,3 +13,7 @@ test('requires bearer auth',async()=>{const f=fixture();await f.handler({method:
 test('rejects unsupported HTTP methods',async()=>{const f=fixture();await f.handler({method:'POST',headers:{}},f.response);assert.equal(f.response.code,405)});
 test('institution receives its own planned capabilities',async()=>{const f=fixture();await f.handler({method:'GET',headers:{authorization:'Bearer abc'}},f.response);assert.equal(f.response.code,200);assert.equal(f.response.body.agent.profile,'institution');assert.equal(f.response.body.available,false);assert.equal(f.response.body.agent.capabilities[0].status,'planned')});
 test('inactive and owner accounts cannot impersonate a profile',async()=>{for(const input of [{status:'suspended'},{role:'pilot_owner'},{verified:false}]){const f=fixture(input);await f.handler({method:'GET',headers:{authorization:'Bearer abc'}},f.response);assert.ok([401,403].includes(f.response.code))}});
+test('accepts bearer tokens containing s and rejects embedded whitespace',async()=>{
+ const valid=fixture();await valid.handler({method:'GET',headers:{authorization:'Bearer session.payload.signature'}},valid.response);assert.equal(valid.response.code,200);
+ for(const token of ['abc def','abc\tdef','abc\ndef']){const f=fixture();await f.handler({method:'GET',headers:{authorization:'Bearer '+token}},f.response);assert.equal(f.response.code,401);assert.equal(f.queries.length,0);}
+});

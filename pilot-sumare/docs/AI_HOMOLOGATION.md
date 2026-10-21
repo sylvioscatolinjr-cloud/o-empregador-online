@@ -48,3 +48,13 @@ Finalidade: testar autenticação, isolamento e contabilização dos agentes. Da
 
 Referências oficiais consultadas: LGPD arts. 6, 7, 9, 18 e 46, https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709compilado.htm ; Radar Tecnológico IA Generativa da ANPD, https://www.gov.br/anpd/pt-br/centrais-de-conteudo/documentos-tecnicos-orientativos/radar_tecnologico_ia_generativa_anpd.pdf .
 Não representa certificação de conformidade jurídica integral.
+
+## Interface de homologação — 21/10/2026
+
+- Corrigido parser Bearer do catálogo: expressão antiga excluía a letra s e aceitava espaços. Regressão cobre tokens com s e espaços/tab/quebra de linha.
+- publicPilotConfig mantém ready=false enquanto email não está homologado. Configuração separada aiPreview só existe com VERCEL_ENV=preview, AI_PREVIEW_LOGIN_ENABLED=true e cadastro público desabilitado. Não altera produção ou a regra geral de confirmação de email.
+- Assistente oferece formulário restrito a contas existentes; sem cadastro nem recuperação. Sessões continuam sob Supabase Auth, e catálogo/saldo/chat verificam identidade, confirmação e vínculo ativo no servidor. E-mails/contas reais não foram copiados.
+- Bloqueio de submit duplicado, saldo atualizado após falhas, resposta preservada caso saldo falhe, nova pergunta desabilitada quando saldo esgota ou não pode ser conferido. Respostas exibidas como texto, sem executar HTML. Saída precisa de confirmação do provedor.
+- 144 testes passaram, zero falhas e um PDF privado ignorado; build aprovado. Quatro testes DOM novos cobrem sessão, entrada/saída, duplicidade, saldo insuficiente e falha de atualização, com respostas simuladas; não são testes de navegador com IA real.
+- Navegador remoto abriu a interface antiga e confirmou o bloqueio. Verificação visual pós-publicação e sessão autenticada ainda não concluídas neste registro. BrowserAuth exige fluxo seguro para credenciais; nenhuma senha de teste foi digitada por automação de navegador.
+- Revisão de privacidade: finalidade restrita a autenticar contas técnicas e testar UI, sem novo dado pessoal real ou compartilhamento. Config pública só contém URL e chave publicável; senhas ficam no fluxo Auth e são limpas do campo após envio. Dados sintéticos com limpeza administrativa conforme seção anterior. LGPD/ANPD oficiais consultadas novamente em 21/10; não representa certificação jurídica.

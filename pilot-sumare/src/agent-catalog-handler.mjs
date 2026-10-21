@@ -7,7 +7,7 @@ export function agentCatalogHandler({env=process.env,clientFactory=createClient}
   res.setHeader('Cache-Control','private, no-store');
   res.setHeader('X-Content-Type-Options','nosniff');
   if(req.method!=='GET'){res.setHeader('Allow','GET');return res.status(405).json({error:'Método não permitido.'});}
-  const token=/^Bearer ([^\\s]+)$/.exec(req.headers.authorization||'')?.[1];
+  const token=/^Bearer ([^\s]+)$/.exec(req.headers.authorization||'')?.[1];
   if(!token||token.length>8192)return res.status(401).json({error:'Entre na sua conta.'});
   if(!env.SUPABASE_URL||!env.SUPABASE_SECRET_KEY||!env.PILOT_COHORT_ID)
    return res.status(503).json({error:'Serviço indisponível.'});
