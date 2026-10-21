@@ -58,3 +58,12 @@ Não representa certificação de conformidade jurídica integral.
 - 144 testes passaram, zero falhas e um PDF privado ignorado; build aprovado. Quatro testes DOM novos cobrem sessão, entrada/saída, duplicidade, saldo insuficiente e falha de atualização, com respostas simuladas; não são testes de navegador com IA real.
 - Navegador remoto abriu a interface antiga e confirmou o bloqueio. Verificação visual pós-publicação e sessão autenticada ainda não concluídas neste registro. BrowserAuth exige fluxo seguro para credenciais; nenhuma senha de teste foi digitada por automação de navegador.
 - Revisão de privacidade: finalidade restrita a autenticar contas técnicas e testar UI, sem novo dado pessoal real ou compartilhamento. Config pública só contém URL e chave publicável; senhas ficam no fluxo Auth e são limpas do campo após envio. Dados sintéticos com limpeza administrativa conforme seção anterior. LGPD/ANPD oficiais consultadas novamente em 21/10; não representa certificação jurídica.
+
+### Resultado observado após a publicação da interface
+
+- Commit 87b49c4b3229a2a502fa2a876dbb8a5f3b8ad679, implantação dpl_DYE9AYSFwp1RGFUP52poRUXRJZ7s READY.
+- Navegador remoto: formulário visível com título Homologação dos agentes de IA, campos Email da conta de teste/Senha e botão Entrar. Só a entrada sem sessão foi verificada visualmente.
+- Ensaio de integração do módulo app/ai.mjs em DOM (linkedom), usando tokens de contas sintéticas autenticadas pela API e chamadas reais ao backend implantado: três perfis carregaram título correto, renderizaram resposta OpenAI e atualizaram o saldo. Dois eventos de submit seguidos produziram apenas uma chamada por perfil.
+- Segundo candidato: 3→2 chamadas completas; segunda empresa: 19→18; segunda instituição: 19→18. Saldo inicial/fracionário preservado; débito de 100 centavos sintéticos por chamada. Perguntas somente inventadas sobre aprendizado.
+- Este ensaio DOM/API não é prova de sessão autenticada em Chrome, layout móvel ou interação visual completa. Login, envio e logout autenticados no navegador continuam pendentes; orientação browserAuth impede digitação automatizada de credenciais pela ferramenta de navegador. Não foram solicitadas senhas em conversa nem criados atalhos de autenticação.
+- Próximas etapas antes de produção: sessão autenticada no navegador, revisão móvel/acessibilidade, email/recuperação e limites por plano. Produção continua sem alteração.
