@@ -88,3 +88,10 @@ A página `/revisao-interface.html` permite repetir a inspeção. O build copia 
 Para concluir a navegação autenticada, falta uma conta no projeto de homologação cuja senha seja escolhida pelo usuário e inserida por ele no formulário seguro do navegador. As contas técnicas existentes têm senhas aleatórias; contas reais não foram copiadas. Após a criação, atribuir perfil e créditos sintéticos somente na homologação.
 
 Privacidade: inspeção sem dados pessoais, perguntas ou credenciais na tela; sem envio de email ou pagamento. Mantidas as considerações de minimização e isolamento da LGPD e orientações ANPD registradas acima, sem declaração de conformidade integral.
+
+
+## Chrome autenticado — 2026-10-21
+
+Conta criada pelo responsável no Auth da homologação, e-mail confirmado, learner ativo e crédito sintético por sete dias. is_fictitious foi atribuído incorretamente na preparação e causou a recusa do saldo. Corrigido apenas nesse registro para false, sem relaxar regras de autorização. Após recarregar, Chrome mostrou Agente de Carreira e três chamadas completas. Pergunta com dados fictícios recebeu resposta; interface mostrou duas chamadas restantes. Banco confirmou 398 centavos de crédito, 100 gastos, 298 disponíveis. Nenhuma cobrança externa. Senha inserida por meio seguro, sem leitura pelo agente.
+
+Na retomada seguinte, a aba anterior não estava disponível e a nova aba não possuía sessão. A entrada segura na revisão com iframe retornou erro de credenciais; inspeção autenticada nas larguras estreitas permanece não concluída. Não confundir com os testes já aprovados da entrada sem sessão ou do agente autenticado em desktop. Não foram copiados dados de produção.
