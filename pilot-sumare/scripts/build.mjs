@@ -32,3 +32,6 @@ if (process.env.VERCEL_ENV === 'production' && process.env.ASAAS_PRODUCTION_API_
 
 await build({entryPoints:['app/subscriptions.mjs'],outfile:'dist/subscriptions.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
 if(process.env.VERCEL_ENV==='production'&&process.env.ASAAS_PRODUCTION_WEBHOOK_TOKEN){const {setupLiveBilling}=await import('./setup-live-billing.mjs');await setupLiveBilling();console.log('Configuração de cobrança real conferida.');}
+
+// Review harness is included only in preview builds, never production.
+if(process.env.VERCEL_ENV==='preview')await copyFile('app/revisao-interface.html','dist/revisao-interface.html');
