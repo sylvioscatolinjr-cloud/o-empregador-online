@@ -44,13 +44,13 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
      const response=await fetchImpl('https://api.openai.com/v1/responses',{
       method:'POST',signal:controller.signal,
       headers:{Authorization:'Bearer '+env.OPENAI_API_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({model:env.AI_CHAT_MODEL,max_output_tokens:700,store:false,
+      body:JSON.stringify({model:env.AI_CHAT_MODEL,max_output_tokens:1800,store:false,
        input:[{role:'system',content:request.system},{role:'user',content:request.user}]})
      });
      if(!response.ok)throw Error('provider rejected');
      const data=await response.json();
      answer=(data.output||[]).flatMap(o=>o.content||[]).filter(c=>c.type==='output_text').map(c=>c.text).join('\n').trim();
-     if(!answer)throw Error('empty provider response');
+     if(!answer||data.status==='incomplete')throw Error('incomplete provider response');
     }finally{clearTimeout(timeout);}
    }catch{
     const refund=await db.rpc('portal_ai_paid_refund',{p_user:user.id,p_request:requestId});
