@@ -187,3 +187,8 @@ Atualização às 20h23 de 19/10/2026: acesso Vercel restabelecido, segredo excl
 
 ## Tarefas guiadas de IA — 21/10/2026
 Painel Meus agentes: seleção de tarefa por perfil, requisitos em texto e custo explícito de R$ 1,00 antes da execução. Níveis progressivos 1/2/3 e autorização no servidor por pagamento verificado/período/perfil; recusa antes do débito para tarefa inválida ou acima do plano. Integrações automáticas do catálogo continuam planejadas. 152 testes passaram, um PDF privado não executado; build aprovado. Publicação somente na prévia; sem nova migração, pagamento externo ou abertura comercial. Privacidade e matriz em pilot-sumare/docs/AI-TASKS.md.
+
+
+## Revisão conectada do currículo — 21/10/2026 (homologação)
+
+Pedido expresso: agente lê campos/anexo existentes, mostra melhorias e candidato escolhe manter ou salvar. Implementado no fluxo de revisão conectada; sem nova cópia manual. Texto do anexo extraído localmente; análise autorizada, campos próprios lidos no servidor, comparação e aceitação individual, proposta assinada e salvamento atômico protegido contra edição concorrente. Anexo e dados não escolhidos preservados. Menu Meus agentes padronizado com os controles vizinhos; regra visual registrada em AGENTS.md. 171 testes locais e ensaio SQL hospedado aprovados; chamada real/validação visual do novo fluxo pendentes. Detalhes, privacidade, custo e limites em pilot-sumare/docs/CONNECTED-RESUME-REVIEW.md. Somente branch de homologação; não significa abertura comercial.

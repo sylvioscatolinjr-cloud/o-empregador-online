@@ -56,7 +56,7 @@ export function getAgentCatalog(role) {
 // Guided text assistance only; connected data tools above remain planned.
 const guided = {
  learner: [
-  ['resume_review','Revisar meu currículo',1,'Cole as experiências e a formação que deseja revisar. Remova contatos e documentos.','Revise o texto do currículo, preserve os fatos e indique melhorias sem inventar experiências.'],
+  ['resume_review','Revisar meu currículo',1,'Carregue seu currículo salvo e o anexo. Compare as sugestões e escolha o que salvar.','Revise o texto do currículo, preserve os fatos e indique melhorias sem inventar experiências.'],
   ['interview_practice','Preparar uma entrevista',2,'Informe a vaga e suas competências, sem dados do entrevistador.','Sugira perguntas de treino e orientações para entrevista com base na vaga informada.'],
   ['career_gps','Planejar minha carreira',3,'Informe objetivo, competências, prazo e disponibilidade.','Proponha uma trilha de desenvolvimento com etapas verificáveis; não prometa emprego ou renda.']
  ],
@@ -72,5 +72,5 @@ const guided = {
  ]
 };
 export function getGuidedTasks(role,tier=0){
- return (Object.hasOwn(guided,role)?guided[role]:[]).map(([id,label,minTier,hint,instruction])=>({id,label,minTier,hint,instruction,costCents:100,mode:'guided_text',available:Number.isInteger(tier)&&tier>=minTier}));
+ return (Object.hasOwn(guided,role)?guided[role]:[]).map(([id,label,minTier,hint,instruction])=>({id,label,minTier,hint,instruction,costCents:100,mode:id==='resume_review'?'saved_resume':'guided_text',available:Number.isInteger(tier)&&tier>=minTier}));
 }

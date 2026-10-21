@@ -23,6 +23,7 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
    if(m.data?.status!=='active'||m.data?.is_fictitious)return res.status(403).json({error:'Conta não autorizada.'});
    const task=getGuidedTasks(m.data.role,0).find(t=>t.id===req.body?.taskId);
    if(!task)return res.status(400).json({error:'Selecione uma tarefa válida para seu perfil.'});
+   if(task.id==='resume_review')return res.status(400).json({error:'Use a revisão conectada ao currículo salvo: carregue seus dados na tarefa Revisar meu currículo.'});
    const tier=await readTaskTier(db,user.id,m.data.role);
    if(tier<task.minTier)return res.status(403).json({error:'Esta tarefa exige plano nível '+task.minTier+' ou superior.'});
    let request;

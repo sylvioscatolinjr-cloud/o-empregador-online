@@ -24,7 +24,7 @@ export function agentCatalogHandler({env=process.env,clientFactory=createClient}
    if(!catalog)return res.status(403).json({error:'Perfil sem agente habilitado.'});
    const tier=await readTaskTier(db,user.id,member.data.role);
    const tasks=getGuidedTasks(member.data.role,tier).map(({instruction,...task})=>task);
-   return res.status(200).json({agent:catalog,tier,tasks,available:tasks.some(t=>t.available),message:'Orientação com texto informado por você. Integrações automáticas ainda em preparação.'});
+   return res.status(200).json({agent:catalog,tier,tasks,available:tasks.some(t=>t.available),message:'Revisão conectada ao currículo do candidato; demais tarefas com texto informado.'});
   }catch{return res.status(503).json({error:'Não foi possível verificar o acesso.'});}
  };
 }

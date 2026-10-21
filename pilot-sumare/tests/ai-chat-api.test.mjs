@@ -4,11 +4,11 @@ import {aiChatHandler} from '../src/ai-chat-handler.mjs';
 const env={SUPABASE_URL:'https://example.supabase.co',SUPABASE_SECRET_KEY:'fake',PILOT_COHORT_ID:'cohort',APP_ORIGIN:'https://portal.example',OPENAI_API_KEY:'fake',AI_CHAT_MODEL:'gpt-4.1-mini',AI_CHAT_METERING_ENABLED:'true'};
 function fixture({balance=3,role='learner',providerOk=true,enabled=true}={}){
  const calls=[];
- const db={auth:{async getUser(){return {data:{user:{id:'user-1',email_confirmed_at:'today'}},error:null}}},from(name){if(name==='billing_live_orders')return {select(){return this},async eq(){return {data:[{id:'o',user_id:'user-1',profile_type:'Candidato',tier:1,cycle:'MONTHLY',cents:1990}],error:null}}};if(name==='billing_live_payments')return {select(){return this},async in(){return {data:[{id:'p',order_id:'o',eligible:true,cents:1990,credit_cents:398,period_start:'2020-01-01',period_end:'2099-01-01'}],error:null}}};const q={select(){return q},eq(){return q},async maybeSingle(){return {data:{role,status:'active',is_fictitious:false},error:null}}};return q},async rpc(name,args){calls.push([name,args]);if(name==='portal_ai_paid_reserve')return balance>0?{data:balance-1,error:null}:{error:{message:'insufficient'}};return {data:balance,error:null}}};
+ const db={auth:{async getUser(){return {data:{user:{id:'user-1',email_confirmed_at:'today'}},error:null}}},from(name){if(name==='billing_live_orders')return {select(){return this},async eq(){return {data:[{id:'o',user_id:'user-1',profile_type:'Candidato',tier:2,cycle:'MONTHLY',cents:4990}],error:null}}};if(name==='billing_live_payments')return {select(){return this},async in(){return {data:[{id:'p',order_id:'o',eligible:true,cents:4990,credit_cents:1248,period_start:'2020-01-01',period_end:'2099-01-01'}],error:null}}};const q={select(){return q},eq(){return q},async maybeSingle(){return {data:{role,status:'active',is_fictitious:false},error:null}}};return q},async rpc(name,args){calls.push([name,args]);if(name==='portal_ai_paid_reserve')return balance>0?{data:balance-1,error:null}:{error:{message:'insufficient'}};return {data:balance,error:null}}};
  const fetchImpl=async()=>{calls.push(['provider']);return {ok:providerOk,async json(){return {output:[{content:[{type:'output_text',text:'Resposta de teste'}]}]}}}};
  const handler=aiChatHandler({env:{...env,...(!enabled?{AI_CHAT_METERING_ENABLED:'false'}:{})},clientFactory:()=>db,fetchImpl});
  const res={setHeader(){},status(code){this.code=code;return this},json(body){this.body=body;return this}};
- const req={method:'POST',headers:{origin:env.APP_ORIGIN,'content-type':'application/json',authorization:'Bearer token'},body:{taskId:'resume_review',question:'Como crescer profissionalmente?'}};
+ const req={method:'POST',headers:{origin:env.APP_ORIGIN,'content-type':'application/json',authorization:'Bearer token'},body:{taskId:'interview_practice',question:'Como crescer profissionalmente?'}};
  return {handler,res,req,calls};
 }
 test('disabled flag never debits or invokes model',async()=>{const f=fixture({enabled:false});await f.handler(f.req,f.res);assert.equal(f.res.code,503);assert.equal(f.calls.length,0)});
@@ -20,3 +20,5 @@ test('invalid origin never reserves credits',async()=>{const f=fixture();f.req.h
 
 test('higher-tier task is refused before billing or provider',async()=>{const f=fixture();f.req.body.taskId='career_gps';await f.handler(f.req,f.res);assert.equal(f.res.code,403);assert.equal(f.calls.length,0)});
 test('foreign and missing task IDs never debit',async()=>{for(const taskId of ['course_planning',undefined,'__proto__']){const f=fixture();f.req.body.taskId=taskId;await f.handler(f.req,f.res);assert.equal(f.res.code,400);assert.equal(f.calls.length,0)}});
+
+test('resume review cannot use the free text chat route',async()=>{const f=fixture();f.req.body.taskId='resume_review';await f.handler(f.req,f.res);assert.equal(f.res.code,400);assert.equal(f.calls.length,0);});
