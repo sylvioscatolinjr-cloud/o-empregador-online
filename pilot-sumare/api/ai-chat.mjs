@@ -9,7 +9,7 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
   if(req.method!=='POST')return res.status(405).json({error:'Método inválido.'});
   if(req.headers.origin!==env.APP_ORIGIN||req.headers['sec-fetch-site']==='cross-site')return res.status(403).json({error:'Origem inválida.'});
   if(!req.headers['content-type']?.startsWith('application/json')||JSON.stringify(req.body||{}).length>9000)return res.status(400).json({error:'Formato inválido.'});
-  const token=/^Bearer ([^\\s]+)$/.exec(req.headers.authorization||'')?.[1];
+  const token=/^Bearer ([^\s]+)$/.exec(req.headers.authorization||'')?.[1];
   if(!token)return res.status(401).json({error:'Entre na sua conta.'});
   if(!env.SUPABASE_URL||!env.SUPABASE_SECRET_KEY||!env.PILOT_COHORT_ID)return res.status(503).json({error:'Serviço indisponível.'});
   try{
