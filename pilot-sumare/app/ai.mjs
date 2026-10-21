@@ -5,7 +5,7 @@ let client,accountId;
 async function api(path,method='GET',payload){
  const {data,error}=await client.auth.getSession();
  if(error||!data.session||data.session.user?.id!==accountId)throw Error('Entre novamente na sua conta.');
- const response=await fetch('/api/'+path,{method,cache:'no-store',headers:{Authorization:'Bearer '+data.session.access_token,...(payload?{'Content-Type':'application/json'}:{})},...(payload?{body:JSON.stringify(payload)}:{})});
+ const response=await fetch('/api/ai?action='+encodeURIComponent(path.replace(/^ai-/,'').replace('agent-catalog','catalog')),{method,cache:'no-store',headers:{Authorization:'Bearer '+data.session.access_token,...(payload?{'Content-Type':'application/json'}:{})},...(payload?{body:JSON.stringify(payload)}:{})});
  const result=await response.json();
  if(!response.ok)throw Error(result.error||'Serviço indisponível.');
  return result;
