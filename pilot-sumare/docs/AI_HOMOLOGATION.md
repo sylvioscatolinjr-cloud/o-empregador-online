@@ -102,3 +102,12 @@ Na retomada seguinte, a aba anterior não estava disponível e a nova aba não p
 Após entrada manual do responsável, a página de revisão exibiu Agente de Carreira autenticado e duas chamadas completas. Foram selecionadas larguras 320, 375, 390 e 768 pixels no controle visível. Em todas, clientWidth igualou scrollWidth, sem transbordamento horizontal. Textarea: 280/335/350/728 pixels de largura e 154 de altura. Botões: 50 pixels de altura e larguras 236 e 198 pixels, cabendo na menor tela.
 
 Resultado cobre a interface autenticada do Candidato, antes de nova resposta, em iframe de Chrome desktop. Não simula teclado virtual, toque ou aparelho físico. A resposta real e o débito já foram verificados na sessão desktop anterior. Nenhuma nova chamada ao modelo foi feita nesta revisão, mantendo duas chamadas completas disponíveis. Sem dados pessoais ou credenciais na evidência visual; conta e crédito continuam restritos à homologação.
+
+
+## Empresa e Instituição no Chrome — 2026-10-21
+
+Na mesma conta administrativa de teste da homologação, papel temporariamente alterado learner→recruiter→school_staff→learner e restaurado ao final. Nenhuma alteração de RLS ou de produção. Isto valida roteamento por papel em uma sessão; não substitui os testes anteriores de isolamento entre contas distintas.
+
+Empresa abriu Agente de Gestão e Talentos; pergunta inventada sobre três critérios técnicos para estágio recebeu resposta, sem decisão sobre pessoas reais. Saldo visual 2→1 chamadas. Instituição abriu Agente de Evolução Educacional; pergunta inventada gerou três módulos de desenho mecânico, sem dados de alunos ou promessa de emprego. Saldo visual 1→0 chamadas; botão de envio desabilitado. SQL confirmou crédito=398, gastos=300 e disponível=98 centavos sintéticos, considerando também a chamada anterior de Candidato.
+
+Resposta longa educacional conferida nas larguras selecionadas 320/375/390/768: larguras úteis 305/360/375/753 devido à barra vertical; scrollWidth igual a clientWidth em todas. Sem transbordamento horizontal. Empresa também conferida a 320. Não houve teste em aparelho físico, teclado virtual ou teste de chamadas dos três níveis pagos. Pagamento da conta continua sintético de plano Candidato; as alterações de papel não simulam compra de plano empresarial/educacional. Nenhum pagamento externo, credencial lida ou conteúdo pessoal enviado. Finalidade restrita, minimização e isolamento mantidos conforme referências LGPD/ANPD anteriores.
