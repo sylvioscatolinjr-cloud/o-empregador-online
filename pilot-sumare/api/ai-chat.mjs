@@ -26,7 +26,7 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
    if(env.AI_CHAT_METERING_ENABLED!=='true'||!env.OPENAI_API_KEY||!env.AI_CHAT_MODEL)
     return res.status(503).json({error:'Chat em preparação: aguardando ativação de créditos e modelo.',agent:request.agent});
    const requestId=randomUUID();
-   const reserved=await db.rpc('portal_ai_reserve',{p_user:user.id,p_request:requestId,p_cost:COST});
+   const reserved=await db.rpc('portal_ai_paid_reserve',{p_user:user.id,p_request:requestId});
    if(reserved.error)return res.status(402).json({error:'Créditos insuficientes ou indisponíveis. Nenhuma chamada à IA foi realizada.'});
    let answer;
    try{
@@ -45,11 +45,11 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
      if(!answer)throw Error('empty provider response');
     }finally{clearTimeout(timeout);}
    }catch{
-    const refund=await db.rpc('portal_ai_refund',{p_user:user.id,p_request:requestId});
+    const refund=await db.rpc('portal_ai_paid_refund',{p_user:user.id,p_request:requestId});
     if(refund.error)return res.status(503).json({error:'Falha na IA. A devolução dos créditos requer verificação administrativa.',requestId});
     return res.status(503).json({error:'Não foi possível obter a resposta. Crédito devolvido.'});
    }
-   return res.status(200).json({answer,agent:request.agent,creditsCharged:COST,balance:reserved.data,requestId});
+   return res.status(200).json({answer,agent:request.agent,creditsCharged:COST,remainingCreditCents:reserved.data,requestId});
   }catch{return res.status(503).json({error:'Não foi possível validar a solicitação.'});}
  };
 }
