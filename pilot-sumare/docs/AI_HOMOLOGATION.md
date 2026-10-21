@@ -77,3 +77,14 @@ Correção: onAuthStateChange limpa a área privada quando a conta sai ou muda. 
 Validação: três regressões novas passam, sete testes DOM do assistente passam; bateria completa 147 aprovados, zero falhas, um PDF privado ignorado. Build aprovado. São testes DOM simulados, não ensaio autenticado de Chrome/celular. A limitação de sessão no navegador documentada anteriormente permanece.
 
 Privacidade: finalidade de impedir exposição de conteúdo entre sessões; nenhuma coleta, envio ou retenção nova, nenhuma alteração de autorização/RLS ou créditos. A limpeza remove texto da página, sem afirmar revogação de tokens pelo servidor. Consultados LGPD arts. 6/46 e Radar Tecnológico da ANPD nas referências acima; callback conferido em https://supabase.com/docs/reference/javascript/auth-onauthstatechange . Não representa certificação jurídica integral.
+
+
+## Revisão de largura estreita — 2026-10-21
+
+A tela de entrada foi inspecionada em Chrome real dentro de iframe com larguras de 320, 375, 390 e 768 pixels. Em todas, clientWidth e scrollWidth coincidiram: sem transbordamento horizontal. Em 375 pixels, campos mediram 52 pixels de altura e botão 50 pixels. Esta evidência cobre somente a tela sem autenticação, não aparelho físico nem telas autenticadas.
+
+A página `/revisao-interface.html` permite repetir a inspeção. O build copia essa página apenas quando VERCEL_ENV=preview. Builds Preview e padrão passaram; no padrão a página não foi incluída. Não houve nova alteração na lógica de cobrança ou autenticação.
+
+Para concluir a navegação autenticada, falta uma conta no projeto de homologação cuja senha seja escolhida pelo usuário e inserida por ele no formulário seguro do navegador. As contas técnicas existentes têm senhas aleatórias; contas reais não foram copiadas. Após a criação, atribuir perfil e créditos sintéticos somente na homologação.
+
+Privacidade: inspeção sem dados pessoais, perguntas ou credenciais na tela; sem envio de email ou pagamento. Mantidas as considerações de minimização e isolamento da LGPD e orientações ANPD registradas acima, sem declaração de conformidade integral.
