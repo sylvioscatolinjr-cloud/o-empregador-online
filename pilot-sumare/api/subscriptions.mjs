@@ -9,7 +9,10 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
  if(!['GET','POST'].includes(req.method))return res.status(405).json({error:'Método inválido.'});
  const e=env;
  if(req.method==='GET'&&req.query?.action==='config'){if(!e.SUPABASE_URL||!e.SUPABASE_PUBLISHABLE_KEY?.startsWith('sb_publishable_')||!e.APP_ORIGIN)return res.status(503).json({error:'Configuração indisponível.'});return res.status(200).json({supabaseURL:e.SUPABASE_URL,publishableKey:e.SUPABASE_PUBLISHABLE_KEY,origin:e.APP_ORIGIN});}
- if(!e.SUPABASE_SECRET_KEY||!e.SUPABASE_URL||!e.ASAAS_PRODUCTION_API_KEY||!e.ASAAS_PRODUCTION_WEBHOOK_TOKEN)return res.status(503).json({error:'Cobrança real em configuração.'});
+ if(!e.SUPABASE_SECRET_KEY||!e.SUPABASE_URL||!e.PILOT_COHORT_ID)return res.status(503).json({error:'Consulta de assinatura indisponível.'});
+ const providerConfigured=!!(e.ASAAS_PRODUCTION_API_KEY&&e.ASAAS_PRODUCTION_WEBHOOK_TOKEN);
+ // Reading plans/history is independent of provider readiness. Mutations stay gated.
+ if((req.method==='POST'||req.query?.action==='webhook')&&!providerConfigured)return res.status(503).json({error:'Cobrança real em configuração.'});
  const db=clientFactory(e.SUPABASE_URL,e.SUPABASE_SECRET_KEY,options),request=liveRequestFactory(e,fetchImpl);
  try{
  if(req.query?.action==='webhook'){
@@ -38,11 +41,11 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
  const member=assertResult(await db.from('pilot_memberships').select('role,status,is_fictitious').eq('user_id',u.id).eq('cohort_id',e.PILOT_COHORT_ID).maybeSingle());
  if(!member||member.status!=='active'||member.is_fictitious||!['learner','recruiter','school_staff','pilot_owner'].includes(member.role))return res.status(403).json({error:'Conta sem autorização para contratar.'});
  const profile={learner:'Candidato',pilot_owner:'Candidato',recruiter:'Empresa',school_staff:'Instituição de Ensino'}[member.role];
- const config=assertResult(await db.from('billing_live_configuration').select('*').eq('id',true).single());
+ const config=assertResult(await db.from('billing_live_configuration').select('*').eq('id',true).maybeSingle())||{};
  if(req.method==='GET'){
   const orders=assertResult(await db.from('billing_live_orders').select('*').eq('user_id',u.id).order('created_at',{ascending:false}).limit(50));
   const payments=orders.length?assertResult(await db.from('billing_live_payments').select('*').in('order_id',orders.map(o=>o.id))):[];
-  return res.status(200).json({environment:'production',profile,owner:member.role==='pilot_owner',ready:config.connected&&config.account_approved&&config.webhook_ready,canPurchase:member.role==='pilot_owner',termsVersion:LIVE_TERMS,entitlement:currentEntitlement(orders,payments),orders:orders.map(o=>({...o,url:o.checkout_id&&o.status==='pending'?liveCheckoutURL(o.checkout_id):null})),payments});
+  return res.status(200).json({environment:'production',profile,owner:member.role==='pilot_owner',ready:providerConfigured&&!!(config.connected&&config.account_approved&&config.webhook_ready),canPurchase:providerConfigured&&member.role==='pilot_owner',termsVersion:LIVE_TERMS,entitlement:currentEntitlement(orders,payments),orders:orders.map(o=>({...o,url:o.checkout_id&&o.status==='pending'?liveCheckoutURL(o.checkout_id):null})),payments});
  }
  if(req.headers.origin!==e.APP_ORIGIN||req.headers['sec-fetch-site']==='cross-site')return res.status(403).json({error:'Origem inválida.'});
  if(!req.headers['content-type']?.startsWith('application/json')||JSON.stringify(req.body||{}).length>4096)return res.status(400).json({error:'Formato inválido.'});
