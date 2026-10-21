@@ -1,8 +1,9 @@
 import {mkdir,copyFile,cp,rm,readFile,writeFile} from 'node:fs/promises';
 import {build} from 'esbuild';
 await rm('dist',{recursive:true,force:true});await mkdir('dist',{recursive:true});
-await Promise.all(['index.html','conta.html','home.css','logo.png','logo-web.webp','style.css','pagamentos.html','assinatura.html','blog.html','cursos-desejados.html','plataforma.html','editorial.html','instalar.html','offline.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','icon-180.png'].map(name=>copyFile('app/'+name,'dist/'+name)));
+await Promise.all(['index.html','conta.html','assistente.html','home.css','logo.png','logo-web.webp','style.css','pagamentos.html','assinatura.html','blog.html','cursos-desejados.html','plataforma.html','editorial.html','instalar.html','offline.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','icon-180.png'].map(name=>copyFile('app/'+name,'dist/'+name)));
 await build({entryPoints:['app/app.mjs'],external:['/import/*'],outfile:'dist/app.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
+await build({entryPoints:['app/ai.mjs'],outfile:'dist/ai.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
 console.log('Piloto compilado. A ativação depende da configuração do projeto, e-mail e turma.');
 
 await build({entryPoints:['app/billing.mjs'],outfile:'dist/billing.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
