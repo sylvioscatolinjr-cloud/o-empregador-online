@@ -277,3 +277,5 @@ Revisão de currículo: log real 23:53 confirmou resposta completa rejeitada em 
 
 ## Próxima etapa — 22/10/2026
 Revisão do aceite: titular confirmou análise de currículo, escolha, salvamento e persistência. Suíte completa atual 219 aprovados, zero falhas, um PDF ausente ignorado. Matriz 0/6/12/18 por perfil e isolamento testados, não significa 54 respostas reais. Roteiros antigos de etapas 4/5 anotados como históricos e login de proprietário corrigido. Checklist atual: pilot-sumare/docs/NEXT-STAGE-CHECKLIST-20261022.md. Próximo ensaio visual: Empresa, depois Instituição, sem gerar compra, dados de terceiros ou créditos artificiais. Benefícios adicionais e abertura comercial ainda pendentes.
+
+Numeração dos recursos movida ao canto inferior direito do cartão nos três perfis, em menu e execução. Ajuda expansível não desloca número; seleção mantém tamanho e contraste. 20 testes e build aprovados. Somente CSS e registro, sem coleta, alteração de acesso ou retenção; LGPD/ANPD revistas.
