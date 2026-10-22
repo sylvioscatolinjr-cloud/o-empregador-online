@@ -1,0 +1,2999 @@
+[
+  {
+    "id": "cand-curriculo",
+    "version": 1,
+    "role": "learner",
+    "tier": 1,
+    "title": "Currículo que apresenta seu valor",
+    "objective": "Organizar um currículo claro e verdadeiro, adequado a uma oportunidade.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Objetivo e foco",
+        "paragraphs": [
+          "Escolha uma função ou área para orientar o currículo. Um resumo útil relaciona conhecimentos, experiência e contribuição desejada. Evite adjetivos sem evidência e não prometa domínio de uma ferramenta que ainda está aprendendo. Quem busca o primeiro emprego pode destacar projetos, estudos e atividades voluntárias verdadeiras.",
+          "Exemplo: Para desenho técnico: conhecimento em CAD, leitura de desenhos e projeto escolar de um suporte mecânico."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Experiências com evidências",
+        "paragraphs": [
+          "Descreva o que fez, como fez e para qual finalidade. Diferencie responsabilidade de resultado comprovado. Quantidades ajudam somente quando você consegue sustentá-las. Na falta de números, descreva a entrega e o contexto. Preserve cargo, organização e datas; uma redação melhor não autoriza mudar fatos.",
+          "Exemplo: Elaborei desenhos de peças no CAD para apoiar a fabricação, seguindo as orientações do responsável técnico."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Formação e competências",
+        "paragraphs": [
+          "Separe formação acadêmica, cursos e competências. Informe instituição, situação e período de maneira coerente. Conhecer uma ferramenta não equivale a possuir certificação. Organize as competências por pertinência à vaga, incluindo habilidades técnicas e situações em que demonstrou comunicação ou colaboração.",
+          "Exemplo: Curso de desenho técnico concluído; graduação em andamento; prática em leitura de vistas, sem alegar certificação inexistente."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Revisão e adaptação",
+        "paragraphs": [
+          "Compare o currículo com os requisitos da oportunidade. Destaque o que já possui e reconheça lacunas. Revise ortografia, contatos e legibilidade. Ao usar a IA do portal, carregue o currículo salvo, confira o anexo e aceite somente melhorias que preservem sua história. A decisão final continua sendo sua.",
+          "Exemplo: Se a vaga pede leitura de desenho, destaque seu projeto pertinente; não acrescente experiência em usinagem que não teve."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Revisar um resumo profissional e duas descrições de experiência, conferindo os fatos.",
+      "template": "Função desejada:\nResumo atual:\nVersão revisada:\nExperiência 1 — ação, contexto e evidência:\nExperiência 2 — ação, contexto e evidência:\nInformações que preciso conferir:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "O que torna um resumo mais útil?",
+        "options": [
+          "Relacionar competências verdadeiras à função desejada.",
+          "Declarar excelência em qualquer atividade.",
+          "Listar apenas informações pessoais."
+        ],
+        "correct": 0,
+        "explanation": "Relacionar competências verdadeiras à função desejada."
+      },
+      {
+        "question": "Quando usar um número no currículo?",
+        "options": [
+          "Quando deixar o texto mais impressionante.",
+          "Sempre estimar o maior valor possível.",
+          "Quando houver evidência que sustente o resultado informado."
+        ],
+        "correct": 2,
+        "explanation": "Quando houver evidência que sustente o resultado informado."
+      },
+      {
+        "question": "Como apresentar uma formação em andamento?",
+        "options": [
+          "Substituir o nome pelo de uma formação mais valorizada.",
+          "Informar que está em andamento e usar os dados reais do curso.",
+          "Apresentá-la como concluída."
+        ],
+        "correct": 1,
+        "explanation": "Informar que está em andamento e usar os dados reais do curso."
+      },
+      {
+        "question": "O que conferir antes de aceitar uma sugestão da IA?",
+        "options": [
+          "Se ela preserva os fatos e melhora a clareza da informação.",
+          "Se ela acrescenta qualificações desejadas, mesmo sem experiência.",
+          "Somente se o texto ficou maior."
+        ],
+        "correct": 0,
+        "explanation": "Se ela preserva os fatos e melhora a clareza da informação."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Revisar um resumo profissional e duas descrições de experiência, conferindo os fatos.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "resume_review",
+    "agentChallenge": "Use Revisar meu currículo, carregue seus dados salvos e compare as propostas antes de escolher o que salvar.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "cand-entrevista",
+    "version": 1,
+    "role": "learner",
+    "tier": 1,
+    "title": "Preparação para entrevistas",
+    "objective": "Preparar apresentação pessoal e respostas profissionais sustentadas por exemplos.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Conheça a oportunidade",
+        "paragraphs": [
+          "Leia atividades, requisitos e formato da seleção. Separe o que é obrigatório do que é desejável. Pesquise informações públicas da organização e prepare dúvidas sobre a função. Não tente adivinhar uma resposta perfeita: procure entender o trabalho e demonstrar sua contribuição de forma honesta.",
+          "Exemplo: Anote duas atividades da vaga e um exemplo seu relacionado a cada uma."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Apresentação em um minuto",
+        "paragraphs": [
+          "Organize sua apresentação em situação atual, experiência pertinente e objetivo. Use linguagem natural e limite detalhes sem relação com a função. Treine em voz alta e ajuste o tempo. A apresentação deve abrir a conversa, permitindo aprofundamento, em vez de narrar toda a sua vida.",
+          "Exemplo: Estudo mecânica, desenvolvi um projeto de desenho e procuro uma oportunidade para aplicar essa base na indústria."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Respostas com situações reais",
+        "paragraphs": [
+          "Para uma pergunta sobre comportamento, descreva situação, responsabilidade, ação e resultado. Deixe clara sua participação, sem se apropriar do trabalho de colegas. Se algo não deu certo, explique o aprendizado e a correção. Você pode pedir alguns segundos para organizar a resposta.",
+          "Exemplo: Em um trabalho atrasado, reorganizei minha parte, avisei o grupo e entregamos uma versão reduzida no prazo combinado."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Conversa e encerramento",
+        "paragraphs": [
+          "Ouça a pergunta até o fim e peça esclarecimento quando necessário. Prepare perguntas sobre rotina, expectativas e próximos passos. Em entrevista remota, teste som e conexão. Ao encerrar, confirme o canal de retorno com respeito aos prazos; insistência excessiva não substitui um acompanhamento adequado.",
+          "Exemplo: Quais entregas seriam prioritárias nos primeiros meses e como funciona a integração?"
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Preparar uma apresentação curta, duas respostas com exemplos e três perguntas ao entrevistador.",
+      "template": "Minha apresentação:\nSituação 1 — contexto, ação e resultado:\nSituação 2 — contexto, ação e resultado:\nPerguntas para a empresa:\nPonto que vou treinar:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Como começar a preparação?",
+        "options": [
+          "Relacionar atividades da vaga a exemplos reais da própria trajetória.",
+          "Decorar respostas genéricas para qualquer empresa.",
+          "Inventar experiência para cada requisito."
+        ],
+        "correct": 0,
+        "explanation": "Relacionar atividades da vaga a exemplos reais da própria trajetória."
+      },
+      {
+        "question": "Qual é o foco da apresentação inicial?",
+        "options": [
+          "Contar todos os acontecimentos da vida.",
+          "Usar palavras difíceis sem explicar sua experiência.",
+          "Trajetória pertinente e contribuição desejada para a função."
+        ],
+        "correct": 2,
+        "explanation": "Trajetória pertinente e contribuição desejada para a função."
+      },
+      {
+        "question": "Como responder sobre uma dificuldade?",
+        "options": [
+          "Afirmar que nunca enfrentou dificuldades.",
+          "Explicar o contexto, a própria ação e o aprendizado.",
+          "Culpar colegas sem descrever a própria responsabilidade."
+        ],
+        "correct": 1,
+        "explanation": "Explicar o contexto, a própria ação e o aprendizado."
+      },
+      {
+        "question": "Qual pergunta ajuda a compreender a função?",
+        "options": [
+          "Quais são as entregas esperadas nos primeiros meses?",
+          "Posso dispensar todas as orientações de integração?",
+          "Qual resposta devo inventar para ser aprovado?"
+        ],
+        "correct": 0,
+        "explanation": "Quais são as entregas esperadas nos primeiros meses?"
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Preparar uma apresentação curta, duas respostas com exemplos e três perguntas ao entrevistador.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "interview_practice",
+    "agentChallenge": "Informe uma vaga sem dados pessoais de terceiros e peça perguntas para treinar. Responda com exemplos verdadeiros.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "cand-comunicacao",
+    "version": 1,
+    "role": "learner",
+    "tier": 1,
+    "title": "Postura e comunicação no trabalho",
+    "objective": "Comunicar combinados, dificuldades e entregas com clareza e responsabilidade.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Combinados claros",
+        "paragraphs": [
+          "Antes de começar uma tarefa, confirme objetivo, prazo e padrão esperado. Registre dúvidas relevantes e identifique quem pode orientá-lo. Pontualidade inclui avisar com antecedência quando um compromisso está em risco. Confiança se constrói com coerência entre o que você combina e o que consegue entregar.",
+          "Exemplo: Confirmei a entrega para sexta e o formato da planilha; na quarta sinalizei um impedimento."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Mensagens objetivas",
+        "paragraphs": [
+          "Uma mensagem profissional informa contexto, necessidade e próximo passo. Escolha um canal adequado e evite expor pessoas em grupos. Não compartilhe senhas, documentos ou informações internas sem autorização. Ao receber uma orientação complexa, confirme seu entendimento com suas próprias palavras.",
+          "Exemplo: Sobre o pedido de ontem, falta confirmar a medida. Você consegue validar até as 14h para concluirmos o desenho?"
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Escuta e divergências",
+        "paragraphs": [
+          "Separe fatos observáveis de interpretações. Escute o ponto de vista da outra pessoa antes de responder e trate a divergência com foco na tarefa. Se houver comportamento grave, use os canais responsáveis da organização. Comunicação respeitosa não exige aceitar desrespeito nem resolver sozinho qualquer conflito.",
+          "Exemplo: Observei duas versões do arquivo; precisamos definir qual será usada e quem fará a conferência."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Aprender com retorno",
+        "paragraphs": [
+          "Peça exemplos quando receber um feedback genérico. Identifique uma ação de melhoria que possa observar e combine um acompanhamento. Também reconheça o que está funcionando. Uma atitude profissional inclui admitir um erro, corrigir sua consequência e ajustar o processo para reduzir repetição.",
+          "Exemplo: Passei a conferir a revisão do desenho antes de enviar e combinei revisar a mudança em duas semanas."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Escrever uma mensagem profissional e um plano para melhorar um combinado de trabalho.",
+      "template": "Situação:\nFato observado:\nMensagem — contexto, necessidade e próximo passo:\nAção que assumo:\nPrazo e forma de acompanhar:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "O que fazer quando percebe risco de atraso?",
+        "options": [
+          "Avisar cedo, explicar o impedimento e propor ajuste.",
+          "Esperar o prazo vencer para contar.",
+          "Prometer um prazo impossível para agradar."
+        ],
+        "correct": 0,
+        "explanation": "Avisar cedo, explicar o impedimento e propor ajuste."
+      },
+      {
+        "question": "O que uma mensagem útil deve conter?",
+        "options": [
+          "Apenas uma cobrança sem explicação.",
+          "Dados privados de todos os envolvidos.",
+          "Contexto, necessidade e próximo passo claro."
+        ],
+        "correct": 2,
+        "explanation": "Contexto, necessidade e próximo passo claro."
+      },
+      {
+        "question": "Como iniciar uma conversa sobre uma divergência?",
+        "options": [
+          "Expor o conflito publicamente para constrangê-la.",
+          "Descrever o fato e buscar um acordo sobre a tarefa.",
+          "Rotular a pessoa antes de ouvi-la."
+        ],
+        "correct": 1,
+        "explanation": "Descrever o fato e buscar um acordo sobre a tarefa."
+      },
+      {
+        "question": "Como transformar feedback em melhoria?",
+        "options": [
+          "Definir uma ação observável e acompanhar seu efeito.",
+          "Aceitar qualquer julgamento sem pedir exemplos.",
+          "Explicar que não precisa mudar nada."
+        ],
+        "correct": 0,
+        "explanation": "Definir uma ação observável e acompanhar seu efeito."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Escrever uma mensagem profissional e um plano para melhorar um combinado de trabalho.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "personal_introduction",
+    "agentChallenge": "Peça ajuda para organizar sua apresentação profissional, usando apenas informações que você autorizaria compartilhar.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "cand-ia",
+    "version": 1,
+    "role": "learner",
+    "tier": 2,
+    "title": "Produtividade com IA",
+    "objective": "Usar IA em tarefas de organização, estudo e escrita com verificação humana.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Escolha uma tarefa delimitada",
+        "paragraphs": [
+          "Comece com uma atividade de baixo impacto, como organizar tópicos de estudo ou revisar um rascunho. Defina o resultado e o que você conseguirá conferir. Uma ferramenta pode produzir texto convincente e ainda errar fatos. Não delegue decisões importantes apenas porque a resposta parece segura.",
+          "Exemplo: Organizar cinco tópicos de estudo é mais verificável que pedir uma decisão definitiva sobre sua carreira."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Faça um pedido específico",
+        "paragraphs": [
+          "Informe objetivo, contexto necessário, formato e restrições. Use dados mínimos e exemplos fictícios quando possível. Não envie senhas, CPF ou informações de outras pessoas. Um bom pedido explica o problema, mas também define o que a ferramenta não deve inventar ou assumir.",
+          "Exemplo: Monte um plano de estudos de duas semanas, 30 minutos por dia, usando apenas os tópicos abaixo."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Confira antes de usar",
+        "paragraphs": [
+          "Verifique nomes, cálculos, datas e referências em fontes adequadas. Compare a resposta com sua necessidade e teste instruções em ambiente seguro. Quando não conseguir confirmar uma informação, marque-a como pendente. A responsabilidade pela publicação ou uso profissional não é transferida para a ferramenta.",
+          "Exemplo: Refiz a conta da planilha e consultei o manual antes de seguir a instrução sugerida."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Meça se houve ganho",
+        "paragraphs": [
+          "Compare tempo, qualidade e retrabalho com o método anterior. Guarde um modelo de pedido sem informações sensíveis e melhore-o aos poucos. Considere também o custo de execução. Se a revisão consumir mais tempo que o benefício, simplifique a tarefa ou volte ao processo manual.",
+          "Exemplo: Um roteiro reduziu a preparação, mas mantive a conferência dos exemplos e descartei trechos sem fonte."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Criar e testar um pedido de IA para uma tarefa de estudo ou trabalho, registrando a conferência.",
+      "template": "Tarefa:\nPedido sem dados sensíveis:\nResultado esperado:\nComo vou conferir:\nErros encontrados:\nGanho observado:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Qual tarefa é adequada para começar?",
+        "options": [
+          "Uma atividade delimitada cujo resultado você consegue conferir.",
+          "Uma decisão importante sem revisão.",
+          "Qualquer tarefa que envolva dados privados de terceiros."
+        ],
+        "correct": 0,
+        "explanation": "Uma atividade delimitada cujo resultado você consegue conferir."
+      },
+      {
+        "question": "O que melhora um pedido à IA?",
+        "options": [
+          "Quanto mais dados pessoais, melhor.",
+          "Deixar todos os critérios implícitos.",
+          "Objetivo, contexto mínimo, formato e limites."
+        ],
+        "correct": 2,
+        "explanation": "Objetivo, contexto mínimo, formato e limites."
+      },
+      {
+        "question": "O que fazer com uma informação não confirmada?",
+        "options": [
+          "Inventar uma referência para completar a resposta.",
+          "Indicar a incerteza e verificar antes de utilizar.",
+          "Publicar porque a redação parece convincente."
+        ],
+        "correct": 1,
+        "explanation": "Indicar a incerteza e verificar antes de utilizar."
+      },
+      {
+        "question": "Como avaliar produtividade com IA?",
+        "options": [
+          "Considerar tempo, qualidade, retrabalho e custo.",
+          "Contar apenas a quantidade de texto produzido.",
+          "Eliminar toda revisão para ganhar velocidade."
+        ],
+        "correct": 0,
+        "explanation": "Considerar tempo, qualidade, retrabalho e custo."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Criar e testar um pedido de IA para uma tarefa de estudo ou trabalho, registrando a conferência.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "learning_next_steps",
+    "agentChallenge": "Descreva um aprendizado e peça próximos passos práticos. Confira a resposta antes de aplicar.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "cand-carreira",
+    "version": 1,
+    "role": "learner",
+    "tier": 2,
+    "title": "Plano de carreira na prática",
+    "objective": "Transformar um objetivo profissional em ações acompanháveis de 90 dias.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Defina a direção",
+        "paragraphs": [
+          "Especifique a função ou competência que deseja desenvolver e por que ela importa. Diferencie um desejo de uma meta sobre a qual você pode agir. Conseguir uma promoção depende de fatores externos; concluir um projeto e apresentar evidências de competência está mais diretamente sob seu controle.",
+          "Exemplo: Em 90 dias, concluir um projeto de CAD e apresentar um portfólio revisado para oportunidades de desenho."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Mapeie a situação atual",
+        "paragraphs": [
+          "Liste competências já demonstradas, lacunas e recursos disponíveis. Use requisitos de vagas reais como referência, sem confundir frequência de anúncios com garantia de contratação. Considere tempo, acesso a ferramentas e orçamento. Comece pela lacuna que mais limita seu objetivo e que você consegue trabalhar agora.",
+          "Exemplo: Tenho leitura de desenho e preciso praticar detalhamento; disponho de quatro horas semanais."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Organize os 90 dias",
+        "paragraphs": [
+          "Divida o período em aprender, aplicar e demonstrar. Reserve blocos realistas na semana e produza entregas pequenas. Inclua margem para imprevistos e evite acumular cursos sem prática. Um projeto simples concluído pode gerar evidência melhor que vários estudos iniciados e abandonados.",
+          "Exemplo: Mês 1: fundamentos; mês 2: projeto; mês 3: revisão, apresentação e candidaturas pertinentes."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Revise a rota",
+        "paragraphs": [
+          "Faça uma revisão semanal curta: o que concluiu, qual evidência produziu e o que impediu o avanço. Ajuste prazos ou atividades sem perder o objetivo principal. Ao fim do ciclo, compare a situação inicial com a entrega. Mudanças de contexto podem justificar redefinir a meta de forma consciente.",
+          "Exemplo: Ao perder uma semana, reduzi o escopo do projeto e preservei a entrega principal."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Montar um plano de 90 dias com três entregas e revisão semanal.",
+      "template": "Meta:\nEvidência de conclusão:\nCompetências atuais e lacunas:\nEntrega de cada mês:\nAgenda semanal:\nCritério de revisão:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Qual meta permite acompanhar ações próprias?",
+        "options": [
+          "Concluir um projeto verificável dentro de um prazo definido.",
+          "Garantir uma promoção independente das condições.",
+          "Ser melhor em tudo sem prazo ou evidência."
+        ],
+        "correct": 0,
+        "explanation": "Concluir um projeto verificável dentro de um prazo definido."
+      },
+      {
+        "question": "Como priorizar uma lacuna?",
+        "options": [
+          "Pela quantidade de cursos comprados.",
+          "Pelo tema mais popular, mesmo sem relação com a meta.",
+          "Pela relação com a meta e pela possibilidade de agir sobre ela."
+        ],
+        "correct": 2,
+        "explanation": "Pela relação com a meta e pela possibilidade de agir sobre ela."
+      },
+      {
+        "question": "O que deve acompanhar o estudo?",
+        "options": [
+          "Iniciar o maior número possível de cursos.",
+          "Uma aplicação prática com entrega verificável.",
+          "Apenas assistir a conteúdos sem produzir nada."
+        ],
+        "correct": 1,
+        "explanation": "Uma aplicação prática com entrega verificável."
+      },
+      {
+        "question": "O que fazer quando o plano fica inviável?",
+        "options": [
+          "Revisar escopo e prazo com base no que aconteceu.",
+          "Abandonar toda a meta sem analisar.",
+          "Manter promessas impossíveis sem ajustar o plano."
+        ],
+        "correct": 0,
+        "explanation": "Revisar escopo e prazo com base no que aconteceu."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Montar um plano de 90 dias com três entregas e revisão semanal.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "study_plan",
+    "agentChallenge": "Peça um plano de estudos informando objetivo, conhecimentos, prazo e tempo disponível.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "cand-negociacao",
+    "version": 1,
+    "role": "learner",
+    "tier": 2,
+    "title": "Negociação e valorização profissional",
+    "objective": "Preparar conversas sobre remuneração e responsabilidades com argumentos verificáveis.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Prepare sua contribuição",
+        "paragraphs": [
+          "Reúna entregas, responsabilidades e aprendizados pertinentes à função. Separe contribuição individual de resultado coletivo. Seu argumento deve demonstrar valor e evolução, sem ameaças ou comparação depreciativa com colegas. Não prometa resultados que dependem de recursos ou decisões fora do seu controle.",
+          "Exemplo: Passei a organizar a conferência dos desenhos e posso mostrar o procedimento e os registros de revisão."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Compare condições completas",
+        "paragraphs": [
+          "Considere remuneração, benefícios, jornada, deslocamento, desenvolvimento e estabilidade das condições oferecidas. Valores isolados podem esconder diferenças importantes. Use informações públicas verificáveis como referência e reconheça limites de comparação entre funções e regiões. Evite tratar uma estimativa como promessa de mercado.",
+          "Exemplo: Uma oferta maior exige deslocamento adicional; compare o impacto total antes de decidir."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Estruture a conversa",
+        "paragraphs": [
+          "Defina pedido, justificativa e alternativas aceitáveis. Solicite um momento adequado e faça perguntas sobre critérios e possibilidades. Escute as restrições apresentadas sem abandonar seus interesses. A conversa pode resultar em prazo de revisão, mudança de responsabilidades ou desenvolvimento, e não necessariamente em aumento imediato.",
+          "Exemplo: Gostaria de revisar minhas responsabilidades e entender quais critérios permitem uma evolução de faixa."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Registre os próximos passos",
+        "paragraphs": [
+          "Ao concluir, confirme o que foi combinado, por quem e até quando. Diferencie proposta, intenção e condição formalizada. Leia documentos antes de aceitar e busque orientação especializada quando houver dúvidas contratuais. Se não houver acordo, registre o aprendizado e avalie alternativas com calma.",
+          "Exemplo: Combinamos revisar o tema em 60 dias após a entrega do projeto; anotei os critérios discutidos."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Preparar um roteiro de negociação com evidências, pedido e alternativas.",
+      "template": "Tema da conversa:\nTrês evidências:\nPedido principal:\nAlternativas aceitáveis:\nPerguntas sobre critérios:\nPróximo passo esperado:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Qual base fortalece uma negociação?",
+        "options": [
+          "Contribuições e responsabilidades sustentadas por evidências.",
+          "Comparações depreciativas com colegas.",
+          "Ameaças sem intenção ou condições de cumprir."
+        ],
+        "correct": 0,
+        "explanation": "Contribuições e responsabilidades sustentadas por evidências."
+      },
+      {
+        "question": "Como comparar duas ofertas?",
+        "options": [
+          "Olhar somente o maior valor anunciado.",
+          "Assumir que todas as funções e regiões são iguais.",
+          "Considerar condições completas e prioridades pessoais."
+        ],
+        "correct": 2,
+        "explanation": "Considerar condições completas e prioridades pessoais."
+      },
+      {
+        "question": "Como apresentar o pedido?",
+        "options": [
+          "Fazer um pedido vago e esperar que adivinhem.",
+          "Com objetivo claro, evidências e abertura para discutir critérios.",
+          "Exigir resposta imediata sem contexto."
+        ],
+        "correct": 1,
+        "explanation": "Com objetivo claro, evidências e abertura para discutir critérios."
+      },
+      {
+        "question": "O que fazer após a conversa?",
+        "options": [
+          "Confirmar próximos passos e distinguir intenção de acordo formalizado.",
+          "Tratar toda conversa como garantia de aumento.",
+          "Deixar critérios e prazos indefinidos."
+        ],
+        "correct": 0,
+        "explanation": "Confirmar próximos passos e distinguir intenção de acordo formalizado."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Preparar um roteiro de negociação com evidências, pedido e alternativas.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "salary_negotiation",
+    "agentChallenge": "Peça ajuda para estruturar argumentos, sem informar dados salariais identificáveis de colegas.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "cand-lideranca",
+    "version": 1,
+    "role": "learner",
+    "tier": 3,
+    "title": "Preparação para liderança",
+    "objective": "Praticar orientação de tarefas, acompanhamento e resolução responsável de conflitos.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Liderar é dar direção",
+        "paragraphs": [
+          "Liderança não se resume a distribuir ordens. Esclareça objetivos, prioridades e critérios de qualidade. Reconheça limites de sua autoridade e evite assumir compromissos em nome da equipe sem alinhamento. Uma direção clara permite que as pessoas entendam a finalidade do trabalho e sinalizem riscos.",
+          "Exemplo: Expliquei a entrega esperada e quais decisões precisariam de validação do responsável."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Delegue com acompanhamento",
+        "paragraphs": [
+          "Combine tarefa, resultado esperado, recursos e momentos de conferência. Considere experiência e carga da pessoa, sem delegar apenas o que ninguém quer fazer. Acompanhar não exige controlar cada movimento. Dê espaço para perguntas e intervenha quando houver risco relevante ao resultado ou às pessoas.",
+          "Exemplo: Combinamos uma primeira versão na quarta e revisão conjunta antes da entrega final."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Converse sobre fatos",
+        "paragraphs": [
+          "Em feedback ou conflito, descreva situações específicas e seu impacto no trabalho. Ouça explicações e combine uma mudança observável. Não use a IA para rotular personalidade ou decidir punição. Situações graves exigem os canais e responsáveis adequados, preservando confidencialidade e respeito.",
+          "Exemplo: Na última entrega faltaram duas conferências; vamos revisar o checklist e testar na próxima."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Aprenda com a equipe",
+        "paragraphs": [
+          "Revise o resultado e o processo com quem executou. Reconheça contribuições e identifique um ajuste por ciclo. Liderança envolve aprender com o erro sem ignorar responsabilidades. Registre padrões úteis e acompanhe se a melhoria foi mantida, evitando transformar toda revisão em busca por culpados.",
+          "Exemplo: A equipe percebeu que uma confirmação antecipada evitaria retrabalho e incluiu esse passo na rotina."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Planejar a delegação de uma tarefa e uma conversa de acompanhamento.",
+      "template": "Objetivo da tarefa:\nResponsável e recursos:\nCritérios de qualidade:\nPontos de conferência:\nRiscos e apoio:\nMelhoria para o próximo ciclo:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "O que uma direção clara inclui?",
+        "options": [
+          "Objetivo, prioridades e critérios de qualidade.",
+          "Somente ordens sem explicar o resultado.",
+          "Compromissos impossíveis assumidos sem consultar a equipe."
+        ],
+        "correct": 0,
+        "explanation": "Objetivo, prioridades e critérios de qualidade."
+      },
+      {
+        "question": "Como delegar de forma responsável?",
+        "options": [
+          "Transferir a tarefa e desaparecer.",
+          "Controlar cada passo sem permitir autonomia.",
+          "Combinar resultado, recursos e acompanhamento adequado."
+        ],
+        "correct": 2,
+        "explanation": "Combinar resultado, recursos e acompanhamento adequado."
+      },
+      {
+        "question": "Qual abordagem favorece um feedback útil?",
+        "options": [
+          "Exposição pública como forma de pressão.",
+          "Fatos específicos, escuta e ação observável.",
+          "Rótulos sobre a personalidade da pessoa."
+        ],
+        "correct": 1,
+        "explanation": "Fatos específicos, escuta e ação observável."
+      },
+      {
+        "question": "Como encerrar um ciclo de trabalho?",
+        "options": [
+          "Revisar resultado e processo e combinar uma melhoria.",
+          "Procurar apenas quem culpar.",
+          "Ignorar o que a equipe aprendeu."
+        ],
+        "correct": 0,
+        "explanation": "Revisar resultado e processo e combinar uma melhoria."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Planejar a delegação de uma tarefa e uma conversa de acompanhamento.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "promotion_preparation",
+    "agentChallenge": "Organize evidências de responsabilidade e contribuição para preparar uma conversa de promoção.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "cand-portfolio",
+    "version": 1,
+    "role": "learner",
+    "tier": 3,
+    "title": "Portfólio e posicionamento profissional",
+    "objective": "Selecionar projetos e apresentar evidências de competência de maneira responsável.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Escolha evidências pertinentes",
+        "paragraphs": [
+          "Selecione projetos relacionados às oportunidades desejadas. Cada item deve mostrar um problema, sua participação e uma entrega. Projetos de estudo também podem ser usados quando identificados como tal. Quantidade não substitui pertinência; poucos casos bem explicados facilitam entender o que você realmente sabe fazer.",
+          "Exemplo: Um projeto escolar de suporte pode demonstrar modelagem e detalhamento se sua participação estiver clara."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Conte a história do projeto",
+        "paragraphs": [
+          "Apresente contexto, restrições, escolhas e resultado. Explique por que tomou determinada decisão e o que aprendeu. Evite jargão sem necessidade e não use números não comprovados. Mostrar uma revisão bem justificada pode demonstrar mais maturidade que ocultar todas as dificuldades do processo.",
+          "Exemplo: O suporte precisava caber em um espaço limitado; comparei duas soluções e expliquei a escolha final."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Proteja autoria e informações",
+        "paragraphs": [
+          "Confira autorização antes de publicar imagens, desenhos ou dados de clientes e empregadores. Remova identificadores e detalhes confidenciais; quando necessário, crie uma versão fictícia. Cite colaboração e materiais de terceiros. O fato de você ter trabalhado em um projeto não significa autorização automática para divulgá-lo.",
+          "Exemplo: Recriei um exemplo genérico, sem medidas ou nome do cliente, para demonstrar a técnica."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Apresente e atualize",
+        "paragraphs": [
+          "Organize uma abertura curta e facilite a leitura das evidências. Revise links, imagens e contatos antes de compartilhar. Peça a alguém para explicar o que entendeu do seu trabalho. Atualize o portfólio quando houver uma entrega mais relevante, mantendo versões coerentes com seu objetivo profissional.",
+          "Exemplo: Troquei cinco imagens repetidas por um caso explicado e conferi os links antes da candidatura."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Estruturar dois casos de portfólio com contexto, contribuição, evidência e revisão de autorização.",
+      "template": "Caso e objetivo:\nProblema e restrições:\nMinha contribuição:\nEvidência da entrega:\nColaborações e autorizações:\nAprendizado e próximo ajuste:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Qual projeto merece entrar no portfólio?",
+        "options": [
+          "Um caso pertinente que demonstre sua contribuição e entrega.",
+          "Qualquer imagem bonita sem explicar autoria.",
+          "Trabalho de outra pessoa apresentado como próprio."
+        ],
+        "correct": 0,
+        "explanation": "Um caso pertinente que demonstre sua contribuição e entrega."
+      },
+      {
+        "question": "O que torna um caso compreensível?",
+        "options": [
+          "Somente uma lista de ferramentas.",
+          "Promessas de desempenho que não foram testadas.",
+          "Contexto, escolhas, participação e resultado."
+        ],
+        "correct": 2,
+        "explanation": "Contexto, escolhas, participação e resultado."
+      },
+      {
+        "question": "Quando divulgar um trabalho de cliente?",
+        "options": [
+          "Sem autorização, desde que a imagem seja pequena.",
+          "Após conferir autorização e remover informações que não podem ser expostas.",
+          "Sempre que ele valorizar o currículo."
+        ],
+        "correct": 1,
+        "explanation": "Após conferir autorização e remover informações que não podem ser expostas."
+      },
+      {
+        "question": "Como avaliar a clareza do portfólio?",
+        "options": [
+          "Verificar se outra pessoa entende sua contribuição e as evidências.",
+          "Contar apenas o número de páginas.",
+          "Usar o máximo possível de termos técnicos."
+        ],
+        "correct": 0,
+        "explanation": "Verificar se outra pessoa entende sua contribuição e as evidências."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Estruturar dois casos de portfólio com contexto, contribuição, evidência e revisão de autorização.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "portfolio_review",
+    "agentChallenge": "Descreva seus projetos em texto autorizado; o agente não acessa automaticamente links ou arquivos externos.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "cand-transicao",
+    "version": 1,
+    "role": "learner",
+    "tier": 3,
+    "title": "Transição de carreira com planejamento",
+    "objective": "Planejar uma mudança de área com evidências, experimentos e limites realistas.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Entenda a motivação",
+        "paragraphs": [
+          "Descreva o que deseja mudar e o que quer preservar na vida profissional. Diferencie insatisfação com uma situação específica de interesse por outra área. Evite decisões baseadas apenas em uma experiência ruim ou promessa de remuneração. Converse com profissionais e use informações verificáveis para reduzir suposições.",
+          "Exemplo: Quero trabalhar mais com projetos, mas preciso preservar uma renda mínima e tempo para estudar."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Identifique competências transferíveis",
+        "paragraphs": [
+          "Liste conhecimentos e comportamentos que já demonstrou e que podem ser úteis na nova área. Relacione cada competência a uma evidência. Reconheça também o que exige formação ou prática específica. Transferir experiência não significa declarar domínio de atividades que você ainda não realizou.",
+          "Exemplo: Experiência em atendimento pode ajudar a levantar requisitos de um projeto, mas não substitui formação técnica."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Faça um experimento pequeno",
+        "paragraphs": [
+          "Antes de uma mudança maior, teste uma atividade representativa da área. Pode ser um projeto de estudo, conversa orientada ou observação autorizada. Defina o que deseja descobrir, quanto tempo e recurso usará e como avaliará o aprendizado. Um experimento reduz incerteza, mas não garante contratação.",
+          "Exemplo: Produzi um pequeno projeto e pedi avaliação sobre clareza e critérios técnicos, sem assumir trabalho para o qual não estou habilitado."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Defina marcos de decisão",
+        "paragraphs": [
+          "Monte etapas de capacitação, portfólio e busca de oportunidades. Considere restrições financeiras sem depender de projeções otimistas. Defina sinais para avançar, ajustar ou adiar. Revise o plano em datas combinadas e evite compromissos irreversíveis enquanto informações essenciais ainda estiverem incertas.",
+          "Exemplo: Vou reavaliar após concluir o projeto, conversar com três profissionais e revisar minhas condições de tempo."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Criar um mapa de transição com competências transferíveis, lacunas, experimento e marcos de decisão.",
+      "template": "Área desejada e motivação:\nO que preciso preservar:\nCompetências com evidências:\nLacunas:\nExperimento de baixo risco:\nMarcos para avançar ou ajustar:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Qual é um bom começo para a transição?",
+        "options": [
+          "Esclarecer motivações, prioridades e limites.",
+          "Abandonar tudo com base em uma promessa.",
+          "Assumir que qualquer outra área será melhor."
+        ],
+        "correct": 0,
+        "explanation": "Esclarecer motivações, prioridades e limites."
+      },
+      {
+        "question": "Como apresentar uma competência transferível?",
+        "options": [
+          "Usá-la para afirmar domínio de toda a nova área.",
+          "Apagar a experiência anterior do currículo.",
+          "Relacioná-la a uma evidência e reconhecer seus limites."
+        ],
+        "correct": 2,
+        "explanation": "Relacioná-la a uma evidência e reconhecer seus limites."
+      },
+      {
+        "question": "Qual é a finalidade de um experimento?",
+        "options": [
+          "Substituir todas as qualificações necessárias.",
+          "Aprender sobre a área com risco e escopo limitados.",
+          "Garantir uma vaga imediatamente."
+        ],
+        "correct": 1,
+        "explanation": "Aprender sobre a área com risco e escopo limitados."
+      },
+      {
+        "question": "Como decidir o próximo passo?",
+        "options": [
+          "Usar marcos e evidências, considerando os próprios limites.",
+          "Avançar sempre, mesmo sem informação essencial.",
+          "Depender apenas do entusiasmo inicial."
+        ],
+        "correct": 0,
+        "explanation": "Usar marcos e evidências, considerando os próprios limites."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Criar um mapa de transição com competências transferíveis, lacunas, experimento e marcos de decisão.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "career_transition",
+    "agentChallenge": "Informe objetivo, experiência e restrições gerais; peça etapas, sem tratar a resposta como garantia de emprego.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "emp-vaga",
+    "version": 1,
+    "role": "recruiter",
+    "tier": 1,
+    "title": "Como escrever uma boa vaga",
+    "objective": "Descrever atividades e requisitos profissionais com clareza.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Defina a necessidade",
+        "paragraphs": [
+          "Comece pelo problema que a contratação precisa resolver. Liste entregas esperadas e interfaces da função. Separe atividades essenciais de tarefas ocasionais e valide o escopo com a área responsável. Uma descrição muito ampla dificulta recrutamento e acompanhamento.",
+          "Exemplo: A função fará detalhamento de peças; a aprovação técnica permanece com o responsável."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Selecione requisitos pertinentes",
+        "paragraphs": [
+          "Relacione cada exigência a uma atividade. Diferencie requisito essencial, desejável e competência que pode ser desenvolvida na integração. Evite critérios pessoais sem pertinência profissional. Dúvidas sobre exigências legais ou habilitação devem ser verificadas com o responsável competente.",
+          "Exemplo: Leitura de desenho é essencial; conhecer uma ferramenta específica pode ser desejável se houver treinamento."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Informe condições claras",
+        "paragraphs": [
+          "Apresente local, modalidade, vínculo e condições confirmadas. Não esconda uma atividade central atrás de um título atraente. Confira a coerência entre texto e campos do anúncio. Informações ainda indefinidas devem ser resolvidas antes da publicação ou identificadas com transparência.",
+          "Exemplo: Uma vaga presencial deve informar a localização, mesmo quando a candidatura é feita online."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Revise a divulgação",
+        "paragraphs": [
+          "Peça revisão da área solicitante e de quem conduz o recrutamento. Teste se o candidato consegue entender a rotina e como se candidatar. A IA pode apoiar a redação, mas não deve inventar benefícios, salário ou condições. Publicar continua sendo uma decisão humana.",
+          "Exemplo: Uma revisão retirou uma exigência sem uso e esclareceu a rotina de turnos."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Produzir uma descrição de vaga com atividades, requisitos essenciais e condições confirmadas.",
+      "template": "Necessidade da área:\nEntregas:\nAtividades:\nEssencial e desejável:\nCondições confirmadas:\nRevisores:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Como definir o escopo?",
+        "options": [
+          "Pelas entregas e responsabilidades reais da função.",
+          "Pelo maior número possível de tarefas.",
+          "Copiando qualquer vaga semelhante sem conferir."
+        ],
+        "correct": 0,
+        "explanation": "Pelas entregas e responsabilidades reais da função."
+      },
+      {
+        "question": "O que justifica um requisito?",
+        "options": [
+          "Preferência pessoal sem relação com o trabalho.",
+          "A intenção de reduzir candidatos a qualquer custo.",
+          "Sua relação verificável com as atividades da função."
+        ],
+        "correct": 2,
+        "explanation": "Sua relação verificável com as atividades da função."
+      },
+      {
+        "question": "O que conferir antes de publicar?",
+        "options": [
+          "Se todas as condições parecem melhores que as reais.",
+          "Coerência entre atividades, requisitos e condições informadas.",
+          "Somente se o título chama atenção."
+        ],
+        "correct": 1,
+        "explanation": "Coerência entre atividades, requisitos e condições informadas."
+      },
+      {
+        "question": "Qual é o papel da IA na vaga?",
+        "options": [
+          "Apoiar um rascunho sujeito à conferência dos responsáveis.",
+          "Definir condições sem autorização.",
+          "Publicar automaticamente qualquer resposta."
+        ],
+        "correct": 0,
+        "explanation": "Apoiar um rascunho sujeito à conferência dos responsáveis."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Produzir uma descrição de vaga com atividades, requisitos essenciais e condições confirmadas.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "job_description",
+    "agentChallenge": "Peça um rascunho de vaga usando apenas condições aprovadas; revise antes de publicar.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "emp-entrevista",
+    "version": 1,
+    "role": "recruiter",
+    "tier": 1,
+    "title": "Entrevistas com critérios objetivos",
+    "objective": "Construir perguntas e critérios relacionados ao trabalho.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Escolha competências observáveis",
+        "paragraphs": [
+          "Defina poucas competências relacionadas às entregas da vaga. Para cada uma, descreva o comportamento ou evidência que deseja observar. Termos vagos como perfil ideal precisam ser traduzidos em critérios profissionais. Não use características pessoais como atalho para avaliar capacidade.",
+          "Exemplo: Para organização, observar como a pessoa planeja tarefas e acompanha prazos."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Prepare perguntas comuns",
+        "paragraphs": [
+          "Use perguntas centrais equivalentes para candidatos da mesma função e permita esclarecimentos. Peça exemplos de situação, ação e resultado. Evite induzir uma resposta ou buscar informações pessoais sem necessidade. Explique o formato da conversa e dê tempo para organizar a resposta.",
+          "Exemplo: Conte uma situação em que precisou reorganizar prioridades e explique o que fez."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Registre evidências",
+        "paragraphs": [
+          "Anote fatos profissionais pertinentes, distinguindo o que foi dito da sua interpretação. Use uma escala com descritores claros, quando houver avaliação. Guarde registros apenas nos canais autorizados e limite o acesso aos responsáveis. Evite notas sobre vida privada ou julgamentos de personalidade.",
+          "Exemplo: Registrou como usou uma lista de prioridades; não registrou rótulos como pessoa desorganizada."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Revise a decisão humana",
+        "paragraphs": [
+          "Compare evidências pelos mesmos critérios e registre dúvidas que exigem verificação. Uma ferramenta pode ajudar a estruturar perguntas, mas não deve decidir contratação sozinha. Revise se houve influência de fatores irrelevantes e siga as regras do processo e da organização.",
+          "Exemplo: A equipe conferiu a evidência de leitura técnica antes de decidir a etapa seguinte."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Criar um roteiro com três competências, perguntas e critérios de observação.",
+      "template": "Função:\nCompetência e evidência esperada:\nPergunta principal:\nPergunta de esclarecimento:\nCritérios comuns:\nCuidados com os registros:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Como tornar um critério observável?",
+        "options": [
+          "Relacioná-lo a comportamentos e evidências da função.",
+          "Usar somente impressões de simpatia.",
+          "Definir um perfil pessoal sem relação com a vaga."
+        ],
+        "correct": 0,
+        "explanation": "Relacioná-lo a comportamentos e evidências da função."
+      },
+      {
+        "question": "O que favorece comparabilidade?",
+        "options": [
+          "Mudar todos os critérios a cada entrevista.",
+          "Fazer apenas perguntas que confirmem a primeira impressão.",
+          "Perguntas centrais e critérios equivalentes para a mesma função."
+        ],
+        "correct": 2,
+        "explanation": "Perguntas centrais e critérios equivalentes para a mesma função."
+      },
+      {
+        "question": "Qual registro é mais adequado?",
+        "options": [
+          "Um rótulo sem exemplo ou contexto.",
+          "Uma evidência profissional vinculada ao critério avaliado.",
+          "Uma opinião sobre a vida privada."
+        ],
+        "correct": 1,
+        "explanation": "Uma evidência profissional vinculada ao critério avaliado."
+      },
+      {
+        "question": "Como usar a avaliação?",
+        "options": [
+          "Como apoio documentado à decisão humana responsável.",
+          "Como decisão automática sem revisão.",
+          "Como justificativa para ignorar critérios definidos."
+        ],
+        "correct": 0,
+        "explanation": "Como apoio documentado à decisão humana responsável."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Criar um roteiro com três competências, perguntas e critérios de observação.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "interview_questions",
+    "agentChallenge": "Peça perguntas sobre competências da função, sem enviar currículos ou dados identificados de candidatos.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "emp-integracao",
+    "version": 1,
+    "role": "recruiter",
+    "tier": 1,
+    "title": "Integração de novos colaboradores",
+    "objective": "Organizar os primeiros 30 dias com orientação e acompanhamento.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Prepare a chegada",
+        "paragraphs": [
+          "Defina responsável pela recepção, agenda inicial e recursos autorizados. Confirme quais acessos são necessários e quem os concede. Informações e atividades de segurança devem ser conduzidas pelos responsáveis competentes; um roteiro genérico não substitui treinamento obrigatório.",
+          "Exemplo: O responsável solicita acesso individual e prepara uma apresentação da rotina antes da chegada."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Explique a rotina",
+        "paragraphs": [
+          "Apresente objetivos da função, canais de apoio e padrões de trabalho. Evite concentrar toda a informação no primeiro dia. Combine onde consultar procedimentos e com quem esclarecer dúvidas. Demonstre uma tarefa e verifique entendimento antes de exigir autonomia.",
+          "Exemplo: O novo colaborador acompanha uma tarefa e depois explica o procedimento com suas palavras."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Planeje entregas graduais",
+        "paragraphs": [
+          "Distribua atividades de complexidade crescente e reserve momentos de acompanhamento. Os marcos de 7, 15 e 30 dias são uma referência de organização, não uma garantia de adaptação. Ajuste o roteiro às necessidades da função e às evidências observadas.",
+          "Exemplo: Na primeira semana há observação; depois uma tarefa simples acompanhada e revisão conjunta."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Revise a experiência",
+        "paragraphs": [
+          "Converse sobre dúvidas, recursos e dificuldades do processo. Use fatos para ajustar o roteiro e identifique o que a organização precisa melhorar. Não trate uma dificuldade inicial como rótulo permanente. Guarde apenas informações necessárias ao acompanhamento autorizado.",
+          "Exemplo: A revisão mostrou que faltava um manual atualizado; a área assumiu a correção."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Montar um roteiro de 30 dias com responsáveis, recursos e três pontos de acompanhamento.",
+      "template": "Função:\nPreparação antes da chegada:\nPrimeira semana:\nMarcos de 15 e 30 dias:\nResponsáveis e canais:\nComo revisar o roteiro:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Qual cuidado é essencial com acessos?",
+        "options": [
+          "Conceder apenas acessos necessários e individuais pelos canais autorizados.",
+          "Compartilhar a senha do colega.",
+          "Liberar todos os sistemas por conveniência."
+        ],
+        "correct": 0,
+        "explanation": "Conceder apenas acessos necessários e individuais pelos canais autorizados."
+      },
+      {
+        "question": "Como conferir entendimento?",
+        "options": [
+          "Assumir que uma apresentação prova domínio.",
+          "Evitar perguntas para acelerar a integração.",
+          "Pedir explicação ou execução acompanhada da tarefa."
+        ],
+        "correct": 2,
+        "explanation": "Pedir explicação ou execução acompanhada da tarefa."
+      },
+      {
+        "question": "Como definir as primeiras entregas?",
+        "options": [
+          "Com metas iguais para qualquer função.",
+          "De forma gradual e coerente com a função e o apoio disponível.",
+          "Com cobrança integral sem orientação."
+        ],
+        "correct": 1,
+        "explanation": "De forma gradual e coerente com a função e o apoio disponível."
+      },
+      {
+        "question": "O que revisar na integração?",
+        "options": [
+          "A aprendizagem da pessoa e as condições oferecidas pela organização.",
+          "Somente os erros do recém-chegado.",
+          "Apenas se todas as caixas foram marcadas."
+        ],
+        "correct": 0,
+        "explanation": "A aprendizagem da pessoa e as condições oferecidas pela organização."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Montar um roteiro de 30 dias com responsáveis, recursos e três pontos de acompanhamento.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "onboarding_script",
+    "agentChallenge": "Solicite um roteiro usando função e rotinas gerais, sem informações privadas do colaborador.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "emp-feedback",
+    "version": 1,
+    "role": "recruiter",
+    "tier": 2,
+    "title": "Feedback que gera desenvolvimento",
+    "objective": "Conduzir conversas com fatos, expectativas e ações de melhoria.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Prepare fatos e finalidade",
+        "paragraphs": [
+          "Defina por que a conversa é necessária e selecione situações recentes e específicas. Descreva comportamento e impacto no trabalho sem diagnosticar intenções ou personalidade. Escolha um momento e ambiente adequados, preservando privacidade e possibilidade de escuta.",
+          "Exemplo: Em duas entregas faltou a conferência prevista, gerando necessidade de revisão."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Escute antes de concluir",
+        "paragraphs": [
+          "Apresente a situação e peça a perspectiva da outra pessoa. Verifique se a expectativa estava clara e se havia recursos para cumpri-la. Ouvir não elimina responsabilidade; ajuda a definir uma resposta mais adequada. Não transforme a conversa em interrogatório ou exposição pública.",
+          "Exemplo: A pessoa explicou que duas versões do procedimento estavam em circulação."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Combine ações observáveis",
+        "paragraphs": [
+          "Defina uma mudança concreta, apoio necessário e prazo de acompanhamento. Evite pedidos vagos como melhorar a atitude. Cada parte deve compreender sua responsabilidade. Reconheça comportamentos que devem ser mantidos e registre somente o necessário nos canais autorizados.",
+          "Exemplo: Usar o checklist atualizado e revisar as próximas três entregas com o responsável."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Acompanhe sem rotular",
+        "paragraphs": [
+          "Retome o combinado e compare evidências. Se não houve avanço, investigue obstáculos e ajuste o plano com os responsáveis. A IA pode apoiar um roteiro com dados genéricos, mas não substitui decisões de gestão nem deve receber relatos identificados de trabalhadores.",
+          "Exemplo: Após três entregas, a equipe comparou o checklist e ajustou um passo ambíguo."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Preparar um roteiro de feedback com fatos, escuta, ação e acompanhamento.",
+      "template": "Situação fictícia ou sem identificação:\nFato e impacto:\nPergunta de escuta:\nAção e apoio:\nPrazo:\nEvidência de melhoria:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Qual é uma base adequada para feedback?",
+        "options": [
+          "Fatos específicos e impacto no trabalho.",
+          "Suposições sobre intenção.",
+          "Rótulos sobre personalidade."
+        ],
+        "correct": 0,
+        "explanation": "Fatos específicos e impacto no trabalho."
+      },
+      {
+        "question": "Por que ouvir a outra perspectiva?",
+        "options": [
+          "Para coletar argumentos de constrangimento.",
+          "Para abandonar qualquer expectativa de melhoria.",
+          "Para compreender contexto e definir ações pertinentes."
+        ],
+        "correct": 2,
+        "explanation": "Para compreender contexto e definir ações pertinentes."
+      },
+      {
+        "question": "Qual combinado é mais verificável?",
+        "options": [
+          "Nunca mais cometer qualquer erro.",
+          "Uma ação concreta com prazo e forma de acompanhar.",
+          "Ser mais profissional, sem exemplos."
+        ],
+        "correct": 1,
+        "explanation": "Uma ação concreta com prazo e forma de acompanhar."
+      },
+      {
+        "question": "Como acompanhar o feedback?",
+        "options": [
+          "Comparar evidências com o combinado e ajustar o apoio necessário.",
+          "Usar a conversa como rótulo permanente.",
+          "Delegar decisões sobre pessoas integralmente à IA."
+        ],
+        "correct": 0,
+        "explanation": "Comparar evidências com o combinado e ajustar o apoio necessário."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Preparar um roteiro de feedback com fatos, escuta, ação e acompanhamento.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "feedback_conversation",
+    "agentChallenge": "Use um cenário fictício ou desidentificado para pedir um roteiro, sem diagnósticos sobre pessoas.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "emp-competencias",
+    "version": 1,
+    "role": "recruiter",
+    "tier": 2,
+    "title": "Treinamento da equipe por competências",
+    "objective": "Priorizar lacunas e organizar uma trilha com aplicação prática.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Parta das entregas",
+        "paragraphs": [
+          "Identifique as entregas prioritárias da área e quais competências as sustentam. Diferencie falta de conhecimento de problema de processo, ferramenta ou recurso. Nem toda dificuldade se resolve com treinamento. Trabalhe com informações agregadas e evite expor avaliações individuais desnecessárias.",
+          "Exemplo: Atrasos podem decorrer de uma aprovação confusa, não de falta de curso."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Priorize uma lacuna",
+        "paragraphs": [
+          "Compare relevância, frequência e possibilidade de aplicação. Escolha um foco inicial e defina o comportamento esperado após a capacitação. Considere os conhecimentos prévios da equipe de forma agregada. Uma lista longa de cursos sem prioridade consome tempo sem assegurar melhoria.",
+          "Exemplo: Priorizar leitura de tolerâncias antes de um curso avançado de modelagem."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Combine aprender e aplicar",
+        "paragraphs": [
+          "Monte uma sequência de explicação, exemplo, prática e acompanhamento. Reserve tempo na rotina para aplicar o aprendizado com apoio. Defina critérios de verificação antes de começar. Participar de uma aula e demonstrar competência são coisas diferentes.",
+          "Exemplo: Após estudar o checklist, a equipe aplica o método em um caso e recebe retorno."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Revise resultados agregados",
+        "paragraphs": [
+          "Compare evidências antes e depois, observando mudanças de contexto. Não atribua todo resultado ao treinamento sem análise. Use os achados para manter, ajustar ou substituir a trilha. Preserve acesso restrito aos registros individuais que forem legitimamente necessários.",
+          "Exemplo: A redução de retrabalho foi analisada junto com a troca de ferramenta no mesmo período."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Criar uma trilha para uma lacuna prioritária com prática e critério de verificação.",
+      "template": "Entrega prioritária:\nLacuna e evidência agregada:\nO que não é problema de treinamento:\nSequência de aprendizagem:\nPrática e apoio:\nComo verificar e revisar:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Quando treinamento é pertinente?",
+        "options": [
+          "Quando uma lacuna de competência contribui para o problema observado.",
+          "Sempre que houver qualquer dificuldade.",
+          "Somente para substituir a revisão de processos."
+        ],
+        "correct": 0,
+        "explanation": "Quando uma lacuna de competência contribui para o problema observado."
+      },
+      {
+        "question": "Como escolher o primeiro tema?",
+        "options": [
+          "Pelo maior número de horas disponíveis.",
+          "Pela novidade, sem relação com o trabalho.",
+          "Pela relevância para a entrega e pela lacuna demonstrada."
+        ],
+        "correct": 2,
+        "explanation": "Pela relevância para a entrega e pela lacuna demonstrada."
+      },
+      {
+        "question": "O que deve acompanhar uma capacitação?",
+        "options": [
+          "Um certificado tratado como prova suficiente de domínio.",
+          "Aplicação prática com critérios e acompanhamento.",
+          "Apenas presença registrada."
+        ],
+        "correct": 1,
+        "explanation": "Aplicação prática com critérios e acompanhamento."
+      },
+      {
+        "question": "Como interpretar melhoria após um curso?",
+        "options": [
+          "Considerando evidências e outros fatores que também mudaram.",
+          "Atribuindo qualquer resultado exclusivamente ao curso.",
+          "Ignorando as condições de aplicação."
+        ],
+        "correct": 0,
+        "explanation": "Considerando evidências e outros fatores que também mudaram."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Criar uma trilha para uma lacuna prioritária com prática e critério de verificação.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "training_paths",
+    "agentChallenge": "Informe competências e lacunas agregadas e peça uma trilha sem identificar colaboradores.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "emp-ia",
+    "version": 1,
+    "role": "recruiter",
+    "tier": 2,
+    "title": "IA aplicada às rotinas da empresa",
+    "objective": "Usar IA em rascunhos e organização de processos com controles adequados.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Escolha o processo",
+        "paragraphs": [
+          "Mapeie uma tarefa repetitiva e defina sua entrada, saída e revisão. Comece com baixo impacto, como um rascunho de comunicado. Estabeleça um responsável pela conferência. Não automatize decisões sobre pessoas, pagamentos ou compromissos contratuais apenas por conveniência.",
+          "Exemplo: Organizar tópicos de uma reunião pública em um rascunho de pauta."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Minimize os dados",
+        "paragraphs": [
+          "Use conteúdo próprio autorizado ou exemplos fictícios. Remova contatos, documentos e informações confidenciais. Não presuma anonimização apenas por retirar o nome: detalhes podem identificar alguém. Defina o que não pode sair da organização e siga sua política de uso de ferramentas.",
+          "Exemplo: Substituir um relato de cliente por um cenário genérico que não permita reconhecê-lo."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Crie e revise o rascunho",
+        "paragraphs": [
+          "Informe público, objetivo, formato e restrições. Confira fatos, datas, números e tom antes de usar. A IA pode inventar condições ou procedimentos, mesmo em um texto bem escrito. Não aprove um comunicado sem verificar com a área responsável.",
+          "Exemplo: Um aviso de mudança de horário só usa datas e condições previamente confirmadas."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Avalie o uso",
+        "paragraphs": [
+          "Compare qualidade, tempo e retrabalho. Registre um modelo de pedido sem dados privados e revise-o quando o processo mudar. Mantenha alternativa manual para falhas. A ferramenta apoia o processo; não assume responsabilidade pela publicação ou envio.",
+          "Exemplo: O rascunho ajudou a organizar o aviso, mas o responsável ajustou uma condição incorreta."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Produzir um procedimento de uso de IA para um comunicado interno, com revisão e dados permitidos.",
+      "template": "Tarefa e finalidade:\nDados permitidos e proibidos:\nPedido-modelo:\nResponsável pela revisão:\nChecklist antes de usar:\nAlternativa manual:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Qual tarefa é adequada ao primeiro teste?",
+        "options": [
+          "Uma tarefa delimitada e de baixo impacto com revisão definida.",
+          "Uma decisão sensível sem conferência.",
+          "Um processo sem responsável."
+        ],
+        "correct": 0,
+        "explanation": "Uma tarefa delimitada e de baixo impacto com revisão definida."
+      },
+      {
+        "question": "Retirar o nome garante anonimato?",
+        "options": [
+          "Sim, em qualquer situação.",
+          "Sim, se o texto tiver poucas linhas.",
+          "Não; detalhes do contexto também podem identificar a pessoa."
+        ],
+        "correct": 2,
+        "explanation": "Não; detalhes do contexto também podem identificar a pessoa."
+      },
+      {
+        "question": "O que conferir em um comunicado gerado?",
+        "options": [
+          "Se ele parece mais autoritário que o original.",
+          "Fatos, condições aprovadas, público e ação esperada.",
+          "Apenas a aparência do texto."
+        ],
+        "correct": 1,
+        "explanation": "Fatos, condições aprovadas, público e ação esperada."
+      },
+      {
+        "question": "Como decidir se o uso deve continuar?",
+        "options": [
+          "Pelo ganho observado, pelos riscos e pela capacidade de revisão.",
+          "Pela quantidade de respostas geradas.",
+          "Pela eliminação de todo controle humano."
+        ],
+        "correct": 0,
+        "explanation": "Pelo ganho observado, pelos riscos e pela capacidade de revisão."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Produzir um procedimento de uso de IA para um comunicado interno, com revisão e dados permitidos.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "internal_announcements",
+    "agentChallenge": "Peça um comunicado com fatos confirmados e público definido; o agente não o envia automaticamente.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "emp-indicadores",
+    "version": 1,
+    "role": "recruiter",
+    "tier": 3,
+    "title": "Indicadores de recrutamento e desenvolvimento",
+    "objective": "Interpretar indicadores agregados e propor ações verificáveis.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Formule uma pergunta",
+        "paragraphs": [
+          "Comece pela decisão que deseja apoiar. Defina o processo, período e população observada. Uma medida isolada sem contexto pode induzir conclusões erradas. Prefira poucos indicadores vinculados a uma pergunta de gestão e documente como são calculados.",
+          "Exemplo: Queremos entender em qual etapa o processo demora, não apenas contar candidaturas."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Confira denominadores",
+        "paragraphs": [
+          "Defina o que entra em cada contagem e diferencie quantidade de taxa. Compare períodos e grupos compatíveis. Amostras pequenas exigem cautela e não devem revelar pessoas. A ausência de um registro não prova que uma atividade não ocorreu.",
+          "Exemplo: Cinco aprovações em dez entrevistas representam uma proporção diferente de cinco em cinquenta."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Investigue explicações",
+        "paragraphs": [
+          "Observe variações junto com mudanças de processo, volume e recursos. Correlação não demonstra causa. Use o indicador para orientar perguntas e conferir hipóteses com os responsáveis. Evite classificações automáticas ou conclusões sobre uma pessoa com base em dados agregados.",
+          "Exemplo: O prazo aumentou no mês em que a vaga passou a exigir uma nova etapa técnica."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Teste uma melhoria",
+        "paragraphs": [
+          "Escolha uma ação pequena, responsável e prazo de revisão. Defina o que espera observar e quais efeitos indesejados acompanhará. Mantenha a forma de medir estável durante o teste. Se o resultado não apoiar a hipótese, registre e ajuste.",
+          "Exemplo: Testar um agendamento mais claro e conferir faltas e tempo de resposta no ciclo seguinte."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Criar uma ficha de indicador agregado e um experimento de melhoria.",
+      "template": "Pergunta de gestão:\nIndicador e fórmula:\nPeríodo e amostra:\nLimitações:\nHipótese e ação:\nResponsável e revisão:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Como escolher um indicador?",
+        "options": [
+          "Pela pergunta de gestão e pelo método de cálculo definido.",
+          "Pela facilidade de produzir um número alto.",
+          "Pela intenção de comparar pessoas sem contexto."
+        ],
+        "correct": 0,
+        "explanation": "Pela pergunta de gestão e pelo método de cálculo definido."
+      },
+      {
+        "question": "O que uma taxa precisa informar?",
+        "options": [
+          "Apenas o número mais favorável.",
+          "Uma porcentagem sem base de cálculo.",
+          "Numerador, denominador, período e critérios da contagem."
+        ],
+        "correct": 2,
+        "explanation": "Numerador, denominador, período e critérios da contagem."
+      },
+      {
+        "question": "Como interpretar uma mudança no indicador?",
+        "options": [
+          "Usar a variação como rótulo sobre uma pessoa.",
+          "Investigar contexto e hipóteses antes de atribuir uma causa.",
+          "Assumir que o curso ou a ferramenta causou tudo."
+        ],
+        "correct": 1,
+        "explanation": "Investigar contexto e hipóteses antes de atribuir uma causa."
+      },
+      {
+        "question": "Como usar o indicador para melhorar?",
+        "options": [
+          "Testar uma ação com medida e prazo de revisão.",
+          "Mudar todos os critérios a cada resultado.",
+          "Ocultar resultados que não confirmam a hipótese."
+        ],
+        "correct": 0,
+        "explanation": "Testar uma ação com medida e prazo de revisão."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Criar uma ficha de indicador agregado e um experimento de melhoria.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "recruiting_metrics",
+    "agentChallenge": "Forneça apenas números agregados, sem nomes ou grupos que permitam identificar pessoas.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "emp-sucessao",
+    "version": 1,
+    "role": "recruiter",
+    "tier": 3,
+    "title": "Desenvolvimento de lideranças e sucessão",
+    "objective": "Planejar competências de funções estratégicas com revisão responsável.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Mapeie funções críticas",
+        "paragraphs": [
+          "Identifique atividades cuja interrupção compromete o serviço e explique por quê. Mapeie conhecimentos e decisões envolvidos, sem começar por nomes de possíveis sucessores. Considere documentação, distribuição de conhecimento e continuidade operacional como parte do problema.",
+          "Exemplo: Uma única função conhece a rotina de fechamento; documentar o processo reduz dependência."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Defina competências de liderança",
+        "paragraphs": [
+          "Traduza expectativas em comportamentos observáveis: orientar, decidir dentro da alçada, acompanhar e desenvolver. Diferencie competência técnica de capacidade de liderar. Use critérios pertinentes e transparentes, sujeitos à revisão dos responsáveis pela gestão de pessoas.",
+          "Exemplo: Saber executar uma tarefa não demonstra, sozinho, capacidade de orientar a equipe."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Crie oportunidades de prática",
+        "paragraphs": [
+          "Planeje acompanhamento, documentação e experiências de responsabilidade gradual. Confirme autorização, apoio e limites de decisão. O plano não deve prometer promoção ou substituir processos formais. Avalie as condições oferecidas para que o desenvolvimento seja viável.",
+          "Exemplo: Uma pessoa acompanha uma reunião e depois conduz uma pauta limitada com apoio."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Revise com critérios humanos",
+        "paragraphs": [
+          "Acompanhe evidências de aprendizado e necessidades futuras da função. Evite rankings automáticos de pessoas pela IA. Decisões de sucessão exigem os responsáveis e processos adequados. Mantenha a documentação confidencial e retenha apenas o necessário para a finalidade autorizada.",
+          "Exemplo: O plano foi revisto quando a função mudou, sem usar a IA para escolher uma pessoa."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Estruturar um plano de continuidade e desenvolvimento para uma função crítica, sem nomes.",
+      "template": "Função crítica e impacto:\nConhecimentos necessários:\nCompetências observáveis:\nDocumentação e prática:\nApoio e limites:\nCritérios de revisão:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Por onde começar a sucessão?",
+        "options": [
+          "Pelas funções críticas e competências necessárias.",
+          "Pela escolha de favoritos.",
+          "Por uma classificação automática de personalidade."
+        ],
+        "correct": 0,
+        "explanation": "Pelas funções críticas e competências necessárias."
+      },
+      {
+        "question": "Competência técnica garante liderança?",
+        "options": [
+          "Sim, automaticamente.",
+          "Sim, se a pessoa tiver mais tempo de empresa.",
+          "Não; liderança exige outras evidências e desenvolvimento."
+        ],
+        "correct": 2,
+        "explanation": "Não; liderança exige outras evidências e desenvolvimento."
+      },
+      {
+        "question": "O que um plano de desenvolvimento deve oferecer?",
+        "options": [
+          "Garantia de cargo apenas pela participação.",
+          "Prática gradual, apoio e limites claros, sem promessa automática de promoção.",
+          "Responsabilidade integral sem preparação."
+        ],
+        "correct": 1,
+        "explanation": "Prática gradual, apoio e limites claros, sem promessa automática de promoção."
+      },
+      {
+        "question": "Qual é o papel da IA neste contexto?",
+        "options": [
+          "Ajudar a estruturar necessidades por funções, com decisão humana.",
+          "Escolher automaticamente o sucessor.",
+          "Avaliar pessoas identificadas sem revisão."
+        ],
+        "correct": 0,
+        "explanation": "Ajudar a estruturar necessidades por funções, com decisão humana."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Estruturar um plano de continuidade e desenvolvimento para uma função crítica, sem nomes.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "succession_planning",
+    "agentChallenge": "Descreva funções e competências, sem identificar pessoas; peça uma estrutura de planejamento.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "emp-retencao",
+    "version": 1,
+    "role": "recruiter",
+    "tier": 3,
+    "title": "Retenção e evolução da equipe",
+    "objective": "Planejar ações de acompanhamento e desenvolvimento a partir de evidências agregadas.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Entenda o contexto",
+        "paragraphs": [
+          "Defina qual problema deseja compreender e reúna informações por canais autorizados. Evite supor que todas as saídas têm a mesma causa. Condições de trabalho, gestão, perspectivas e fatores externos podem coexistir. Use dados agregados para orientar investigação, sem expor relatos individuais.",
+          "Exemplo: Uma equipe revisa horários, recursos e oportunidades antes de atribuir saídas à falta de motivação."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Converse sobre desenvolvimento",
+        "paragraphs": [
+          "Torne expectativas e possibilidades claras sem prometer vagas ou progressão inexistentes. Pergunte sobre obstáculos e recursos necessários nos canais adequados. Separe acompanhamento de desenvolvimento de avaliação formal. Registre somente informações pertinentes e conhecidas pelas partes.",
+          "Exemplo: A conversa definiu uma competência a desenvolver e esclareceu que não havia promoção garantida."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Escolha uma ação viável",
+        "paragraphs": [
+          "Priorize um problema sobre o qual a organização pode agir. Defina responsável, prazo e recurso. Pode ser melhorar integração, orientação ou capacitação. Não use um treinamento para encobrir um problema de condição de trabalho que exige outra resposta.",
+          "Exemplo: A área reorganizou o acesso a orientações antes de contratar uma nova trilha."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Acompanhe sem prometer causalidade",
+        "paragraphs": [
+          "Verifique execução e resultado, observando mudanças de contexto. Acompanhe efeitos indesejados e revise a ação com os responsáveis. Uma melhora em indicador agregado não prova impacto individual. Use ciclos curtos para aprender e atualizar prioridades.",
+          "Exemplo: Após ajustar a integração, a equipe observou dúvidas recorrentes e redesenhou uma etapa."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Criar um plano de ação de retenção com problema, hipótese, responsável e acompanhamento agregado.",
+      "template": "Problema observado:\nEvidências agregadas:\nHipótese e limites:\nAção viável:\nResponsável e prazo:\nComo acompanhar sem expor pessoas:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Como investigar retenção?",
+        "options": [
+          "Considerando diferentes fatores e evidências autorizadas.",
+          "Atribuindo todas as saídas a uma causa única.",
+          "Expondo relatos individuais em grupos."
+        ],
+        "correct": 0,
+        "explanation": "Considerando diferentes fatores e evidências autorizadas."
+      },
+      {
+        "question": "Como apresentar possibilidades de evolução?",
+        "options": [
+          "Prometendo promoção para encerrar a conversa.",
+          "Mantendo critérios deliberadamente vagos.",
+          "Com critérios e limites reais, sem garantias inexistentes."
+        ],
+        "correct": 2,
+        "explanation": "Com critérios e limites reais, sem garantias inexistentes."
+      },
+      {
+        "question": "Como escolher uma ação?",
+        "options": [
+          "Pelo menor custo, mesmo sem resolver a necessidade.",
+          "Pela relação com o problema e pelas condições reais de execução.",
+          "Pela aparência de novidade."
+        ],
+        "correct": 1,
+        "explanation": "Pela relação com o problema e pelas condições reais de execução."
+      },
+      {
+        "question": "O que revisar após uma ação?",
+        "options": [
+          "Execução, resultados, contexto e efeitos indesejados.",
+          "Apenas um indicador favorável.",
+          "Somente se a participação atingiu cem por cento."
+        ],
+        "correct": 0,
+        "explanation": "Execução, resultados, contexto e efeitos indesejados."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Criar um plano de ação de retenção com problema, hipótese, responsável e acompanhamento agregado.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "recurring_training",
+    "agentChallenge": "Peça um ciclo de capacitação com prioridades e dados agregados, sem informações identificáveis de empregados.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "edu-aulas",
+    "version": 1,
+    "role": "school_staff",
+    "tier": 1,
+    "title": "Planejamento de aulas com objetivos claros",
+    "objective": "Conectar objetivo, atividade e verificação de aprendizagem.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Defina o desempenho esperado",
+        "paragraphs": [
+          "Escreva o que o aluno deverá conseguir fazer ao final da aula. Prefira verbos observáveis e especifique condições e critérios. Um tema amplo não substitui um objetivo de aprendizagem. Considere conhecimentos prévios e o tempo disponível antes de escolher o conteúdo.",
+          "Exemplo: Identificar três vistas de uma peça simples, justificando a correspondência entre elas."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Selecione o essencial",
+        "paragraphs": [
+          "Escolha conceitos e exemplos necessários ao objetivo. Organize uma sequência que conecte conhecimento prévio ao novo desafio. Evite acrescentar conteúdo apenas porque cabe na apresentação. Reserve tempo para dúvidas e pratique uma transição entre explicação e ação do aluno.",
+          "Exemplo: Uma aula sobre vistas começa por um objeto simples antes de introduzir uma peça complexa."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Planeje a atividade",
+        "paragraphs": [
+          "Defina tarefa, instruções, recursos e tempo. Diga o que será produzido e como o aluno poderá pedir apoio. Antecipe dificuldades e condições de acessibilidade. Atividades práticas com ferramentas ou laboratório precisam respeitar supervisão e procedimentos de segurança da instituição.",
+          "Exemplo: A turma recebe um desenho legível e identifica vistas antes da discussão orientada."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Verifique e ajuste",
+        "paragraphs": [
+          "Escolha uma evidência coerente com o objetivo e use o resultado para orientar a próxima aula. Perguntar se todos entenderam pode não revelar dificuldades. Uma tarefa curta explicada pelo aluno oferece informação mais útil. Registre resultados de forma agregada quando não precisar de identificação.",
+          "Exemplo: Ao explicar uma vista, vários alunos confundiram orientação; a próxima aula retoma esse ponto."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Montar um plano de aula com objetivo observável, atividade e evidência de aprendizagem.",
+      "template": "Público e conhecimentos prévios gerais:\nObjetivo:\nConteúdo essencial:\nAtividade e recursos:\nCritério de verificação:\nAjuste previsto:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Qual objetivo é observável?",
+        "options": [
+          "Identificar e justificar vistas de uma peça com critérios definidos.",
+          "Entender tudo sobre desenho técnico.",
+          "Assistir à aula até o fim."
+        ],
+        "correct": 0,
+        "explanation": "Identificar e justificar vistas de uma peça com critérios definidos."
+      },
+      {
+        "question": "Como selecionar o conteúdo?",
+        "options": [
+          "Pelo número de slides disponíveis.",
+          "Pela maior complexidade possível.",
+          "Pela contribuição direta ao objetivo e às condições da turma."
+        ],
+        "correct": 2,
+        "explanation": "Pela contribuição direta ao objetivo e às condições da turma."
+      },
+      {
+        "question": "O que uma instrução precisa esclarecer?",
+        "options": [
+          "A resposta pronta antes de qualquer tentativa.",
+          "Tarefa, entrega, recursos, tempo e apoio disponível.",
+          "Somente a duração."
+        ],
+        "correct": 1,
+        "explanation": "Tarefa, entrega, recursos, tempo e apoio disponível."
+      },
+      {
+        "question": "Como verificar aprendizagem?",
+        "options": [
+          "Pedir uma evidência alinhada ao objetivo e analisar dificuldades.",
+          "Contar somente presença.",
+          "Usar uma pergunta sem relação com a atividade."
+        ],
+        "correct": 0,
+        "explanation": "Pedir uma evidência alinhada ao objetivo e analisar dificuldades."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Montar um plano de aula com objetivo observável, atividade e evidência de aprendizagem.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "lesson_plan",
+    "agentChallenge": "Informe tema, tempo e conhecimentos prévios agregados para pedir um plano de aula.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "edu-praticas",
+    "version": 1,
+    "role": "school_staff",
+    "tier": 1,
+    "title": "Atividades práticas que envolvem o aluno",
+    "objective": "Criar desafios contextualizados com critérios e apoio.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Escolha um problema pertinente",
+        "paragraphs": [
+          "Use uma situação conectada ao objetivo e compreensível para a turma. O desafio deve permitir aplicar conhecimentos, não apenas decorar uma resposta. Explique o contexto sem depender de experiências que parte dos alunos não teve. Use casos fictícios ou materiais autorizados.",
+          "Exemplo: Organizar a sequência de montagem de um objeto simples para discutir processo e conferência."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Defina entrega e critérios",
+        "paragraphs": [
+          "Explique o produto esperado e os critérios antes da atividade. Separe qualidade da entrega, processo e participação quando forem avaliados. Evite critérios vagos como capricho sem descritores. Ofereça um exemplo de aplicação dos critérios sem eliminar o espaço de decisão do aluno.",
+          "Exemplo: O desenho precisa indicar vistas coerentes e linhas legíveis, com justificativa das escolhas."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Organize apoio e recursos",
+        "paragraphs": [
+          "Planeje tempo, materiais e momentos de orientação. Distribua papéis em grupo sem tornar um aluno responsável por todo o trabalho. Considere acesso aos recursos e alternativas de participação. Práticas de risco exigem responsável habilitado e protocolos específicos, além deste planejamento pedagógico.",
+          "Exemplo: Cada grupo registra uma decisão e alterna quem apresenta a justificativa."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Feche com reflexão",
+        "paragraphs": [
+          "Peça que os alunos expliquem decisões, dificuldades e mudanças. Compare caminhos possíveis com os critérios e retome os conceitos centrais. Uma atividade animada pode não produzir a aprendizagem esperada; o fechamento ajuda a identificar o que foi aprendido e o que precisa de retomada.",
+          "Exemplo: Os grupos mostram uma decisão que revisaram e explicam por que a solução ficou melhor."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Criar uma atividade prática com problema, entrega, critérios e reflexão final.",
+      "template": "Objetivo:\nSituação-problema:\nEntrega:\nCritérios:\nRecursos e apoio:\nPerguntas para reflexão:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "O que torna um problema pertinente?",
+        "options": [
+          "Sua ligação com o objetivo e com condições acessíveis à turma.",
+          "Ser difícil sem oferecer contexto.",
+          "Exigir dados privados de uma empresa."
+        ],
+        "correct": 0,
+        "explanation": "Sua ligação com o objetivo e com condições acessíveis à turma."
+      },
+      {
+        "question": "Quando apresentar os critérios?",
+        "options": [
+          "Somente depois de atribuir a nota.",
+          "Apenas se alguém reclamar.",
+          "Antes da atividade, de forma compreensível."
+        ],
+        "correct": 2,
+        "explanation": "Antes da atividade, de forma compreensível."
+      },
+      {
+        "question": "Como favorecer participação em grupo?",
+        "options": [
+          "Assumir que formar grupos garante colaboração.",
+          "Definir contribuições e apoio, acompanhando o processo.",
+          "Entregar toda a tarefa ao aluno mais experiente."
+        ],
+        "correct": 1,
+        "explanation": "Definir contribuições e apoio, acompanhando o processo."
+      },
+      {
+        "question": "Qual é a função do fechamento?",
+        "options": [
+          "Relacionar decisões e evidências aos conceitos e critérios.",
+          "Apenas anunciar quem terminou primeiro.",
+          "Substituir toda a análise por uma impressão geral."
+        ],
+        "correct": 0,
+        "explanation": "Relacionar decisões e evidências aos conceitos e critérios."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Criar uma atividade prática com problema, entrega, critérios e reflexão final.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "exercises_rubrics",
+    "agentChallenge": "Peça exercícios e critérios alinhados ao objetivo; revise adequação e acessibilidade antes de usar.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "edu-trabalho",
+    "version": 1,
+    "role": "school_staff",
+    "tier": 1,
+    "title": "Preparação dos alunos para o trabalho",
+    "objective": "Organizar uma oficina de currículo, apresentação e entrevista.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Mapeie necessidades gerais",
+        "paragraphs": [
+          "Considere o momento formativo e as dúvidas frequentes da turma sem expor histórias pessoais. Diferencie orientação profissional de promessa de emprego. Planeje uma oficina que ajude a reconhecer competências e a apresentar evidências, respeitando diferentes trajetórias e condições de participação.",
+          "Exemplo: Uma turma busca o primeiro emprego e pode usar projetos escolares como evidência de aprendizagem."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Trabalhe o currículo com cuidado",
+        "paragraphs": [
+          "Use um modelo fictício para ensinar organização e clareza. Oriente cada aluno a conferir seus próprios dados em ambiente adequado. Não exiba currículos com documentos e contatos para a turma. Diferencie formação concluída, em andamento e competências demonstradas.",
+          "Exemplo: O professor revisa um exemplo inventado e cada aluno aplica os critérios ao próprio texto."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Simule conversas profissionais",
+        "paragraphs": [
+          "Planeje apresentação curta e perguntas relacionadas a situações de estudo ou trabalho. Combine regras de respeito e devolutivas por critérios. Evite exposição constrangedora e ofereça formas alternativas de participação. O objetivo é praticar, não decidir quem merece uma oportunidade.",
+          "Exemplo: Duplas treinam apresentação e comentam clareza, evidências e escuta."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Defina continuidade",
+        "paragraphs": [
+          "Finalize com um próximo passo acessível, como revisar um resumo ou organizar um projeto. Indique canais institucionais de apoio quando existirem. Não anuncie parcerias ou vagas sem confirmação. Acompanhe resultados gerais da oficina e ajuste as atividades com base nas dificuldades encontradas.",
+          "Exemplo: Cada participante escolhe uma melhoria do currículo para concluir na semana seguinte."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Planejar uma oficina de preparação profissional com três atividades e cuidados de privacidade.",
+      "template": "Público e objetivo:\nAtividade de currículo:\nAtividade de apresentação:\nSimulação de entrevista:\nCuidados de participação:\nPróximo passo:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Qual deve ser o compromisso da oficina?",
+        "options": [
+          "Preparar competências de apresentação, sem garantir contratação.",
+          "Prometer emprego a todos os participantes.",
+          "Classificar publicamente os alunos por empregabilidade."
+        ],
+        "correct": 0,
+        "explanation": "Preparar competências de apresentação, sem garantir contratação."
+      },
+      {
+        "question": "Como demonstrar uma revisão de currículo?",
+        "options": [
+          "Projetando documentos pessoais dos alunos.",
+          "Inventando experiências para melhorar o exemplo real.",
+          "Com exemplo fictício ou material autorizado sem dados privados."
+        ],
+        "correct": 2,
+        "explanation": "Com exemplo fictício ou material autorizado sem dados privados."
+      },
+      {
+        "question": "Qual é a finalidade da simulação?",
+        "options": [
+          "Exigir relatos íntimos diante da turma.",
+          "Praticar comunicação com retorno respeitoso e critérios claros.",
+          "Rotular quem tem ou não perfil profissional."
+        ],
+        "correct": 1,
+        "explanation": "Praticar comunicação com retorno respeitoso e critérios claros."
+      },
+      {
+        "question": "Como encerrar a oficina?",
+        "options": [
+          "Com um próximo passo viável e canais de apoio confirmados.",
+          "Com garantia de contratação futura.",
+          "Com divulgação de oportunidades não verificadas."
+        ],
+        "correct": 0,
+        "explanation": "Com um próximo passo viável e canais de apoio confirmados."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Planejar uma oficina de preparação profissional com três atividades e cuidados de privacidade.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "course_planning",
+    "agentChallenge": "Peça uma proposta de oficina com objetivos, tempo e recursos, sem informar dados dos alunos.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "edu-ia",
+    "version": 1,
+    "role": "school_staff",
+    "tier": 2,
+    "title": "IA como apoio ao educador",
+    "objective": "Preparar e revisar materiais com IA preservando autoria e dados.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Defina a finalidade pedagógica",
+        "paragraphs": [
+          "Escolha o objetivo de aprendizagem antes da ferramenta. Use IA quando houver uma função clara, como gerar um exemplo a ser criticado. Considere alternativas acessíveis para quem não utiliza a ferramenta. O educador continua responsável pelas escolhas e pela adequação à turma.",
+          "Exemplo: Comparar uma explicação produzida por IA com critérios técnicos já estudados."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Use apenas dados necessários",
+        "paragraphs": [
+          "Trabalhe com conteúdo próprio autorizado e situações fictícias. Não envie nomes, notas ou relatos identificáveis de alunos. Remover o nome pode não bastar quando o contexto permite identificação. Siga a política institucional e explique com transparência como a ferramenta será usada.",
+          "Exemplo: Descrever uma dificuldade comum da turma sem citar aluno, turma pequena ou episódio identificável."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Revise conteúdo e referências",
+        "paragraphs": [
+          "Confira conceitos, cálculos, adequação de linguagem e referências. A IA pode produzir explicações incorretas ou fontes inexistentes. Não use uma resposta como autoridade apenas por estar bem escrita. Teste atividades antes da aplicação e verifique direitos sobre materiais de terceiros.",
+          "Exemplo: O educador resolve o exercício sugerido e verifica a referência antes de entregar à turma."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Avalie processos de aprendizagem",
+        "paragraphs": [
+          "Combine expectativas sobre uso de IA e autoria. Peça justificativas, versões ou demonstrações coerentes com o objetivo, sem depender de uma detecção automática como prova. A avaliação deve considerar evidências de aprendizagem e permitir esclarecimento pelos canais institucionais.",
+          "Exemplo: O aluno explica as decisões do projeto e informa como usou a ferramenta."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Revisar um material didático com apoio de IA e registrar as verificações realizadas.",
+      "template": "Objetivo pedagógico:\nTrecho próprio ou autorizado:\nPedido sem dados de alunos:\nConceitos e fontes conferidos:\nAjustes humanos:\nRegra de uso com a turma:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "O que vem antes da escolha da ferramenta?",
+        "options": [
+          "O objetivo pedagógico e as condições de participação.",
+          "A intenção de usar novidade em toda aula.",
+          "A substituição de todas as decisões do educador."
+        ],
+        "correct": 0,
+        "explanation": "O objetivo pedagógico e as condições de participação."
+      },
+      {
+        "question": "Que informação usar em um pedido?",
+        "options": [
+          "Planilhas com notas e nomes.",
+          "Relatos individuais detalhados sem autorização adequada.",
+          "O mínimo necessário, preferindo exemplos fictícios ou agregados."
+        ],
+        "correct": 2,
+        "explanation": "O mínimo necessário, preferindo exemplos fictícios ou agregados."
+      },
+      {
+        "question": "Como avaliar um material gerado?",
+        "options": [
+          "Pelo tamanho da resposta.",
+          "Conferindo correção, fontes, adequação e condições de uso.",
+          "Pela fluência do texto apenas."
+        ],
+        "correct": 1,
+        "explanation": "Conferindo correção, fontes, adequação e condições de uso."
+      },
+      {
+        "question": "Qual evidência ajuda a avaliar aprendizagem com IA?",
+        "options": [
+          "Explicação das decisões e demonstração do conhecimento.",
+          "Um detector tratado como prova infalível.",
+          "Proibir qualquer pergunta sobre o processo."
+        ],
+        "correct": 0,
+        "explanation": "Explicação das decisões e demonstração do conhecimento."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Revisar um material didático com apoio de IA e registrar as verificações realizadas.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "teaching_material_review",
+    "agentChallenge": "Envie apenas um trecho didático próprio ou autorizado para revisão; confira todas as sugestões.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "edu-avaliacao",
+    "version": 1,
+    "role": "school_staff",
+    "tier": 2,
+    "title": "Avaliação por competências",
+    "objective": "Construir uma rubrica alinhada a desempenho e evidências.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Descreva a competência",
+        "paragraphs": [
+          "Especifique o que o estudante deverá realizar, em qual situação e com quais critérios. Diferencie conhecimento declarativo de execução ou julgamento. Escolha uma evidência que represente o objetivo e seja viável nas condições da instituição. Uma prova de memorização pode não demonstrar uma competência prática.",
+          "Exemplo: Interpretar um desenho e justificar a sequência de uma atividade, com critérios de coerência."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Crie critérios e descritores",
+        "paragraphs": [
+          "Separe dimensões importantes e descreva níveis de desempenho observáveis. Evite palavras como bom ou ruim sem explicação. Mantenha critérios compreensíveis e não sobreponha dimensões que punem duas vezes a mesma dificuldade. Apresente a rubrica antes da atividade.",
+          "Exemplo: Coerência das vistas: identifica todas, identifica parcialmente ou apresenta relações incompatíveis."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Teste a rubrica",
+        "paragraphs": [
+          "Aplique os critérios a exemplos fictícios ou autorizados e compare interpretações entre avaliadores. Ajuste ambiguidades antes de avaliar a turma. Considere acessibilidade e formas equivalentes de demonstrar o objetivo, mantendo critérios pertinentes à competência. Registre limites do instrumento.",
+          "Exemplo: Dois educadores avaliam o mesmo exemplo e revisam um critério que gerou interpretações diferentes."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Devolva e planeje retomada",
+        "paragraphs": [
+          "Explique a relação entre evidência e critério. Indique uma ação concreta para melhorar e ofereça oportunidade de aprendizagem conforme as regras institucionais. IA pode apoiar rascunhos, mas não deve atribuir notas ou tomar decisões sobre alunos identificados sem os controles adequados.",
+          "Exemplo: A devolutiva aponta a vista incoerente e propõe um exercício de comparação."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Criar e testar uma rubrica com três critérios e descritores de desempenho.",
+      "template": "Competência:\nEntrega observável:\nTrês critérios:\nDescritores por nível:\nExemplo usado no teste:\nDevolutiva e retomada:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Como definir a evidência?",
+        "options": [
+          "Pelo desempenho que o objetivo exige demonstrar.",
+          "Pelo instrumento mais fácil de corrigir, sempre.",
+          "Pela quantidade de perguntas apenas."
+        ],
+        "correct": 0,
+        "explanation": "Pelo desempenho que o objetivo exige demonstrar."
+      },
+      {
+        "question": "O que diferencia um descritor útil?",
+        "options": [
+          "Usar somente adjetivos vagos.",
+          "Mudar a regra depois da entrega.",
+          "Explicar evidências observáveis de cada nível."
+        ],
+        "correct": 2,
+        "explanation": "Explicar evidências observáveis de cada nível."
+      },
+      {
+        "question": "Por que testar a rubrica?",
+        "options": [
+          "Para eliminar qualquer análise do educador.",
+          "Para identificar ambiguidades e melhorar consistência.",
+          "Para garantir que todos recebam a mesma nota."
+        ],
+        "correct": 1,
+        "explanation": "Para identificar ambiguidades e melhorar consistência."
+      },
+      {
+        "question": "O que uma devolutiva deve indicar?",
+        "options": [
+          "Evidência, critério e um próximo passo de aprendizagem.",
+          "Somente uma nota sem explicação.",
+          "Um julgamento sobre capacidade permanente."
+        ],
+        "correct": 0,
+        "explanation": "Evidência, critério e um próximo passo de aprendizagem."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Criar e testar uma rubrica com três critérios e descritores de desempenho.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "exercises_rubrics",
+    "agentChallenge": "Peça uma rubrica para uma atividade fictícia e revise os critérios antes da aplicação.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "edu-recuperacao",
+    "version": 1,
+    "role": "school_staff",
+    "tier": 2,
+    "title": "Recuperação e diferentes ritmos de aprendizagem",
+    "objective": "Planejar intervenções a partir de dificuldades observadas.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Localize a dificuldade",
+        "paragraphs": [
+          "Observe em qual etapa o aluno ou grupo encontra obstáculo. Diferencie dificuldade conceitual, de interpretação, de procedimento e de acesso ao recurso. Não transforme um resultado pontual em diagnóstico. Use canais institucionais para necessidades que exigem apoio especializado.",
+          "Exemplo: Parte da turma entende as vistas, mas interpreta incorretamente a instrução da atividade."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Mantenha o objetivo",
+        "paragraphs": [
+          "Adapte a forma de ensinar e os apoios sem perder o que precisa ser aprendido. Divida tarefas em etapas e use exemplos com complexidade gradual. Diferentes caminhos não significam ausência de critérios. Confirme que a alternativa continua permitindo demonstrar a competência prevista.",
+          "Exemplo: Usar um objeto físico antes do desenho para trabalhar a mesma relação entre vistas."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Organize prática orientada",
+        "paragraphs": [
+          "Prepare uma atividade curta sobre a lacuna principal, com orientação e retorno. Não acrescente carga sem finalidade clara. Considere tempo, recursos e possibilidade de participação. Trabalhos em grupo devem apoiar a aprendizagem de cada participante, sem esconder dificuldades individuais que precisam de acompanhamento reservado.",
+          "Exemplo: Uma sequência de três exemplos permite testar a compreensão antes de retomar o projeto."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Confira avanço e ajuste",
+        "paragraphs": [
+          "Recolha nova evidência alinhada ao objetivo e compare com a dificuldade inicial. Se o obstáculo persistir, revise a estratégia e os recursos. Registre apenas informações necessárias e use resultados agregados em pedidos à IA. A conclusão de uma atividade não prova domínio de toda a competência.",
+          "Exemplo: Após a intervenção, a turma explica uma nova peça e o educador identifica o ponto ainda confuso."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Planejar uma intervenção com dificuldade específica, apoio e nova evidência.",
+      "template": "Dificuldade agregada observada:\nObjetivo preservado:\nAtividade alternativa:\nApoio e recursos:\nNova evidência:\nComo ajustar se persistir:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Como começar a intervenção?",
+        "options": [
+          "Identificando a dificuldade específica e suas condições.",
+          "Rotulando a turma como incapaz.",
+          "Repetindo exatamente tudo sem analisar o obstáculo."
+        ],
+        "correct": 0,
+        "explanation": "Identificando a dificuldade específica e suas condições."
+      },
+      {
+        "question": "O que uma adaptação deve preservar?",
+        "options": [
+          "A dificuldade artificial da instrução.",
+          "A mesma forma de exposição em qualquer situação.",
+          "O objetivo de aprendizagem e critérios pertinentes."
+        ],
+        "correct": 2,
+        "explanation": "O objetivo de aprendizagem e critérios pertinentes."
+      },
+      {
+        "question": "Qual prática ajuda na recuperação?",
+        "options": [
+          "Repetição sem possibilidade de perguntar.",
+          "Uma atividade focada na lacuna, com apoio e devolutiva.",
+          "Mais tarefas aleatórias."
+        ],
+        "correct": 1,
+        "explanation": "Uma atividade focada na lacuna, com apoio e devolutiva."
+      },
+      {
+        "question": "Como verificar a recuperação?",
+        "options": [
+          "Com nova evidência relacionada à dificuldade trabalhada.",
+          "Somente pela presença na atividade.",
+          "Pela impressão de que a turma ficou mais animada."
+        ],
+        "correct": 0,
+        "explanation": "Com nova evidência relacionada à dificuldade trabalhada."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Planejar uma intervenção com dificuldade específica, apoio e nova evidência.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "learning_recovery",
+    "agentChallenge": "Informe dificuldades agregadas, sem nomes ou notas individuais, para pedir atividades de recuperação.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "edu-projetos",
+    "version": 1,
+    "role": "school_staff",
+    "tier": 3,
+    "title": "Projetos integradores com empresas",
+    "objective": "Estruturar projetos com problema, entregas e acompanhamento.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Escolha o problema e o parceiro",
+        "paragraphs": [
+          "Defina um problema compatível com objetivos formativos, tempo e recursos. Confirme interesse e autorização dos responsáveis antes de anunciar uma parceria. Use dados e materiais que possam ser compartilhados. Um projeto pedagógico não deve assumir compromissos comerciais ou operacionais não aprovados.",
+          "Exemplo: Um caso fictício de organização de processo é usado enquanto a parceria ainda não está confirmada."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Delimite escopo e entregas",
+        "paragraphs": [
+          "Descreva o que será produzido e o que fica fora do projeto. Relacione entregas às competências e combine critérios. Antecipe restrições de segurança, acesso e confidencialidade. Atividades práticas exigem procedimentos e supervisão adequados; este roteiro não substitui habilitação ou análise de risco.",
+          "Exemplo: A turma apresentará uma proposta e um protótipo didático, sem alterar um equipamento real."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Planeje marcos e orientação",
+        "paragraphs": [
+          "Divida o projeto em diagnóstico, proposta, desenvolvimento e apresentação. Defina responsáveis e momentos de retorno. Esclareça como contribuições individuais serão observadas sem expor estudantes. Mantenha um canal institucional para comunicação e resolução de mudanças.",
+          "Exemplo: A proposta é revisada antes da construção do protótipo, evitando retrabalho."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Avalie e encerre",
+        "paragraphs": [
+          "Compare entregas com critérios e peça reflexão sobre escolhas e limites. Registre aprendizados e autorizações de divulgação. Não use resultados didáticos como garantia de desempenho industrial ou contratação. Compartilhe com o parceiro apenas o que foi autorizado e planeje ajustes para o próximo ciclo.",
+          "Exemplo: O relatório identifica hipóteses não testadas e separa o protótipo didático de uma solução validada."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Criar um plano de projeto integrador com escopo, quatro marcos e critérios de avaliação.",
+      "template": "Problema e objetivos:\nParceiro confirmado ou cenário fictício:\nEntregas e limites:\nMarcos e responsáveis:\nSegurança e dados:\nCritérios e encerramento:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Quando anunciar uma parceria?",
+        "options": [
+          "Após confirmação e autorização dos responsáveis.",
+          "Assim que houver uma ideia de contato.",
+          "Quando a IA sugerir o nome de uma empresa."
+        ],
+        "correct": 0,
+        "explanation": "Após confirmação e autorização dos responsáveis."
+      },
+      {
+        "question": "Por que delimitar o escopo?",
+        "options": [
+          "Para prometer qualquer solução ao parceiro.",
+          "Para deixar critérios indefinidos até o final.",
+          "Para alinhar aprendizagem, recursos, responsabilidades e limites."
+        ],
+        "correct": 2,
+        "explanation": "Para alinhar aprendizagem, recursos, responsabilidades e limites."
+      },
+      {
+        "question": "Qual é a função dos marcos?",
+        "options": [
+          "Eliminar o acompanhamento do educador.",
+          "Conferir aprendizagem e decisões antes de avançar.",
+          "Somente registrar datas de apresentação."
+        ],
+        "correct": 1,
+        "explanation": "Conferir aprendizagem e decisões antes de avançar."
+      },
+      {
+        "question": "Como apresentar o resultado?",
+        "options": [
+          "Com evidências, limites e autorizações claras.",
+          "Como solução definitiva mesmo sem testes.",
+          "Como promessa de emprego aos participantes."
+        ],
+        "correct": 0,
+        "explanation": "Com evidências, limites e autorizações claras."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Criar um plano de projeto integrador com escopo, quatro marcos e critérios de avaliação.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "industry_partnerships",
+    "agentChallenge": "Informe área, região e objetivos gerais para estruturar uma parceria; o agente não contata empresas.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "edu-indicadores",
+    "version": 1,
+    "role": "school_staff",
+    "tier": 3,
+    "title": "Indicadores de aprendizagem e empregabilidade",
+    "objective": "Interpretar resultados agregados e decidir melhorias pedagógicas.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Defina a pergunta",
+        "paragraphs": [
+          "Determine o que precisa compreender: conclusão, dificuldade em uma competência ou resultado de uma ação formativa. Especifique período, população e método. Não confunda matrícula, participação, conclusão e inserção profissional; cada medida responde a uma pergunta diferente.",
+          "Exemplo: Uma oficina pode ter alta presença e ainda exigir revisão da atividade de apresentação."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Verifique qualidade dos dados",
+        "paragraphs": [
+          "Confira definições, registros ausentes e denominadores. Compare grupos e períodos compatíveis. Use dados agregados e evite divulgar recortes pequenos que permitam identificar pessoas. Informação incompleta exige registrar limitações, e não preencher lacunas com suposições.",
+          "Exemplo: Uma taxa de conclusão informa quantos concluíram e qual população foi considerada."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Interprete com contexto",
+        "paragraphs": [
+          "Observe mudanças em currículo, recursos e perfil geral da oferta. Uma associação não prova que uma ação causou o resultado. Empregabilidade envolve fatores externos à instituição; evite atribuir toda variação ao curso. Use indicadores para formular perguntas e conferir hipóteses.",
+          "Exemplo: Uma melhora coincide com mudanças no mercado e no acompanhamento; ambos precisam ser considerados."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Transforme em ação",
+        "paragraphs": [
+          "Escolha uma melhoria pedagógica e defina responsável, prazo e evidência de acompanhamento. Mantenha transparência sobre limites e revise a ação com a equipe. Não use o indicador agregado para classificar ou decidir automaticamente o futuro de um aluno.",
+          "Exemplo: Revisar uma atividade sobre entrevista e acompanhar a qualidade das respostas na próxima oficina."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Montar uma ficha de indicador educacional agregado e uma ação de melhoria.",
+      "template": "Pergunta:\nIndicador e fórmula:\nPopulação e período:\nQualidade e limites dos dados:\nHipótese de melhoria:\nAção, responsável e revisão:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "Por que distinguir participação de aprendizagem?",
+        "options": [
+          "Porque presença e domínio respondem a perguntas diferentes.",
+          "Porque presença prova qualquer competência.",
+          "Porque apenas o maior indicador importa."
+        ],
+        "correct": 0,
+        "explanation": "Porque presença e domínio respondem a perguntas diferentes."
+      },
+      {
+        "question": "O que acompanhar numa taxa?",
+        "options": [
+          "Somente o percentual final.",
+          "Identificadores de cada aluno em apresentação pública.",
+          "Base de cálculo, período, critérios e limitações."
+        ],
+        "correct": 2,
+        "explanation": "Base de cálculo, período, critérios e limitações."
+      },
+      {
+        "question": "Como interpretar variações de empregabilidade?",
+        "options": [
+          "Prometendo o mesmo resultado para qualquer aluno.",
+          "Considerando contexto e fatores externos, sem afirmar causalidade automática.",
+          "Atribuindo tudo à última aula."
+        ],
+        "correct": 1,
+        "explanation": "Considerando contexto e fatores externos, sem afirmar causalidade automática."
+      },
+      {
+        "question": "Qual uso é adequado para o indicador?",
+        "options": [
+          "Orientar uma melhoria com revisão humana e acompanhamento.",
+          "Decidir automaticamente sobre um aluno.",
+          "Publicar rankings pessoais sem finalidade adequada."
+        ],
+        "correct": 0,
+        "explanation": "Orientar uma melhoria com revisão humana e acompanhamento."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Montar uma ficha de indicador educacional agregado e uma ação de melhoria.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "education_metrics",
+    "agentChallenge": "Informe apenas indicadores agregados e o método de coleta; não envie nomes ou notas individuais.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "edu-trilhas",
+    "version": 1,
+    "role": "school_staff",
+    "tier": 3,
+    "title": "Atualização de cursos e trilhas formativas",
+    "objective": "Revisar objetivos, sequência e pré-requisitos com base em evidências.",
+    "format": "Texto e atividades · sem certificado",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Reúna evidências pertinentes",
+        "paragraphs": [
+          "Considere resultados de aprendizagem, retorno de educadores e informações verificáveis sobre a área profissional. Diferencie uma tendência de uma necessidade consolidada. Não altere um curso apenas por novidade tecnológica. Registre de onde veio cada informação e quais dúvidas ainda precisam de validação.",
+          "Exemplo: Demandas recorrentes de leitura técnica são confrontadas com resultados das atividades e vagas verificadas."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 1,
+        "title": "Revise objetivos e sequência",
+        "paragraphs": [
+          "Confira se os objetivos continuam pertinentes e quais conhecimentos são pré-requisitos. Organize progressão do simples ao complexo, com oportunidades de prática. Evite somar tópicos sem ajustar tempo e recursos. Mudanças formais dependem dos procedimentos e responsáveis da instituição.",
+          "Exemplo: Uma atividade avançada passa a exigir uma revisão prática dos fundamentos antes de começar."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 2,
+        "title": "Planeje um piloto",
+        "paragraphs": [
+          "Teste uma alteração delimitada e defina o que observará. Prepare materiais, critérios e apoio aos educadores. Respeite os processos institucionais de aprovação e comunicação. Uma mudança experimental deve ter limites e possibilidade de ajuste, sem comprometer requisitos obrigatórios.",
+          "Exemplo: Uma nova sequência de exercícios é testada com critérios de clareza e aprendizagem definidos."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      },
+      {
+        "id": 3,
+        "title": "Documente o ciclo",
+        "paragraphs": [
+          "Compare resultados, registre decisões e mantenha controle de versão. Informe o que mudou, por quê e quais limitações permanecem. Planeje uma nova revisão e preserve materiais necessários à continuidade. Não prometa equivalência, certificação ou reconhecimento que não tenha sido formalmente confirmado.",
+          "Exemplo: A ementa registra a versão, os objetivos alterados e a data de revisão prevista."
+        ],
+        "reflection": "Antes de avançar, explique com suas palavras como aplicaria esta orientação à sua realidade."
+      }
+    ],
+    "activity": {
+      "prompt": "Criar uma proposta de atualização com evidências, objetivos, piloto e critérios de revisão.",
+      "template": "Curso ou trilha:\nEvidências e fontes:\nObjetivos a manter e atualizar:\nPré-requisitos e sequência:\nPiloto e critérios:\nVersão e próxima revisão:",
+      "checklist": [
+        "Use exemplos reais próprios ou situações fictícias, sem identificar terceiros.",
+        "Confira a coerência entre objetivo, evidências e ação proposta.",
+        "Revise a entrega antes de declarar a atividade realizada."
+      ]
+    },
+    "quiz": [
+      {
+        "question": "O que deve orientar a atualização?",
+        "options": [
+          "Evidências de aprendizagem e necessidades verificadas da área.",
+          "Somente a ferramenta mais comentada.",
+          "Uma previsão da IA sem conferência."
+        ],
+        "correct": 0,
+        "explanation": "Evidências de aprendizagem e necessidades verificadas da área."
+      },
+      {
+        "question": "Como inserir um novo conteúdo?",
+        "options": [
+          "Acrescentando-o sem retirar ou ajustar nada.",
+          "Ignorando os conhecimentos prévios necessários.",
+          "Verificando objetivo, pré-requisitos, tempo e recursos."
+        ],
+        "correct": 2,
+        "explanation": "Verificando objetivo, pré-requisitos, tempo e recursos."
+      },
+      {
+        "question": "Qual é a finalidade do piloto?",
+        "options": [
+          "Dispensar aprovação e acompanhamento.",
+          "Produzir evidências sobre uma alteração delimitada.",
+          "Garantir que qualquer mudança será melhor."
+        ],
+        "correct": 1,
+        "explanation": "Produzir evidências sobre uma alteração delimitada."
+      },
+      {
+        "question": "O que registrar após atualizar?",
+        "options": [
+          "Mudanças, fundamentos, evidências, limites e próxima revisão.",
+          "Somente o novo nome do curso.",
+          "Uma garantia de reconhecimento não confirmado."
+        ],
+        "correct": 0,
+        "explanation": "Mudanças, fundamentos, evidências, limites e próxima revisão."
+      },
+      {
+        "question": "Qual entrega demonstra a aplicação deste treinamento?",
+        "options": [
+          "Apenas marcar todas as aulas como lidas.",
+          "Criar uma proposta de atualização com evidências, objetivos, piloto e critérios de revisão.",
+          "Copiar uma resposta pronta sem conferir."
+        ],
+        "correct": 1,
+        "explanation": "A atividade pede uma aplicação contextualizada; a conclusão é autodeclarada e não certifica competência."
+      }
+    ],
+    "agentTask": "syllabus_cycle",
+    "agentChallenge": "Forneça a ementa e resultados agregados para pedir ajustes; a aprovação continua com a instituição.",
+    "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  }
+]

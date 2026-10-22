@@ -15,6 +15,6 @@ export function benefitList(tier) {
   'Execuções usam créditos; ajuda, seleção, salvamento e retomada são gratuitos',
   'Créditos válidos somente no ciclo, sem acumular',
   `Em implantação: prioridade de exibição — ${b.priority}`,
-  `Em implantação: ${b.training}`
+  `${tier*3} treinamentos em texto, com atividades e progresso privado — sem certificado`
  ] : ['Cadastro e recursos gratuitos do portal','Recursos de IA exigem plano pago e créditos disponíveis'];
 }

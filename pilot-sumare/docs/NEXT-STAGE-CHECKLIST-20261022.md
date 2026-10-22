@@ -28,3 +28,5 @@ Finalidade: verificar o serviço solicitado e atualizar roteiro operacional, com
 Fontes oficiais revistas: https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709compilado.htm ; https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia-vf.pdf .
 
 Atualização 22/10: titular aprovou conferência visual dos recursos de Empresa e Instituição. Execuções reais e avaliação qualitativa nesses perfis continuam pendentes. Revisada apresentação comercial para distinguir IA publicada de treinamentos e prioridade ainda em implantação; ver BENEFITS-DELIVERY-STATUS.md.
+
+Atualização Cursos & Treinamentos OEO: catálogo original 27/108/135 e gerenciador do proprietário preparados com regras Grátis/1/2/3, PDF/PPTX/link e progresso privado. Integração técnica e banco testados; leitura/retomada e upload real no navegador do titular ainda dependem de teste após publicação. Prioridade de exibição segue pendente; não abrir compras ao público por este ajuste. Ver OEO-TRAININGS-AND-OWNER-LIBRARY.md.
