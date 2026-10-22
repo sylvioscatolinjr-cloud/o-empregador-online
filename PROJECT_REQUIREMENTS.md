@@ -268,3 +268,7 @@ Opção ativa com fundo roxo, marca ✓ Selecionado, estado acessível exclusivo
 
 ## Revisão de currículo com falha e devolução — 21/10/2026 (Brasília)
 Anexo salvo/lido e tentativa falhou; crédito devolvido no banco, saldo 298 centavos. Código anterior não distinguia fornecedor/truncamento/JSON/validação, portanto causa histórica exata permanece não demonstrada. Schema agora usa enum dos campos editáveis reais, maxItems 12, instrução concisa e diagnóstico restrito a UUID/etapa/HTTP/estado/código seguro, sem conteúdo privado. Validações, preço, consentimento e devolução mantidos; 16 testes de revisão aprovados e build aprovado. Detalhes e limites em pilot-sumare/docs/RESUME-REVIEW-FAILURE-DIAGNOSTICS.md. Novo teste explícito do titular necessário para confirmar o documento real.
+
+
+## Ajuda dos 54 recursos de IA — 21/10/2026 (Brasília)
+Botão ? em cada recurso do menu e da tela de execução dos três perfis, com finalidade e passo a passo específico. Abre/fecha sem seleção, navegação ou consumo; disponível também nos bloqueados. Padrão visual existente, controles independentes sem botões aninhados, alvo de 44 px, nome acessível e aria-expanded/controls. Preservados custos, bloqueios e consentimentos; sem nova coleta ou uso de modelo. 19 testes aprovados e build aprovado. Fonte e revisão de privacidade: pilot-sumare/docs/AI-RESOURCE-HELP.md.

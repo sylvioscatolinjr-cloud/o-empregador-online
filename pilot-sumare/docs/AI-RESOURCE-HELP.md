@@ -1,0 +1,11 @@
+# Ajuda dos 54 recursos de IA — 21/10/2026 (Brasília)
+
+Pedido do titular: interrogação em cada recurso, mostrando/ocultando explicação e instruções. Implementado no menu expansível Meus agentes e na tela de execução para Candidato, Empresa, Instituição e área pessoal do proprietário.
+
+Cada cartão visual contém a ação principal e um botão ? independente, com a mesma tipografia, borda, paleta, foco e padrão dos controles existentes. Elementos são irmãos, evitando button dentro de button. Alvo de toque de 44 px, nome acessível, aria-expanded/aria-controls, painel escondido até clique. Ajuda pode ser aberta mesmo em recurso bloqueado; não seleciona tarefa, navega, compra ou executa IA. Seleção e bloqueios continuam nos botões principais.
+
+Texto específico por recurso descreve finalidade e limites. Passos incluem os dados a informar (hint do catálogo), seleção, custo e confirmação, revisão e salvamento opcional. Revisão de currículo tem roteiro próprio de upload/preenchimento/salvamento na mesma conta, carregamento, autorização, análise e aceitação seletiva. Demais tarefas explicam uso de texto fornecido e ausência de consulta automática a vagas/métricas/dados. Mensagens não são enviadas automaticamente, pessoas não são classificadas para contratação/sucessão e indicadores devem ser agregados. Não anuncia integrações ainda ausentes.
+
+Validação: 19 testes aprovados de menu/execução/ajuda, incluindo cobertura das 54 descrições e passos, ajuda de recurso bloqueado sem navegação, abrir/fechar sem seleção ou cobrança, clique idempotente após remontagem, escape de conteúdo e envio explícito preservado. Build local aprovado. A alteração não executa testes com currículo real nem consome carteira.
+
+Privacidade: finalidade de instrução de uso e transparência do serviço já solicitado, sem nova coleta, remessa a IA, permissão, armazenamento ou retenção. Texto de ajuda é estático, sem dados de usuário; rótulos escapados. Base contratual, consentimento da revisão, atendimento e direitos existentes preservados. Risco de consumo acidental reduzido por separar ajuda, seleção e execução; não representa certificação jurídica. Fontes oficiais consultadas neste ciclo: https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709compilado.htm ; https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia-vf.pdf .
