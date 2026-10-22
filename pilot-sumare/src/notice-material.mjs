@@ -1,0 +1,5 @@
+export const noticeBucket='oeo-notice-private';
+export const noticeTypes={pdf:'application/pdf',pptx:'application/vnd.openxmlformats-officedocument.presentationml.presentation',png:'image/png',jpg:'image/jpeg'};
+export function noticeLink(value){const text=String(value||'').trim();if(!text)return '';let u;try{u=new URL(text);}catch{throw Error('Informe um link HTTPS válido.');}if(u.protocol!=='https:'||u.username||u.password||u.href.length>2000)throw Error('Use um link HTTPS sem usuário ou senha na URL.');return u.href;}
+export function noticeFileInput(input){const filename=String(input.filename||'').split(/[\\/]/).pop().replace(/[\u0000-\u001f\u007f]/g,'').trim();const ext=filename.split('.').pop().toLowerCase(),type=ext==='jpeg'?'jpg':ext,size=Number(input.size);if(!Object.hasOwn(noticeTypes,type)||filename.length<5||filename.length>160||!Number.isInteger(size)||size<10||size>20971520)throw Error('Selecione PDF, PPTX, JPG ou PNG de até 20 MB.');return {filename,file_type:type,byte_size:size};}
+export const noticeUUID=v=>typeof v==='string'&&/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i.test(v);

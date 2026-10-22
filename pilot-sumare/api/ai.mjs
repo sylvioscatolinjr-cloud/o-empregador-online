@@ -1,3 +1,4 @@
+import {noticeFileHandler} from '../src/notice-file-handler.mjs';
 import {candidateRegionHandler} from '../src/candidate-region-handler.mjs';
 import {distanceDiscoveryHandler} from '../src/distance-discovery-handler.mjs';
 import {organizationPointsHandler} from '../src/organization-points-handler.mjs';
@@ -9,6 +10,7 @@ import {aiChatHandler} from '../src/ai-chat-handler.mjs';
 import {aiBalanceHandler} from '../src/ai-balance-handler.mjs';
 import {agentCatalogHandler} from '../src/agent-catalog-handler.mjs';
 const organizationPoints=organizationPointsHandler();
+const noticeFile=noticeFileHandler();
 const candidateRegion=candidateRegionHandler();
 const distanceDiscovery=distanceDiscoveryHandler();
 const discovery=discoveryHandler();
@@ -20,6 +22,7 @@ const balance=aiBalanceHandler();
 const catalog=agentCatalogHandler();
 export default function handler(req,res){
  const action=req.query?.action;
+ if(action==='notice-file')return noticeFile(req,res);
  if(action==='candidate-region')return candidateRegion(req,res);
  if(action==='organization-points')return organizationPoints(req,res);
  if(action==='discovery')return req.method==='POST'?distanceDiscovery(req,res):discovery(req,res);

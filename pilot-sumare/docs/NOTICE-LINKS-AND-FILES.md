@@ -1,0 +1,21 @@
+# Links e anexos em avisos — 22/10/2026
+
+Enviar avisos oferece link HTTPS opcional e um arquivo por mensagem: PDF, PPTX sem macros, JPG ou PNG, até 20 MB. Os campos usam o padrão visual existente. A prévia mostra link e nome do anexo; editar campos ou retirar o arquivo invalida a confirmação. Upload e prévia não enviam avisos. O proprietário pode enviar apenas texto, link, anexo ou ambos junto à mensagem exigida.
+
+Fluxo de arquivo: reserva por proprietário/turma, upload direto ao bucket privado via token escopado (sem sobrescrita), validação dos bytes/tamanho no servidor, prévia de público, confirmação. O caminho é gerado no servidor e o nome original é saneado; o navegador não determina autor, turma, caminho ou estado pronto. Validação por assinaturas de arquivo e estrutura básica não é antivírus nem sanitizador de documentos. Não há execução ou iframe de arquivos no portal.
+
+O RPC de envio é SECURITY INVOKER, exclusivo service_role, com conferência de proprietário ativo/confirmado e bloqueios. Mantém filtros de perfil/região/UF/cidade, exclui contas fictícias e bloqueadas. A inserção das notificações e vínculo do arquivo são atômicos; o arquivo pronto é bloqueado durante envio e passa a usado somente com destinatários. Um anexo já usado não pode ser reenviado pelo mesmo identificador. Avisos sem material continuam funcionando e RPC legado permanece para histórico/rollback.
+
+O usuário encontra Abrir link de acesso e Preparar download no sino. O download confere Auth, vínculo ativo, turma, ID da notificação e destinatário autenticado antes de emitir URL de 60 segundos com download forçado. ID de arquivo, caminho ou usuário fornecido pelo cliente não concede acesso. Bucket oeo-notice-private sem políticas de browser; tabela de anexos com RLS e acesso somente de serviço. Metadados de link/nome/ID ficam na notificação sob a política própria já existente.
+
+Retenção: rascunhos não enviados tornam-se elegíveis à limpeza após 24 horas; até dez são limpos no próximo upload do mesmo proprietário/turma. Isso ocorre após o vencimento de duas horas do token de upload. A limpeza reivindica o estado expirado antes de remover o objeto para não apagar material simultaneamente enviado; falhas de Storage permanecem para tentativa futura. Não há cron novo. Arquivos enviados permanecem vinculados aos avisos; retirada definitiva/exclusão é operação administrativa de atendimento, sem nova tela de revogação nesta versão. Usuários autorizados podem salvar e compartilhar cópias; URLs assinadas não constituem DRM.
+
+Privacidade: finalidade de comunicar conteúdo selecionado pelo proprietário aos grupos definidos, com hipótese de execução do serviço solicitado (art. 7, V), sujeita à adequação do conteúdo pelo responsável. Dados mínimos: mensagem, link, nome e bytes do arquivo, autor/turma e destinatários já elegíveis. Não coletar CPF/endereço adicional; enviar conteúdo próprio ou autorizado, conforme orientação em tela. Nenhum link é buscado pelo servidor. Arquivos não são enviados a IA; sem custo em créditos ou alteração de plano. Correção/remoção e exercício de direitos seguem atendimento existente. Riscos de conteúdo indevido, redistribuição e grupo errado são mitigados com limites, controles de destinatário e prévia, sem certificação jurídica integral.
+
+Migração de produção: 20261022151547_private_notice_links_and_attachments. Testes: suíte geral 269 aprovados, zero falhas e um PDF privado ausente ignorado; 13 focados e build aprovados, além de ensaio final do endpoint do proprietário. Ensaio hospedado com dados sintéticos validou prévia sem envio, inserção por grupo, vínculo de arquivo, bucket privado e grants; rollback e zero resíduos confirmados. Nenhum aviso foi enviado a usuários reais. Primeiro upload/download real no navegador do titular ainda requer aceite; não confundir mocks de Storage com arquivo real enviado.
+
+Fontes oficiais consultadas:
+- https://supabase.com/docs/reference/javascript/file-buckets-createsigneduploadurl
+- https://supabase.com/docs/guides/storage/security/access-control
+- https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709compilado.htm
+- https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia-vf.pdf

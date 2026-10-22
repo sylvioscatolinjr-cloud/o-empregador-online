@@ -1,3 +1,4 @@
+import {noticeLink,noticeUUID} from './notice-material.mjs';
 export function metricPeriod(period='month',now=new Date()){
  const local=new Date(now.getTime()-3*3600000),y=local.getUTCFullYear(),m=local.getUTCMonth(),d=local.getUTCDate();
  let start,bucket='day';
@@ -15,5 +16,6 @@ const states=Object.values(regions).flat();
 export function broadcastInput(input){
  const role=String(input.role||'all'),region=String(input.region||''),state=String(input.state||'').trim().toUpperCase(),city=String(input.city||'').trim(),title=String(input.title||'').trim(),body=String(input.body||'').trim();
  if(!['all','learner','recruiter','school_staff'].includes(role)||region&&!Object.hasOwn(regions,region)||state&&!states.includes(state)||region&&state&&!regions[region].includes(state)||city.length>100||title.length<1||title.length>160||body.length<1||body.length>4000)throw Error('Confira mensagem, perfil, região, estado e cidade.');
- return {p_role:role,p_states:state?[state]:region?regions[region]:null,p_city:city,p_title:title,p_body:body};
+ const attachment=input.attachment_id||null;if(attachment&&!noticeUUID(attachment))throw Error('Anexo inválido.');
+ return {p_access_url:noticeLink(input.access_url),p_attachment:attachment,p_role:role,p_states:state?[state]:region?regions[region]:null,p_city:city,p_title:title,p_body:body};
 }

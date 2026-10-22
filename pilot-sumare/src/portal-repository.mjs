@@ -40,6 +40,7 @@ export function createPortalRepository({supabase,access,cohortId,fetcher=globalT
  async respond(id,status,response){await actor(['recruiter','school_staff']);return checked(supabase.rpc('portal_respond_application',{p_id:id,p_status:status,p_response:response}));},
  async withdraw(id){await actor(['learner','pilot_owner']);return checked(supabase.rpc('portal_withdraw_application',{p_id:id}));},
  async close(id){await actor(['recruiter','school_staff']);return checked(supabase.rpc('portal_close_listing',{p_id:id}));},
+ async noticeFile(id){await actor();const {data,error}=await supabase.auth.getSession();if(error||!data?.session?.access_token)throw Error('Entre novamente.');const r=await fetcher('/api/ai?action=notice-file&id='+encodeURIComponent(id),{headers:{Authorization:'Bearer '+data.session.access_token},cache:'no-store'});const result=await r.json();if(!r.ok)throw Error(result.error||'Anexo indisponível.');return result;},
  async notifications(){await actor();return checked(supabase.from('portal_notifications').select('*').eq('cohort_id',cohortId).order('created_at',{ascending:false}).limit(100));},
  async unread(){await actor();const r=await supabase.from('portal_notifications').select('id',{count:'exact',head:true}).eq('cohort_id',cohortId).is('read_at',null);if(r.error)throw Error('Avisos indisponíveis.');return r.count||0;},
  async read(id){const u=await actor();return checked(supabase.from('portal_notifications').update({read_at:new Date().toISOString()}).eq('user_id',u.id).eq('cohort_id',cohortId).eq('id',id));},
