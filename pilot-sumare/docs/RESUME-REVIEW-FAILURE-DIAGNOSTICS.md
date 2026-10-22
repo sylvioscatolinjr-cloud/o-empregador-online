@@ -1,0 +1,15 @@
+# Revisão conectada — falha de retorno, 21/10/2026 (Brasília)
+
+Captura image(20261022-021908).png confirma anexo lido e tentativa com mensagem de falha/crédito devolvido. Consulta posterior confirma anexo salvo e reserva de 100 centavos em 02:17:01 UTC, devolvida em 02:17:08 UTC. Saldo elegível 298 centavos. A conclusão anterior de arquivo ausente referia-se ao estado anterior e não demonstra causa desta tentativa. Nenhuma alteração ao currículo foi salva pela revisão.
+
+Código anterior agrupava HTTP do fornecedor, saída incompleta, JSON inválido e falha de validação na mesma mensagem, sem diagnóstico. Logs existentes não permitem afirmar qual dessas etapas causou a falha histórica. Não atribuir definitivamente a erro do usuário, arquivo, fornecedor ou formato sem evidência.
+
+Correção preventiva: schema estruturado por requisição restringe target aos identificadores editáveis presentes no próprio currículo e limita changes a 12. Cópia independente evita mutação entre contas. Instrução reforça target exato, sem repetição, concisão e respeito ao limite de saída. Validação de servidor continua recusando identificadores desconhecidos, repetidos, valores inválidos e dados de contato. Não remove validação para aceitar uma resposta arbitrária.
+
+Diagnóstico novo registra somente UUID da requisição, etapa fixa, HTTP numérico, estado de saída permitido e código de validação em allowlist. Não registra currículo, anexo, prompt, resposta bruta, nome, contato, segredo nem mensagem arbitrária do fornecedor. Mensagens ao usuário distinguem retorno incompleto, formato inválido e indisponibilidade. Toda falha continua devolvendo a reserva; não há repetição automática nem nova cobrança pela manutenção. Modelo gpt-4.1-mini, limite de 3000 tokens, preço e consentimento mantidos. Requer novo teste explícito do titular para confirmar revisão real em produção; testes simulados não comprovam o resultado do documento particular.
+
+Validação: 16 testes de revisão/servidor/interface aprovados, zero falhas, build local aprovado. Inclui schema isolado por conta, apenas campos válidos, preservação de original/anexo, proposta assinada, falha truncada e target indevido com devolução, log sem marcadores privados e salvamento seletivo.
+
+Privacidade: finalidade restrita à revisão solicitada e correção operacional, hipótese de trabalho execução contratual e autorização informada já existente. Dados de diagnóstico mínimos vinculáveis à requisição privada; sem nova permissão ou envio de conteúdo a terceiros. Retenção operacional e direitos seguem atendimento/documentação existentes; não introduz arquivo permanente de currículo nos logs. Risco de crédito indevido reduzido por validação e devolução, sem alegar conformidade jurídica integral.
+
+Fontes oficiais consultadas: https://developers.openai.com/api/docs/guides/structured-outputs ; https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709compilado.htm ; https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia-vf.pdf .

@@ -264,3 +264,7 @@ Implantação dpl_BU6NowS29nQvaKat2RMfKVZv8dEh READY, commit ee00bef108a4ab9f446
 
 ## Seleção visível dos agentes — atualização de produção
 Opção ativa com fundo roxo, marca ✓ Selecionado, estado acessível exclusivo e resumo do recurso/custo antes da execução. Botão Confirmar e executar; seleção não consome saldo. Dezesseis testes de interface aprovados e build aprovado. Implantação dpl_HhekyaLbdFyExyp8NJH2ZVMJKnVt READY, commit b7563c8d7d15a10d0a8ae787d3fcd4564ee1cc34, no domínio oficial. Detalhes e revisão de privacidade em pilot-sumare/docs/AI-SELECTION-FEEDBACK.md. Nenhuma execução de IA feita para esta correção; ensaio real do titular ainda pendente.
+
+
+## Revisão de currículo com falha e devolução — 21/10/2026 (Brasília)
+Anexo salvo/lido e tentativa falhou; crédito devolvido no banco, saldo 298 centavos. Código anterior não distinguia fornecedor/truncamento/JSON/validação, portanto causa histórica exata permanece não demonstrada. Schema agora usa enum dos campos editáveis reais, maxItems 12, instrução concisa e diagnóstico restrito a UUID/etapa/HTTP/estado/código seguro, sem conteúdo privado. Validações, preço, consentimento e devolução mantidos; 16 testes de revisão aprovados e build aprovado. Detalhes e limites em pilot-sumare/docs/RESUME-REVIEW-FAILURE-DIAGNOSTICS.md. Novo teste explícito do titular necessário para confirmar o documento real.
