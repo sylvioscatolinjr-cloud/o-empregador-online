@@ -14,7 +14,7 @@ export function benefitList(tier) {
   `${b.aiPercent}% do valor do pacote convertido em créditos de IA`,
   'Execuções usam créditos; ajuda, seleção, salvamento e retomada são gratuitos',
   'Créditos válidos somente no ciclo, sem acumular',
-  `Em implantação: prioridade de exibição — ${b.priority}`,
+  `${b.priority}. Prioridade por plano na página inicial e na busca principal, após os destaques`,
   `${tier*3} treinamentos em texto, com atividades e progresso privado — sem certificado`
  ] : ['Cadastro e recursos gratuitos do portal','Recursos de IA exigem plano pago e créditos disponíveis'];
 }

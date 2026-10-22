@@ -1,9 +1,11 @@
+import {discoveryHandler} from '../src/discovery-handler.mjs';
 import {trainingHandler} from '../src/training-handler.mjs';
 import {aiHistoryHandler} from '../src/ai-history-handler.mjs';
 import {aiResumeHandler} from '../src/ai-resume-handler.mjs';
 import {aiChatHandler} from '../src/ai-chat-handler.mjs';
 import {aiBalanceHandler} from '../src/ai-balance-handler.mjs';
 import {agentCatalogHandler} from '../src/agent-catalog-handler.mjs';
+const discovery=discoveryHandler();
 const training=trainingHandler();
 const history=aiHistoryHandler();
 const resume=aiResumeHandler();
@@ -12,6 +14,7 @@ const balance=aiBalanceHandler();
 const catalog=agentCatalogHandler();
 export default function handler(req,res){
  const action=req.query?.action;
+ if(action==='discovery')return discovery(req,res);
  if(typeof action==='string'&&action.startsWith('training-'))return training(req,res);
  if(['resume-source','resume-review','resume-save'].includes(action))return resume(req,res);
  if(['history-list','history-save','history-delete'].includes(action))return history(req,res);
