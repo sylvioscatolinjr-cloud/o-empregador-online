@@ -23,7 +23,7 @@ export function agentCatalogHandler({env=process.env,clientFactory=createClient}
    if(member.data?.status!=='active'||member.data?.is_fictitious)return res.status(403).json({error:'Acesso não autorizado.'});
    const role=personalAgentRole(member.data.role),catalog=getAgentCatalog(role);
    if(!catalog)return res.status(403).json({error:'Perfil sem agente habilitado.'});
-   const tier=await readTaskTier(db,user.id,role);
+   const tier=await readTaskTier(db,user.id,role,env.PILOT_COHORT_ID);
    const tasks=getGuidedTasks(role,tier).map(({instruction,...task})=>task);
    return res.status(200).json({agent:catalog,tier,tasks,available:tasks.some(t=>t.available),message:'Revisão conectada ao currículo do candidato; demais tarefas com texto informado.'});
   }catch{return res.status(503).json({error:'Não foi possível verificar o acesso.'});}

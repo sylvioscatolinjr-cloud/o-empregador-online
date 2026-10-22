@@ -14,7 +14,7 @@ Este quadro é o estado atual. Registros anteriores ao final são históricos e 
 | Distância como desempate | Integrada na busca autenticada com CEP opcional | Linha reta aproximada; candidatos somente com região autorizada; aceite visual pendente |
 | Médias e histórico por organização/departamento | Integrados; medição na consulta com variação e contagem | Não captura cada evento entre consultas; sem substituição automática; aceite visual pendente |
 | Renovação, cancelamento e estorno reais | Pendente | Não movimentar dinheiro apenas para fechar teste |
-| Celular e acessibilidade | Correções técnicas de reflow, teclado, foco e estados de botões publicadas | Inspeção visual no aparelho e leitor de tela real pendentes |
+| Celular e acessibilidade | Correções publicadas; conferência visual aprovada pelo titular | Teste com leitor de tela real pendente |
 | Adolescentes e abertura comercial | Pendentes de revisão final | Flags de aprovação do piloto preservadas; compras públicas continuam restritas |
 
 ## Próximas ações
@@ -72,3 +72,6 @@ Medições privadas na consulta, até 100 alterações por escopo, últimas 20 e
 
 ## Revisão técnica móvel/acessibilidade — 22/10/2026
 Atalho para conteúdo em cinco páginas, foco na troca de seção, status/alertas acessíveis, colunas/controles flexíveis e restauração correta de disabled na conta. 275 testes gerais e 32 focados aprovados, zero falhas; um PDF ausente ignorado na suíte geral; build e inspeção DOM dos cinco HTMLs aprovados. Sem dados reais, mudança de acesso ou cobrança. Teste visual e com tecnologia assistiva real permanece pendente: Chromium indisponível e download inválido. Ver MOBILE-ACCESSIBILITY-REVIEW.md.
+
+## Perfis e materiais — 22/10/2026
+Empresa e Instituição confirmadas/ativas na produção, sem plano pago vigente; execução real dos agentes continua pendente. Zero materiais adicionais cadastrados: primeiro upload/acesso deve ser feito com material próprio pelo titular, podendo usar Grátis sem compra. Corrigidos escopo de turma no nível pago e tratamento de erro assíncrono do gerenciador. 279 testes gerais e 48 focados finais aprovados, zero falhas; um PDF ausente ignorado na suíte geral, build aprovado. Sem compras, créditos artificiais, upload real ou mensagens. Titular aprovou visual no celular; leitor de tela permanece pendente. Ver PROFILE-AND-MATERIAL-VALIDATION.md.

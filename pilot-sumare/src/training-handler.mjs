@@ -21,10 +21,10 @@ export function trainingHandler({env=process.env,clientFactory=createClient}={})
   if(membership.error)throw Error();const role=personalAgentRole(membership.data?.role);
   if(membership.data?.status!=='active'||membership.data?.is_fictitious||!trainingRoles.includes(role))return res.status(403).json({error:'Este perfil não tem acesso aos treinamentos.'});
   const owner=membership.data.role==='pilot_owner';
-  if(action.startsWith('manage-'))return learningManagement({db,req,res,userId:user.id,cohort:env.PILOT_COHORT_ID,owner});
+  if(action.startsWith('manage-'))return await learningManagement({db,req,res,userId:user.id,cohort:env.PILOT_COHORT_ID,owner});
   const scope=()=>db.from('portal_training_progress').select(columns).eq('user_id',user.id).eq('cohort_id',env.PILOT_COHORT_ID).eq('profile_role',role);
   if(action==='catalog'){
-   const tier=await readTaskTier(db,user.id,role),progress=await scope();if(progress.error)throw Error();
+   const tier=await readTaskTier(db,user.id,role,env.PILOT_COHORT_ID),progress=await scope();if(progress.error)throw Error();
    const custom=await db.from('portal_oeo_learning').select('*').eq('cohort_id',env.PILOT_COHORT_ID).eq('published',true).contains('audiences',[role]).order('created_at');if(custom.error)throw Error();
    return res.status(200).json({role,tier,canManage:owner,courses:[...trainingCatalog(role,tier),...(custom.data||[]).map(r=>learningMetadata(r,tier))],progress:progress.data||[]});
   }
@@ -33,7 +33,7 @@ export function trainingHandler({env=process.env,clientFactory=createClient}={})
    if(typeof id!=='string'||! /^[\da-f-]{36}$/i.test(id))return res.status(404).json({error:'Material não encontrado.'});
    const result=await db.from('portal_oeo_learning').select('*').eq('cohort_id',env.PILOT_COHORT_ID).eq('id',id).maybeSingle();if(result.error)throw Error();const row=result.data;
    if(!row||!owner&&(!row.published||!row.audiences.includes(role)))return res.status(404).json({error:'Material não disponível para seu perfil.'});
-   if(!owner&&await readTaskTier(db,user.id,role)<row.tier)return res.status(403).json({error:'Este material exige plano nível '+row.tier+'.',requiredTier:row.tier});
+   if(!owner&&await readTaskTier(db,user.id,role,env.PILOT_COHORT_ID)<row.tier)return res.status(403).json({error:'Este material exige plano nível '+row.tier+'.',requiredTier:row.tier});
    if(!owner&&!checkLearningPassword(req.body?.password,row.password_hash))return res.status(403).json({error:'Senha adicional incorreta.'});
    let url=row.external_url;if(row.source_type!=='link'){const signed=await db.storage.from(learningBucket).createSignedUrl(row.asset_path,60,{download:true});if(signed.error)throw Error();url=signed.data.signedUrl;}
    return res.status(200).json({url,title:row.title,sourceType:row.source_type,external:row.source_type==='link',ownerPreview:owner,expiresIn:row.source_type==='link'?null:60});
@@ -44,7 +44,7 @@ export function trainingHandler({env=process.env,clientFactory=createClient}={})
    const removed=await db.from('portal_training_progress').delete().eq('user_id',user.id).eq('cohort_id',env.PILOT_COHORT_ID).eq('profile_role',role).eq('training_id',id);if(removed.error)throw Error();
    return res.status(200).json({deleted:true});
   }
-  if(await readTaskTier(db,user.id,role)<course.tier)return res.status(403).json({error:'Este treinamento exige plano nível '+course.tier+' ou superior.',requiredTier:course.tier});
+  if(await readTaskTier(db,user.id,role,env.PILOT_COHORT_ID)<course.tier)return res.status(403).json({error:'Este treinamento exige plano nível '+course.tier+' ou superior.',requiredTier:course.tier});
   if(action==='open'){
    const progress=await scope().eq('training_id',id).maybeSingle();if(progress.error)throw Error();
    return res.status(200).json({course:trainingContent(course),progress:progress.data});

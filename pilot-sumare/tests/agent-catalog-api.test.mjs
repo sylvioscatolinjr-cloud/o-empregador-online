@@ -4,7 +4,7 @@ import {agentCatalogHandler} from '../src/agent-catalog-handler.mjs';
 const env={SUPABASE_URL:'https://example.supabase.co',SUPABASE_SECRET_KEY:'test-only',PILOT_COHORT_ID:'test-cohort'};
 function fixture({role='school_staff',status='active',verified=true}={}){
  const queries=[];
- const clientFactory=()=>({auth:{async getUser(){return {data:{user:{id:'user1',email_confirmed_at:verified?'today':null}},error:null}}},from(name){queries.push(name);if(name==='billing_live_orders')return {select(){return this},async eq(){return {data:[],error:null}}};const q={select(){return q},eq(){return q},async maybeSingle(){return {data:{role,status},error:null}}};return q}});
+ const clientFactory=()=>({auth:{async getUser(){return {data:{user:{id:'user1',email_confirmed_at:verified?'today':null}},error:null}}},from(name){queries.push(name);if(name==='billing_live_orders')return {select(){return this},eq(){return this},then(resolve,reject){return Promise.resolve({data:[],error:null}).then(resolve,reject)}};const q={select(){return q},eq(){return q},async maybeSingle(){return {data:{role,status},error:null}}};return q}});
  const handler=agentCatalogHandler({env,clientFactory});
  const response={headers:{},setHeader(k,v){this.headers[k]=v},status(n){this.code=n;return this},json(v){this.body=v;return this}};
  return {handler,response,queries};

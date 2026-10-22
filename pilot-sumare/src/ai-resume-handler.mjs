@@ -29,7 +29,7 @@ export function aiResumeHandler({env=process.env,clientFactory=createClient,fetc
   if(action!=='resume-review')return res.status(404).json({error:'Recurso não encontrado.'});
   if(req.body?.consent!==true)return res.status(400).json({error:'Confirme o envio dos dados profissionais à OpenAI antes de analisar.'});
   if(req.body?.version!==version)return res.status(409).json({error:'Seu currículo mudou. Carregue os dados novamente antes de analisar.'});
-  if(await readTaskTier(db,u.id,'learner')<1)return res.status(403).json({error:'Esta tarefa exige plano nível 1 ou superior.'});
+  if(await readTaskTier(db,u.id,'learner',env.PILOT_COHORT_ID)<1)return res.status(403).json({error:'Esta tarefa exige plano nível 1 ou superior.'});
   const attachmentText=req.body?.attachmentText;if(typeof attachmentText!=='string'||attachmentText.length>70000||p.resume_path&&!attachmentText.trim())return res.status(400).json({error:'Leia o anexo salvo antes de analisar. Se não for possível, corrija o arquivo no currículo.'});
   const targets=resumeTargets(p),source=redactResume(JSON.stringify({targets,attachmentText}),p);if(source.length>90000||!targets.some(t=>t.value.trim()||Object.values(t.facts||{}).some(Boolean))&&!attachmentText.trim())return res.status(400).json({error:'Preencha seu currículo e salve antes de solicitar a revisão.'});
   if(env.AI_CHAT_METERING_ENABLED!=='true'||!env.OPENAI_API_KEY||!env.AI_CHAT_MODEL)return res.status(503).json({error:'Revisão em preparação.'});
