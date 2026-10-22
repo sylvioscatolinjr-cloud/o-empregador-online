@@ -185,6 +185,62 @@ Atualização às 20h23 de 19/10/2026: acesso Vercel restabelecido, segredo excl
 - Publicação: o projeto Vercel `o-empregador-online-piloto` publica o `main` pelo GitHub, com Root Directory `pilot-sumare`. Na raiz fica o protótipo, que não deve ir ao domínio.
 
 
+## Tarefas guiadas de IA — 21/10/2026
+Painel Meus agentes: seleção de tarefa por perfil, requisitos em texto e custo explícito de R$ 1,00 antes da execução. Níveis progressivos 1/2/3 e autorização no servidor por pagamento verificado/período/perfil; recusa antes do débito para tarefa inválida ou acima do plano. Integrações automáticas do catálogo continuam planejadas. 152 testes passaram, um PDF privado não executado; build aprovado. Publicação somente na prévia; sem nova migração, pagamento externo ou abertura comercial. Privacidade e matriz em pilot-sumare/docs/AI-TASKS.md.
+
+
+## Revisão conectada do currículo — 21/10/2026 (homologação)
+
+Pedido expresso: agente lê campos/anexo existentes, mostra melhorias e candidato escolhe manter ou salvar. Implementado no fluxo de revisão conectada; sem nova cópia manual. Texto do anexo extraído localmente; análise autorizada, campos próprios lidos no servidor, comparação e aceitação individual, proposta assinada e salvamento atômico protegido contra edição concorrente. Anexo e dados não escolhidos preservados. Menu Meus agentes padronizado com os controles vizinhos; regra visual registrada em AGENTS.md. 171 testes locais e ensaio SQL hospedado aprovados; chamada real/validação visual do novo fluxo pendentes. Detalhes, privacidade, custo e limites em pilot-sumare/docs/CONNECTED-RESUME-REVIEW.md. Somente branch de homologação; não significa abertura comercial.
+
+
+## Ampliação dos agentes e continuidade privada — 21/10/2026
+
+Autorizada por Sylvio após a proposta de recursos recorrentes. Homologação passa a oferecer 54 tarefas de IA: 18 por perfil (Candidato, Empresa, Instituição de Ensino), seis por nível e acesso cumulativo 6/12/18. Menu expansível, padrão visual dos botões, IDs originais e encaminhamento de função bloqueada para assinatura correta preservados. Autorização por perfil/plano continua no servidor antes da reserva de créditos. Cada execução explícita custa R$ 1,00 em créditos; nenhuma ação automática ou cobrança ao abrir/retomar tarefas.
+
+Histórico privado opcional para orientações de texto, salvamento expresso, retomada com progresso e exclusão, sem custo. Nova tabela portal_ai_notes exclusivamente na homologação, RLS e grants de cliente revogados, operações de servidor limitadas a usuário/turma/perfil. Retenção até exclusão do registro ou da conta. Revisão de currículo continua conectada aos campos/anexo e salva somente melhorias escolhidas pelo fluxo próprio. Outras funções exigem entradas profissionais ou agregadas fornecidas pelo usuário e não consultam automaticamente currículos, vagas, métricas ou mercado. Lembretes automáticos e execução em segundo plano continuam pendentes.
+
+192 testes aprovados, zero falhas/ignorados, build aprovado. Matriz por tarefa/perfil/nível com modelo simulado; histórico com isolamento e teste hospedado transacional sem resíduos, inclusive negação de acesso SQL autenticado. Ainda sem nova validação visual dos três logins pelo bloqueio do navegador e sem avaliação qualitativa de 54 respostas reais. Sem publicação em produção, ativação financeira ou envio de dados privados novos ao modelo. Inventário detalhado, finalidade/minimização/base/transparência/retenção/direitos/riscos e fontes oficiais: pilot-sumare/docs/EXPANDED-AGENT-FUNCTIONS.md. SQL reproduzível: pilot-sumare/db/ai-history.sql; integrar à migração formal antes de produção.
+
+
+## Correção da escolha de plano ao abrir recurso bloqueado — 21/10/2026
+
+Captura de Sylvio identificou assinatura.html vazia com Cobrança real em configuração. Consulta autenticada estava indevidamente condicionada às credenciais do Asaas. GET agora independe da prontidão financeira, preservando conta confirmada/ativa, perfil autorizado e escopo do próprio usuário. Todas as mutações continuam bloqueadas sem credenciais; contratação permanece restrita à validação do proprietário.
+
+Tela passa a exibir e permitir selecionar os três planos e períodos para cada perfil, usando preços/créditos oficiais, padrão visual existente e nível necessário derivado do catálogo. Seleção não compra nem concede plano. Erro de carregamento apresenta retorno à conta em vez de painel vazio. 200 testes aprovados, zero falhas/ignorados, build aprovado. Sem migração, nova coleta ou cobrança real. Revisão de finalidade/dados mínimos/base/transparência/acesso/retenção/direitos/riscos e fontes oficiais registrada em pilot-sumare/docs/SUBSCRIPTION-PLAN-SELECTION-FIX.md. Somente homologação; conferência visual dos três perfis permanece em andamento.
+
+
+## Preparação do banco de produção — etapa 2, 21/10/2026
+
+Etapa 1 de conferência visual de menu expansível e encaminhamento dos recursos bloqueados confirmada por capturas enviadas pelo titular para Candidato, Empresa e Instituição. Empresa e Instituição receberam vínculos de homologação nas contas confirmadas criadas pelo usuário; nenhuma senha, documento ou saldo de produção copiado.
+
+Etapa 2 autorizada e concluída: migração 20261021232120_ai_resume_review_and_private_history aplicada no projeto de produção. Adiciona somente RPC de salvamento seletivo de sugestões do currículo e tabela do histórico privado. RLS e grants de cliente revogados, função SECURITY INVOKER executável exclusivamente pelo serviço, snapshot/lock contra sobrescrita. Nenhuma alteração de perfis existentes, carteiras, assinatura, variáveis, autenticação ou domínio. Produção já possuía reserva/estorno de créditos e colunas do currículo.
+
+Ensaio transacional em produção antes e depois da migração validou salvamento, recusa de snapshot antigo/chave indevida, preservação de contato e campos não selecionados, histórico via serviço e negação de privilégios ao cliente; rollback deixou zero registros fictícios. Digest agregado dos 54 perfis idêntico antes/depois; 154 vínculos, zero pedidos/pagamentos e saldos inalterados. 201 testes locais aprovados, zero falhas/ignorados. Advisors sem novos WARN/ERROR; nova INFO de RLS sem política é intencional na tabela service-only; aviso preexistente de senhas vazadas desativado permanece.
+
+Migração e testes versionados, finalidade/dados mínimos/hipótese/transparência/acesso/retenção/direitos/riscos e fontes oficiais em pilot-sumare/docs/PRODUCTION-DATABASE-STAGE2.md. Banco preparado não equivale a configuração de produção conferida (etapa 3), validação financeira/abertura Assinar (etapa 4) ou publicação no domínio (etapa 5), ainda pendentes.
+
+
+## Configuração de produção — etapa 3 em andamento, 21/10/2026
+
+Conferidos domínio canônico HTTPS com redirecionamento 308 do apex para www, /api/config ready:true e isolamento de projeto/turma entre produção e homologação. Auth público da produção confirma email habilitado e confirmação obrigatória. Secrets de Supabase/OpenAI/Asaas cadastrados em escopo Production; valores privados não lidos nem copiados. Criadas as duas variáveis que faltavam em Production: AI_CHAT_MODEL=gpt-4.1-mini e AI_CHAT_METERING_ENABLED=true. Dependem de próxima implantação; sem redeploy/domínio ou abertura de cobrança agora. Variáveis da branch preservadas.
+
+Etapa 3 ainda não marcada integralmente concluída: falta conferir Site URL e lista de retornos do Auth no painel Supabase de produção, opções não expostas pelo conector disponível. Revisão via captura do titular necessária. Não alterar template de recuperação com fragmento antes da publicação da página compatível. Secrets presentes não comprovam conexão/cota do modelo, e email habilitado não comprova entrega; ensaios reais ficam registrados como pendentes. Diagnóstico, valores esperados, fontes e revisão de privacidade: pilot-sumare/docs/PRODUCTION-CONFIGURATION-STAGE3.md.
+
+
+## Revisão Auth e validação financeira — etapas 3/4, 21/10/2026
+
+Captura do titular confirmou Site URL www oficial e retornos /conta/confirmar e /conta/recuperar. Revisão dos endereços concluída; /conta.html é compatibilidade opcional, não callback exigido pelos fluxos atuais. Nenhuma alteração de SMTP/template; entrega e runtime continuam a conferir na publicação. Documento de etapa 3 atualizado.
+
+Etapa 4 iniciada: indicadores financeiros persistidos connected/account_approved/webhook_ready=true; zero pedidos/pagamentos/eventos. 36 testes locais selecionados aprovados. Ensaio de carteira no banco de produção com identidade e pagamento fictícios validou débito, duplicidade, devolução idempotente, insuficiência e revogação com recusa de snapshot antigo. Rollback e consulta posterior confirmaram zero resíduos. Não houve chamada externa nem dinheiro movimentado. Consulta ampla rejeitada pela revisão automática; leitura mínima aprovada sem segredos.
+
+Pendentes compra real pelo proprietário, confirmação/conciliação e crédito, cancelamento de recorrência conforme escolha do titular e teste da IA após implantação controlada. Contratação pública continua bloqueada; domínio não foi atualizado. Roteiro, limitações e revisão de privacidade em pilot-sumare/docs/FINANCIAL-VALIDATION-STAGE4.md; ensaio reproduzível tests/hosted-billing-stage4.sql.
+
+
+## Pagamento real e correção de conciliação — 22/10/2026 UTC
+Pagamento real do proprietário confirmado por consulta atual ao Asaas e vinculado por checkoutSession exato do pedido: Nível 1, R$ 19,90, R$ 3,98 em créditos, zero gastos, período 21/10 a 21/11/2026. Filtro por checkout retornava vazio; código anterior marcava eventos processados sem achar pedido por assinatura ainda não vinculada. Correção publicada isoladamente em main, incorporada também à homologação para não regredir: webhook resolve assinatura por checkout comprovado, feedback explícito/visível na conferência, salvaguardas de valor/status/estorno mantidas. Recuperação pontual sem nova cobrança, removida do build ao concluir. 203 testes gerais passaram com um PDF indisponível ignorado; oito testes financeiros finais passaram. Conta de proprietário real sylvio.scatolin.jr@gmail.com; endereço master exibido não é login Auth cadastrado. Contratação pública ainda bloqueada; agentes ainda não publicados no domínio, e cancelamento/estorno real não foram executados. Detalhes e revisão de privacidade: pilot-sumare/docs/BILLING-RECONCILIATION-HOTFIX.md.
+
+
 ## Correção pontual de conciliação real — 22/10/2026 UTC
 Pagamento do proprietário recebido por webhook, pedido ainda pending. Correção isolada em main para pagamento fresco vinculado por checkoutSession exato, feedback explícito e visível no botão de conferência; não libera compra ao público nem publica agentes da homologação. Recuperação temporária limitada no build sem criação/cancelamento de cobranças, somente consulta ao Asaas e registro pelo ledger existente com vínculo comprovado. Detalhes, privacidade, fontes e limites em pilot-sumare/docs/BILLING-RECONCILIATION-HOTFIX.md. Resultado financeiro real será conferido após implantação; não considerar crédito liberado por teste local.
 
@@ -194,3 +250,8 @@ Pagamento do proprietário recebido por webhook, pedido ainda pending. Correçã
 Consulta autenticada ao Asaas durante recuperação confirmou status CONFIRMED, valor 1990 centavos, checkoutSession exatamente correspondente ao pedido e subscription presente. O filtro GET /payments?checkoutSession=... retornou vazio; a consulta direta do identificador vindo do evento autenticado comprovou vínculo. Recuperação registrou pelo RPC existente; consulta ao banco confirmou pedido active, subscription vinculada, eligible=true, crédito 398 centavos, gasto zero, período 21/10/2026 a 21/11/2026. Nenhum crédito manual/sintético, nova cobrança ou cancelamento foi criado. Implantação inicial dpl_F9MaVg6VGnfwriCYSN5yDJU5SPjW READY no domínio oficial.
 
 Correção definitiva: webhook consulta o pagamento fresco e localiza pedido por assinatura ou checkoutSession; pode vincular assinatura antes da primeira conciliação, com leitura posterior para verificar concorrência. Não depende do filtro vazio nem dos dados de pagamento fornecidos pelo navegador. A chamada temporária de recuperação foi removida do build após o resultado; script fica como operação privilegiada manual. 203 testes gerais aprovados, um PDF indisponível ignorado; oito testes financeiros focados finais aprovados. Contratação pública e publicação dos agentes permanecem pendentes. A conta real de proprietário é sylvio.scatolin.jr@gmail.com; master.sylvio@oempregadoronline.com.br é contato exibido, não conta Auth existente.
+
+
+## Publicação controlada dos agentes — etapa 5, 22/10/2026 UTC
+
+Versão preparada integra as correções de pagamento do main e os 54 recursos da homologação; banco de produção já preparado, sem nova migração. Corrigido escopo pessoal do proprietário para usar agentes de Candidato com seu próprio plano pago, sem novos níveis/permissões administrativas, sem alterar vínculo no banco. Meus agentes mantém expansão/bloqueios; Planos e pacotes abre a assinatura efetiva. 209 testes gerais aprovados, zero falhas, um PDF indisponível ignorado; 20 testes de navegação repetidos após ajuste do link e build local aprovados. Publicação e checagem de rotas previstas nesta etapa; execução real com carteira/modelo de produção precisa ser confirmada pelo titular após entrar no seu navegador. Contratação pública permanece restrita à validação, SMTP/template não alterados, saldo/pagamento preservados. Riscos, privacidade, roteiro e rollback para dpl_HeJRL2G2o7bWjQSFW3jr18zYwjew em pilot-sumare/docs/PRODUCTION-AGENTS-STAGE5.md.

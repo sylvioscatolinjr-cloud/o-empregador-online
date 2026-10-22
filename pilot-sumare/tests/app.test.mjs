@@ -1,3 +1,4 @@
+import {attachAgentMenu} from '../app/agent-menu.mjs';
 import {resumeWizardMarkup,attachResumeWizard,resumeDocument} from '../app/resume-wizard.mjs';
 import {createPushUI,setUnreadBadge} from '../app/push.mjs';
 import {createTalentUI} from '../app/talent.mjs';
@@ -14,7 +15,7 @@ function fixture(config,locationOverrides={}){const {window}=parseHTML('<div id=
  const profile={display_name:'Pessoa Fictícia',city:'Sumaré',state_code:'SP',skills:'Desenho técnico'},repository={async profile(){return profile;},async goal(){return null;},async saveProfile(input){calls.push(['saveProfile',input]);},async saveGoal(input){calls.push(['saveGoal',input]);}};
  const client={auth:{async getUser(){return {data:{user:{id:'fixture',email_confirmed_at:'2026-10-16'}}};},onAuthStateChange(fn){eventHandler=fn;},async getSession(){return {data:{session:null}};}}};
  class FD{constructor(form){this.values=[...form.querySelectorAll('input,textarea,select')].filter(el=>el.name&&!el.disabled).map(el=>[el.name,el.value]);}[Symbol.iterator](){return this.values[Symbol.iterator]();}}
- const context={resumeWizardMarkup,attachResumeWizard,resumeDocument,document:window.document,location:{origin:'https://pilot.example',pathname:'/',assign(path){calls.push(['navigate',path]);},...locationOverrides},history:{replaceState(){}},fetch:async(url)=>Response.json(String(url).startsWith('/api/owner')?{profiles:0,jobs:0,courses:0,applications:0,revenueCents:0,series:[],scope:'Fixture'}:config),Response,FormData:FD,URL,setTimeout,console,createClient(){calls.push(['client']);return client;},createPilotAccess(){return access;},createPilotRepository(){return repository;},createPortalUI,createExtendedUI,createPushUI,setUnreadBadge,navigator:{},createTalentUI,createTalentRepository,resumeUploadMarkup,attachResumeUpload,createPortalRepository(){return {async team(){return [];},async career(){return [];},async favorites(){return [];},async departments(){return [];},async publicCard(){return null;},async organization(){return null;},async listings(){return [];},async unread(){return 0;}};}};
+ const context={attachAgentMenu,resumeWizardMarkup,attachResumeWizard,resumeDocument,document:window.document,location:{origin:'https://pilot.example',pathname:'/',assign(path){calls.push(['navigate',path]);},...locationOverrides},history:{replaceState(){}},fetch:async(url)=>Response.json(String(url).startsWith('/api/owner')?{profiles:0,jobs:0,courses:0,applications:0,revenueCents:0,series:[],scope:'Fixture'}:config),Response,FormData:FD,URL,setTimeout,console,createClient(){calls.push(['client']);return client;},createPilotAccess(){return access;},createPilotRepository(){return repository;},createPortalUI,createExtendedUI,createPushUI,setUnreadBadge,navigator:{},createTalentUI,createTalentRepository,resumeUploadMarkup,attachResumeUpload,createPortalRepository(){return {async team(){return [];},async career(){return [];},async favorites(){return [];},async departments(){return [];},async publicCard(){return null;},async organization(){return null;},async listings(){return [];},async unread(){return 0;}};}};
  vm.createContext(context);vm.runInContext(source,context);
  const click=selector=>{const el=window.document.querySelector(selector);assert(el,selector);el.click();};
  const submit=(id,values)=>{const form=window.document.getElementById(id);assert(form,id);for(const [name,value] of Object.entries(values))form.querySelector('[name="'+name+'"]').value=value;form.dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));};
@@ -32,6 +33,24 @@ test('backend failures remain failures and switching accounts clears rendered pe
 
 test('expired recovery link shows recovery form and never silently falls back to login',async()=>{const f=fixture({ready:true,origin:'https://pilot.example'},{pathname:'/conta/recuperar',search:'?error=access_denied&error_code=otp_expired',hash:'#error=access_denied'});await wait();assert(f.document.querySelector('#forgot'));assert(!f.document.querySelector('#login'));assert.match(f.document.querySelector('#status').textContent,/expirou ou já foi utilizado/);f.submit('forgot',{email:'pessoa@example.com'});await wait();assert.equal(f.calls.filter(x=>x[0]==='reset').length,1);});
 test('recovery without a session offers a new link rather than a normal login form',async()=>{const f=fixture({ready:true,origin:'https://pilot.example'},{pathname:'/conta/recuperar'});await wait();assert(f.document.querySelector('#forgot'));assert.match(f.document.querySelector('#status').textContent,/recuperação não foi validada/);});
+
+test('recovery hash waits for an explicit click, verifies once and never renders the token',async()=>{
+ const token='a'.repeat(64),f=fixture({ready:true,origin:'https://pilot.example'},{pathname:'/conta/recuperar',hash:'#recovery_token_hash='+token});
+ let verifyCalls=0,release;
+ f.client.auth.verifyOtp=async input=>{verifyCalls++;assert.equal(input.token_hash,token);assert.equal(input.type,'recovery');return new Promise(resolve=>{release=()=>resolve({data:{session:{user:{id:'fixture'}}},error:null});});};
+ await wait();assert.equal(verifyCalls,0);assert(f.document.querySelector('#recovery-confirm'));assert(!f.document.body.innerHTML.includes(token));assert(!f.document.querySelector('#password'));
+ f.submit('recovery-confirm',{});f.submit('recovery-confirm',{});await wait();assert.equal(verifyCalls,1);
+ release();await wait();assert(f.document.querySelector('#password'));assert.match(f.document.querySelector('#status').textContent,/Link validado/);
+});
+test('invalid or rejected recovery hash cannot reuse an existing session to show a password form',async()=>{
+ for(const token of ['bad','b'.repeat(64)]){
+  const f=fixture({ready:true,origin:'https://pilot.example'},{pathname:'/conta/recuperar',hash:'#recovery_token_hash='+token});let verified=0;
+  f.client.auth.getSession=async()=>({data:{session:{user:{id:'previous-user'}}}});
+  f.client.auth.verifyOtp=async()=>{verified++;return {error:{message:'private-provider-error'},data:{session:null}};};
+  await wait();if(token.length===64)f.submit('recovery-confirm',{});await wait();
+  assert.equal(verified,token.length===64?1:0);assert(f.document.querySelector('#forgot'));assert(!f.document.querySelector('#password'));assert(!f.document.body.textContent.includes('private-provider-error'));
+ }
+});
 test('valid recovery session opens new-password form and saves through auth service',async()=>{
  const f=fixture({ready:true,origin:'https://pilot.example'},{pathname:'/conta/recuperar'});
  f.client.auth.getSession=async()=>({data:{session:{user:{id:'fixture'}}}});
@@ -41,7 +60,7 @@ test('valid recovery session opens new-password form and saves through auth serv
  assert.equal(f.calls.filter(c=>c[0]==='passwordChanged').length,1);assert.match(f.document.querySelector('#status').textContent,/Senha atualizada/);
 });
 
-test('owner navigation is available only for the database-authorized owner',async()=>{const f=fixture({ready:true,origin:'https://pilot.example'});await wait();f.access.snapshot=()=>({phase:'active',role:'pilot_owner'});f.client.auth.getSession=async()=>({data:{session:{access_token:'fixture'}}});f.submit('login',{email:'owner@example.com',password:'fixture'});await wait();assert(f.document.querySelector('[data-view=owner]'));f.access.snapshot=()=>({phase:'active',role:'learner'});f.click('[data-view=account]');await wait();assert(!f.document.querySelector('[data-view=owner]'));});
+test('owner navigation is available only for the database-authorized owner',async()=>{const f=fixture({ready:true,origin:'https://pilot.example'});await wait();f.access.snapshot=()=>({phase:'active',role:'pilot_owner'});f.client.auth.getSession=async()=>({data:{session:{access_token:'fixture'}}});f.submit('login',{email:'owner@example.com',password:'fixture'});await wait();assert(f.document.querySelector('[data-view=owner]'));assert(f.document.querySelector('[data-agent-toggle]'));assert.equal(f.document.querySelector('.space-nav a[href="/assinatura.html"]').textContent,'Planos e pacotes');f.access.snapshot=()=>({phase:'active',role:'learner'});f.click('[data-view=account]');await wait();assert(!f.document.querySelector('[data-view=owner]'));});
 
 for(const [role,label] of [['recruiter','Área da empresa'],['school_staff','Área da instituição de ensino']])test(role+' has its own space without candidate forms or owner controls',async()=>{const f=fixture({ready:true,origin:'https://pilot.example'});await wait();f.access.snapshot=()=>({phase:'active',role});f.submit('login',{email:'organization@example.com',password:'fixture'});await wait();assert.match(f.document.querySelector('#app').textContent,new RegExp(label));assert(!f.document.querySelector('#profile'));assert(!f.document.querySelector('[data-view=goal]'));assert(!f.document.querySelector('[data-view=owner]'));});
 

@@ -7,3 +7,5 @@ Produção é `pilot-sumare/` (Vercel/Supabase). O projeto raiz/Sites guarda o p
 Atualize o inventário quando concluir uma integração. Teste mudança e fluxos afetados antes de publicar. Não declarar que todas as funções estão prontas enquanto houver pendências reais.
 
 Em toda alteração ou implantação, revisar o histórico disponível e consultar a LGPD vigente e orientações pertinentes da ANPD em fontes oficiais. Registrar finalidade, dados mínimos, hipótese legal aplicável, transparência, acesso, retenção/direitos e riscos; ajustar pedidos incompatíveis antes de implementar. Não declarar conformidade jurídica completa por passar testes técnicos. Convites de equipe de empresa/instituição exigem CPF exato informado para essa finalidade, sem diretório de candidatos; pendente até aceite exclusivo do destinatário, depois Conectado.
+
+Novos botões, links de ação e recursos devem reutilizar o mesmo padrão visual dos controles vizinhos (tipografia, borda, fundo, dimensões, espaçamento, foco e hover). Em menus mistos, links de navegação recebem a aparência compartilhada dos botões, preservando sua semântica e responsividade.

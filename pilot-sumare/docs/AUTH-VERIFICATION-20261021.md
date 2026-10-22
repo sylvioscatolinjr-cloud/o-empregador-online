@@ -1,0 +1,11 @@
+# Verificação de acesso — 21/10/2026
+
+Homologação xxirjbsbfxwzplrcbbjt, branch feature/oeo-ai-agents. SMTP próprio salvo pelo titular; destinatário confirmou recebimento. Modelo de recuperação com TokenHash em fragmento e confirmação explícita salvo/recarregado no Supabase. O titular concluiu recuperação, com PUT /user 200 e user_modified às 17:20:49 UTC (14:20:49 Brasília), para a conta de teste previamente identificada. Senha nunca foi lida pelo agente.
+
+Após uma tentativa com credenciais recusadas, o titular entrou manualmente no navegador de validação. Evidência acessível: /conta.html, Acesso conferido, Meu espaço, menu exclusivo de candidato, Meus agentes e formulário de currículo com sete etapas (Contato, Histórico profissional, Formação acadêmica, Cursos e certificados, Competências, Objetivo, Revisar e finalizar). Flags de compartilhar contatos, informações adicionais e foto desmarcadas. Perfil no banco continha apenas nome de teste, sem currículo/anexo anterior.
+
+Tentativa de selecionar um PDF inteiramente fictício foi bloqueada pelo runtime de navegador por retained_data_restricted após entrega de credenciais. Nova aba também recusada por native credential state cannot be safely resumed. Nenhum arquivo selecionado/enviado, nenhuma gravação ou mudança no perfil. Não contornar proteção com cookies/tokens, autenticação por shell ou outra automação. Portanto leitura/aplicação/salvar/reabrir no navegador hospedado continuam pendentes; testes locais e SQL hospedado anteriores não substituem essa etapa.
+
+Checklist de homologação: SMTP/entrega confirmados; recuperação pelo titular confirmada; login e separação visual de candidato confirmados; importação completa hospedada pendente; revisão em aparelho físico pendente; pagamento real e conciliação comercial pendentes. Não representa homologação integral da plataforma.
+
+Privacidade: finalidade limitada à verificação de acesso e currículo solicitada. Leitura mínima dos registros de autenticação, sem senha/token ou novo compartilhamento. O PDF pessoal anteriormente fornecido não foi enviado ao banco nem ao modelo. Mantidas regras e avaliação LGPD/ANPD de AUTH-RECOVERY-HOMOLOGATION.md e AUTH-RECOVERY-SAME-PASSWORD.md. Sem nova retenção, autorização de publicação, mudança de permissões ou certificação jurídica.
