@@ -7,3 +7,10 @@ test('signed proposals are bound to account expiry source and content',()=>{cons
 test('unrecognized and duplicate targets are rejected before save',()=>{for(const target of ['contact.email','__proto__','experience.0.role'])assert.throws(()=>validateReview({summary:'',changes:[{target,value:'fake',reason:''}]},profile));assert.throws(()=>applyReview(profile,[],['about']));assert.throws(()=>applyReview(profile,[],[]));});
 
 test('provider schema allows only existing editable targets and caps suggestions without sharing mutable state',()=>{const f=reviewFormatFor(profile),changes=f.schema.properties.changes;assert.equal(changes.maxItems,12);assert.deepEqual(changes.items.properties.target.enum,resumeTargets(profile).map(t=>t.target));assert(!changes.items.properties.target.enum.includes('display_name'));assert(!JSON.stringify(f).includes('private@example'));changes.items.properties.target.enum.push('forged');assert(!reviewFormatFor(profile).schema.properties.changes.items.properties.target.enum.includes('forged'));assert.equal(reviewFormat.schema.properties.changes.maxItems,undefined);});
+
+test('empty and unchanged suggestions never erase text or discard useful improvements',()=>{
+ const r=validateReview({summary:'Revisão completa',changes:[{target:'about',value:'Resumo melhorado.',reason:'Clareza'},{target:'education',value:'',reason:'Sem dados'},{target:'skills',value:'CAD',reason:'Mantido'},{target:'courses',value:'   ',reason:'Sem dados'}]},profile);
+ assert.deepEqual(r.changes.map(c=>c.target),['about']);assert.deepEqual(applyReview(profile,r.changes,['about']),{about:'Resumo melhorado.'});
+ const f=reviewFormatFor(profile);assert.equal(f.schema.properties.changes.items.properties.value.maxLength,3000);assert.equal(f.schema.properties.changes.items.properties.value.minLength,1);
+ for(const value of [null,42,'x'.repeat(5001)])assert.throws(()=>validateReview({summary:'',changes:[{target:'about',value,reason:''}]},profile));
+});

@@ -18,7 +18,10 @@ export function redactResume(text,p){
 export const reviewFormat={type:'json_schema',name:'resume_review',strict:true,schema:{type:'object',additionalProperties:false,properties:{summary:{type:'string'},changes:{type:'array',items:{type:'object',additionalProperties:false,properties:{target:{type:'string'},value:{type:'string'},reason:{type:'string'}},required:['target','value','reason']}}},required:['summary','changes']}};
 export function reviewFormatFor(p){
  const format=structuredClone(reviewFormat);
+ format.schema.properties.summary.maxLength=1000;
  format.schema.properties.changes.maxItems=12;
+ format.schema.properties.changes.items.properties.value={type:'string',minLength:1,maxLength:3000};
+ format.schema.properties.changes.items.properties.reason={type:'string',maxLength:500};
  format.schema.properties.changes.items.properties.target.enum=resumeTargets(p).map(t=>t.target);
  return format;
 }
@@ -26,7 +29,7 @@ function invalidReview(code){throw Object.assign(Error('invalid review'),{review
 export function validateReview(raw,p){
  if(!raw||typeof raw.summary!=='string'||raw.summary.length>2000||!Array.isArray(raw.changes)||raw.changes.length>12)invalidReview('invalid_envelope');
  const targets=resumeTargets(p),seen=new Set(),changes=[];
- for(const c of raw.changes){if(!c||typeof c!=='object')invalidReview('invalid_change');const t=targets.find(t=>t.target===c.target);if(!t)invalidReview('unknown_target');if(seen.has(c.target))invalidReview('duplicate_target');if(typeof c.value!=='string'||!c.value.trim()||c.value.length>(c.target==='skills'?3000:5000))invalidReview('invalid_value');if(typeof c.reason!=='string'||c.reason.length>1500)invalidReview('invalid_reason');seen.add(c.target);if(c.value!==t.value)changes.push({target:c.target,label:t.label,before:t.value,after:c.value,reason:c.reason});}
+ for(const c of raw.changes){if(!c||typeof c!=='object')invalidReview('invalid_change');const t=targets.find(t=>t.target===c.target);if(!t)invalidReview('unknown_target');if(seen.has(c.target))invalidReview('duplicate_target');if(typeof c.value!=='string')invalidReview('invalid_value_type');if(c.value.length>(c.target==='skills'?3000:5000))invalidReview('invalid_value_length');if(!c.value.trim()||c.value===t.value){seen.add(c.target);continue;}if(typeof c.reason!=='string'||c.reason.length>1500)invalidReview('invalid_reason');seen.add(c.target);if(c.value!==t.value)changes.push({target:c.target,label:t.label,before:t.value,after:c.value,reason:c.reason});}
  if(JSON.stringify(changes).length>100000)throw Error('review too large');
  return {summary:raw.summary,changes};
 }
