@@ -19,3 +19,13 @@ test('help toggles once even after repeated attachment and never activates the r
 test('help escapes labels and instructions and explains a locked resource without purchasing',()=>{
  const task={...getGuidedTasks('recruiter',0)[0],label:'<img src=x onerror=bad()>',hint:'<script>private</script>'},{window}=parseHTML('<section>'+taskHelpMarkup(task,'test')+'</section>');assert.equal(window.document.querySelector('img,script'),null);assert.match(window.document.querySelector('section').textContent,/Requer plano nível 1/);
 });
+
+test('resource numbering starts at one and stays sequential across tiers',()=>{
+ for(const role of ['learner','recruiter','school_staff']){
+ const tasks=getGuidedTasks(role,1);
+ const {document}=parseHTML('<section>'+tasks.map((t,i)=>taskHelpMarkup(t,'number',i)).join('')+'</section>');
+ assert.deepEqual([...document.querySelectorAll('.ai-resource-number')].map(n=>n.textContent),tasks.map((_,i)=>String(i+1)));
+ assert.equal(document.querySelector('button .ai-resource-number'),null);
+ assert.equal(tasks.filter(t=>t.available).length,6);assert.equal(tasks.length,18);
+ }
+});

@@ -69,9 +69,9 @@ export function taskHelp(task){
   'Revise a resposta. Se desejar, salve no histórico privado. Consultar, salvar e retomar são gratuitos; executar uma nova análise custa R$ 1,00.'
  ]};
 }
-export function taskHelpMarkup(task,prefix){
+export function taskHelpMarkup(task,prefix,index){
  const help=taskHelp(task),id=prefix+'-help-'+task.id;
- return `<button type="button" class="ai-task-help" data-task-help aria-label="Ajuda: ${esc(task.label)}" aria-expanded="false" aria-controls="${esc(id)}">?</button><div class="ai-task-help-panel" id="${esc(id)}" hidden><strong>Para que serve</strong><p>${esc(help.description)}</p><strong>Como usar</strong><ol>${help.steps.map(step=>`<li>${esc(step)}</li>`).join('')}</ol><p>${task.available?'Disponível no seu plano.':'Requer plano nível '+Number(task.minTier)+'. Clique no recurso para consultar o plano que libera o acesso.'} Abrir esta ajuda não seleciona o recurso nem consome créditos.</p>${task.id==='resume_review'?'':'<p>Esta tarefa usa o texto informado por você. Dados da plataforma, resultados, vagas ou indicadores não são consultados automaticamente. Não informe dados pessoais de terceiros.</p>'}</div>`;
+ return `<button type="button" class="ai-task-help" data-task-help aria-label="Ajuda: ${esc(task.label)}" aria-expanded="false" aria-controls="${esc(id)}">?</button>${Number.isInteger(index)?`<span class="ai-resource-number" aria-label="Recurso ${index+1}">${index+1}</span>`:''}<div class="ai-task-help-panel" id="${esc(id)}" hidden><strong>Para que serve</strong><p>${esc(help.description)}</p><strong>Como usar</strong><ol>${help.steps.map(step=>`<li>${esc(step)}</li>`).join('')}</ol><p>${task.available?'Disponível no seu plano.':'Requer plano nível '+Number(task.minTier)+'. Clique no recurso para consultar o plano que libera o acesso.'} Abrir esta ajuda não seleciona o recurso nem consome créditos.</p>${task.id==='resume_review'?'':'<p>Esta tarefa usa o texto informado por você. Dados da plataforma, resultados, vagas ou indicadores não são consultados automaticamente. Não informe dados pessoais de terceiros.</p>'}</div>`;
 }
 const helpRoots=new WeakSet();
 export function attachTaskHelp(root){

@@ -268,3 +268,5 @@ Captura confirma anexo lido, análise falhou; reserva de 100 centavos devolvida 
 
 ## Ajuda expansível em todos os recursos de IA — 21/10/2026 (Brasília)
 Pedido do titular implementado nos 54 recursos, tanto no menu Meus agentes quanto na tela de execução: botão ? independente na área visual do recurso, com finalidade e quatro passos específicos; revisão de currículo tem roteiro próprio. Disponível também nos bloqueados, sem selecionar/navegar/cobrar. Padrão visual compartilhado, foco/teclado, alvo 44 px, aria-expanded/controls, sem aninhamento de botões. Textos deixam claros entrada necessária, custo, salvamento e limites das integrações. 19 testes de ajuda/menu/execução aprovados, build aprovado. Sem nova coleta, permissão, retenção ou chamada à IA. Detalhes e privacidade em pilot-sumare/docs/AI-RESOURCE-HELP.md.
+
+Numeração dos agentes: cada perfil exibe recursos 1–18 abaixo da ajuda e quantidade liberada pelo plano sobre total, no menu e execução. Não confundir com saldo de créditos. Ajuda, seleção e bloqueios preservados; 20 testes direcionados e build aprovados. Revisão LGPD/ANPD sem nova coleta, finalidade ou retenção.
