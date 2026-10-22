@@ -12,14 +12,14 @@ Este quadro é o estado atual. Registros anteriores ao final são históricos e 
 | Prioridade na busca autenticada de currículos | Integrada em produção, testes local e hospedado aprovados | Conferência visual com resultados representativos pendente |
 | Prioridade em anúncios, página inicial e área delegada | Publicada; delegação paginada por 30 resultados | Aceite visual autenticado pendente; CEP delegado ainda não integrado |
 | Distância como desempate | Integrada na busca autenticada com CEP opcional | Linha reta aproximada; candidatos somente com região autorizada; aceite visual pendente |
-| Médias por organização e departamento | Integradas; pontos profissionais públicos de vínculos aceitos | Recalculadas na consulta; sem histórico de variação/substituição automática |
+| Médias e histórico por organização/departamento | Integrados; medição na consulta com variação e contagem | Não captura cada evento entre consultas; sem substituição automática; aceite visual pendente |
 | Renovação, cancelamento e estorno reais | Pendente | Não movimentar dinheiro apenas para fechar teste |
 | Adolescentes, revisão final móvel/acessibilidade e abertura comercial | Pendentes de revisão final | Flags de aprovação do piloto preservadas; compras públicas continuam restritas |
 
 ## Próximas ações
 1. Titular validar um conteúdo e um envio próprios no gerenciador, sem compra adicional.
 2. Validar visualmente médias por equipe e busca com CEP, preservando filtros e privacidade.
-3. Implementar histórico de variação das médias; avaliar extensão do CEP à área delegada.
+3. Validar histórico das médias no uso real; avaliar extensão do CEP à área delegada.
 4. Completar ensaios financeiros autorizados e revisão do piloto antes de abertura pública.
 
 ## Evidência desta rodada
@@ -65,3 +65,6 @@ Atualização Cursos & Treinamentos OEO: catálogo original 27/108/135 e gerenci
 
 ## Busca delegada — 22/10/2026
 Prioridade e paginação integradas preservando aceite, permissão e contas ativas/confirmadas. 271 testes aprovados, zero falhas, um PDF ausente ignorado; quatro focados, build e ensaio sintético hospedado com rollback aprovados. Zero resíduos; sem dinheiro ou mensagens reais. Aceite visual e CEP na área delegada pendentes. Ver DELEGATED-ORDERED-SEARCH.md.
+
+## Histórico das médias — 22/10/2026
+Medições privadas na consulta, até 100 alterações por escopo, últimas 20 exibidas; referência inicial sem retroativo, variação e quantidades. Migração 20261022190540. Suíte geral 273 aprovados, zero falhas, um PDF privado ausente ignorado; sete focados finais, build e ensaio hospedado com rollback aprovados, zero resíduos. Não equivale a log de cada contratação/saída ou substituição automática. Sem dinheiro, modelos ou avisos reais. Ver ORGANIZATION-POINTS-HISTORY.md.
