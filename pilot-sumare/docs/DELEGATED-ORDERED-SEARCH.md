@@ -1,0 +1,14 @@
+# Busca autorizada por organização — 22/10/2026
+
+A área dos subusuários passa a reutilizar a mesma ordenação dos cartões públicos: destaque, nível Candidato pago vigente, pontos profissionais comprovados, nome e ID. Ordenação e filtro acontecem antes da paginação de 30 resultados. A interface mantém o filtro entre páginas, marca Fictício e ignora respostas após mudança de sessão ou organização. Botões reutilizam o estilo existente.
+
+A função privada existente mantém sua guarda de permissão: responsável da organização ou convite aceito com searchCandidates. A consulta também exige ator e organização ativos, confirmados e não bloqueados. Nenhuma assinatura pessoal ou parâmetro de navegador concede permissão. Não foi criado novo SECURITY DEFINER nem ampliado grant; o feed interno continua exclusivo do serviço. Os demais comandos delegados permanecem iguais.
+
+Migração de produção: 20261022183701_delegated_verified_ordered_candidate_search. Testes: 271 aprovados, zero falhas, um PDF privado ausente ignorado; quatro testes focados e build aprovados. Ensaio hospedado sintético validou destaque/plano, filtro, paginação e revogação com rollback; zero turmas temporárias restantes. Cliente não executa o feed interno e anônimo não executa comando delegado. Não houve chamada Asaas/OpenAI, envio de aviso real ou alteração de usuários reais.
+
+Limites: aceite visual autenticado ainda pendente; CEP opcional continua na busca principal e não foi estendido à área delegada nesta entrega. Histórico de variação das médias, ensaios financeiros reais e revisão final móvel/adolescentes continuam pendentes. Compras públicas permanecem restritas.
+
+## Privacidade
+Finalidade: busca profissional autorizada em nome da organização. Dados mínimos: cartões com publicação autorizada; sem CPF, e-mail, telefone, currículo original, dados financeiros, coordenadas ou pontuação privada. Fotos não utilizadas também são removidas da resposta delegada. Hipótese de trabalho: execução do serviço contratado para o operador e autorização de publicação do cartão pelo candidato, preservando as escolhas existentes; requer revisão contextual do controlador. Interface explica critérios e apoio à análise humana. Sem nova tabela, retenção ou cópia persistente; filtros ficam na sessão da tela. Revogar acesso impede nova consulta; ocultar cartão retira-o dos resultados. Direitos e canais existentes preservados. Riscos: acesso indevido, respostas tardias e exposição excessiva mitigados por verificações no servidor, controle de revisão e projeção mínima. Testes técnicos não constituem certificação jurídica.
+
+Fontes oficiais consultadas: LGPD https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709compilado.htm ; ANPD https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia-vf.pdf ; Supabase https://supabase.com/docs/guides/database/functions .

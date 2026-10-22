@@ -48,5 +48,23 @@ test('talent: approval, protected points, revocable subuser permissions and inte
  assert.equal((await actor(company,()=>db.query('select user_id from portal_candidate_cards'))).rows.length,2);
  assert.equal((await actor(company,()=>db.query("select jsonb_array_length(portal_search_scored_candidates($1,'','',false,0)) n",[cohort]))).rows[0].n,2);
  assert.equal(Number((await actor(candidate,()=>db.query('select portal_learning_score($1,$2) n',[candidate,cohort]))).rows[0].n),0);
+ // Ordered delegated search must preserve accepted permission and reject stale/forged scope.
+ await db.exec("alter table auth.users add column banned_until timestamptz");
+ await db.exec(`create function public.portal_ordered_public_feed(uuid,text,text,integer,integer) returns jsonb language sql as $$select jsonb_build_array(jsonb_build_object('page',$4,'size',$5,'query',$3,'kind',$2))$$;revoke all on function public.portal_ordered_public_feed(uuid,text,text,integer,integer) from public,anon,authenticated;grant execute on function public.portal_ordered_public_feed(uuid,text,text,integer,integer) to service_role;`);
+ await db.exec(await readFile(new URL('../db/delegated-ordered-search.sql',import.meta.url),'utf8'));
+ const delegatedSearch=(who=candidate,org=company,payload={})=>actor(who,()=>db.query("select public.portal_delegated_command($1,$2,'candidates',$3::jsonb) result",[cohort,org,JSON.stringify(payload)]));
+ await assert.rejects(delegatedSearch(),/Permissão indisponível/);
+ await db.query("update portal_org_access set status='pending',permissions=array['searchCandidates'] where id=$1",[invitation.id]);
+ await assert.rejects(delegatedSearch(),/Permissão indisponível/);
+ await db.query("update portal_org_access set status='accepted' where id=$1",[invitation.id]);
+ assert.deepEqual((await delegatedSearch(candidate,company,{query:'CAD',page:2})).rows[0].result,[{page:2,size:30,query:'CAD',kind:'candidates'}]);
+ assert.equal((await delegatedSearch(company,company)).rows[0].result[0].page,0);
+ await assert.rejects(delegatedSearch(candidate,other),/Permissão indisponível/);
+ for(const page of [-1,1001,1.5,'1 OR 1=1'])await assert.rejects(delegatedSearch(candidate,company,{page}),/Página inválida/);
+ await db.query("update auth.users set banned_until=now()+interval '1 day' where id=$1",[company]);await assert.rejects(delegatedSearch(),/indisponível/);
+ await db.query("update auth.users set banned_until=null where id=$1",[company]);
+ await db.query("update auth.users set email_confirmed_at=null where id=$1",[candidate]);await assert.rejects(delegatedSearch(),/indisponível/);
+ await db.query("update auth.users set email_confirmed_at=now() where id=$1",[candidate]);
+ await db.query("update portal_org_access set permissions=array['publish'] where id=$1",[invitation.id]);await assert.rejects(delegatedSearch(),/Permissão indisponível/);
  }finally{await db.close();}
 });

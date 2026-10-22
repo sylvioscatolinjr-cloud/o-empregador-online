@@ -10,7 +10,7 @@ Este quadro é o estado atual. Registros anteriores ao final são históricos e 
 | Menus dos três perfis, níveis, ajuda e numeração | Conferidos pelo titular e publicados | Respostas reais de Empresa/Instituição têm aceite separado |
 | 27 treinamentos e gerenciador PDF/PPTX/link | Publicados e testados tecnicamente | Primeiro estudo/upload real pelo titular ainda pendente |
 | Prioridade na busca autenticada de currículos | Integrada em produção, testes local e hospedado aprovados | Conferência visual com resultados representativos pendente |
-| Prioridade em anúncios e página inicial | Publicada | Área delegada continua pendente |
+| Prioridade em anúncios, página inicial e área delegada | Publicada; delegação paginada por 30 resultados | Aceite visual autenticado pendente; CEP delegado ainda não integrado |
 | Distância como desempate | Integrada na busca autenticada com CEP opcional | Linha reta aproximada; candidatos somente com região autorizada; aceite visual pendente |
 | Médias por organização e departamento | Integradas; pontos profissionais públicos de vínculos aceitos | Recalculadas na consulta; sem histórico de variação/substituição automática |
 | Renovação, cancelamento e estorno reais | Pendente | Não movimentar dinheiro apenas para fechar teste |
@@ -19,7 +19,7 @@ Este quadro é o estado atual. Registros anteriores ao final são históricos e 
 ## Próximas ações
 1. Titular validar um conteúdo e um envio próprios no gerenciador, sem compra adicional.
 2. Validar visualmente médias por equipe e busca com CEP, preservando filtros e privacidade.
-3. Integrar prioridade da área delegada e avaliar histórico de variação das médias.
+3. Implementar histórico de variação das médias; avaliar extensão do CEP à área delegada.
 4. Completar ensaios financeiros autorizados e revisão do piloto antes de abertura pública.
 
 ## Evidência desta rodada
@@ -62,3 +62,6 @@ Atualização Cursos & Treinamentos OEO: catálogo original 27/108/135 e gerenci
 ## Integração de médias e distância — 22/10/2026 (Brasília)
 254 testes aprovados, zero falhas, um PDF privado ausente ignorado; ensaio transacional hospedado aprovado e sem resíduos. CEP de referência opcional nas buscas autenticadas; coordenadas de CEPs públicos de anúncios verificadas por AwesomeAPI, cache de 30 dias e trabalho limitado por chamada. Candidato autoriza região aproximada (cerca de 10 km) separadamente do cartão público; CEP não persistido, coordenadas não retornadas, autorização revogável. Médias usam vínculos aceitos e cartões públicos ativos, sem duplicação por organização. Página inicial usa pontos como desempate sem inferir origem anônima. Sem compras, cobrança IA ou alteração dos planos. Detalhes e LGPD/ANPD: ORGANIZATION-POINTS-AND-DISTANCE.md. Teste autenticado visual com dados do titular ainda pendente.
 
+
+## Busca delegada — 22/10/2026
+Prioridade e paginação integradas preservando aceite, permissão e contas ativas/confirmadas. 271 testes aprovados, zero falhas, um PDF ausente ignorado; quatro focados, build e ensaio sintético hospedado com rollback aprovados. Zero resíduos; sem dinheiro ou mensagens reais. Aceite visual e CEP na área delegada pendentes. Ver DELEGATED-ORDERED-SEARCH.md.
