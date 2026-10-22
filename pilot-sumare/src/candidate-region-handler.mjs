@@ -1,0 +1,14 @@
+import {createClient} from '@supabase/supabase-js';import {lookupPostal} from './postal-coordinates.mjs';
+export function candidateRegionHandler({env=process.env,clientFactory=createClient,lookup=lookupPostal}={}){return async(req,res)=>{
+ res.setHeader('Cache-Control','private, no-store');if(!['GET','POST'].includes(req.method))return res.status(405).json({error:'Método inválido.'});const token=/^Bearer ([^\s]+)$/.exec(req.headers.authorization||'')?.[1];if(!token)return res.status(401).json({error:'Entre novamente.'});
+ if(!env.SUPABASE_URL||!env.SUPABASE_SECRET_KEY||!env.PILOT_COHORT_ID)return res.status(503).json({error:'Recurso em configuração.'});
+ try{const db=clientFactory(env.SUPABASE_URL,env.SUPABASE_SECRET_KEY,{auth:{persistSession:false,autoRefreshToken:false}}),a=await db.auth.getUser(token),u=a.data?.user;if(a.error||!u?.email_confirmed_at||u.banned_until&&Date.parse(u.banned_until)>Date.now())return res.status(401).json({error:'Entre novamente.'});const m=await db.from('pilot_memberships').select('role,status').eq('user_id',u.id).eq('cohort_id',env.PILOT_COHORT_ID).maybeSingle();if(m.error)throw Error();if(m.data?.status!=='active'||!['learner','pilot_owner'].includes(m.data.role))return res.status(403).json({error:'Preferência exclusiva do candidato.'});
+ const scope=q=>q.eq('user_id',u.id).eq('cohort_id',env.PILOT_COHORT_ID);
+ if(req.method==='GET'){const r=await scope(db.from('portal_candidate_regions').select('user_id')).maybeSingle();if(r.error)throw Error();return res.status(200).json({enabled:Boolean(r.data)});}
+ const b=req.body||{};if(typeof b.enabled!=='boolean')return res.status(400).json({error:'Confira sua autorização.'});
+ if(!b.enabled){const r=await scope(db.from('portal_candidate_regions').delete());if(r.error)throw Error();return res.status(200).json({enabled:false});}
+ const postal=String(b.postal||'').replace(/\D/g,'');if(!postal){const r=await scope(db.from('portal_candidate_regions').select('user_id')).maybeSingle();if(r.error)throw Error();if(r.data)return res.status(200).json({enabled:true});}if(!/^\d{8}$/.test(postal))return res.status(400).json({error:'Informe o CEP para autorizar sua região aproximada.'});
+ const rate=await db.rpc('portal_distance_search_allowed',{p_user:u.id});if(rate.error)throw Error();if(!rate.data)return res.status(429).json({error:'Limite de consultas por CEP nesta hora. Tente mais tarde.'});const point=await lookup(postal);if(!point)return res.status(503).json({error:'Não foi possível localizar o CEP. Sua autorização anterior foi preservada.'});
+ const r=await db.from('portal_candidate_regions').upsert({user_id:u.id,cohort_id:env.PILOT_COHORT_ID,latitude:Math.round(point.latitude*10)/10,longitude:Math.round(point.longitude*10)/10,consented_at:new Date().toISOString()});if(r.error)throw Error();return res.status(200).json({enabled:true});
+ }catch{return res.status(503).json({error:'Não foi possível atualizar sua preferência. Tente novamente.'});}
+};}

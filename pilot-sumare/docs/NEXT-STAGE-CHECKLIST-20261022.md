@@ -10,19 +10,20 @@ Este quadro é o estado atual. Registros anteriores ao final são históricos e 
 | Menus dos três perfis, níveis, ajuda e numeração | Conferidos pelo titular e publicados | Respostas reais de Empresa/Instituição têm aceite separado |
 | 27 treinamentos e gerenciador PDF/PPTX/link | Publicados e testados tecnicamente | Primeiro estudo/upload real pelo titular ainda pendente |
 | Prioridade na busca autenticada de currículos | Integrada em produção, testes local e hospedado aprovados | Conferência visual com resultados representativos pendente |
-| Prioridade em anúncios, página inicial e área delegada | Pendente | Não anunciar benefício completo como entregue |
-| Distância como desempate | Pendente | Não inferir distância a partir de CEP sem método validado |
-| Renovação, cancelamento e estorno reais | Pendente | Não cancelar assinatura ou gerar nova compra apenas para fechar teste |
+| Prioridade em anúncios e página inicial | Publicada | Área delegada continua pendente |
+| Distância como desempate | Integrada na busca autenticada com CEP opcional | Linha reta aproximada; candidatos somente com região autorizada; aceite visual pendente |
+| Médias por organização e departamento | Integradas; pontos profissionais públicos de vínculos aceitos | Recalculadas na consulta; sem histórico de variação/substituição automática |
+| Renovação, cancelamento e estorno reais | Pendente | Não movimentar dinheiro apenas para fechar teste |
 | Adolescentes, revisão final móvel/acessibilidade e abertura comercial | Pendentes de revisão final | Flags de aprovação do piloto preservadas; compras públicas continuam restritas |
 
 ## Próximas ações
 1. Titular validar um conteúdo e um envio próprios no gerenciador, sem compra adicional.
-2. Integrar prioridade de exibição às demais superfícies, preservando filtros e privacidade.
-3. Validar método de distância e demais critérios de desempate.
+2. Validar visualmente médias por equipe e busca com CEP, preservando filtros e privacidade.
+3. Integrar prioridade da área delegada e avaliar histórico de variação das médias.
 4. Completar ensaios financeiros autorizados e revisão do piloto antes de abertura pública.
 
 ## Evidência desta rodada
-239 testes aprovados, zero falhas, um PDF privado ausente ignorado. Teste cruza cálculo financeiro SQL/JS em 36 combinações. Ensaio de produção com dados fictícios e rollback validou ordem e projeção; zero resíduos. Sem chamadas ao Asaas/OpenAI ou alterações financeiras de usuários. Detalhes: PAID-CANDIDATE-PRIORITY.md e OEO-TRAININGS-AND-OWNER-LIBRARY.md.
+254 testes aprovados, zero falhas, um PDF privado ausente ignorado. Ensaio hospedado com rollback validou médias, região autorizada, projeção e prioridade, sem resíduos. Sem chamadas ao Asaas/OpenAI ou alterações financeiras. 29 testes focados finais e build aprovados. Detalhes: ORGANIZATION-POINTS-AND-DISTANCE.md.
 
 ## Histórico do checklist preservado
 # Etapa seguinte — 22/10/2026
@@ -57,3 +58,7 @@ Fontes oficiais revistas: https://www.planalto.gov.br/ccivil_03/_ato2015-2018/20
 Atualização 22/10: titular aprovou conferência visual dos recursos de Empresa e Instituição. Execuções reais e avaliação qualitativa nesses perfis continuam pendentes. Revisada apresentação comercial para distinguir IA publicada de treinamentos e prioridade ainda em implantação; ver BENEFITS-DELIVERY-STATUS.md.
 
 Atualização Cursos & Treinamentos OEO: catálogo original 27/108/135 e gerenciador do proprietário preparados com regras Grátis/1/2/3, PDF/PPTX/link e progresso privado. Integração técnica e banco testados; leitura/retomada e upload real no navegador do titular ainda dependem de teste após publicação. Prioridade de exibição segue pendente; não abrir compras ao público por este ajuste. Ver OEO-TRAININGS-AND-OWNER-LIBRARY.md.
+
+## Integração de médias e distância — 22/10/2026 (Brasília)
+254 testes aprovados, zero falhas, um PDF privado ausente ignorado; ensaio transacional hospedado aprovado e sem resíduos. CEP de referência opcional nas buscas autenticadas; coordenadas de CEPs públicos de anúncios verificadas por AwesomeAPI, cache de 30 dias e trabalho limitado por chamada. Candidato autoriza região aproximada (cerca de 10 km) separadamente do cartão público; CEP não persistido, coordenadas não retornadas, autorização revogável. Médias usam vínculos aceitos e cartões públicos ativos, sem duplicação por organização. Página inicial usa pontos como desempate sem inferir origem anônima. Sem compras, cobrança IA ou alteração dos planos. Detalhes e LGPD/ANPD: ORGANIZATION-POINTS-AND-DISTANCE.md. Teste autenticado visual com dados do titular ainda pendente.
+

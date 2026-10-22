@@ -1,3 +1,6 @@
+import {candidateRegionHandler} from '../src/candidate-region-handler.mjs';
+import {distanceDiscoveryHandler} from '../src/distance-discovery-handler.mjs';
+import {organizationPointsHandler} from '../src/organization-points-handler.mjs';
 import {discoveryHandler} from '../src/discovery-handler.mjs';
 import {trainingHandler} from '../src/training-handler.mjs';
 import {aiHistoryHandler} from '../src/ai-history-handler.mjs';
@@ -5,6 +8,9 @@ import {aiResumeHandler} from '../src/ai-resume-handler.mjs';
 import {aiChatHandler} from '../src/ai-chat-handler.mjs';
 import {aiBalanceHandler} from '../src/ai-balance-handler.mjs';
 import {agentCatalogHandler} from '../src/agent-catalog-handler.mjs';
+const organizationPoints=organizationPointsHandler();
+const candidateRegion=candidateRegionHandler();
+const distanceDiscovery=distanceDiscoveryHandler();
 const discovery=discoveryHandler();
 const training=trainingHandler();
 const history=aiHistoryHandler();
@@ -14,7 +20,9 @@ const balance=aiBalanceHandler();
 const catalog=agentCatalogHandler();
 export default function handler(req,res){
  const action=req.query?.action;
- if(action==='discovery')return discovery(req,res);
+ if(action==='candidate-region')return candidateRegion(req,res);
+ if(action==='organization-points')return organizationPoints(req,res);
+ if(action==='discovery')return req.method==='POST'?distanceDiscovery(req,res):discovery(req,res);
  if(typeof action==='string'&&action.startsWith('training-'))return training(req,res);
  if(['resume-source','resume-review','resume-save'].includes(action))return resume(req,res);
  if(['history-list','history-save','history-delete'].includes(action))return history(req,res);

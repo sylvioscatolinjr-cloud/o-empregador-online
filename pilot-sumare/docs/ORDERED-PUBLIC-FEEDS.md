@@ -8,4 +8,4 @@ Sylvio explicitly authorized the demo exception on 2026-10-22 after automatic re
 
 Privacy: existing public listing purpose and candidate opt-in remain; no new data collection or wallet charge. Auth status is used server-side to restrict public projection; passwords, emails and sessions are not read. No new retained personal data. Existing correction/removal paths remain. This is a technical review, not legal certification.
 
-Still pending: distance, organization-average ordering, delegated plan entitlements, real browser QA and final browser QA.
+Updated: organization-average ordering and optional distance are integrated; see ORGANIZATION-POINTS-AND-DISTANCE.md. Delegated plan entitlements and authenticated browser QA remain pending.
