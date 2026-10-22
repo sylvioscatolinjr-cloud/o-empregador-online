@@ -1,3 +1,30 @@
+# Checklist atual — 22/10/2026
+
+Este quadro é o estado atual. Registros anteriores ao final são históricos e podem conter pendências já superadas.
+
+| Etapa | Situação atual | Limite de aceite |
+| --- | --- | --- |
+| Domínio, login e assinatura inicial | Publicados; pagamento inicial real conciliado | Não equivale à abertura pública de vendas |
+| Créditos de IA, execução e histórico | Validados pelo titular em produção | Qualidade das 54 respostas reais não foi testada integralmente |
+| Currículo: leitura de campos/anexo, sugestões, seleção e persistência | Validado pelo titular | Nenhuma alteração automática sem escolha |
+| Menus dos três perfis, níveis, ajuda e numeração | Conferidos pelo titular e publicados | Respostas reais de Empresa/Instituição têm aceite separado |
+| 27 treinamentos e gerenciador PDF/PPTX/link | Publicados e testados tecnicamente | Primeiro estudo/upload real pelo titular ainda pendente |
+| Prioridade na busca autenticada de currículos | Integrada em produção, testes local e hospedado aprovados | Conferência visual com resultados representativos pendente |
+| Prioridade em anúncios, página inicial e área delegada | Pendente | Não anunciar benefício completo como entregue |
+| Distância como desempate | Pendente | Não inferir distância a partir de CEP sem método validado |
+| Renovação, cancelamento e estorno reais | Pendente | Não cancelar assinatura ou gerar nova compra apenas para fechar teste |
+| Adolescentes, revisão final móvel/acessibilidade e abertura comercial | Pendentes de revisão final | Flags de aprovação do piloto preservadas; compras públicas continuam restritas |
+
+## Próximas ações
+1. Titular validar um conteúdo e um envio próprios no gerenciador, sem compra adicional.
+2. Integrar prioridade de exibição às demais superfícies, preservando filtros e privacidade.
+3. Validar método de distância e demais critérios de desempate.
+4. Completar ensaios financeiros autorizados e revisão do piloto antes de abertura pública.
+
+## Evidência desta rodada
+239 testes aprovados, zero falhas, um PDF privado ausente ignorado. Teste cruza cálculo financeiro SQL/JS em 36 combinações. Ensaio de produção com dados fictícios e rollback validou ordem e projeção; zero resíduos. Sem chamadas ao Asaas/OpenAI ou alterações financeiras de usuários. Detalhes: PAID-CANDIDATE-PRIORITY.md e OEO-TRAININGS-AND-OWNER-LIBRARY.md.
+
+## Histórico do checklist preservado
 # Etapa seguinte — 22/10/2026
 ## Escopo e evidência
 Consolidar a validação dos agentes por perfil e dos benefícios antes da abertura comercial. Não reexecutar compras nem consumir carteira para repetir testes já aceitos.
