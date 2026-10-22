@@ -16,7 +16,11 @@ export function liveCheckoutBody(order,origin,now=new Date()){
  return {billingTypes:['CREDIT_CARD'],chargeTypes:['RECURRENT'],minutesToExpire:60,externalReference:order.id,callback:{successUrl:origin+'/assinatura.html?retorno=sucesso',cancelUrl:origin+'/assinatura.html?retorno=cancelado',expiredUrl:origin+'/assinatura.html?retorno=expirado'},items:[{name:`O Empregador Online — Nível ${q.tier}`,description:`${q.profileType} — ${q.label}. Renovação a cada ${q.months} mês(es).`,quantity:1,value:q.cents/100}],subscription:{cycle:q.cycle,nextDueDate:today}};
 }
 export function livePayment(payment,order,checkedAt=new Date().toISOString()){
- liveId(payment.id,'pay_');if(payment.subscription!==order.subscription_id)throw Error('Assinatura incompatível.');
+ liveId(payment.id,'pay_');
+ const subscriptionMatch=!!order.subscription_id&&payment.subscription===order.subscription_id;
+ const checkoutMatch=!!order.checkout_id&&payment.checkoutSession===order.checkout_id;
+ if(!subscriptionMatch&&!checkoutMatch)throw Error('Assinatura incompatível.');
+ if(order.subscription_id&&payment.subscription&&payment.subscription!==order.subscription_id)throw Error('Assinatura incompatível.');
  const cents=Math.round(Number(payment.value)*100);if(!Number.isSafeInteger(cents)||cents<0)throw Error('Valor inválido.');
  const date=payment.originalDueDate||payment.dueDate;
  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||new Date(date+'T12:00:00Z').toISOString().slice(0,10)!==date)throw Error('Período inválido.');
@@ -30,13 +34,30 @@ export function currentEntitlement(orders,payments,now=Date.now()){
  if(!active)return {tier:0,creditCents:0,expiresAt:null};
  return {tier:orderMap.get(active.order_id).tier,creditCents:Math.max(0,active.credit_cents-active.spent_cents),expiresAt:active.period_end,cycleStart:active.period_start};
 }
+export async function findLivePaymentOrder(db,payment){
+ let order;
+ if(payment.subscription){liveId(payment.subscription,'sub_');const r=await db.from('billing_live_orders').select('*').eq('subscription_id',payment.subscription).maybeSingle();if(r.error)throw Error('Falha ao conferir assinatura.');order=r.data;}
+ if(!order&&payment.checkoutSession){liveId(payment.checkoutSession);const r=await db.from('billing_live_orders').select('*').eq('checkout_id',payment.checkoutSession).maybeSingle();if(r.error)throw Error('Falha ao conferir checkout.');order=r.data;}
+ if(!order)return null;
+ if(order.subscription_id&&payment.subscription&&order.subscription_id!==payment.subscription)throw Error('Assinatura incompatível.');
+ if(!order.subscription_id&&payment.subscription){
+  const r=await db.from('billing_live_orders').update({subscription_id:payment.subscription}).eq('id',order.id).is('subscription_id',null);if(r.error)throw Error('Falha ao vincular assinatura.');
+  const saved=await db.from('billing_live_orders').select('*').eq('id',order.id).maybeSingle();if(saved.error||saved.data?.subscription_id!==payment.subscription)throw Error('Vínculo concorrente incompatível.');order=saved.data;
+ }
+ return order;
+}
 export async function syncLiveOrder(db,request,order){
  if(!order.checkout_id)return order;
  // The checkout filter establishes the subscription binding, never a browser-supplied id.
  if(!order.subscription_id){const r=await request('/payments?checkoutSession='+encodeURIComponent(order.checkout_id)+'&limit=100');
- const subscriptions=[...new Set((r.data||[]).map(p=>p.subscription).filter(Boolean))];
+ if(r.hasMore)throw Error('Conferência financeira necessária.');
+ const freshPayments=[];
+ for(const item of r.data||[]){const fresh=await request('/payments/'+encodeURIComponent(liveId(item.id,'pay_')));if(fresh.checkoutSession!==order.checkout_id)throw Error('Checkout incompatível.');freshPayments.push(fresh);}
+ const subscriptions=[...new Set(freshPayments.map(p=>p.subscription).filter(Boolean))];
  if(subscriptions.length>1)throw Error('Conferência financeira necessária.');
  if(subscriptions.length===1){liveId(subscriptions[0],'sub_');const saved=await db.from('billing_live_orders').update({subscription_id:subscriptions[0]}).eq('id',order.id).is('subscription_id',null);if(saved.error)throw Error('Falha ao vincular assinatura.');order={...order,subscription_id:subscriptions[0]};}
+ for(const fresh of freshPayments){const p=livePayment(fresh,order);const saved=await db.rpc('billing_live_apply_payment',{p_order:order.id,p_payment:p});if(saved.error)throw Error('Falha ao registrar pagamento.');}
+ if(!freshPayments.length)console.info('BILLING_SYNC_PENDING '+JSON.stringify({reason:'checkout_payment_not_found'}));
  }
  if(!order.subscription_id)return order;
  let offset=0,more=true;
