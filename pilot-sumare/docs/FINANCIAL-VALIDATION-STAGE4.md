@@ -1,3 +1,6 @@
+
+> Atualização de 22/10/2026: este registro conserva o histórico da preparação. O pagamento real e os agentes já foram publicados; execução, histórico e revisão/salvamento/persistência do currículo foram confirmados pelo titular. Renovação futura, cancelamento/estorno real e contratação pública continuam sem aceite final. Estado atual consolidado em NEXT-STAGE-CHECKLIST-20261022.md.
+
 # Etapa 4 — validação financeira em andamento, 21/10/2026
 
 ## Evidência e limites
@@ -10,7 +13,7 @@ Ensaio tests/hosted-billing-stage4.sql executado em transação no banco de prod
 
 ## Próximo passo do titular
 
-1. Acessar https://www.oempregadoronline.com.br/conta.html com a conta de proprietário master.sylvio@oempregadoronline.com.br, sem enviar senha no chat.
+1. Acessar https://www.oempregadoronline.com.br/conta.html com a conta de proprietário sylvio.scatolin.jr@gmail.com, sem enviar senha no chat.
 2. Abrir https://www.oempregadoronline.com.br/assinatura.html. Preencher a lista de cursos desejados se solicitado.
 3. Escolher Candidato, nível 1, mensal, R$ 19,90. Conferir valor e recorrência, confirmar senha e aceite; gerar checkout uma única vez e abrir o link do histórico.
 4. Concluir pessoalmente o pagamento real no Asaas. Não repetir tentativa incerta; conferir pedido e provedor antes de tentar novamente.

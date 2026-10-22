@@ -1,3 +1,6 @@
+
+> Atualização de 22/10/2026: este registro conserva o histórico da preparação. O pagamento real e os agentes já foram publicados; execução, histórico e revisão/salvamento/persistência do currículo foram confirmados pelo titular. Renovação futura, cancelamento/estorno real e contratação pública continuam sem aceite final. Estado atual consolidado em NEXT-STAGE-CHECKLIST-20261022.md.
+
 # Etapa 5 — publicação controlada dos agentes, 22/10/2026 UTC
 
 ## Escopo da versão
