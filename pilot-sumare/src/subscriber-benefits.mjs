@@ -9,5 +9,12 @@ export function subscriberBenefits(tier) {
 }
 export function benefitList(tier) {
  const b=subscriberBenefits(tier);
- return [b.priority,b.training,...(tier ? [`${b.aiPercent}% do valor do pacote convertido em créditos de IA`,'Créditos válidos somente no ciclo, sem acumular'] : [])];
+ return tier ? [
+  `${tier*6} recursos de IA liberados neste nível após confirmação do pagamento`,
+  `${b.aiPercent}% do valor do pacote convertido em créditos de IA`,
+  'Execuções usam créditos; ajuda, seleção, salvamento e retomada são gratuitos',
+  'Créditos válidos somente no ciclo, sem acumular',
+  `Em implantação: prioridade de exibição — ${b.priority}`,
+  `Em implantação: ${b.training}`
+ ] : ['Cadastro e recursos gratuitos do portal','Recursos de IA exigem plano pago e créditos disponíveis'];
 }

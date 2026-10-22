@@ -1,0 +1,8 @@
+# Transparência dos benefícios — 22/10/2026
+Conferência posterior aos testes visuais dos menus de Empresa e Instituição, aprovados pelo titular. Isso valida os controles visuais, não representa execução de todas as tarefas ou compra real nesses dois perfis.
+
+A página inicial e a seleção legada de planos usam benefitList. Essa lista apresentava treinamentos incluídos e prioridade de exibição sem distinguir a implantação pendente. Agora indica explicitamente Em implantação nessas duas promessas, preservando as regras comerciais aprovadas em subscriberBenefits e sem modificar permissões. Destaca 6/12/18 recursos de IA por nível e a política de créditos e consulta/salvamento gratuitos. Página inicial continua sem preços. Valores de assinatura, percentuais 20/25/30, descontos, cobrança e RLS não foram alterados. Checkout público continua restrito à validação; não abrir contratação por este ajuste.
+
+Validação: suíte completa 219 aprovados, zero falhas, um PDF indisponível ignorado. Após último ajuste textual, testes de benefícios, página inicial e assinatura repetidos e build aprovados. Sem nova execução do modelo, compra, mudança de renovação ou consumo de carteira.
+
+Privacidade: finalidade de clareza e transparência sobre o serviço contratado, sem coleta adicional, acesso novo, envio ao modelo, armazenamento de dados pessoais ou alteração de retenção/direitos. Mesma hipótese contratual; riscos de informação comercial imprecisa mitigados por indicar estado real. Sem certificação jurídica integral. Fontes oficiais revistas: https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709compilado.htm ; https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia-vf.pdf .
