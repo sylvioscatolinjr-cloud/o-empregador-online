@@ -1,3 +1,4 @@
+import {taskHelpMarkup,attachTaskHelp} from '../app/task-help.mjs';
 import {mountAgentHistory} from '../app/ai-history.mjs';
 import {mountResumeReview} from '../app/ai-resume.mjs';
 import test from 'node:test';
@@ -21,7 +22,7 @@ function fixture({signedIn=true,balanceFailure=false,chatFailure=false,pendingCh
   if(action==='chat')return chatFailure?Response.json({error:'Créditos insuficientes'},{status:402}):Response.json({answer:'<script>texto não executável</script>'});
   if(action==='balance'){balanceReads++;if(balanceFailure&&balanceReads>1)throw Error('network');return Response.json({active:true,availableCalls:balanceReads===1?1:0});}
  };
- const context={mountAgentHistory,URLSearchParams,mountResumeReview,document:window.document,location:{origin:cfg.origin,search,assign(path){calls.push('navigate:'+path);}},createClient:()=>({auth}),fetch,Response};vm.createContext(context);vm.runInContext(source,context);
+ const context={taskHelpMarkup,attachTaskHelp,mountAgentHistory,URLSearchParams,mountResumeReview,document:window.document,location:{origin:cfg.origin,search,assign(path){calls.push('navigate:'+path);}},createClient:()=>({auth}),fetch,Response};vm.createContext(context);vm.runInContext(source,context);
  return {window,calls,payloads,root:window.document.querySelector('#ai-app'),switchAccount(notify=true){session={user:{id:'other'},access_token:'other.token'};if(notify)authListener?.('SIGNED_IN',session);},expire(){session=null;authListener?.('SIGNED_OUT',null);},finishChat(){resolveChat();}};
 }
 test('preview login accepts existing session, renders response as text and disables exhausted balance',async()=>{
@@ -67,3 +68,5 @@ test('selection is visible and exclusive before explicit paid execution',async()
  assert.match(f.root.querySelector('#ai-selection').textContent,/Preparar apresentação pessoal/);assert.match(f.root.querySelector('#ai-selection').textContent,/seleção não realiza cobrança/);assert(!f.calls.includes('chat'));
  const form=f.root.querySelector('#ai-form');assert.match(form.querySelector('button').textContent,/Confirmar e executar/);form.querySelector('textarea').value='Objetivo profissional';form.dispatchEvent(new f.window.Event('submit'));await tick();assert.equal(f.calls.filter(c=>c==='chat').length,1);assert.equal(f.payloads[0].taskId,'personal_introduction');
 });
+
+test('task help toggles without selection or debit in the execution screen',async()=>{const f=fixture();await tick();const help=f.root.querySelector('[data-task-help]'),task=f.root.querySelector('[data-task]');help.click();assert.equal(help.getAttribute('aria-expanded'),'true');assert.equal(task.getAttribute('aria-pressed'),'false');assert.equal(f.root.querySelector('#ai-form button').disabled,true);assert(!f.calls.includes('chat'));help.click();assert.equal(help.getAttribute('aria-expanded'),'false');});
