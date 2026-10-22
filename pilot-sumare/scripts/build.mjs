@@ -31,6 +31,3 @@ if (process.env.VERCEL_ENV === 'production' && process.env.ASAAS_PRODUCTION_API_
 
 await build({entryPoints:['app/subscriptions.mjs'],outfile:'dist/subscriptions.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
 if(process.env.VERCEL_ENV==='production'&&process.env.ASAAS_PRODUCTION_WEBHOOK_TOKEN){const {setupLiveBilling}=await import('./setup-live-billing.mjs');await setupLiveBilling();console.log('Configuração de cobrança real conferida.');}
-
-// One-time bounded recovery of existing pending payments; never creates charges.
-if(process.env.VERCEL_ENV==='production'&&process.env.ASAAS_PRODUCTION_API_KEY&&process.env.SUPABASE_SECRET_KEY){const {reconcilePendingLive}=await import('./reconcile-pending-live.mjs');await reconcilePendingLive();}

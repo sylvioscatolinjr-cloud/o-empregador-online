@@ -34,6 +34,18 @@ export function currentEntitlement(orders,payments,now=Date.now()){
  if(!active)return {tier:0,creditCents:0,expiresAt:null};
  return {tier:orderMap.get(active.order_id).tier,creditCents:Math.max(0,active.credit_cents-active.spent_cents),expiresAt:active.period_end,cycleStart:active.period_start};
 }
+export async function findLivePaymentOrder(db,payment){
+ let order;
+ if(payment.subscription){liveId(payment.subscription,'sub_');const r=await db.from('billing_live_orders').select('*').eq('subscription_id',payment.subscription).maybeSingle();if(r.error)throw Error('Falha ao conferir assinatura.');order=r.data;}
+ if(!order&&payment.checkoutSession){liveId(payment.checkoutSession);const r=await db.from('billing_live_orders').select('*').eq('checkout_id',payment.checkoutSession).maybeSingle();if(r.error)throw Error('Falha ao conferir checkout.');order=r.data;}
+ if(!order)return null;
+ if(order.subscription_id&&payment.subscription&&order.subscription_id!==payment.subscription)throw Error('Assinatura incompatível.');
+ if(!order.subscription_id&&payment.subscription){
+  const r=await db.from('billing_live_orders').update({subscription_id:payment.subscription}).eq('id',order.id).is('subscription_id',null);if(r.error)throw Error('Falha ao vincular assinatura.');
+  const saved=await db.from('billing_live_orders').select('*').eq('id',order.id).maybeSingle();if(saved.error||saved.data?.subscription_id!==payment.subscription)throw Error('Vínculo concorrente incompatível.');order=saved.data;
+ }
+ return order;
+}
 export async function syncLiveOrder(db,request,order){
  if(!order.checkout_id)return order;
  // The checkout filter establishes the subscription binding, never a browser-supplied id.

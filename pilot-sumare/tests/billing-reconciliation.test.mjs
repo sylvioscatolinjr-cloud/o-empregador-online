@@ -1,8 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {livePayment,syncLiveOrder} from '../src/billing-live.mjs';
+import {livePayment,syncLiveOrder,findLivePaymentOrder} from '../src/billing-live.mjs';
 const order={id:'order',checkout_id:'checkout_1',subscription_id:null,cents:1990,months:1};
 const payment={id:'pay_1',checkoutSession:'checkout_1',subscription:null,value:19.90,status:'CONFIRMED',dueDate:'2026-10-21'};
+test('payment webhook binds existing checkout before subscription lookup can find the order',async()=>{
+ let row={...order};const db={from(){let column,value,patch;const q={select(){return q},eq(c,v){column=c;value=v;return q},update(p){patch=p;return q},is:async()=>{row={...row,...patch};return {error:null}},maybeSingle:async()=>({data:row[column]===value?{...row}:null,error:null})};return q}};
+ const result=await findLivePaymentOrder(db,{...payment,subscription:'sub_1'});assert.equal(result.subscription_id,'sub_1');assert.equal(result.id,order.id);
+ assert.equal(await findLivePaymentOrder(db,{...payment,checkoutSession:'other',subscription:'sub_other'}),null);
+ await assert.rejects(findLivePaymentOrder(db,{...payment,subscription:'sub_wrong'}));
+});
 test('confirmed checkout payment grants only its own order even before subscription is exposed',()=>{
  assert.equal(livePayment(payment,order).eligible,true);
  assert.throws(()=>livePayment({...payment,checkoutSession:'other'},order));

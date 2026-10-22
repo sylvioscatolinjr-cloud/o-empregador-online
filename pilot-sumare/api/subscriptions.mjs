@@ -1,7 +1,7 @@
 import {createClient} from '@supabase/supabase-js';
 import {verifyWebhookToken} from '../src/asaas.mjs';
 import {quotePlan} from '../src/billing-plans.mjs';
-import {LIVE_TERMS,liveEvents,liveId,liveCheckoutURL,liveCheckoutBody,liveRequestFactory,livePayment,currentEntitlement,syncLiveOrder} from '../src/billing-live.mjs';
+import {LIVE_TERMS,liveEvents,liveId,liveCheckoutURL,liveCheckoutBody,liveRequestFactory,livePayment,currentEntitlement,syncLiveOrder,findLivePaymentOrder} from '../src/billing-live.mjs';
 const options={auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}};
 const assertResult=r=>{if(r.error)throw Error('Não foi possível salvar a operação financeira.');return r.data;};
 export function subscriptionsHandler({env=process.env,clientFactory=createClient,fetchImpl=fetch}={}) {return async(req,res)=>{
@@ -26,7 +26,7 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
    else await syncLiveOrder(db,request,order);
   } else if(b.event.startsWith('PAYMENT_')){
    const checkedAt=new Date().toISOString(),p=await request('/payments/'+encodeURIComponent(liveId(resource.id,'pay_')));
-   if(p.subscription){const order=assertResult(await db.from('billing_live_orders').select('*').eq('subscription_id',p.subscription).maybeSingle());if(order)assertResult(await db.rpc('billing_live_apply_payment',{p_order:order.id,p_payment:livePayment(p,order,checkedAt)}));}
+   const order=await findLivePaymentOrder(db,p);if(order)assertResult(await db.rpc('billing_live_apply_payment',{p_order:order.id,p_payment:livePayment(p,order,checkedAt)}));
   }else if(b.event==='SUBSCRIPTION_DELETED'){
    // Authenticated provider deletion terminates future renewals, not paid periods.
    assertResult(await db.from('billing_live_orders').update({status:'canceled',canceled_at:new Date().toISOString()}).eq('subscription_id',resource.id));
