@@ -47,7 +47,7 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
  if(req.headers.origin!==e.APP_ORIGIN||req.headers['sec-fetch-site']==='cross-site')return res.status(403).json({error:'Origem inválida.'});
  if(!req.headers['content-type']?.startsWith('application/json')||JSON.stringify(req.body||{}).length>4096)return res.status(400).json({error:'Formato inválido.'});
  const b=req.body||{};
- if(b.action==='sync'){const order=assertResult(await db.from('billing_live_orders').select('*').eq('id',b.id).eq('user_id',u.id).single());await syncLiveOrder(db,request,order);return res.status(200).json({synced:true});}
+ if(b.action==='sync'){const order=assertResult(await db.from('billing_live_orders').select('*').eq('id',b.id).eq('user_id',u.id).single());await syncLiveOrder(db,request,order);const payments=assertResult(await db.from('billing_live_payments').select('*').eq('order_id',order.id));const entitlement=currentEntitlement([order],payments);return res.status(200).json({synced:payments.length>0,message:entitlement.tier?'Pagamento confirmado. Plano e créditos liberados.':'A conferência terminou, mas ainda não foi possível liberar este pagamento. Não pague novamente.'});}
  // Re-authenticate money-changing operations with this account's password; no delegated organization id.
  if(typeof b.password!=='string'||b.password.length>200)return res.status(400).json({error:'Confirme sua senha.'});
  const verifier=clientFactory(e.SUPABASE_URL,e.SUPABASE_PUBLISHABLE_KEY,options),proof=await verifier.auth.signInWithPassword({email:u.email,password:b.password});

@@ -183,3 +183,7 @@ Atualização às 20h23 de 19/10/2026: acesso Vercel restabelecido, segredo excl
 - LGPD: nenhuma mudança de finalidade, dados coletados, retenção ou acesso; páginas com dados pessoais continuam sem cache.
 - Medição local (Lighthouse, sem Supabase): desempenho 73→92, LCP 10,1 s→3,0 s, peso 1.828→362 KiB, acessibilidade 96→100.
 - Publicação: o projeto Vercel `o-empregador-online-piloto` publica o `main` pelo GitHub, com Root Directory `pilot-sumare`. Na raiz fica o protótipo, que não deve ir ao domínio.
+
+
+## Correção pontual de conciliação real — 22/10/2026 UTC
+Pagamento do proprietário recebido por webhook, pedido ainda pending. Correção isolada em main para pagamento fresco vinculado por checkoutSession exato, feedback explícito e visível no botão de conferência; não libera compra ao público nem publica agentes da homologação. Recuperação temporária limitada no build sem criação/cancelamento de cobranças, somente consulta ao Asaas e registro pelo ledger existente com vínculo comprovado. Detalhes, privacidade, fontes e limites em pilot-sumare/docs/BILLING-RECONCILIATION-HOTFIX.md. Resultado financeiro real será conferido após implantação; não considerar crédito liberado por teste local.
