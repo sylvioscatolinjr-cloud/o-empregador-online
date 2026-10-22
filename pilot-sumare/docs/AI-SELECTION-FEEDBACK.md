@@ -1,0 +1,9 @@
+# Seleção visível dos agentes — 21/10/2026 (Brasília)
+
+Captura do titular mostrou que aria-pressed já mudava, mas não havia estilo visual nem marca persistente de seleção. A tarefa era selecionada sem ficar evidente. Pedido: identificar a opção escolhida antes de confirmar o consumo.
+
+Botões reutilizam a mesma cor roxa dos controles ativos, dimensões/bordas/foco existentes, com texto branco e marca ✓ Selecionado. Apenas uma tarefa fica selecionada; trocar atualiza aria-pressed, marca e resumo. Resumo acessível informa nome e custo de R$ 1,00 antes dos formulários; botão de texto passa a Confirmar e executar. Abrir tarefa por link também mostra seleção. Recursos bloqueados mantêm encaminhamento ao plano, sem execução. Interface compartilhada pelos três perfis e proprietário pessoal.
+
+Nenhuma mudança de débito, preço, modelo, dados, autorização ou momento da chamada. Selecionar continua sem cobrar; execução explícita usa tarefa selecionada. Revisão conectada preserva seu próprio consentimento e fluxo de análise/salvamento. Testes de UI cobrem troca exclusiva, marca acessível, resumo, ausência de chamada ao selecionar, uma execução com ID correto e preservação de revisão/histórico. Build local aprovado.
+
+Revisão de privacidade: finalidade restrita à clareza da ação já solicitada. Sem nova coleta, compartilhamento, permissão, armazenamento ou retenção; base e transparência da execução contratual/autorização da interface preservadas. Direitos/atendimento e riscos de texto livre mantidos. Risco de consumo involuntário reduzido por seleção explícita e confirmação de custo. Não representa certificação jurídica integral. Fontes oficiais consultadas no ciclo de publicação: https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709compilado.htm ; https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/guia-vf.pdf .
