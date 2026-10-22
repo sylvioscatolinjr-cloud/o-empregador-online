@@ -14,7 +14,8 @@ Este quadro é o estado atual. Registros anteriores ao final são históricos e 
 | Distância como desempate | Integrada na busca autenticada com CEP opcional | Linha reta aproximada; candidatos somente com região autorizada; aceite visual pendente |
 | Médias e histórico por organização/departamento | Integrados; medição na consulta com variação e contagem | Não captura cada evento entre consultas; sem substituição automática; aceite visual pendente |
 | Renovação, cancelamento e estorno reais | Pendente | Não movimentar dinheiro apenas para fechar teste |
-| Adolescentes, revisão final móvel/acessibilidade e abertura comercial | Pendentes de revisão final | Flags de aprovação do piloto preservadas; compras públicas continuam restritas |
+| Celular e acessibilidade | Correções técnicas de reflow, teclado, foco e estados de botões publicadas | Inspeção visual no aparelho e leitor de tela real pendentes |
+| Adolescentes e abertura comercial | Pendentes de revisão final | Flags de aprovação do piloto preservadas; compras públicas continuam restritas |
 
 ## Próximas ações
 1. Titular validar um conteúdo e um envio próprios no gerenciador, sem compra adicional.
@@ -68,3 +69,6 @@ Prioridade e paginação integradas preservando aceite, permissão e contas ativ
 
 ## Histórico das médias — 22/10/2026
 Medições privadas na consulta, até 100 alterações por escopo, últimas 20 exibidas; referência inicial sem retroativo, variação e quantidades. Migração 20261022190540. Suíte geral 273 aprovados, zero falhas, um PDF privado ausente ignorado; sete focados finais, build e ensaio hospedado com rollback aprovados, zero resíduos. Não equivale a log de cada contratação/saída ou substituição automática. Sem dinheiro, modelos ou avisos reais. Ver ORGANIZATION-POINTS-HISTORY.md.
+
+## Revisão técnica móvel/acessibilidade — 22/10/2026
+Atalho para conteúdo em cinco páginas, foco na troca de seção, status/alertas acessíveis, colunas/controles flexíveis e restauração correta de disabled na conta. 275 testes gerais e 32 focados aprovados, zero falhas; um PDF ausente ignorado na suíte geral; build e inspeção DOM dos cinco HTMLs aprovados. Sem dados reais, mudança de acesso ou cobrança. Teste visual e com tecnologia assistiva real permanece pendente: Chromium indisponível e download inválido. Ver MOBILE-ACCESSIBILITY-REVIEW.md.

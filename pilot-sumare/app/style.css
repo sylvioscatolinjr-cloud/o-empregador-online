@@ -52,3 +52,10 @@ main:has(#app.connected){max-width:1240px}.space-nav{display:grid;grid-template-
 
 /* Action links share the native button base; preserve navigation semantics. */
 .portal-action{display:inline-flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;line-height:inherit;min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere}.portal-action:hover{background:#edf5f4;border-color:#008a99}@media(max-width:600px){.actions>.portal-action{flex:1}}
+
+/* Keyboard access and narrow-screen reflow; keep cards and selected states the same size. */
+.skip-link{position:fixed;left:12px;top:12px;z-index:1000;transform:translateY(-200%);padding:12px 18px;border-radius:9px;background:var(--purple);color:white;text-decoration:none;min-height:44px;max-width:calc(100% - 24px)}.skip-link:focus{transform:translateY(0)}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid>*,.space-nav>*,.career-metrics>*,.signup-types>*{min-width:0}
+fieldset{min-inline-size:0}input,textarea,select{min-width:0;max-width:100%}button,.space-nav a{min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere}
+h1,h2,h3,legend,label,.hint,#status{overflow-wrap:anywhere}label:has(>input[type=checkbox]),label:has(>input[type=radio]){min-height:44px;padding-block:8px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}input,textarea,select{font-size:1rem}}

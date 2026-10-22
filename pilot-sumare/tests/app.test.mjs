@@ -19,7 +19,7 @@ function fixture(config,locationOverrides={}){const {window}=parseHTML('<div id=
  vm.createContext(context);vm.runInContext(source,context);
  const click=selector=>{const el=window.document.querySelector(selector);assert(el,selector);el.click();};
  const submit=(id,values)=>{const form=window.document.getElementById(id);assert(form,id);for(const [name,value] of Object.entries(values))form.querySelector('[name="'+name+'"]').value=value;form.dispatchEvent(new window.Event('submit',{bubbles:true,cancelable:true}));};
- return {document:window.document,calls,click,submit,access,client,event:(...args)=>eventHandler(...args)};
+ return {evaluate:code=>vm.runInContext(code,context),document:window.document,calls,click,submit,access,client,event:(...args)=>eventHandler(...args)};
 }
 test('unconfigured backend does not show a working signup or create a fake account',async()=>{const f=fixture({ready:false,message:'Envio não configurado.'});await wait();assert.match(f.document.querySelector('#app').textContent,/Cadastro em preparação/);assert(!f.document.querySelector('form'));assert.equal(f.calls.length,0);});
 test('signup, password mismatch and reset show provider-driven results',async()=>{const f=fixture({ready:true,origin:'https://pilot.example',supabaseURL:'https://project.supabase.co',publishableKey:'sb_publishable_fixture',cohortId:'fixture'});await wait();f.click('[data-view=signup]');await wait();f.click('[data-signup-type="Candidato"]');await wait();
@@ -82,3 +82,15 @@ for(const role of ['learner','recruiter','school_staff','pilot_owner'])test(role
 
 test('owner keeps a direct sender shortcut and can open the dedicated notices URL',async()=>{const f=fixture({ready:true,origin:'https://pilot.example'},{search:'?gerenciar-avisos=1'});await wait();f.access.snapshot=()=>({phase:'active',role:'pilot_owner'});f.submit('login',{email:'owner@example.invalid',password:'fixture'});await wait();assert.match(f.document.querySelector('h1').textContent,/Enviar avisos/);assert(f.document.querySelector('.space-nav [data-portal=owner-broadcast]'));assert(f.document.querySelector('#portal-broadcast'));assert(!f.document.querySelector('#portal-period'));});
 test('sender shortcut stays absent for ordinary accounts and its URL does not grant ownership',async()=>{const f=fixture({ready:true,origin:'https://pilot.example'},{search:'?gerenciar-avisos=1'});await wait();f.submit('login',{email:'candidate@example.invalid',password:'fixture'});await wait();assert(!f.document.querySelector('#portal-broadcast'));assert.match(f.document.querySelector('#status').textContent,/proprietário/);});
+
+test('busy operations preserve disabled controls on errors and on newly rendered panels',async()=>{
+ const f=fixture({ready:true,origin:'https://pilot.example'});await wait();
+ const disabled=f.document.querySelector('[data-view=forgot]');disabled.disabled=true;
+ f.access.signIn=async()=>{throw Error('Erro temporário de teste.');};
+ f.submit('login',{email:'pessoa@example.invalid',password:'synthetic-password'});await wait();
+ assert.equal(disabled.disabled,true);assert.equal(f.document.querySelector('#login button').disabled,false);
+ assert.equal(f.document.querySelector('#status').getAttribute('role'),'alert');assert.equal(f.document.querySelector('#status').getAttribute('aria-live'),'assertive');assert.equal(f.document.querySelector('#app').getAttribute('aria-busy'),'false');
+ await f.evaluate("attempt(async()=>panel('Resultados de busca','<button id=previous disabled>Anterior</button><button id=next>Próxima</button>'))");
+ assert.equal(f.document.querySelector('#previous').disabled,true);assert.equal(f.document.querySelector('#next').disabled,false);assert.equal(f.document.querySelector('h1').getAttribute('tabindex'),'-1');
+ f.evaluate("feedback('Consulta concluída.')");assert.equal(f.document.querySelector('#status').getAttribute('role'),'status');assert.equal(f.document.querySelector('#status').getAttribute('aria-live'),'polite');
+});
