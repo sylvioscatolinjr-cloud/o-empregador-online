@@ -1,8 +1,13 @@
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const purposes={
+ external_learner:'Pesquisa vagas e cursos em fontes públicas, com referências e horário da consulta. Disponibilidade e compatibilidade precisam ser confirmadas na fonte.',
+ external_recruiter:'Pesquisa capacitação, eventos e canais públicos de recrutamento para a empresa. Não coleta pessoas, currículos privados ou contatos pessoais.',
+ external_school_staff:'Pesquisa oportunidades de captação de alunos: canais de divulgação, eventos e possíveis parcerias para atrair matrículas. Não busca empregos para alunos ou listas pessoais.',
+ social_posts_recruiter:'Cria legendas, chamadas, ideias de carrossel e roteiros curtos para divulgar a empresa com os fatos informados. Você revisa e publica.',
+ social_posts_school_staff:'Cria legendas, chamadas de matrícula, ideias de carrossel e roteiros para divulgar cursos e atividades da escola. Você revisa e publica.',
  free_learner:'Atende pedidos abertos sobre currículo, estudos, carreira e preparação profissional usando as informações fornecidas, sem executar ações nem consultar dados externos automaticamente.',
  free_recruiter:'Atende pedidos abertos sobre gestão, vagas, recrutamento e desenvolvimento de equipes com revisão humana e sem decisões automáticas sobre pessoas.',
- free_school_staff:'Atende pedidos abertos sobre aulas, cursos, parcerias e empregabilidade usando textos autorizados e dados agregados, sem identificar ou avaliar alunos.',
+ free_school_staff:'Atende pedidos abertos sobre aulas, cursos, divulgação, parcerias e captação de alunos usando textos autorizados e dados agregados, sem identificar ou avaliar alunos.',
  resume_review:'Compara os campos do currículo salvo com o texto do anexo e propõe melhorias de redação. Você escolhe quais sugestões salvar; o original não é substituído automaticamente.',
  vacancy_pitch:'Adapta sua apresentação às exigências da vaga informada, usando somente suas experiências e competências verdadeiras.',
  application_message:'Prepara uma mensagem de candidatura para o canal escolhido. A plataforma não envia a mensagem por você.',
@@ -59,7 +64,7 @@ const purposes={
  training_results:'Organiza uma análise dos objetivos, ações e resultados agregados de programas formativos com empresas.'
 };
 export function taskHelp(task){
- const resume=task.id==='resume_review';
+ const resume=task.id==='resume_review',premium=task.mode==='external_search',price=premium?'R$ 2,50':'R$ 1,00';
  return {description:purposes[task.id]||task.hint||'Consulte as instruções deste recurso.',steps:resume?[
   'Em Meu currículo, envie o PDF/DOCX ou preencha os campos, revise e salve na mesma conta.',
   'Selecione Revisar meu currículo e clique em Carregar meu currículo e anexo. Confira os campos e o texto extraído.',
@@ -68,14 +73,14 @@ export function taskHelp(task){
  ]:[
   'Selecione este recurso. Confira o marcador de seleção. Todos os recursos do seu perfil estão disponíveis; a execução exige saldo.',
   task.hint||'Informe o objetivo e as informações profissionais necessárias no campo da tarefa.',
-  'Confira o texto, retire contatos e dados sensíveis e clique em Confirmar e executar — R$ 1,00 em créditos.',
-  'Revise a resposta. Se desejar, salve no histórico privado. Consultar, salvar e retomar são gratuitos; executar uma nova análise custa R$ 1,00.'
+  premium?'Escolha Padrão ou Ampliada (ambas R$ 2,50), retire dados pessoais, marque a autorização e clique em Confirmar e executar — R$ 2,50 em créditos.':'Confira o texto, retire contatos e dados sensíveis e clique em Confirmar e executar — R$ 1,00 em créditos.',
+  `Revise a resposta${premium?' e as fontes clicáveis':''}. Se desejar, salve no histórico privado. Consultar, salvar e retomar são gratuitos; executar uma nova análise custa ${price}.`
  ]};
 }
 export function taskHelpMarkup(task,prefix,index){
  const help=taskHelp(task),id=prefix+'-help-'+task.id;
- if(task.ownerTesting)help.steps=help.steps.map(step=>step.replaceAll('R$ 1,00 em créditos','uma tentativa do limite de teste, sem débito na carteira').replaceAll('custa R$ 1,00','usa uma tentativa do limite de teste, sem débito na carteira'));
- return `<button type="button" class="ai-task-help" data-task-help aria-label="Ajuda: ${esc(task.label)}" aria-expanded="false" aria-controls="${esc(id)}">?</button>${Number.isInteger(index)?`<span class="ai-resource-number" aria-label="Recurso ${index+1}">${index+1}</span>`:''}<div class="ai-task-help-panel" id="${esc(id)}" hidden><strong>Para que serve</strong><p>${esc(help.description)}</p><strong>Como usar</strong><ol>${help.steps.map(step=>`<li>${esc(step)}</li>`).join('')}</ol><p>${task.available?(task.ownerTesting?'Liberado para teste do proprietário.':'Disponível em todos os planos do seu perfil; execução com saldo.'):'Requer plano nível '+Number(task.minTier)+'. Clique no recurso para consultar o plano que libera o acesso.'} Abrir esta ajuda não seleciona o recurso nem consome créditos.</p>${task.id==='resume_review'?'':'<p>Esta tarefa usa o texto informado por você. Dados da plataforma, resultados, vagas ou indicadores não são consultados automaticamente. Não informe dados pessoais de terceiros.</p>'}</div>`;
+ if(task.ownerTesting)help.steps=help.steps.map(step=>step.replaceAll('R$ 2,50','uma tentativa de teste sem débito').replaceAll('R$ 1,00 em créditos','uma tentativa do limite de teste, sem débito na carteira').replaceAll('custa R$ 1,00','usa uma tentativa do limite de teste, sem débito na carteira'));
+ return `<button type="button" class="ai-task-help" data-task-help aria-label="Ajuda: ${esc(task.label)}" aria-expanded="false" aria-controls="${esc(id)}">?</button>${Number.isInteger(index)?`<span class="ai-resource-number" aria-label="Recurso ${index+1}">${index+1}</span>`:''}<div class="ai-task-help-panel" id="${esc(id)}" hidden><strong>Para que serve</strong><p>${esc(help.description)}</p><strong>Como usar</strong><ol>${help.steps.map(step=>`<li>${esc(step)}</li>`).join('')}</ol><p>${task.available?(task.ownerTesting?'Liberado para teste do proprietário.':'Disponível em todos os planos do seu perfil; execução com saldo.'):'Requer plano nível '+Number(task.minTier)+'. Clique no recurso para consultar o plano que libera o acesso.'} Abrir esta ajuda não seleciona o recurso nem consome créditos.</p>${task.mode==='external_search'?'<p>A pesquisa consulta fontes externas públicas. Envie somente critérios gerais. Não há publicação, contato ou envio automático.</p>':task.id==='resume_review'?'':'<p>Esta tarefa usa o texto informado por você. Dados da plataforma, resultados, vagas ou indicadores não são consultados automaticamente. Não informe dados pessoais de terceiros.</p>'}</div>`;
 }
 const helpRoots=new WeakSet();
 export function attachTaskHelp(root){

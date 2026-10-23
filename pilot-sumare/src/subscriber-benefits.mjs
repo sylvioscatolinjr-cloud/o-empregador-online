@@ -10,11 +10,12 @@ export function subscriberBenefits(tier) {
 export function benefitList(tier) {
  const b=subscriberBenefits(tier);
  return tier ? [
-  `19 recursos de IA do seu perfil em todos os planos, inclusive gratuito`,
+  `Recursos de IA do seu perfil em todos os planos, inclusive gratuito`,
   `${b.aiPercent}% do valor do pacote convertido em créditos de IA`,
+  'Pesquisa externa Premium disponível com cobrança específica por uso',
   'Execuções usam créditos; ajuda, seleção, salvamento e retomada são gratuitos',
   'Créditos válidos somente no ciclo, sem acumular',
   `${b.priority}. Prioridade por plano na página inicial e na busca principal, após os destaques`,
   `${tier*3} treinamentos em texto, com atividades e progresso privado — sem certificado`
- ] : ['Cadastro e recursos gratuitos do portal','19 recursos de IA do seu perfil, incluindo Agente livre, com créditos comprados à parte'];
+ ] : ['Cadastro e recursos gratuitos do portal','Recursos de IA do seu perfil, incluindo Agente livre, com créditos comprados à parte'];
 }

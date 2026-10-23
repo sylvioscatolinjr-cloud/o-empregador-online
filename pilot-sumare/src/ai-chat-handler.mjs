@@ -1,10 +1,11 @@
+import {validateExternalInput,externalOptions,externalInstruction,externalResult} from './ai-external-search.mjs';
 import {ownerTestAccess,requestedTestRole} from './owner-test-access.mjs';
 import {randomUUID} from 'node:crypto';
 import {createClient} from '@supabase/supabase-js';
 import {createAgentRequest,AgentPolicyError} from './ai-agent-policy.mjs';
 import {getGuidedTasks} from './ai-agent-catalog.mjs';
 const config={auth:{persistSession:false,autoRefreshToken:false}};
-const COST=1;
+
 export function aiChatHandler({env=process.env,clientFactory=createClient,fetchImpl=fetch}={}){
  return async(req,res)=>{
   res.setHeader('Cache-Control','private, no-store');
@@ -25,31 +26,35 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
    const task=getGuidedTasks(role,0).find(t=>t.id===req.body?.taskId);
    if(!task)return res.status(400).json({error:'Selecione uma tarefa válida para seu perfil.'});
    if(task.id==='resume_review')return res.status(400).json({error:'Use a revisão conectada ao currículo salvo: carregue seus dados na tarefa Revisar meu currículo.'});
+   const premium=task.mode==='external_search',costCents=task.costCents;
+   if(premium){try{validateExternalInput(req.body);}catch(e){return res.status(400).json({error:e.message});}if(env.AI_EXTERNAL_SEARCH_ENABLED==='false')return res.status(503).json({error:'Pesquisa externa temporariamente indisponível. Nenhum crédito consumido.'});}
    let request;
    try{request=createAgentRequest({role,question:req.body?.question,context:req.body?.context});
     request.system+=' Tarefa selecionada: '+task.instruction+(task.mode==='free_text'?'':' Limite-se a esta tarefa; pedidos de outras tarefas devem ser recusados.');}
    catch(e){if(e instanceof AgentPolicyError)return res.status(e.code==='forbidden'?403:400).json({error:e.message});throw e;}
+   if(premium)request.system+=' '+externalInstruction(req.body.searchMode);
    // This switch is intentionally disabled until wallet grants and tests are validated.
    if(env.AI_CHAT_METERING_ENABLED!=='true'||!env.OPENAI_API_KEY||!env.AI_CHAT_MODEL)
     return res.status(503).json({error:'Chat em preparação: aguardando ativação de créditos e modelo.',agent:request.agent});
    const requestId=randomUUID();
-   const reserved=await (ownerTest.enabled?db.rpc('portal_owner_test_reserve',{p_user:user.id,p_cohort:env.PILOT_COHORT_ID}):db.rpc('portal_ai_wallet_reserve',{p_user:user.id,p_cohort:env.PILOT_COHORT_ID,p_request:requestId}));
+   const reserved=await (ownerTest.enabled?db.rpc('portal_owner_test_reserve',{p_user:user.id,p_cohort:env.PILOT_COHORT_ID}):db.rpc(premium?'portal_ai_wallet_reserve_cost':'portal_ai_wallet_reserve',{p_user:user.id,p_cohort:env.PILOT_COHORT_ID,p_request:requestId,...(premium?{p_cost:costCents}:{})}));
    if(reserved.error&&ownerTest.enabled)return res.status(429).json({error:'Limite de 60 testes por dia atingido ou teste indisponível. Nenhuma chamada à IA foi realizada.'});
    if(reserved.error)return res.status(402).json({error:'Créditos insuficientes ou indisponíveis. Nenhuma chamada à IA foi realizada.'});
-   let answer;
+   let answer,searchResult;
    try{
     const controller=new AbortController();
-    const timeout=setTimeout(()=>controller.abort(),20000);
+    const timeout=setTimeout(()=>controller.abort(),premium?65000:20000);
     try{
      const response=await fetchImpl('https://api.openai.com/v1/responses',{
       method:'POST',signal:controller.signal,
       headers:{Authorization:'Bearer '+env.OPENAI_API_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({model:env.AI_CHAT_MODEL,max_output_tokens:1800,store:false,
+      body:JSON.stringify({model:premium?(env.AI_EXTERNAL_MODEL||env.AI_CHAT_MODEL):env.AI_CHAT_MODEL,max_output_tokens:premium?2800:1800,store:false,...(premium?externalOptions(req.body.searchMode):{}),
        input:[{role:'system',content:request.system},{role:'user',content:request.user}]})
      });
      if(!response.ok)throw Error('provider rejected');
      const data=await response.json();
      answer=(data.output||[]).flatMap(o=>o.content||[]).filter(c=>c.type==='output_text').map(c=>c.text).join('\n').trim();
+     if(premium){searchResult=externalResult(data);answer=searchResult.answer;}
      if(!answer||data.status==='incomplete')throw Error('incomplete provider response');
     }finally{clearTimeout(timeout);}
    }catch{
@@ -58,7 +63,7 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
     if(refund.error)return res.status(503).json({error:'Falha na IA. A devolução dos créditos requer verificação administrativa.',requestId});
     return res.status(503).json({error:'Não foi possível obter a resposta. Crédito devolvido.'});
    }
-   return res.status(200).json({answer,agent:request.agent,ownerTesting:ownerTest.enabled,creditsCharged:ownerTest.enabled?0:COST,...(ownerTest.enabled?{remainingTestCalls:reserved.data}:{remainingCreditCents:reserved.data}),requestId});
+   return res.status(200).json({answer,agent:request.agent,ownerTesting:ownerTest.enabled,creditsCharged:ownerTest.enabled?0:costCents/100,...(searchResult?{citations:searchResult.citations,searchedAt:searchResult.searchedAt,searchMode:req.body.searchMode,premium:true}:{}),...(ownerTest.enabled?{remainingTestCalls:reserved.data}:{remainingCreditCents:reserved.data}),requestId});
   }catch{return res.status(503).json({error:'Não foi possível validar a solicitação.'});}
  };
 }

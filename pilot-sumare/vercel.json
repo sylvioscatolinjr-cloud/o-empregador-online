@@ -97,6 +97,9 @@
     },
     "api/subscriptions.mjs": {
       "maxDuration": 240
+    },
+    "api/ai.mjs": {
+      "maxDuration": 120
     }
   },
   "crons": [

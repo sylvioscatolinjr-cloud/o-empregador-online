@@ -35,7 +35,7 @@ const catalogs = {
   },
   institution: {
     title: 'Agente de Evolução Educacional',
-    mission: 'Alinhar formação, competências e empregabilidade.',
+    mission: 'Atrair novos alunos, divulgar cursos e desenvolver a oferta educacional.',
     capabilities: [
       ['demand_radar','Radar agregado de demanda profissional'],
       ['course_planning','Planejamento de cursos'],
@@ -443,5 +443,16 @@ const guided = {
 export function getGuidedTasks(role,tier=0){
  if(!Object.hasOwn(guided,role))return [];
  const tasks=guided[role].map(([id,label,suggestedTier,hint,instruction])=>({id,label,minTier:0,suggestedTier,hint,instruction,costCents:100,mode:id==='resume_review'?'saved_resume':'guided_text',available:true}));
- return [...tasks,{id:'free_'+role,label:'Agente livre',minTier:0,hint:'Descreva seu pedido e as informações profissionais necessárias. Cada envio confirmado custa R$ 1,00.',instruction:'Atenda ao pedido livre dentro do contexto profissional deste perfil. Esclareça limites e não invente dados, ferramentas ou acessos.',costCents:100,mode:'free_text',available:true}];
+ return [...tasks,...additionalTasks(role),{id:'free_'+role,label:'Agente livre',minTier:0,hint:'Descreva seu pedido e as informações profissionais necessárias. Cada envio confirmado custa R$ 1,00.',instruction:'Atenda ao pedido livre dentro do contexto profissional deste perfil. Esclareça limites e não invente dados, ferramentas ou acessos.',costCents:100,mode:'free_text',available:true}];
+}
+
+function additionalTasks(role){
+ const research={
+  learner:['Pesquisar vagas e cursos — Premium','Informe profissão ou curso desejado, cidade/região e modalidade. Use apenas critérios profissionais, sem nome, contatos ou documentos.','Pesquise vagas e cursos em fontes públicas conforme profissão, competências e região informadas. Apresente requisitos e compatibilidade como orientação, sem garantir vaga ou matrícula.'],
+  recruiter:['Pesquisar capacitação e canais de recrutamento — Premium','Informe competências da equipe, setor, região e objetivo. Não informe nomes ou dados de trabalhadores ou candidatos.','Pesquise cursos, eventos profissionais, instituições e canais públicos de divulgação de vagas ou parcerias. Não busque pessoas, currículos individuais ou contatos pessoais.'],
+  school_staff:['Pesquisar oportunidades de captar alunos — Premium','Informe cursos oferecidos, público em termos gerais, cidade/região, modalidade e objetivo de matrículas. Não informe dados pessoais de alunos.','O foco é atrair novos alunos e matrículas para a escola. Pesquise canais públicos de divulgação, eventos locais, organizações e possíveis parcerias de captação relacionadas aos cursos e à região. Para cada oportunidade, explique o encaixe, uma ação sugerida e uma mensagem inicial. Não busque empregos para alunos nem listas de pessoas ou contatos pessoais. Diferencie oportunidade potencial de parceria confirmada; não estime demanda ou matrículas sem evidência.']
+ }[role];
+ const out=[{id:'external_'+role,label:research[0],hint:research[1],instruction:research[2],minTier:0,costCents:250,premium:true,mode:'external_search',available:true}];
+ if(role!=='learner')out.push({id:'social_posts_'+role,label:role==='school_staff'?'Criar posts para divulgar cursos e atividades':'Criar posts para divulgar a empresa',hint:role==='school_staff'?'Informe curso ou atividade, público, rede social, objetivo, datas e condições confirmadas, tom e chamada para matrícula.':'Informe produto, serviço, vaga ou atividade, público, rede social, objetivo, condições confirmadas, tom e chamada para ação.',instruction:'Crie um pacote de divulgação pronto para revisar: 3 legendas com chamadas para ação, sugestão de carrossel por slide, roteiro de vídeo curto e hashtags relevantes. Adapte à rede e ao objetivo informados. Use somente fatos e condições fornecidos; quando faltar preço, data, contato ou endereço, use um marcador explícito para preencher. Não invente descontos, depoimentos, números, credenciamento ou garantia de resultado. Entregue texto e ideias visuais; não gere imagens, publique ou agende. Não inclua dados ou imagem de pessoas sem autorização.',minTier:0,costCents:100,mode:'guided_text',available:true});
+ return out;
 }

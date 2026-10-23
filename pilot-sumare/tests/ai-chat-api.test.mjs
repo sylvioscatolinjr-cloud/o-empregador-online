@@ -28,7 +28,7 @@ test('resume review cannot use the free text chat route',async()=>{const f=fixtu
 
 for(const role of ['learner','recruiter','school_staff'])test(role+' checks every function at all four tiers before charging and fixes the server instruction',async()=>{
  for(const task of getGuidedTasks(role,0))for(const tier of [0,1,2,3]){
-  if(task.id==='resume_review')continue;
+  if(task.id==='resume_review'||task.mode==='external_search')continue;
   const f=fixture({role,tier});f.req.body.taskId=task.id;await f.handler(f.req,f.res);
   assert.equal(f.res.code,tier>=task.minTier?200:403,`${task.id} tier ${tier}`);
   if(tier<task.minTier)assert.equal(f.calls.length,0);
