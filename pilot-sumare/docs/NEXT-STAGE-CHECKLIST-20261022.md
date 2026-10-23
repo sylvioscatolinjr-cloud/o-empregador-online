@@ -8,7 +8,7 @@ Este quadro é o estado atual. Registros anteriores ao final são históricos e 
 | Créditos de IA, execução e histórico | Validados pelo titular em produção | Qualidade das 54 respostas reais não foi testada integralmente |
 | Currículo: leitura de campos/anexo, sugestões, seleção e persistência | Validado pelo titular | Nenhuma alteração automática sem escolha |
 | Menus dos três perfis, níveis, ajuda e numeração | Conferidos pelo titular e publicados | Respostas reais de Empresa/Instituição têm aceite separado |
-| 27 treinamentos e gerenciador PDF/PPTX/link | Publicados e testados tecnicamente | Primeiro estudo/upload real pelo titular ainda pendente |
+| 27 treinamentos e gerenciador PDF/PPTX/link | Publicados; upload/publicação/abertura de PDF confirmados nos três públicos | PPTX, link externo e senha adicional ainda pendentes |
 | Prioridade na busca autenticada de currículos | Integrada em produção, testes local e hospedado aprovados | Conferência visual com resultados representativos pendente |
 | Prioridade em anúncios, página inicial e área delegada | Publicada; delegação paginada por 30 resultados | Aceite visual autenticado pendente; CEP delegado ainda não integrado |
 | Distância como desempate | Integrada na busca autenticada com CEP opcional | Linha reta aproximada; candidatos somente com região autorizada; aceite visual pendente |
@@ -75,3 +75,6 @@ Atalho para conteúdo em cinco páginas, foco na troca de seção, status/alerta
 
 ## Perfis e materiais — 22/10/2026
 Empresa e Instituição confirmadas/ativas na produção, sem plano pago vigente; execução real dos agentes continua pendente. Zero materiais adicionais cadastrados: primeiro upload/acesso deve ser feito com material próprio pelo titular, podendo usar Grátis sem compra. Corrigidos escopo de turma no nível pago e tratamento de erro assíncrono do gerenciador. 279 testes gerais e 48 focados finais aprovados, zero falhas; um PDF ausente ignorado na suíte geral, build aprovado. Sem compras, créditos artificiais, upload real ou mensagens. Titular aprovou visual no celular; leitor de tela permanece pendente. Ver PROFILE-AND-MATERIAL-VALIDATION.md.
+
+## Instalação no celular — 22/10/2026
+Falha real relatada: Baixar app apenas rolava para instruções. Página corrigida com guia visível por aparelho, menu atual do Chrome, cópia de endereço e botão nativo somente quando disponibilizado pelo navegador. Seis testes focados e build aprovados; manifesto/SW/ícones 200 com MIME correto. Aceite de instalação real após correção permanece pendente; sem alteração do cache privado. PDF confirmado pelo titular nos três públicos. Ver PWA-INSTALL-FIX.md.
