@@ -50,3 +50,7 @@ Fontes oficiais consultadas:
 - https://docs.asaas.com/docs/asaas-checkout
 - https://docs.asaas.com/reference/listar-cobrancas
 - https://docs.asaas.com/reference/criar-novo-checkout
+
+## Atualização operacional após primeira tentativa real
+
+Em 23/10/2026 o Asaas rejeitou criação com Pix por ausência de chave na conta comercial. A oferta de meios agora depende de consulta de chave ACTIVE no servidor; na ausência, cartão continua disponível. Recuperação da tentativa já autorizada criou checkout real no cartão, sem pagamento ou crédito antecipado. Gatilho automático removido do build. Mensagens ficam junto ao botão; compra pendente mostra Continuar pagamento; tentativa sem checkout não oferece Conferir pagamento. Relatório e validação atualizada: TOPUP-CHECKOUT-PIX-FIX.md. Pagamento real da recarga continua pendente de conclusão pelo titular.
