@@ -7,12 +7,12 @@ async function start(){
   if(!response.ok||!cfg||cfg.origin!==location.origin)throw Error('Abra o endereço oficial para consultar os treinamentos.');
   const client=createClient(cfg.supabaseURL,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
   const session=await client.auth.getSession();let account=session.data?.session?.user?.id;if(session.error||!account){root.innerHTML='<h1>Meus treinamentos</h1><p>Entre com sua conta para consultar seu perfil e plano.</p><a href="/conta.html">Entrar no portal</a>';return;}
-  let current=true,controller;
+  let current=true,controller;const requestedProfile=new URLSearchParams(location.search||'').get('perfil');
   const invalidate=()=>{current=false;account=null;controller?.clear();};
   client.auth.onAuthStateChange((_event,next)=>{if(account&&next?.user?.id!==account)invalidate();});
   async function api(action,method='GET',body={},id){
    const s=await client.auth.getSession();if(!current||s.error||s.data?.session?.user?.id!==account){invalidate();throw Error('Sua sessão mudou. Entre novamente.');}
-   const response=await fetch('/api/ai?action=training-'+action+(id?'&id='+encodeURIComponent(id):''),{method,cache:'no-store',headers:{Authorization:'Bearer '+s.data.session.access_token,...(method==='POST'?{'Content-Type':'application/json'}:{})},...(method==='POST'?{body:JSON.stringify(body)}:{})});
+   const response=await fetch('/api/ai?action=training-'+action+(id?'&id='+encodeURIComponent(id):'')+(requestedProfile?'&profile='+encodeURIComponent(requestedProfile):''),{method,cache:'no-store',headers:{Authorization:'Bearer '+s.data.session.access_token,...(method==='POST'?{'Content-Type':'application/json'}:{})},...(method==='POST'?{body:JSON.stringify({...body,...(requestedProfile?{profile:requestedProfile}:{})})}:{})});
    const result=await response.json(),latest=await client.auth.getSession();if(!current||latest.error||latest.data?.session?.user?.id!==account){invalidate();throw Error('Sua sessão mudou.');}
    if(response.status===401){invalidate();throw Error('Entre novamente.');}if(!response.ok)throw Error(result.error||'Não foi possível concluir.');return result;
   }

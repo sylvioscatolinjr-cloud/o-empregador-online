@@ -1,4 +1,4 @@
-import {personalAgentRole} from './personal-agent-role.mjs';
+import {ownerTestAccess,requestedTestRole} from './owner-test-access.mjs';
 import {createClient} from '@supabase/supabase-js';
 import {getGuidedTasks} from './ai-agent-catalog.mjs';
 const clientOptions={auth:{persistSession:false,autoRefreshToken:false}};
@@ -19,13 +19,14 @@ export function aiHistoryHandler({env=process.env,clientFactory=createClient}={}
    if(auth.error||!user?.email_confirmed_at||user.banned_until&&Date.parse(user.banned_until)>Date.now())return res.status(401).json({error:'Confirme sua conta.'});
    const membership=await db.from('pilot_memberships').select('role,status,is_fictitious').eq('user_id',user.id).eq('cohort_id',env.PILOT_COHORT_ID).maybeSingle();
    if(membership.error)throw Error();
-   const m=membership.data?{...membership.data,role:personalAgentRole(membership.data.role)}:null,tasks=getGuidedTasks(m?.role,0);
+   const ownerTest=ownerTestAccess(env,user.id,membership.data,requestedTestRole(req));
+   const m=membership.data?{...membership.data,role:ownerTest.role}:null,tasks=getGuidedTasks(m?.role,0);
    if(m?.status!=='active'||m.is_fictitious||!tasks.length)return res.status(403).json({error:'Conta não autorizada.'});
    const scoped=()=>db.from('portal_ai_notes').select('id,task_id,question,answer,created_at').eq('user_id',user.id).eq('cohort_id',env.PILOT_COHORT_ID).eq('profile_role',m.role);
    if(action==='history-list'){
     const result=await scoped().order('created_at',{ascending:false}).limit(100);
     if(result.error)throw Error();
-    return res.status(200).json({notes:(result.data||[]).map(note=>({...note,label:tasks.find(t=>t.id===note.task_id)?.label||'Orientação salva'}))});
+    return res.status(200).json({ownerTesting:ownerTest.enabled,notes:(result.data||[]).map(note=>({...note,label:tasks.find(t=>t.id===note.task_id)?.label||'Orientação salva'}))});
    }
    if(action==='history-delete'){
     if(typeof req.body?.id!=='string'||!/^[0-9a-f-]{36}$/i.test(req.body.id))return res.status(400).json({error:'Registro inválido.'});

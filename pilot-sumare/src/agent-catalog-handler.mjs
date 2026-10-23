@@ -1,4 +1,4 @@
-import {personalAgentRole} from './personal-agent-role.mjs';
+import {ownerTestAccess,requestedTestRole} from './owner-test-access.mjs';
 import {createClient} from '@supabase/supabase-js';
 import {readTaskTier} from './ai-task-access.mjs';
 import {getGuidedTasks,getAgentCatalog} from './ai-agent-catalog.mjs';
@@ -21,11 +21,11 @@ export function agentCatalogHandler({env=process.env,clientFactory=createClient}
    const member=await db.from('pilot_memberships').select('role,status,is_fictitious').eq('cohort_id',env.PILOT_COHORT_ID).eq('user_id',user.id).maybeSingle();
    if(member.error)throw Error('membership lookup');
    if(member.data?.status!=='active'||member.data?.is_fictitious)return res.status(403).json({error:'Acesso não autorizado.'});
-   const role=personalAgentRole(member.data.role),catalog=getAgentCatalog(role);
+   const ownerTest=ownerTestAccess(env,user.id,member.data,requestedTestRole(req)),role=ownerTest.role,catalog=getAgentCatalog(role);
    if(!catalog)return res.status(403).json({error:'Perfil sem agente habilitado.'});
-   const tier=await readTaskTier(db,user.id,role,env.PILOT_COHORT_ID);
-   const tasks=getGuidedTasks(role,tier).map(({instruction,...task})=>task);
-   return res.status(200).json({agent:catalog,tier,tasks,available:tasks.some(t=>t.available),message:'Revisão conectada ao currículo do candidato; demais tarefas com texto informado.'});
+   const tier=ownerTest.enabled?3:await readTaskTier(db,user.id,role,env.PILOT_COHORT_ID);
+   const tasks=getGuidedTasks(role,tier).map(({instruction,...task})=>({...task,...(ownerTest.enabled?{ownerTesting:true,costCents:0}:{})}));
+   return res.status(200).json({ownerTesting:ownerTest.enabled,profileRole:role,agent:catalog,tier,tasks,available:tasks.some(t=>t.available),message:'Revisão conectada ao currículo do candidato; demais tarefas com texto informado.'});
   }catch{return res.status(503).json({error:'Não foi possível verificar o acesso.'});}
  };
 }

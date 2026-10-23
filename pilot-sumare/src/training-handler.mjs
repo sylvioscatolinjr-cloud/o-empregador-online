@@ -1,6 +1,6 @@
+import {ownerTestAccess,requestedTestRole} from './owner-test-access.mjs';
 import {learningBucket,learningMetadata,learningManagement,checkLearningPassword} from './oeo-learning.mjs';
 import {createClient} from '@supabase/supabase-js';
-import {personalAgentRole} from './personal-agent-role.mjs';
 import {readTaskTier} from './ai-task-access.mjs';
 import {trainingRoles,trainingCatalog,findTraining,trainingContent,gradeTraining} from './training-catalog.mjs';
 const columns='training_id,completed_lessons,best_score,activity_ack,completed_at,updated_at';
@@ -18,15 +18,15 @@ export function trainingHandler({env=process.env,clientFactory=createClient}={})
   const auth=await db.auth.getUser(token),user=auth.data?.user;
   if(auth.error||!user?.email_confirmed_at||user.banned_until&&Date.parse(user.banned_until)>Date.now())return res.status(401).json({error:'Entre com sua conta confirmada.'});
   const membership=await db.from('pilot_memberships').select('role,status,is_fictitious').eq('cohort_id',env.PILOT_COHORT_ID).eq('user_id',user.id).maybeSingle();
-  if(membership.error)throw Error();const role=personalAgentRole(membership.data?.role);
+  if(membership.error)throw Error();const ownerTest=ownerTestAccess(env,user.id,membership.data,requestedTestRole(req)),role=ownerTest.role;
   if(membership.data?.status!=='active'||membership.data?.is_fictitious||!trainingRoles.includes(role))return res.status(403).json({error:'Este perfil não tem acesso aos treinamentos.'});
   const owner=membership.data.role==='pilot_owner';
   if(action.startsWith('manage-'))return await learningManagement({db,req,res,userId:user.id,cohort:env.PILOT_COHORT_ID,owner});
   const scope=()=>db.from('portal_training_progress').select(columns).eq('user_id',user.id).eq('cohort_id',env.PILOT_COHORT_ID).eq('profile_role',role);
   if(action==='catalog'){
-   const tier=await readTaskTier(db,user.id,role,env.PILOT_COHORT_ID),progress=await scope();if(progress.error)throw Error();
+   const tier=ownerTest.enabled?3:await readTaskTier(db,user.id,role,env.PILOT_COHORT_ID),progress=await scope();if(progress.error)throw Error();
    const custom=await db.from('portal_oeo_learning').select('*').eq('cohort_id',env.PILOT_COHORT_ID).eq('published',true).contains('audiences',[role]).order('created_at');if(custom.error)throw Error();
-   return res.status(200).json({role,tier,canManage:owner,courses:[...trainingCatalog(role,tier),...(custom.data||[]).map(r=>learningMetadata(r,tier))],progress:progress.data||[]});
+   return res.status(200).json({ownerTesting:ownerTest.enabled,role,tier,canManage:owner,courses:[...trainingCatalog(role,tier),...(custom.data||[]).map(r=>learningMetadata(r,tier))],progress:progress.data||[]});
   }
   const id=req.method==='GET'?req.query?.id:req.body?.id;
   if(action==='asset'){
@@ -44,7 +44,7 @@ export function trainingHandler({env=process.env,clientFactory=createClient}={})
    const removed=await db.from('portal_training_progress').delete().eq('user_id',user.id).eq('cohort_id',env.PILOT_COHORT_ID).eq('profile_role',role).eq('training_id',id);if(removed.error)throw Error();
    return res.status(200).json({deleted:true});
   }
-  if(await readTaskTier(db,user.id,role,env.PILOT_COHORT_ID)<course.tier)return res.status(403).json({error:'Este treinamento exige plano nível '+course.tier+' ou superior.',requiredTier:course.tier});
+  if(!ownerTest.enabled&&await readTaskTier(db,user.id,role,env.PILOT_COHORT_ID)<course.tier)return res.status(403).json({error:'Este treinamento exige plano nível '+course.tier+' ou superior.',requiredTier:course.tier});
   if(action==='open'){
    const progress=await scope().eq('training_id',id).maybeSingle();if(progress.error)throw Error();
    return res.status(200).json({course:trainingContent(course),progress:progress.data});

@@ -78,3 +78,6 @@ Empresa e Instituição confirmadas/ativas na produção, sem plano pago vigente
 
 ## Instalação no celular — 22/10/2026
 Falha real relatada: Baixar app apenas rolava para instruções. Página corrigida com guia visível por aparelho, menu atual do Chrome, cópia de endereço e botão nativo somente quando disponibilizado pelo navegador. Seis testes focados e build aprovados; manifesto/SW/ícones 200 com MIME correto. Aceite de instalação real após correção permanece pendente; sem alteração do cache privado. PDF confirmado pelo titular nos três públicos. Ver PWA-INSTALL-FIX.md.
+
+## Liberação exclusiva do proprietário — 23/10/2026
+Pedido expresso: todos os níveis para o login do titular testar. Modo proprietário ligado ao ID Auth privado configurado em Production e ao papel ativo pilot_owner; 54 tarefas e 27 treinamentos originais acessíveis por seleção Candidato/Empresa/Instituição. Até 60 tentativas de IA/dia em Brasília, sem débito na carteira; confirmação e custo real de API informados. Outras contas preservam planos/bloqueios; nenhuma assinatura ou pagamento foi criado. Migração 20261023102203, 293 testes gerais e 43 focados aprovados, zero falhas; um PDF ausente ignorado na suíte geral, build e ensaio hospedado sintético com rollback aprovados. Zero uso real e resíduos do ensaio; sem chamada OpenAI/Asaas. Ver OWNER-ALL-PLAN-TESTING.md.

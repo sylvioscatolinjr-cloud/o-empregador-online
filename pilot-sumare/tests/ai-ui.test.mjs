@@ -8,14 +8,14 @@ import {readFile} from 'node:fs/promises';
 import {parseHTML} from 'linkedom';
 const source=(await readFile(new URL('../app/ai.mjs',import.meta.url),'utf8')).replace(/^import .*;\n/gm,'');
 const tick=()=>new Promise(resolve=>setTimeout(resolve,10));
-function fixture({signedIn=true,balanceFailure=false,chatFailure=false,pendingChat=false,available=true,multiple=false,search=''}={}){
+function fixture({signedIn=true,balanceFailure=false,chatFailure=false,pendingChat=false,available=true,multiple=false,search='',ownerTesting=false}={}){
  const {window}=parseHTML('<section id="ai-app"></section>');let session=signedIn?{user:{id:'fixture'},access_token:'session.token'}:null;let balanceReads=0;const calls=[],payloads=[];let authListener,resolveChat;
  const cfg={supabaseURL:'https://fixture.supabase.co',publishableKey:'sb_publishable_fixture',origin:'https://preview.example'};
  const auth={onAuthStateChange(fn){authListener=fn;return {data:{subscription:{unsubscribe(){}}}};},async getSession(){return {data:{session}};},async signInWithPassword(){session={user:{id:'fixture'},access_token:'session.token'};return {error:null};},async signOut(){session=null;return {error:null};}};
  const fetch=async(url,options={})=>{
   if(url==='/api/config')return Response.json({ready:false,aiPreview:cfg});
   const action=new URL(url,cfg.origin).searchParams.get('action');calls.push(action);if(options.body)payloads.push(JSON.parse(options.body));
-  if(action==='catalog')return Response.json({agent:{title:'Agente de teste',mission:'Teste'},tasks:[{id:'interview_practice',label:'Revisar currículo',hint:'Texto',available,minTier:2,costCents:100},...(multiple?[{id:'personal_introduction',label:'Preparar apresentação pessoal',hint:'Objetivo e experiência',available:true,minTier:1,costCents:100}]:[])]});
+  if(action==='catalog')return Response.json({ownerTesting,profileRole:'recruiter',agent:{title:'Agente de teste',mission:'Teste'},tasks:[{id:'interview_practice',label:'Revisar currículo',hint:'Texto',available,minTier:2,costCents:100},...(multiple?[{id:'personal_introduction',label:'Preparar apresentação pessoal',hint:'Objetivo e experiência',available:true,minTier:1,costCents:100}]:[])]});
   if(action==='history-list')return Response.json({notes:[]});
   if(action==='history-save')return Response.json({saved:true,id:'fixture'});
   if(action==='chat'&&pendingChat)return new Promise(resolve=>{resolveChat=()=>resolve(Response.json({answer:'Resposta privada anterior'}));});
@@ -70,3 +70,7 @@ test('selection is visible and exclusive before explicit paid execution',async()
 });
 
 test('task help toggles without selection or debit in the execution screen',async()=>{const f=fixture();await tick();const help=f.root.querySelector('[data-task-help]'),task=f.root.querySelector('[data-task]');help.click();assert.equal(help.getAttribute('aria-expanded'),'true');assert.equal(task.getAttribute('aria-pressed'),'false');assert.equal(f.root.querySelector('#ai-form button').disabled,true);assert(!f.calls.includes('chat'));help.click();assert.equal(help.getAttribute('aria-expanded'),'false');});
+
+test('owner test UI offers three profile links, explicit no-wallet confirmation and sends selected profile',async()=>{
+ const f=fixture({ownerTesting:true,search:'?perfil=recruiter'});await tick();assert.equal(f.root.querySelectorAll('a[href^="/assistente.html?perfil="]').length,3);assert.match(f.root.textContent,/60 tentativas por dia/);assert.match(f.root.textContent,/sem débito/);f.root.querySelector('[data-task]').click();const form=f.root.querySelector('#ai-form');form.querySelector('textarea').value='Informações profissionais sintéticas';form.dispatchEvent(new f.window.Event('submit'));await tick();assert.equal(f.payloads.find(p=>p.taskId).profile,'recruiter');assert.equal(f.calls.filter(x=>x==='chat').length,1);
+});

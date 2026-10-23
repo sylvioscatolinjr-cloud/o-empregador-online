@@ -1,3 +1,4 @@
+import {ownerTestAccess,requestedTestRole} from './owner-test-access.mjs';
 import {personalAgentRole} from './personal-agent-role.mjs';
 import {createClient} from '@supabase/supabase-js';
 const config={auth:{persistSession:false,autoRefreshToken:false}};
@@ -18,6 +19,8 @@ export function aiBalanceHandler({env=process.env,clientFactory=createClient}={}
    const member=await db.from('pilot_memberships').select('role,status,is_fictitious').eq('cohort_id',env.PILOT_COHORT_ID).eq('user_id',user.id).maybeSingle();
    if(member.error)throw Object.assign(Error('membership'),{code:member.error.code});
    if(member.data?.status!=='active'||member.data?.is_fictitious||!['learner','recruiter','school_staff'].includes(personalAgentRole(member.data.role)))return res.status(403).json({error:'Acesso não autorizado.'});
+   const ownerTest=ownerTestAccess(env,user.id,member.data,requestedTestRole(req));
+   if(ownerTest.enabled){const day=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());const usage=await db.from('portal_owner_test_usage').select('calls').eq('user_id',user.id).eq('cohort_id',env.PILOT_COHORT_ID).eq('usage_day',day).maybeSingle();if(usage.error)throw Error('usage');const availableCalls=Math.max(0,60-Number(usage.data?.calls||0));return res.status(200).json({ownerTesting:true,availableCents:0,availableCalls,unit:'TEST_CALL',active:env.AI_CHAT_METERING_ENABLED==='true'});}
    stage='orders';
    const orders=await db.from('billing_live_orders').select('id').eq('user_id',user.id);
    if(orders.error)throw Error('orders');
