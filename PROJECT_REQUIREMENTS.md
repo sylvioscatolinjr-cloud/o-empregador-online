@@ -357,3 +357,8 @@ Recuperação reutilizou o pedido existente do proprietário, mantendo valor/ter
 ## Saldo da carteira em linhas distintas — 23/10/2026
 
 Pedido do titular: Créditos do plano e Recargas avulsas agora ficam em linhas distintas no resumo da carteira, preservando estilo, valores, saldo total e execução. Cinco testes existentes da carteira e build aprovados. Titular confirmou nesta conversa compra real de R$ 10 e crédito recebido; fluxo de pagamento → carteira validado pelo titular, sem nova movimentação para esta correção visual. Finalidade: clareza de apresentação; sem nova coleta, compartilhamento, acesso, retenção ou hipótese legal. Revisão LGPD/ANPD e direitos permanecem conforme pilot-sumare/docs/TOPUP-CHECKOUT-PIX-FIX.md e HYBRID-AI-WALLET.md; fontes oficiais consultadas nesta conversa. Sem alegação de certificação jurídica.
+
+
+## Contador abaixo do saldo — 23/10/2026
+
+Quantidade de execuções completas em linha própria, imediatamente abaixo do saldo disponível, conforme captura e pedido do titular. Créditos do plano e recargas permanecem em linhas separadas. Cinco testes existentes da carteira e build aprovados. Correção apenas de apresentação, sem mudança de valores, cobrança, acesso, coleta, compartilhamento ou retenção; finalidade de clareza, sem hipótese nova de tratamento. Revisão LGPD/ANPD e fontes oficiais já consultadas nesta conversa, conforme documentação HYBRID-AI-WALLET e TOPUP-CHECKOUT-PIX-FIX; sem certificação jurídica.
