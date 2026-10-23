@@ -41,6 +41,7 @@ export async function topupAction({req,res,db,user,env,request,config,clientFact
  const action=req.method==='GET'?req.query?.action:req.body?.action;
  if(action!=='credits'&&!['credit-checkout','credit-sync'].includes(action))return false;
  const send=(status,body)=>{res.status(status).json(body);return true;};
+ if(action==='credits'?req.method!=='GET':req.method!=='POST')return send(405,{error:'Método inválido.'});
  if(req.method==='GET'){
  const orders=result(await db.from('portal_ai_topup_orders').select('id,cents,status,checkout_id,created_at').eq('user_id',user.id).eq('cohort_id',env.PILOT_COHORT_ID).order('created_at',{ascending:false}).limit(50));
  const balance=result(await db.rpc('portal_ai_wallet_balance',{p_user:user.id,p_cohort:env.PILOT_COHORT_ID}));
