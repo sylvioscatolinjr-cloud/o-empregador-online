@@ -39,3 +39,5 @@ if(process.env.VERCEL_ENV==='preview')await copyFile('app/revisao-interface.html
 await build({entryPoints:['app/training-entry.mjs'],outfile:'dist/trainings.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
 
 await build({entryPoints:['app/wallet-entry.mjs'],outfile:'dist/wallet.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
+
+if(process.env.VERCEL_ENV==='production'){const {recoverOwnerTopup}=await import('./recover-owner-topup.mjs');await recoverOwnerTopup();}

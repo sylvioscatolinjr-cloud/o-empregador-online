@@ -54,6 +54,7 @@ export async function topupAction({req,res,db,user,env,request,config,clientFact
  if(action==='credit-sync'){
  if(typeof b.id!=='string'||!/^[0-9a-f-]{36}$/i.test(b.id))return send(400,{error:'Recarga inválida.'});
  const order=result(await db.from('portal_ai_topup_orders').select('*').eq('id',b.id).eq('user_id',user.id).eq('cohort_id',env.PILOT_COHORT_ID).single());
+ if(!order.checkout_id)return send(409,{error:'Esta tentativa não gerou checkout. Não há pagamento para conferir.'});
  await syncTopup(db,request,order);
  const balance=result(await db.rpc('portal_ai_wallet_balance',{p_user:user.id,p_cohort:env.PILOT_COHORT_ID}));
  return send(200,{...balance,message:'Conferência concluída. Confira a situação da recarga; o retorno do checkout sozinho não confirma pagamento. Não pague novamente se estiver pendente.'});
