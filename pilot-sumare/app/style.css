@@ -62,3 +62,9 @@ h1,h2,h3,legend,label,.hint,#status{overflow-wrap:anywhere}label:has(>input[type
 
 /* Keep the native install action hidden until the browser offers it. */
 [data-native-install][hidden],[data-install-platform][hidden]{display:none!important}[data-install-guide][aria-pressed=true]{background:var(--purple);color:white;border-color:var(--purple)}
+
+/* Profile shortcuts must retain readable words, including inside the narrow sidebar. */
+.owner-profile-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:10px;min-width:0}
+.owner-profile-actions>.portal-action{width:100%;min-height:44px;word-break:normal;overflow-wrap:normal;white-space:normal;text-align:center}
+.agent-submenu .owner-profile-actions{grid-template-columns:minmax(0,1fr);margin:8px 0}
+@media(max-width:950px){.workspace-shell>.space-nav>.agent-menu:has(>[data-agent-toggle][aria-expanded=true]){grid-column:1/-1}.workspace-shell>.space-nav .agent-submenu{padding-left:0;border-left:0}}
