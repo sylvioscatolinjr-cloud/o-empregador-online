@@ -8,4 +8,4 @@ export function searchResultMarkup(result){
  const sources=[...new Map(refs.map(c=>[c.url,c])).values()];
  return `<p>Consulta: ${esc(new Date(result.searchedAt).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'}))}. Confirme disponibilidade e condições na fonte.</p><div>${html}</div><h3>Fontes da pesquisa</h3><ul>${sources.map(c=>`<li><a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">${esc(c.title)}</a></li>`).join('')}</ul>`;
 }
-export function searchHistoryAnswer(result){return result.answer+'\n\nConsulta: '+result.searchedAt+'\nFontes:\n'+[...new Map((result.citations||[]).map(c=>[c.url,c])).values()].map(c=>c.title+': '+c.url).join('\n');}
+export function searchHistoryAnswer(result){let text=result.answer+'\n\nConsulta: '+result.searchedAt+'\nFontes:\n';for(const c of new Map((result.citations||[]).map(c=>[c.url,c])).values()){const line=c.title+': '+c.url+'\n';if(text.length+line.length>19800){text+='[Demais fontes disponíveis no resultado original.]';break;}text+=line;}return text;}

@@ -41,5 +41,3 @@ await build({entryPoints:['app/training-entry.mjs'],outfile:'dist/trainings.js',
 await build({entryPoints:['app/wallet-entry.mjs'],outfile:'dist/wallet.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
 
 
-// Temporary authorized release verification; removed after checking the live provider.
-if(process.env.VERCEL_ENV==='production'){const {verifyPremiumProvider}=await import('./verify-premium-provider.mjs');await verifyPremiumProvider();}
