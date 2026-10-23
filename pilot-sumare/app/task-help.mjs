@@ -1,5 +1,8 @@
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const purposes={
+ free_learner:'Atende pedidos abertos sobre currículo, estudos, carreira e preparação profissional usando as informações fornecidas, sem executar ações nem consultar dados externos automaticamente.',
+ free_recruiter:'Atende pedidos abertos sobre gestão, vagas, recrutamento e desenvolvimento de equipes com revisão humana e sem decisões automáticas sobre pessoas.',
+ free_school_staff:'Atende pedidos abertos sobre aulas, cursos, parcerias e empregabilidade usando textos autorizados e dados agregados, sem identificar ou avaliar alunos.',
  resume_review:'Compara os campos do currículo salvo com o texto do anexo e propõe melhorias de redação. Você escolhe quais sugestões salvar; o original não é substituído automaticamente.',
  vacancy_pitch:'Adapta sua apresentação às exigências da vaga informada, usando somente suas experiências e competências verdadeiras.',
  application_message:'Prepara uma mensagem de candidatura para o canal escolhido. A plataforma não envia a mensagem por você.',
@@ -63,7 +66,7 @@ export function taskHelp(task){
   'Marque a autorização de envio dos textos à OpenAI e clique em Analisar currículo salvo. A análise custa R$ 1,00 em créditos.',
   'Compare Original e Sugestão da IA. Marque apenas o que deseja aceitar e clique em Salvar somente sugestões selecionadas, ou escolha Manter o original. Salvar não cobra novamente.'
  ]:[
-  'Selecione este recurso. Confira a indicação Selecionado e se o seu plano o libera.',
+  'Selecione este recurso. Confira o marcador de seleção. Todos os recursos do seu perfil estão disponíveis; a execução exige saldo.',
   task.hint||'Informe o objetivo e as informações profissionais necessárias no campo da tarefa.',
   'Confira o texto, retire contatos e dados sensíveis e clique em Confirmar e executar — R$ 1,00 em créditos.',
   'Revise a resposta. Se desejar, salve no histórico privado. Consultar, salvar e retomar são gratuitos; executar uma nova análise custa R$ 1,00.'
@@ -72,7 +75,7 @@ export function taskHelp(task){
 export function taskHelpMarkup(task,prefix,index){
  const help=taskHelp(task),id=prefix+'-help-'+task.id;
  if(task.ownerTesting)help.steps=help.steps.map(step=>step.replaceAll('R$ 1,00 em créditos','uma tentativa do limite de teste, sem débito na carteira').replaceAll('custa R$ 1,00','usa uma tentativa do limite de teste, sem débito na carteira'));
- return `<button type="button" class="ai-task-help" data-task-help aria-label="Ajuda: ${esc(task.label)}" aria-expanded="false" aria-controls="${esc(id)}">?</button>${Number.isInteger(index)?`<span class="ai-resource-number" aria-label="Recurso ${index+1}">${index+1}</span>`:''}<div class="ai-task-help-panel" id="${esc(id)}" hidden><strong>Para que serve</strong><p>${esc(help.description)}</p><strong>Como usar</strong><ol>${help.steps.map(step=>`<li>${esc(step)}</li>`).join('')}</ol><p>${task.available?(task.ownerTesting?'Liberado para teste do proprietário.':'Disponível no seu plano.'):'Requer plano nível '+Number(task.minTier)+'. Clique no recurso para consultar o plano que libera o acesso.'} Abrir esta ajuda não seleciona o recurso nem consome créditos.</p>${task.id==='resume_review'?'':'<p>Esta tarefa usa o texto informado por você. Dados da plataforma, resultados, vagas ou indicadores não são consultados automaticamente. Não informe dados pessoais de terceiros.</p>'}</div>`;
+ return `<button type="button" class="ai-task-help" data-task-help aria-label="Ajuda: ${esc(task.label)}" aria-expanded="false" aria-controls="${esc(id)}">?</button>${Number.isInteger(index)?`<span class="ai-resource-number" aria-label="Recurso ${index+1}">${index+1}</span>`:''}<div class="ai-task-help-panel" id="${esc(id)}" hidden><strong>Para que serve</strong><p>${esc(help.description)}</p><strong>Como usar</strong><ol>${help.steps.map(step=>`<li>${esc(step)}</li>`).join('')}</ol><p>${task.available?(task.ownerTesting?'Liberado para teste do proprietário.':'Disponível em todos os planos do seu perfil; execução com saldo.'):'Requer plano nível '+Number(task.minTier)+'. Clique no recurso para consultar o plano que libera o acesso.'} Abrir esta ajuda não seleciona o recurso nem consome créditos.</p>${task.id==='resume_review'?'':'<p>Esta tarefa usa o texto informado por você. Dados da plataforma, resultados, vagas ou indicadores não são consultados automaticamente. Não informe dados pessoais de terceiros.</p>'}</div>`;
 }
 const helpRoots=new WeakSet();
 export function attachTaskHelp(root){

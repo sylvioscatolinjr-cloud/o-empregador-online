@@ -441,5 +441,7 @@ const guided = {
  ]
 };
 export function getGuidedTasks(role,tier=0){
- return (Object.hasOwn(guided,role)?guided[role]:[]).map(([id,label,minTier,hint,instruction])=>({id,label,minTier,hint,instruction,costCents:100,mode:id==='resume_review'?'saved_resume':'guided_text',available:Number.isInteger(tier)&&tier>=minTier}));
+ if(!Object.hasOwn(guided,role))return [];
+ const tasks=guided[role].map(([id,label,suggestedTier,hint,instruction])=>({id,label,minTier:0,suggestedTier,hint,instruction,costCents:100,mode:id==='resume_review'?'saved_resume':'guided_text',available:true}));
+ return [...tasks,{id:'free_'+role,label:'Agente livre',minTier:0,hint:'Descreva seu pedido e as informações profissionais necessárias. Cada envio confirmado custa R$ 1,00.',instruction:'Atenda ao pedido livre dentro do contexto profissional deste perfil. Esclareça limites e não invente dados, ferramentas ou acessos.',costCents:100,mode:'free_text',available:true}];
 }

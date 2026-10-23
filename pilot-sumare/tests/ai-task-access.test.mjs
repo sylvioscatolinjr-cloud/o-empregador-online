@@ -8,8 +8,8 @@ function fixture(profile='Candidato',tier=1,{expired=false,forged=false,otherUse
  const pay={id:'p',order_id:'o',eligible:true,cents:q.cents,credit_cents:q.aiCreditCents+(forged?1:0),period_start:'2020-01-01',period_end:expired?'2021-01-01':'2099-01-01'};
  return {from(table){return {select(){return this},eq(){return this},then(resolve,reject){return Promise.resolve({data:[order],error:error?{}:null}).then(resolve,reject)},async in(){return {data:[pay],error:null}}}}};
 }
-test('paid tier and progressive task availability come from verified billing for each role',async()=>{
- for(const [role,profile] of [['learner','Candidato'],['recruiter','Empresa'],['school_staff','Instituição de Ensino']])for(const tier of [1,2,3]){assert.equal(await readTaskTier(fixture(profile,tier),'u',role,'cohort'),tier);assert.equal(getGuidedTasks(role,tier).filter(t=>t.available).length,tier*6);}
+test('paid tier remains verified for trainings while all AI tasks are available',async()=>{
+ for(const [role,profile] of [['learner','Candidato'],['recruiter','Empresa'],['school_staff','Instituição de Ensino']])for(const tier of [1,2,3]){assert.equal(await readTaskTier(fixture(profile,tier),'u',role,'cohort'),tier);assert.equal(getGuidedTasks(role,tier).filter(t=>t.available).length,19);}
 });
 test('expired, altered, foreign-user and mismatched-profile payments do not unlock tasks',async()=>{
  for(const opts of [{expired:true},{forged:true},{otherUser:true},{foreignCohort:true}])assert.equal(await readTaskTier(fixture('Candidato',3,opts),'u','learner','cohort'),0);

@@ -16,11 +16,11 @@ test('catalog does not claim unimplemented tools are live',()=>{
     assert.ok(getAgentCatalog(role).capabilities.every(x=>x.status==='planned'));
 });
 
-test('54 unique functions are distributed six per tier and strictly isolated by profile',()=>{
+test('57 functions are available at every tier and strictly isolated by profile',()=>{
  const ids=new Set();for(const role of ['learner','recruiter','school_staff']){
-  const tasks=getGuidedTasks(role,0);assert.equal(tasks.length,18);
-  for(const tier of [1,2,3])assert.equal(tasks.filter(t=>t.minTier===tier).length,6);
+  const tasks=getGuidedTasks(role,0);assert.equal(tasks.length,19);
+  for(const tier of [1,2,3])assert.equal(tasks.filter(t=>t.suggestedTier===tier).length,6);
   for(const task of tasks){assert(!ids.has(task.id));ids.add(task.id);assert(task.hint.length>20);assert(task.instruction.length>40);assert.equal(task.costCents,100);}
-  for(const tier of [0,1,2,3])assert.equal(getGuidedTasks(role,tier).filter(t=>t.available).length,tier*6);
- }assert.equal(ids.size,54);
+  for(const tier of [0,1,2,3])assert.equal(getGuidedTasks(role,tier).filter(t=>t.available).length,19);
+ }assert.equal(ids.size,57);
 });

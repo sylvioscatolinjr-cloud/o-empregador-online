@@ -2,7 +2,6 @@ import {ownerTestAccess,requestedTestRole} from './owner-test-access.mjs';
 import {randomUUID} from 'node:crypto';
 import {createClient} from '@supabase/supabase-js';
 import {createAgentRequest,AgentPolicyError} from './ai-agent-policy.mjs';
-import {readTaskTier} from './ai-task-access.mjs';
 import {getGuidedTasks} from './ai-agent-catalog.mjs';
 const config={auth:{persistSession:false,autoRefreshToken:false}};
 const COST=1;
@@ -26,17 +25,15 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
    const task=getGuidedTasks(role,0).find(t=>t.id===req.body?.taskId);
    if(!task)return res.status(400).json({error:'Selecione uma tarefa válida para seu perfil.'});
    if(task.id==='resume_review')return res.status(400).json({error:'Use a revisão conectada ao currículo salvo: carregue seus dados na tarefa Revisar meu currículo.'});
-   const tier=ownerTest.enabled?3:await readTaskTier(db,user.id,role,env.PILOT_COHORT_ID);
-   if(tier<task.minTier)return res.status(403).json({error:'Esta tarefa exige plano nível '+task.minTier+' ou superior.'});
    let request;
    try{request=createAgentRequest({role,question:req.body?.question,context:req.body?.context});
-    request.system+=' Tarefa selecionada: '+task.instruction+' Limite-se a esta tarefa; pedidos de outras tarefas devem ser recusados.';}
+    request.system+=' Tarefa selecionada: '+task.instruction+(task.mode==='free_text'?'':' Limite-se a esta tarefa; pedidos de outras tarefas devem ser recusados.');}
    catch(e){if(e instanceof AgentPolicyError)return res.status(e.code==='forbidden'?403:400).json({error:e.message});throw e;}
    // This switch is intentionally disabled until wallet grants and tests are validated.
    if(env.AI_CHAT_METERING_ENABLED!=='true'||!env.OPENAI_API_KEY||!env.AI_CHAT_MODEL)
     return res.status(503).json({error:'Chat em preparação: aguardando ativação de créditos e modelo.',agent:request.agent});
    const requestId=randomUUID();
-   const reserved=await (ownerTest.enabled?db.rpc('portal_owner_test_reserve',{p_user:user.id,p_cohort:env.PILOT_COHORT_ID}):db.rpc('portal_ai_paid_reserve',{p_user:user.id,p_request:requestId}));
+   const reserved=await (ownerTest.enabled?db.rpc('portal_owner_test_reserve',{p_user:user.id,p_cohort:env.PILOT_COHORT_ID}):db.rpc('portal_ai_wallet_reserve',{p_user:user.id,p_cohort:env.PILOT_COHORT_ID,p_request:requestId}));
    if(reserved.error&&ownerTest.enabled)return res.status(429).json({error:'Limite de 60 testes por dia atingido ou teste indisponível. Nenhuma chamada à IA foi realizada.'});
    if(reserved.error)return res.status(402).json({error:'Créditos insuficientes ou indisponíveis. Nenhuma chamada à IA foi realizada.'});
    let answer;
@@ -57,7 +54,7 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
     }finally{clearTimeout(timeout);}
    }catch{
     if(ownerTest.enabled)return res.status(503).json({error:'Falha na IA. Sua carteira não foi debitada; a tentativa conta no limite diário.'});
-    const refund=await db.rpc('portal_ai_paid_refund',{p_user:user.id,p_request:requestId});
+    const refund=await db.rpc('portal_ai_wallet_refund',{p_user:user.id,p_cohort:env.PILOT_COHORT_ID,p_request:requestId});
     if(refund.error)return res.status(503).json({error:'Falha na IA. A devolução dos créditos requer verificação administrativa.',requestId});
     return res.status(503).json({error:'Não foi possível obter a resposta. Crédito devolvido.'});
    }

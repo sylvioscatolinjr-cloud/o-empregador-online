@@ -21,15 +21,9 @@ export function aiBalanceHandler({env=process.env,clientFactory=createClient}={}
    if(member.data?.status!=='active'||member.data?.is_fictitious||!['learner','recruiter','school_staff'].includes(personalAgentRole(member.data.role)))return res.status(403).json({error:'Acesso não autorizado.'});
    const ownerTest=ownerTestAccess(env,user.id,member.data,requestedTestRole(req));
    if(ownerTest.enabled){const day=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());const usage=await db.from('portal_owner_test_usage').select('calls').eq('user_id',user.id).eq('cohort_id',env.PILOT_COHORT_ID).eq('usage_day',day).maybeSingle();if(usage.error)throw Error('usage');const availableCalls=Math.max(0,60-Number(usage.data?.calls||0));return res.status(200).json({ownerTesting:true,availableCents:0,availableCalls,unit:'TEST_CALL',active:env.AI_CHAT_METERING_ENABLED==='true'});}
-   stage='orders';
-   const orders=await db.from('billing_live_orders').select('id').eq('user_id',user.id);
-   if(orders.error)throw Error('orders');
-   stage='payments';
-   const payments=orders.data?.length?await db.from('billing_live_payments').select('credit_cents,spent_cents,period_start,period_end,eligible').in('order_id',orders.data.map(o=>o.id)):{data:[],error:null};
-   if(payments.error)throw Error('payments');
-   const now=Date.now();
-   const availableCents=(payments.data||[]).filter(p=>p.eligible&&Date.parse(p.period_start)<=now&&Date.parse(p.period_end)>now).reduce((sum,p)=>sum+Math.max(0,p.credit_cents-p.spent_cents),0);
-   return res.status(200).json({availableCents,availableCalls:Math.floor(availableCents/100),unit:'BRL_CENT',active:env.AI_CHAT_METERING_ENABLED==='true'});
+   const wallet=await db.rpc('portal_ai_wallet_balance',{p_user:user.id,p_cohort:env.PILOT_COHORT_ID});
+   if(wallet.error)throw Error('wallet');
+   return res.status(200).json({...wallet.data,unit:'BRL_CENT',active:env.AI_CHAT_METERING_ENABLED==='true'});
   }catch(error){console.error('AI balance unavailable', {stage,code:/^[A-Z0-9]{3,12}$/.test(error?.code||'')?error.code:'unavailable',credentialType:env.SUPABASE_SECRET_KEY.startsWith('sb_secret_')?'secret':env.SUPABASE_SECRET_KEY.startsWith('sb_publishable_')?'publishable':'other'});return res.status(503).json({error:'Saldo temporariamente indisponível.'});}
  };
 }
