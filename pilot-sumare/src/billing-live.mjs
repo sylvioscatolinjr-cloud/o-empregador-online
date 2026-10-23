@@ -4,7 +4,8 @@ export const liveEvents=['CHECKOUT_CREATED','CHECKOUT_PAID','CHECKOUT_CANCELED',
 export function liveId(value,prefix=''){if(typeof value!=='string'||value.length>100||!new RegExp('^'+prefix+'[A-Za-z0-9_-]+$').test(value))throw Error('Referência inválida.');return value;}
 export function liveCheckoutURL(id){return 'https://asaas.com/checkoutSession/show?id='+encodeURIComponent(liveId(id));}
 export function liveRequestFactory(env,fetchImpl=fetch){return async(path,{method='GET',body}={})=>{
- if(!env.ASAAS_PRODUCTION_API_KEY||!/^\/(checkouts|payments|subscriptions|webhooks|myAccount\/status)(\/|\?|$)/.test(path)||path.includes('..'))throw Error('Conexão real indisponível.');
+ const pixRead=method==='GET'&&/^\/pix\/addressKeys(?:\?|$)/.test(path);
+ if(!env.ASAAS_PRODUCTION_API_KEY||(!pixRead&&!/^\/(checkouts|payments|subscriptions|webhooks|myAccount\/status)(\/|\?|$)/.test(path))||path.includes('..'))throw Error('Conexão real indisponível.');
  const response=await fetchImpl('https://api.asaas.com/v3'+path,{method,redirect:'error',headers:{access_token:env.ASAAS_PRODUCTION_API_KEY,'Content-Type':'application/json','User-Agent':'OEmpregadorOnline/1.0'},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(15000)});
  if(!response.ok)throw Object.assign(Error('O Asaas não concluiu a operação. Confira o histórico antes de tentar novamente.'),{providerStatus:response.status});
  return response.status===204?{}:response.json();

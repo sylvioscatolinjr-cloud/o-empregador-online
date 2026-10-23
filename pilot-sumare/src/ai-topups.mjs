@@ -2,9 +2,13 @@ import {liveId,liveCheckoutURL} from './billing-live.mjs';
 export const TOPUP_TERMS='2026-10-23-ai-topup-v1';
 export const TOPUP_AMOUNTS=[1000,2500,5000];
 const result=r=>{if(r.error)throw Error('Conferência financeira necessária. Não repita a compra.');return r.data;};
-export function topupCheckoutBody(order,origin){
+export async function availableTopupMethods(request){
+ try{const keys=await request('/pix/addressKeys?status=ACTIVE&limit=1');return (keys.data||[]).some(k=>k.status==='ACTIVE')?['PIX','CREDIT_CARD']:['CREDIT_CARD'];}catch{return ['CREDIT_CARD'];}
+}
+export function topupCheckoutBody(order,origin,billingTypes=['CREDIT_CARD']){
  if(!TOPUP_AMOUNTS.includes(order.cents)||new URL(origin).origin!==origin||!origin.startsWith('https://'))throw Error('Recarga inválida.');
- return {billingTypes:['PIX','CREDIT_CARD'],chargeTypes:['DETACHED'],minutesToExpire:60,externalReference:order.id,
+ if(!Array.isArray(billingTypes)||!billingTypes.includes('CREDIT_CARD')||billingTypes.some(m=>!['PIX','CREDIT_CARD'].includes(m)))throw Error('Meio inválido.');
+ return {billingTypes,chargeTypes:['DETACHED'],minutesToExpire:60,externalReference:order.id,
  callback:{successUrl:origin+'/carteira.html?retorno=sucesso',cancelUrl:origin+'/carteira.html?retorno=cancelado',expiredUrl:origin+'/carteira.html?retorno=expirado'},
  items:[{name:'Créditos de IA OEO',description:`Recarga avulsa de ${order.cents/100} créditos de R$ 1,00. Sem assinatura ou renovação automática.`,quantity:1,value:order.cents/100}]};
 }
@@ -45,7 +49,8 @@ export async function topupAction({req,res,db,user,env,request,config,clientFact
  if(req.method==='GET'){
  const orders=result(await db.from('portal_ai_topup_orders').select('id,cents,status,checkout_id,created_at').eq('user_id',user.id).eq('cohort_id',env.PILOT_COHORT_ID).order('created_at',{ascending:false}).limit(50));
  const balance=result(await db.rpc('portal_ai_wallet_balance',{p_user:user.id,p_cohort:env.PILOT_COHORT_ID}));
- return send(200,{...balance,ready:!!(env.AI_TOPUPS_ENABLED!=='false'&&env.ASAAS_PRODUCTION_API_KEY&&env.ASAAS_PRODUCTION_WEBHOOK_TOKEN&&config.connected&&config.account_approved&&config.webhook_ready),termsVersion:TOPUP_TERMS,amounts:TOPUP_AMOUNTS,orders:orders.map(o=>({...o,url:o.checkout_id&&o.status==='pending'?liveCheckoutURL(o.checkout_id):null}))});
+ const paymentMethods=env.AI_TOPUPS_ENABLED==='false'||!env.ASAAS_PRODUCTION_API_KEY?['CREDIT_CARD']:await availableTopupMethods(request);
+ return send(200,{...balance,paymentMethods,ready:!!(env.AI_TOPUPS_ENABLED!=='false'&&env.ASAAS_PRODUCTION_API_KEY&&env.ASAAS_PRODUCTION_WEBHOOK_TOKEN&&config.connected&&config.account_approved&&config.webhook_ready),termsVersion:TOPUP_TERMS,amounts:TOPUP_AMOUNTS,orders:orders.map(o=>({...o,url:o.checkout_id&&o.status==='pending'?liveCheckoutURL(o.checkout_id):null}))});
  }
  if(req.method!=='POST')return send(405,{error:'Método inválido.'});
  if(req.headers.origin!==env.APP_ORIGIN||req.headers['sec-fetch-site']==='cross-site')return send(403,{error:'Origem inválida.'});
@@ -69,7 +74,8 @@ export async function topupAction({req,res,db,user,env,request,config,clientFact
  if(created.error)return send(409,{error:'Existe uma tentativa pendente ou o limite de compras foi atingido. Confira seu histórico antes de repetir.'});
  const id=created.data;
  try{
- const checkout=await request('/checkouts',{method:'POST',body:topupCheckoutBody({id,cents:b.cents},env.APP_ORIGIN)});liveId(checkout.id);
+ const methods=await availableTopupMethods(request);
+ const checkout=await request('/checkouts',{method:'POST',body:topupCheckoutBody({id,cents:b.cents},env.APP_ORIGIN,methods)});liveId(checkout.id);
  result(await db.from('portal_ai_topup_orders').update({checkout_id:checkout.id,status:'pending'}).eq('id',id).eq('user_id',user.id));
  return send(200,{id,url:liveCheckoutURL(checkout.id)});
  }catch(error){await db.from('portal_ai_topup_orders').update({status:error.providerStatus>=400&&error.providerStatus<500&&![408,409,429].includes(error.providerStatus)?'failed':'review'}).eq('id',id).eq('status','creating');return send(503,{error:'Tentativa registrada. Não repita a compra antes da conferência administrativa.'});}

@@ -2,7 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';import {rea
 import {TOPUP_TERMS,topupCheckoutBody,topupPayment,syncTopup,topupAction} from '../src/ai-topups.mjs';
 const origin='https://www.oempregadoronline.com.br';
 test('topup checkout fixes one-off prices and payment identity; refunds/chargebacks never grant',()=>{
- const o={id:randomUUID(),cents:1000,checkout_id:'checkout_fixture'},b=topupCheckoutBody(o,origin);assert.deepEqual(b.chargeTypes,['DETACHED']);assert.deepEqual(b.billingTypes,['PIX','CREDIT_CARD']);assert.equal(b.items[0].value,10);assert(!b.subscription);assert(!b.customerData);assert.throws(()=>topupCheckoutBody({...o,cents:1},origin));
+ const o={id:randomUUID(),cents:1000,checkout_id:'checkout_fixture'},b=topupCheckoutBody(o,origin);assert.deepEqual(b.chargeTypes,['DETACHED']);assert.deepEqual(b.billingTypes,['CREDIT_CARD']);assert.equal(b.items[0].value,10);assert(!b.subscription);assert(!b.customerData);assert.throws(()=>topupCheckoutBody({...o,cents:1},origin));
  const p={id:'pay_fixture',checkoutSession:o.checkout_id,value:10,status:'CONFIRMED'};assert(topupPayment(p,o).eligible);
  for(const m of [{status:'PENDING'},{status:'REFUNDED'},{deleted:true},{chargeback:{}},{refunds:[{status:'PENDING'}]}])assert(!topupPayment({...p,...m},o).eligible);
  for(const m of [{checkoutSession:'other'},{value:1},{subscription:'sub_other'},{installment:'ins_other'}])assert.throws(()=>topupPayment({...p,...m},o));
