@@ -409,3 +409,14 @@ Substitui o estado anterior de bloqueio por permissão: após o proprietário al
 AI_IMAGE_GENERATION_ENABLED foi ativada em produção. Publicação normal usa o código main sem invocação automática de geração no build; o commit de teste é isolado e não integra main. Preços preservados: medium R$ 2,50, high R$ 5,00, texto R$ 1,00. O teste não substitui uma execução autenticada pelo usuário nem avaliação visual humana de todos os formatos. Regras de confirmação, idempotência, revisão de resultado incerto, privacidade e quota do proprietário permanecem.
 
 Revisão LGPD/ANPD: verificação usou somente composição e referência sintéticas, sem dados pessoais; arquivos temporários removidos. Uso real mantém finalidade de criar material solicitado, dados mínimos/consentimento e autorização de imagens na interface, acesso privado e exclusão disponível; retenção e limitações operacionais descritas acima. Fontes oficiais revistas: LGPD (Planalto) e guia de segurança da informação da ANPD. Não constitui certificação jurídica.
+
+
+## Pix ativo nas recargas — 24/10/2026
+
+Após o titular cadastrar sua chave, consulta real de produção GET /pix/addressKeys?status=ACTIVE&limit=1 confirmou chave ACTIVE; availableTopupMethods retornou [PIX,CREDIT_CARD]. Verificação no deployment dpl_61o6qg46MB6QQvT45NHF3yFJczuq, sem exposição do valor/identificador da chave, sem criação de cobrança, cliente ou checkout, sem pagamento ou alteração de carteira. Não declarar pagamento Pix ponta a ponta concluído.
+
+Não foi necessário alterar a regra de checkout: cada nova recarga já consulta o Asaas, envia billingTypes dinâmico e exibe Pix/cartão na carteira. Checkouts antigos conservam os meios com que foram criados; não recriar uma compra pendente nem pagar novamente se houver dúvida. Recargas continuam creditadas somente após confirmação financeira conferida no servidor e aplicação idempotente. Onze testes focados de meios, recargas e carteira aprovados.
+
+Mantido scripts/verify-pix-availability.mjs como conferência manual somente leitura; não invocar automaticamente em cada build. A configuração normal de build permanece npm run build. Assinaturas recorrentes continuam com cartão no checkout real; Pix comum nas recargas não habilita Pix Automático para planos. Documentação Asaas revista: listar-chaves, checkout-asaas, criar-novo-checkout e checkout-com-assinatura-recorrente.
+
+Privacidade: mesma finalidade contratual de compra de créditos (art.7,V LGPD), sem nova coleta no portal; somente status/métodos resultantes da chave comercial são usados, valores de chaves não retornam ao navegador nem aos logs. Sem nova retenção ou alteração de acesso/direitos; registros financeiros existentes e atendimento preservados. Revisão LGPD/ANPD de continuidade permanece aplicável; não constitui certificação de conformidade.
