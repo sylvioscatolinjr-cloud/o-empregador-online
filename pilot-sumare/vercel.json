@@ -99,7 +99,7 @@
       "maxDuration": 240
     },
     "api/ai.mjs": {
-      "maxDuration": 120
+      "maxDuration": 240
     }
   },
   "crons": [

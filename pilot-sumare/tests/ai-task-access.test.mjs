@@ -9,7 +9,7 @@ function fixture(profile='Candidato',tier=1,{expired=false,forged=false,otherUse
  return {from(table){return {select(){return this},eq(){return this},then(resolve,reject){return Promise.resolve({data:[order],error:error?{}:null}).then(resolve,reject)},async in(){return {data:[pay],error:null}}}}};
 }
 test('paid tier remains verified for trainings while all AI tasks are available',async()=>{
- for(const [role,profile] of [['learner','Candidato'],['recruiter','Empresa'],['school_staff','Instituição de Ensino']])for(const tier of [1,2,3]){assert.equal(await readTaskTier(fixture(profile,tier),'u',role,'cohort'),tier);assert.equal(getGuidedTasks(role,tier).filter(t=>t.available).length,role==='learner'?20:21);}
+ for(const [role,profile] of [['learner','Candidato'],['recruiter','Empresa'],['school_staff','Instituição de Ensino']])for(const tier of [1,2,3]){assert.equal(await readTaskTier(fixture(profile,tier),'u',role,'cohort'),tier);assert.equal(getGuidedTasks(role,tier).filter(t=>t.available).length,role==='learner'?21:22);}
 });
 test('expired, altered, foreign-user and mismatched-profile payments do not unlock tasks',async()=>{
  for(const opts of [{expired:true},{forged:true},{otherUser:true},{foreignCohort:true}])assert.equal(await readTaskTier(fixture('Candidato',3,opts),'u','learner','cohort'),0);

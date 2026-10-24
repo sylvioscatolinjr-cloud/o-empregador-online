@@ -26,6 +26,7 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
    const ownerTest=ownerTestAccess(env,user.id,m.data,requestedTestRole(req)),role=ownerTest.role;
    const task=getGuidedTasks(role,0).find(t=>t.id===req.body?.taskId);
    if(!task)return res.status(400).json({error:'Selecione uma tarefa válida para seu perfil.'});
+   if(task.mode==='publication'&&req.body?.publicationText!==true)return res.status(400).json({error:'Abra o Agente de Publicações e escolha Gerar texto ou Gerar imagem.'});
    if(task.id==='resume_review')return res.status(400).json({error:'Use a revisão conectada ao currículo salvo: carregue seus dados na tarefa Revisar meu currículo.'});
    let imageContent;try{imageContent=postImageContent(req.body,task.id==='social_posts_'+role);if(JSON.stringify({...req.body,postImages:undefined}).length>9000)throw Error('Texto muito grande.');}catch(e){return res.status(400).json({error:e.message});}
    const premium=task.mode==='external_search',costCents=task.costCents;

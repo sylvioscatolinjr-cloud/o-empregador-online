@@ -1,3 +1,4 @@
+import {publicationImageHandler} from '../src/publication-image-handler.mjs';
 import {noticeFileHandler} from '../src/notice-file-handler.mjs';
 import {candidateRegionHandler} from '../src/candidate-region-handler.mjs';
 import {distanceDiscoveryHandler} from '../src/distance-discovery-handler.mjs';
@@ -18,10 +19,12 @@ const training=trainingHandler();
 const history=aiHistoryHandler();
 const resume=aiResumeHandler();
 const chat=aiChatHandler();
+const publicationImage=publicationImageHandler();
 const balance=aiBalanceHandler();
 const catalog=agentCatalogHandler();
 export default function handler(req,res){
  const action=req.query?.action;
+ if(['image-create','image-list','image-delete'].includes(action))return publicationImage(req,res);
  if(action==='notice-file')return noticeFile(req,res);
  if(action==='candidate-region')return candidateRegion(req,res);
  if(action==='organization-points')return organizationPoints(req,res);

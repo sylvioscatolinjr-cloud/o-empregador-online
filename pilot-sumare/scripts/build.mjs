@@ -41,3 +41,9 @@ await build({entryPoints:['app/training-entry.mjs'],outfile:'dist/trainings.js',
 await build({entryPoints:['app/wallet-entry.mjs'],outfile:'dist/wallet.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
 
 
+
+await copyFile('app/publicacoes.html','dist/publicacoes.html');
+await build({entryPoints:['app/publications-entry.mjs'],outfile:'dist/publications.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
+
+// Temporary authorized release verification; removed after live image and private-delivery checks.
+if(process.env.VERCEL_ENV==='production'){const {verifyPublicationProvider}=await import('./verify-publication-provider.mjs');await verifyPublicationProvider();}

@@ -1,0 +1,10 @@
+import {createClient} from '@supabase/supabase-js';
+import {mountPublications} from './publications.mjs';
+const root=document.querySelector('#publications'),requested=new URLSearchParams(location.search).get('perfil');let accountId,revision=0;
+try{
+ const r=await fetch('/api/config',{cache:'no-store'}),cfg=await r.json();if(!r.ok||!cfg.ready||cfg.origin!==location.origin)throw Error('Entre pelo endereço oficial do portal.');
+ const client=createClient(cfg.supabaseURL,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}}),session=await client.auth.getSession();if(session.error||!session.data?.session)throw Error('Entre na sua conta para acessar o Agente de Publicações.');accountId=session.data.session.user.id;
+ const clear=()=>{revision++;accountId=null;root.textContent='Sua sessão mudou. Entre novamente na sua conta.';};client.auth.onAuthStateChange?.((_event,s)=>{if(accountId&&s?.user?.id!==accountId)clear();});
+ const api=async(action,method='GET',body)=>{const expected=accountId,rev=revision,s=await client.auth.getSession();if(!expected||s.error||s.data?.session?.user?.id!==expected){clear();throw Error('Entre novamente.');}const r=await fetch('/api/ai?action='+encodeURIComponent(action)+(requested?'&profile='+encodeURIComponent(requested):''),{method,cache:'no-store',headers:{Authorization:'Bearer '+s.data.session.access_token,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify({...body,...(requested?{profile:requested}:{})})}:{})});const result=await r.json();const current=await client.auth.getSession();if(rev!==revision||current.error||current.data?.session?.user?.id!==expected){clear();throw Error('Entre novamente.');}if(!r.ok)throw Error(result.error||'Operação indisponível. Consulte o histórico antes de repetir.');return result;};
+ const catalog=await api('catalog');await mountPublications(root,{api,role:catalog.profileRole,owner:catalog.ownerTesting===true,isCurrent:()=>!!accountId,storageOrigin:new URL(cfg.supabaseURL).origin}).show();
+}catch(e){root.textContent=e.message||'Recurso indisponível.';}

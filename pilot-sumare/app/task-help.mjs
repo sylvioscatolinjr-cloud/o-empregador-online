@@ -1,5 +1,6 @@
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const purposes={
+const publicationPurpose='Cria uma imagem para publicação com referências opcionais ou um texto separado. Escolha formato e qualidade, confira o preço e autorize cada geração; logo pode sofrer alterações. A publicação nas redes é manual.';
+const purposes={publication_learner:publicationPurpose,publication_recruiter:publicationPurpose,publication_school_staff:publicationPurpose,
  external_learner:'Pesquisa vagas e cursos em fontes públicas, com referências e horário da consulta. Disponibilidade e compatibilidade precisam ser confirmadas na fonte.',
  external_recruiter:'Pesquisa capacitação, eventos e canais públicos de recrutamento para a empresa. Não coleta pessoas, currículos privados ou contatos pessoais.',
  external_school_staff:'Pesquisa oportunidades de captação de alunos: canais de divulgação, eventos e possíveis parcerias para atrair matrículas. Não busca empregos para alunos ou listas pessoais.',
@@ -64,6 +65,7 @@ const purposes={
  training_results:'Organiza uma análise dos objetivos, ações e resultados agregados de programas formativos com empresas.'
 };
 export function taskHelp(task){
+ if(task.mode==='publication')return {description:publicationPurpose,steps:['Abra o Agente de Publicações. Escolha imagem ou texto; abrir não cobra.',task.hint,'Para imagem escolha 1:1, 4:5, 9:16 ou 16:9; qualidade intermediária R$ 2,50 ou alta R$ 5,00. Autorize os arquivos e confirme. Texto separado custa R$ 1,00.','Confira o resultado, baixe a imagem ou copie o texto. Nova geração requer nova confirmação. Se houver demora, consulte o histórico antes de repetir.']};
  const resume=task.id==='resume_review',premium=task.mode==='external_search',price=premium?'R$ 2,50':'R$ 1,00';
  return {description:purposes[task.id]||task.hint||'Consulte as instruções deste recurso.',steps:resume?[
   'Em Meu currículo, envie o PDF/DOCX ou preencha os campos, revise e salve na mesma conta.',

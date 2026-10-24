@@ -68,3 +68,5 @@ h1,h2,h3,legend,label,.hint,#status{overflow-wrap:anywhere}label:has(>input[type
 .owner-profile-actions>.portal-action{width:100%;min-height:44px;word-break:normal;overflow-wrap:normal;white-space:normal;text-align:center}
 .agent-submenu .owner-profile-actions{grid-template-columns:minmax(0,1fr);margin:8px 0}
 @media(max-width:950px){.workspace-shell>.space-nav>.agent-menu:has(>[data-agent-toggle][aria-expanded=true]){grid-column:1/-1}.workspace-shell>.space-nav .agent-submenu{padding-left:0;border-left:0}}
+
+.publication-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.2rem;align-items:start}.publication-layout>section{min-width:0}.publication-output img{display:block;max-width:100%;height:auto;border-radius:12px;margin:1rem 0}.publication-layout fieldset{min-width:0}.publication-layout textarea{width:100%;box-sizing:border-box}.publication-result{white-space:pre-wrap;overflow-wrap:anywhere}@media(max-width:800px){.publication-layout{grid-template-columns:minmax(0,1fr)}}

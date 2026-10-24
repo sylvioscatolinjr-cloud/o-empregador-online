@@ -1,5 +1,5 @@
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export const taskCostLabel=(task,owner=false)=>owner?'Teste — sem débito':((task?.costCents??100)/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}).replace(/\u00a0/g,' ')+' em créditos';
+export const taskCostLabel=(task,owner=false)=>owner?'Teste — sem débito':task?.mode==='publication'?'Imagem R$ 2,50 / R$ 5,00 · Texto R$ 1,00':((task?.costCents??100)/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}).replace(/\u00a0/g,' ')+' em créditos';
 export function searchResultMarkup(result){
  const text=String(result.answer||'');let html='',cursor=0;
  const refs=(result.citations||[]).filter(c=>/^https:\/\//.test(c.url)&&Number.isInteger(c.start)&&Number.isInteger(c.end)&&c.start>=0&&c.end<=text.length&&c.end>c.start).sort((a,b)=>a.start-b.start);
