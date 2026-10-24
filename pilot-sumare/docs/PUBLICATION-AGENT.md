@@ -55,3 +55,12 @@ Duas verificações reais recusadas pela OpenAI antes da geração: HTTP401, tip
 Interface será publicada com AI_IMAGE_GENERATION_ENABLED=false em Production (configuração explícita, não chave). API exige valor true antes de reservar, e image-list expõe ready false; frontend desabilita geração e informa indisponibilidade sem cobrança. Leitura/exclusão de resultados e texto permanecem independentes. Gatilho temporário removido do build. Script fica operacional e só deve rodar após titular/projeto conceder acesso ao endpoint de geração/edição; então validar modelo, tamanhos, upload privado/link/negação pública/remoção e só depois ativar true e redeploy. Não criar/substituir chaves sem ação segura do titular; nunca pedir chave no chat. Corrigir permissões da chave existente no projeto OpenAI pode dispensar troca do segredo.
 
 Verificações finais: novas asserções de pausa no servidor e na UI aprovadas; zero jobs reais e zero objetos no bucket após as recusas. Nenhum consumo de carteira real. A liberação na OpenAI é ação pendente do titular, seguida da validação operacional e ativação explícita.
+
+
+## Atualização de ativação — 24/10/2026
+
+Substitui o estado anterior de bloqueio por permissão: após o proprietário alterar as permissões da chave, a verificação real no deployment dpl_LUqc3MJirwFE1zi5xtJSggL8GVKy passou em medium 4:5 com referência (1024×1280) e high 16:9 sem referência (1536×864). Em ambos: PNG validado, upload privado, entrega por URL assinada, URL pública negada e remoção dos arquivos de teste. Nenhuma carteira de usuário foi movimentada; chamadas reais tiveram custo do provedor para o portal.
+
+AI_IMAGE_GENERATION_ENABLED foi ativada em produção. Publicação normal usa o código main sem invocação automática de geração no build; o commit de teste é isolado e não integra main. Preços preservados: medium R$ 2,50, high R$ 5,00, texto R$ 1,00. O teste não substitui uma execução autenticada pelo usuário nem avaliação visual humana de todos os formatos. Regras de confirmação, idempotência, revisão de resultado incerto, privacidade e quota do proprietário permanecem.
+
+Revisão LGPD/ANPD: verificação usou somente composição e referência sintéticas, sem dados pessoais; arquivos temporários removidos. Uso real mantém finalidade de criar material solicitado, dados mínimos/consentimento e autorização de imagens na interface, acesso privado e exclusão disponível; retenção e limitações operacionais descritas acima. Fontes oficiais revistas: LGPD (Planalto) e guia de segurança da informação da ANPD. Não constitui certificação jurídica.

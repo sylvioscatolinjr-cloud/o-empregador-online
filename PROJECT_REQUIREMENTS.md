@@ -400,3 +400,12 @@ Para tornar a entrega revisável sem cobrar por recurso bloqueado, AI_IMAGE_GENE
 ## Revisão de alinhamento — 23/10/2026
 
 Corrigidos Buscar vagas, navegação móvel, grupos de ações, endereços longos e controles com texto ampliado. Build e 66 testes focados aprovados; 175 combinações de largura/página e 16 de texto ampliado no Chromium, sem transbordamento. Ver pilot-sumare/docs/BUTTON-ALIGNMENT-REVIEW.md para escopo e limites. Alterações apenas de apresentação, sem nova coleta/cobrança. A geração de imagens continua pausada por permissão OpenAI pendente; não declarar validação real de imagens concluída.
+
+
+## Atualização de ativação — 24/10/2026
+
+Substitui o estado anterior de bloqueio por permissão: após o proprietário alterar as permissões da chave, a verificação real no deployment dpl_LUqc3MJirwFE1zi5xtJSggL8GVKy passou em medium 4:5 com referência (1024×1280) e high 16:9 sem referência (1536×864). Em ambos: PNG validado, upload privado, entrega por URL assinada, URL pública negada e remoção dos arquivos de teste. Nenhuma carteira de usuário foi movimentada; chamadas reais tiveram custo do provedor para o portal.
+
+AI_IMAGE_GENERATION_ENABLED foi ativada em produção. Publicação normal usa o código main sem invocação automática de geração no build; o commit de teste é isolado e não integra main. Preços preservados: medium R$ 2,50, high R$ 5,00, texto R$ 1,00. O teste não substitui uma execução autenticada pelo usuário nem avaliação visual humana de todos os formatos. Regras de confirmação, idempotência, revisão de resultado incerto, privacidade e quota do proprietário permanecem.
+
+Revisão LGPD/ANPD: verificação usou somente composição e referência sintéticas, sem dados pessoais; arquivos temporários removidos. Uso real mantém finalidade de criar material solicitado, dados mínimos/consentimento e autorização de imagens na interface, acesso privado e exclusão disponível; retenção e limitações operacionais descritas acima. Fontes oficiais revistas: LGPD (Planalto) e guia de segurança da informação da ANPD. Não constitui certificação jurídica.
