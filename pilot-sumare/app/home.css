@@ -20,3 +20,12 @@ html{scroll-behavior:smooth;scroll-padding-top:100px}.public-home{background:#fb
 .opportunity p.tag{color:#674589}.home-cta p{color:#655873}.home-cta p.eyebrow{color:var(--purple)}
 
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Search controls must keep their label width; the field receives the remaining space. */
+.home-hero{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}.home-hero>div{min-width:0}.home-hero form{min-width:0;gap:8px}.home-hero form input{flex:1 1 0;width:0;max-width:none}.home-hero form button{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;text-align:center;white-space:nowrap}
+.public-home .button{display:inline-flex;align-items:center;justify-content:center;max-width:100%;min-width:0;white-space:normal;overflow-wrap:anywhere}.card-actions{width:100%;min-width:0}.card-actions>*{max-width:100%;flex:0 1 auto}.auth-actions{max-width:100%;min-width:0;flex-wrap:wrap}.home-cta>div{min-width:0}.home-cta>.button{flex-shrink:0}.section-heading>a{white-space:normal;max-width:100%}
+@media(max-width:650px){.home-hero{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:380px){.home-hero form{flex-wrap:wrap}.home-hero form input{flex-basis:100%;width:100%}.home-hero form button{width:100%}.public-header .auth-actions{gap:8px}}
+/* Keep the mobile header inside the viewport while its navigation scrolls locally. */
+.public-header{width:100%;min-width:0}.public-header nav{min-width:0;max-width:100%}.public-header nav a{flex:0 0 auto}.home-hero form button{white-space:normal}
+@media(max-width:600px){.public-header{align-items:stretch}.public-header>.brand{align-self:flex-start}.public-header nav{width:100%;flex-basis:auto}.public-header .auth-actions{align-self:stretch;justify-content:flex-start}}
