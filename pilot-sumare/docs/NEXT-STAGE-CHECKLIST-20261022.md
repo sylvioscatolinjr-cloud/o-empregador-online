@@ -1,3 +1,29 @@
+# Checklist de conclusão — atualização 24/10/2026
+
+Este quadro substitui os estados antigos abaixo. Validado tecnicamente não significa ensaio financeiro real ou aceite institucional.
+
+| Frente | Estado atual | O que falta |
+| --- | --- | --- |
+| Domínio, autenticação e recuperação | Publicados; uso confirmado pelo titular | Vigilância operacional; não presumir entrega de todo e-mail |
+| Currículo pelo PDF, revisão e salvamento | Aceite real do titular | Outros formatos/casos sem aceite integral |
+| IA dos três perfis, carteira e recarga | Publicados; texto e R$10 no cartão confirmados | Aceite qualitativo de todos os recursos não realizado |
+| Pesquisa externa Premium | Provedor real verificado; R$2,50 | Casos reais/qualidade por perfil |
+| Agente de Publicações | Imagem medium/high, referência e entrega privada verificadas; ativo | Aceite autenticado/visual dos quatro formatos |
+| Pix para créditos | Chave ACTIVE, oferta Pix/cartão integrada | Primeiro pagamento Pix real pelo titular |
+| Financeiro: renovação, cancelamento, estorno | Revisão técnica aprovada; isolamento de ambiente/perfil corrigido | Ensaio real quando necessário e autorizado; não movimentar dinheiro só para teste |
+| Cursos OEO e gerenciador | 27 originais; PDF aberto nos três públicos | PPTX, link externo e senha adicional |
+| Prioridade, distância e médias | Integradas com limitações documentadas | Aceite representativo; CEP delegado e captura de cada evento ainda não implantados |
+| Celular e botões | 175 combinações e 16 de texto ampliado aprovadas | Instalação PWA no aparelho e leitor de tela real |
+| Assinaturas públicas e piloto SENAI | Contratação continua restrita ao proprietário | Revisão de benefícios, adolescentes e autorização institucional do piloto |
+
+Próxima frente recomendada: revisão final de acesso/privacidade dos usuários de 16–17 anos e critérios de liberação do piloto. As compras públicas de planos não são abertas por esta atualização. Funcionalidades maiores ainda parciais (campanhas pagas, vídeo próprio, SMS/biometria, substituição automática e plano de carreira completo) não devem constar como entregues; exigem escopo/etapas próprios.
+
+Evidência da revisão financeira: 355 testes aprovados, zero falhas, um PDF privado ausente ignorado; 41 focados e build aprovados. Ver FINANCIAL-FINAL-REVIEW.md. Estado agregado de conciliação sem pendências na consulta; nenhum dinheiro movimentado nesta revisão.
+
+---
+
+## Histórico preservado — estados datados
+
 # Checklist atual — 22/10/2026
 
 Este quadro é o estado atual. Registros anteriores ao final são históricos e podem conter pendências já superadas.
