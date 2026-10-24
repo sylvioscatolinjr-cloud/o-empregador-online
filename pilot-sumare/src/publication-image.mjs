@@ -16,7 +16,7 @@ export async function generatePublicationImage({env,question,role,quality,ratio,
  if(images.length){const form=new FormData();for(const [k,v] of Object.entries(opts))form.set(k,String(v));images.forEach((v,i)=>form.append('image[]',new Blob([Buffer.from(v.image_url.slice(22),'base64')],{type:'image/png'}),(i===0?'logo-or-reference':'reference')+'.png'));body=form;path='/edits';}
  else{body=JSON.stringify(opts);headers['Content-Type']='application/json';}
  const response=await fetchImpl('https://api.openai.com/v1/images'+path,{method:'POST',headers,body,signal:AbortSignal.timeout(200000)});
- if(!response.ok){const e=Error('Image provider rejected');e.definite=[400,401,403,404,422,429].includes(response.status);e.status=response.status;throw e;}
+ if(!response.ok){let detail;try{detail=(await response.json()).error||{};}catch{detail={};}const e=Error('Image provider rejected');e.definite=[400,401,403,404,422,429].includes(response.status);e.status=response.status;e.providerCode=/^[a-zA-Z0-9_.-]{1,80}$/.test(detail.code||'')?detail.code:'unavailable';e.providerType=/^[a-zA-Z0-9_.-]{1,80}$/.test(detail.type||'')?detail.type:'unavailable';e.permissionDenied=/permission|scope/i.test(detail.message||'');e.verificationRequired=/verif/i.test(detail.message||'');e.invalidKey=/incorrect api key|invalid api key/i.test(detail.message||'');throw e;}
  const data=await response.json(),encoded=data.data?.[0]?.b64_json;
  if(typeof encoded!=='string'||encoded.length>11200000||!/^[A-Za-z0-9+/]+={0,2}$/.test(encoded))throw Error('Invalid image result');
  const bytes=Buffer.from(encoded,'base64'),[w,h]=IMAGE_SIZES[ratio].split('x').map(Number);
