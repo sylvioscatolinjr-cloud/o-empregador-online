@@ -80,3 +80,7 @@ a{overflow-wrap:anywhere}
 p,li{overflow-wrap:anywhere}.owner-profile-actions>.portal-action{overflow-wrap:anywhere}.ai-resource>.ai-task-help{font-size:clamp(16px,1rem,24px)}
 .profile-image>button{max-width:100%;min-width:0;overflow-wrap:anywhere;padding-inline:clamp(4px,2%,17px)}
 .legal-footer{max-width:960px;margin:0 auto;padding:0 20px 40px;font-size:13px;color:#70637d}.legal-footer a{color:var(--purple)}
+/* Four paid plans: keep equal cards without changing the profile-choice controls. */
+[aria-label="Escolher plano"]>.signup-types{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:950px){[aria-label="Escolher plano"]>.signup-types{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){[aria-label="Escolher plano"]>.signup-types{grid-template-columns:minmax(0,1fr)}}

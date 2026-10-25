@@ -47,13 +47,14 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
  const actualRole=member.role==='pilot_owner'?'learner':member.role;
  const displayRole=req.method==='GET'?testAccess.role:actualRole;
  const previewProfile=displayRole!==actualRole;
+ const salesAllowed=member.role==='pilot_owner'||e.PUBLIC_SUBSCRIPTIONS_ENABLED==='true';
  const profile={learner:'Candidato',pilot_owner:'Candidato',recruiter:'Empresa',school_staff:'Instituição de Ensino'}[displayRole];
  const config=assertResult(await db.from('billing_live_configuration').select('*').eq('id',true).maybeSingle())||{};
  if(await topupAction({req,res,db,user:u,env:e,request,config,clientFactory,options}))return;
  if(req.method==='GET'){
   const orders=assertResult(await db.from('billing_live_orders').select('*').eq('user_id',u.id).eq('cohort_id',e.PILOT_COHORT_ID).order('created_at',{ascending:false}).limit(50));
   const payments=orders.length?assertResult(await db.from('billing_live_payments').select('*').in('order_id',orders.map(o=>o.id))):[];
-  return res.status(200).json({environment:'production',profile,owner:member.role==='pilot_owner',ready:providerConfigured&&!!(config.connected&&config.account_approved&&config.webhook_ready),canPurchase:providerConfigured&&member.role==='pilot_owner'&&!previewProfile,ownerTesting:testAccess.enabled,previewProfile,termsVersion:LIVE_TERMS,entitlement:currentEntitlement(orders.filter(o=>o.profile_type===profile),payments),orders:orders.map(o=>({...o,url:o.checkout_id&&o.status==='pending'?liveCheckoutURL(o.checkout_id):null})),payments});
+  return res.status(200).json({environment:'production',profile,owner:member.role==='pilot_owner',ready:providerConfigured&&!!(config.connected&&config.account_approved&&config.webhook_ready),canPurchase:providerConfigured&&salesAllowed&&!previewProfile,ownerTesting:testAccess.enabled,previewProfile,termsVersion:LIVE_TERMS,entitlement:currentEntitlement(orders.filter(o=>o.profile_type===profile),payments),orders:orders.map(o=>({...o,url:o.checkout_id&&o.status==='pending'?liveCheckoutURL(o.checkout_id):null})),payments});
  }
  if(req.headers.origin!==e.APP_ORIGIN||req.headers['sec-fetch-site']==='cross-site')return res.status(403).json({error:'Origem inválida.'});
  if(!req.headers['content-type']?.startsWith('application/json')||JSON.stringify(req.body||{}).length>4096)return res.status(400).json({error:'Formato inválido.'});
@@ -71,7 +72,7 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
   try{await request('/subscriptions/'+encodeURIComponent(liveId(o.subscription_id,'sub_')),{method:'DELETE'});}catch(error){if(error.providerStatus!==404)throw error;}
   assertResult(await db.from('billing_live_orders').update({status:'canceled',canceled_at:new Date().toISOString()}).eq('id',o.id));return res.status(200).json({canceled:true});
  }
- if(b.action==='checkout'&&member.role!=='pilot_owner')return res.status(403).json({error:'Contratação em validação pelo proprietário. A abertura aos assinantes aguarda a ativação dos benefícios.'});
+ if(b.action==='checkout'&&!salesAllowed)return res.status(403).json({error:'Novas assinaturas temporariamente indisponíveis. Sua conta e os períodos já pagos permanecem disponíveis.'});
  if(b.action!=='checkout')return res.status(400).json({error:'Ação inválida.'});
  if(!config.connected||!config.account_approved||!config.webhook_ready)return res.status(503).json({error:'A ativação financeira ainda está em validação.'});
  if(b.termsVersion!==LIVE_TERMS||b.accept!==true)return res.status(400).json({error:'Leia e aceite as condições da contratação.'});

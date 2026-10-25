@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {monthlyPlan,verifyWebhookToken,createAsaasSandbox} from '../src/asaas.mjs';
 test('monthly catalog matches approved prices across all profiles',()=>{
- assert.deepEqual([0,1,2,3].map(t=>monthlyPlan('Candidato',t).cents),[0,1990,4990,9990]);
- for(const p of ['Empresa','Instituição de Ensino'])assert.deepEqual([0,1,2,3].map(t=>monthlyPlan(p,t).cents),[0,9900,59900,299000]);
+ assert.deepEqual([0,1,2,3,4].map(t=>monthlyPlan('Candidato',t).cents),[0,1990,3990,6990,9990]);
+ for(const p of ['Empresa','Instituição de Ensino'])assert.deepEqual([0,1,2,3,4].map(t=>monthlyPlan(p,t).cents),[0,9990,29990,69990,99990]);
  assert.throws(()=>monthlyPlan('__proto__',1));assert.throws(()=>monthlyPlan('Candidato','1'));
 });
 test('sandbox request uses authoritative price and cannot use production',async()=>{

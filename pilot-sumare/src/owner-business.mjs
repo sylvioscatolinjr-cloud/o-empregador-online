@@ -6,7 +6,7 @@ const profiles=['Candidato','Empresa','Instituição de Ensino'];
 
 export function businessMetrics({orders=[],payments=[],topupOrders=[],topupPayments=[],usage=[],lines=[],images=[],start,end}){
  const active=orders.filter(o=>o.status==='active');
- const byProfile=Object.fromEntries(profiles.map(p=>[p,{1:0,2:0,3:0,total:0}]));
+ const byProfile=Object.fromEntries(profiles.map(p=>[p,{1:0,2:0,3:0,4:0,total:0}]));
  for(const o of active){const row=byProfile[o.profile_type];if(!row)continue;row[o.tier]=(row[o.tier]||0)+1;row.total++;}
  const mrrCents=Math.round(active.reduce((sum,o)=>sum+o.cents/(o.months||1),0));
  const paid=payments.filter(p=>p.eligible&&inPeriod(p.checked_at,start,end));

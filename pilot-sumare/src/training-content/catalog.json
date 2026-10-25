@@ -2995,5 +2995,1013 @@
     "agentTask": "syllabus_cycle",
     "agentChallenge": "Forneça a ementa e resultados agregados para pedir ajustes; a aprovação continua com a instituição.",
     "monthlyChallenge": "A cada mês, retome sua atividade, registre uma mudança concreta e compare o resultado com o objetivo inicial. Guarde suas anotações no seu próprio arquivo; esta página não recebe o texto da atividade."
+  },
+  {
+    "id": "cand-decisoes",
+    "version": 1,
+    "role": "learner",
+    "tier": 4,
+    "title": "Decisões profissionais e comparação de propostas",
+    "objective": "Comparar propostas e oportunidades usando critérios pessoais, evidências e cenários de risco, sem decidir apenas pelo salário.",
+    "format": "Texto e atividades · sem certificado",
+    "agentTask": "career_gps",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Critérios antes da proposta",
+        "paragraphs": [
+          "Defina primeiro o que você precisa preservar: renda mínima, deslocamento possível, horário, saúde, aprendizado e compatibilidade com seus valores. Separe requisitos indispensáveis de preferências negociáveis. Uma oportunidade atraente em um critério pode ser inviável em outro; uma pontuação alta não deve compensar um requisito essencial que não será atendido.",
+          "Exemplo aplicado: Uma pessoa precisa sair até 18h para estudar. Uma vaga que exige disponibilidade diária até 22h deve ser tratada como incompatível, mesmo com salário maior."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Critérios antes da proposta\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 1,
+        "title": "Comparação com evidências",
+        "paragraphs": [
+          "Monte uma matriz com critérios e pesos que somem cem. Atribua notas somente às informações verificadas e marque o restante como desconhecido. Compare remuneração fixa, benefícios, custos de transporte, jornada e possibilidades reais de desenvolvimento. Não transforme bônus incerto em renda garantida nem misture valores brutos e líquidos na mesma coluna.",
+          "Exemplo aplicado: Uma proposta paga R$ 300 a mais, mas o deslocamento adicional custa R$ 240. Registre os dois valores e o tempo de viagem; não conclua que o ganho disponível é R$ 300."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Comparação com evidências\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 2,
+        "title": "Cenários e perguntas",
+        "paragraphs": [
+          "Faça cenários favorável, provável e desfavorável para os pontos incertos. Prepare perguntas respeitosas sobre atividades, jornada, critérios de desempenho e etapas do processo. A IA pode organizar perguntas, mas não verificar promessas privadas da empresa. Registre a origem de cada informação e procure confirmação antes de assumir compromisso.",
+          "Exemplo aplicado: Se o anúncio menciona trabalho híbrido sem frequência definida, pergunte quantos dias presenciais são previstos e se essa condição aparece na proposta formal."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Cenários e perguntas\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 3,
+        "title": "Decisão e revisão",
+        "paragraphs": [
+          "Registre sua decisão, os motivos e as condições ainda pendentes. Defina uma data para avaliar se as hipóteses se confirmaram, sem culpar retrospectivamente quem decidiu com informações limitadas. Preserve relacionamentos ao aceitar ou recusar e evite compartilhar propostas confidenciais. Para dúvidas contratuais específicas, procure orientação profissional adequada.",
+          "Exemplo aplicado: Após trinta dias, compare o aprendizado e a jornada observados com as informações da contratação. Use as diferenças para melhorar seu próximo processo de decisão."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Decisão e revisão\" e qual informação ainda precisaria conferir?"
+      }
+    ],
+    "activity": {
+      "prompt": "Compare duas oportunidades fictícias e registre sua decisão justificada.",
+      "template": "Necessidades indispensáveis:\nCritérios e pesos:\nProposta A: fatos e dúvidas:\nProposta B: fatos e dúvidas:\nCusto e tempo de deslocamento:\nCenários:\nPerguntas de confirmação:\nDecisão e data de revisão:",
+      "checklist": [
+        "Use dados próprios autorizados ou um caso fictício, sem identificar terceiros.",
+        "Preencha os critérios e premissas de cada etapa do exercício.",
+        "Distinga informação observada, estimativa e resultado ainda não verificado.",
+        "Revise a entrega e registre um próximo passo realizável."
+      ]
+    },
+    "agentChallenge": "Peça ao agente uma revisão do exercício com dados fictícios, citando dúvidas e pedindo que separe fatos de hipóteses. A execução é opcional e segue o preço/consentimento exibidos antes do uso.",
+    "monthlyChallenge": "A cada mês, refaça o exercício com um cenário diferente, compare suas decisões e anote qual hipótese foi confirmada ou revista.",
+    "quiz": [
+      {
+        "question": "Qual é a base da comparação de propostas?",
+        "options": [
+          "Critérios pessoais explícitos e informações verificadas.",
+          "O maior número disponível, sem verificar a origem.",
+          "A indicação automática de uma ferramenta, sem revisão."
+        ],
+        "correct": 0,
+        "explanation": "Critérios pessoais explícitos e informações verificadas. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Ao executar \"Comparação com evidências\", qual atitude preserva a qualidade da análise?",
+        "options": [
+          "Tratar estimativas como fatos comprovados.",
+          "Registrar premissas e conferir informações antes de concluir.",
+          "Ocultar dúvidas para apresentar mais confiança."
+        ],
+        "correct": 1,
+        "explanation": "Registrar premissas e conferir informações antes de concluir. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como usar o exemplo de \"Cenários e perguntas\" na sua atividade?",
+        "options": [
+          "Adaptar ao contexto e registrar limites da comparação.",
+          "Copiar os números como se fossem os seus resultados.",
+          "Prometer que o mesmo efeito sempre ocorrerá."
+        ],
+        "correct": 0,
+        "explanation": "Adaptar ao contexto e registrar limites da comparação. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como trabalhar com dados de outras pessoas neste exercício?",
+        "options": [
+          "Publicar nomes e contatos para tornar o caso convincente.",
+          "Preferir um caso fictício ou informações mínimas com autorização aplicável.",
+          "Enviar documentos completos sem conferir a finalidade."
+        ],
+        "correct": 1,
+        "explanation": "Preferir um caso fictício ou informações mínimas com autorização aplicável. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Qual deve ser o fechamento da etapa \"Decisão e revisão\"?",
+        "options": [
+          "Uma decisão justificada, limites e uma data de revisão.",
+          "Uma garantia de sucesso para qualquer situação.",
+          "Uma decisão irreversível baseada apenas na primeira impressão."
+        ],
+        "correct": 0,
+        "explanation": "Uma decisão justificada, limites e uma data de revisão. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      }
+    ]
+  },
+  {
+    "id": "cand-problemas",
+    "version": 1,
+    "role": "learner",
+    "tier": 4,
+    "title": "Resolução de problemas e melhoria no trabalho",
+    "objective": "Construir uma proposta de melhoria pequena, mensurável e segura, distinguindo hipótese, teste e resultado observado.",
+    "format": "Texto e atividades · sem certificado",
+    "agentTask": "career_gps",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Descrever o problema",
+        "paragraphs": [
+          "Descreva uma diferença observável entre o esperado e o realizado, com contexto, período e consequência. Evite começar pela solução favorita ou atribuir culpa a uma pessoa. Escolha algo sob sua influência e obtenha autorização antes de alterar uma rotina de trabalho. Problemas de segurança devem ser comunicados ao responsável, sem experiências improvisadas.",
+          "Exemplo aplicado: Em uma oficina fictícia, separar ferramentas leva doze minutos por atendimento. O problema é o tempo de preparação, não uma acusação de desorganização de um colega."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Descrever o problema\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 1,
+        "title": "Investigar causas",
+        "paragraphs": [
+          "Liste causas possíveis e procure evidências que possam confirmar ou enfraquecer cada hipótese. Diferencie frequência, gravidade e percepção. Uma conversa ajuda a levantar pistas, mas não substitui observação. Use dados agregados, sem expor nomes ou informações pessoais. Se a amostra for pequena, registre a limitação em vez de apresentar uma certeza.",
+          "Exemplo aplicado: Observe cinco preparações autorizadas e anote etapas, tempo e material ausente. Se a demora ocorrer antes da busca de ferramentas, a hipótese inicial precisa ser revista."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Investigar causas\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 2,
+        "title": "Testar em pequena escala",
+        "paragraphs": [
+          "Defina uma intervenção reversível, um responsável e um período curto. Meça a situação anterior e a posterior com a mesma definição. Estabeleça critérios para interromper o teste caso aumente erros, retrabalho ou risco. Não atribua todo ganho à mudança se o volume de trabalho ou a complexidade também tiverem variado.",
+          "Exemplo aplicado: Teste uma lista de preparação em dez atendimentos comparáveis. Registre tempo e esquecimentos; uma redução de tempo acompanhada de mais falhas não representa melhoria completa."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Testar em pequena escala\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 3,
+        "title": "Apresentar a contribuição",
+        "paragraphs": [
+          "Organize um relato com problema, hipótese, ação autorizada, resultado e limitações. Apresente o que você fez sem apropriar resultados da equipe. Sugira o próximo passo e quem precisa aprová-lo. Use o caso em seu desenvolvimento profissional somente com autorização e sem divulgar dados internos, clientes ou documentos da organização.",
+          "Exemplo aplicado: No portfólio, descreva uma melhoria de preparação com dados fictícios ou autorizados, explicando o método e a participação da equipe, sem publicar ordens de serviço reais."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Apresentar a contribuição\" e qual informação ainda precisaria conferir?"
+      }
+    ],
+    "activity": {
+      "prompt": "Elabore um experimento de melhoria para um processo fictício de preparação de materiais.",
+      "template": "Problema e impacto:\nEvidência inicial:\nHipóteses alternativas:\nMudança reversível:\nAutorização necessária:\nIndicador e regra de parada:\nResultado esperado sem garantia:\nPróxima decisão:",
+      "checklist": [
+        "Use dados próprios autorizados ou um caso fictício, sem identificar terceiros.",
+        "Preencha os critérios e premissas de cada etapa do exercício.",
+        "Distinga informação observada, estimativa e resultado ainda não verificado.",
+        "Revise a entrega e registre um próximo passo realizável."
+      ]
+    },
+    "agentChallenge": "Peça ao agente uma revisão do exercício com dados fictícios, citando dúvidas e pedindo que separe fatos de hipóteses. A execução é opcional e segue o preço/consentimento exibidos antes do uso.",
+    "monthlyChallenge": "A cada mês, refaça o exercício com um cenário diferente, compare suas decisões e anote qual hipótese foi confirmada ou revista.",
+    "quiz": [
+      {
+        "question": "Como iniciar uma melhoria de processo?",
+        "options": [
+          "Descrever um problema observável e obter autorização para testar.",
+          "O maior número disponível, sem verificar a origem.",
+          "A indicação automática de uma ferramenta, sem revisão."
+        ],
+        "correct": 0,
+        "explanation": "Descrever um problema observável e obter autorização para testar. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Ao executar \"Investigar causas\", qual atitude preserva a qualidade da análise?",
+        "options": [
+          "Tratar estimativas como fatos comprovados.",
+          "Registrar premissas e conferir informações antes de concluir.",
+          "Ocultar dúvidas para apresentar mais confiança."
+        ],
+        "correct": 1,
+        "explanation": "Registrar premissas e conferir informações antes de concluir. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como usar o exemplo de \"Testar em pequena escala\" na sua atividade?",
+        "options": [
+          "Adaptar ao contexto e registrar limites da comparação.",
+          "Copiar os números como se fossem os seus resultados.",
+          "Prometer que o mesmo efeito sempre ocorrerá."
+        ],
+        "correct": 0,
+        "explanation": "Adaptar ao contexto e registrar limites da comparação. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como trabalhar com dados de outras pessoas neste exercício?",
+        "options": [
+          "Publicar nomes e contatos para tornar o caso convincente.",
+          "Preferir um caso fictício ou informações mínimas com autorização aplicável.",
+          "Enviar documentos completos sem conferir a finalidade."
+        ],
+        "correct": 1,
+        "explanation": "Preferir um caso fictício ou informações mínimas com autorização aplicável. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Qual deve ser o fechamento da etapa \"Apresentar a contribuição\"?",
+        "options": [
+          "Uma decisão justificada, limites e uma data de revisão.",
+          "Uma garantia de sucesso para qualquer situação.",
+          "Uma decisão irreversível baseada apenas na primeira impressão."
+        ],
+        "correct": 0,
+        "explanation": "Uma decisão justificada, limites e uma data de revisão. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      }
+    ]
+  },
+  {
+    "id": "cand-aprendizagem",
+    "version": 1,
+    "role": "learner",
+    "tier": 4,
+    "title": "Aprendizagem aplicada e demonstração de competência",
+    "objective": "Transformar uma lacuna profissional em um projeto de aprendizagem com prática, verificação e evidências próprias de domínio.",
+    "format": "Texto e atividades · sem certificado",
+    "agentTask": "career_gps",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Definir a competência",
+        "paragraphs": [
+          "Escolha uma habilidade ligada a uma atividade concreta, descrevendo o desempenho esperado e o nível atual. Evite objetivos vagos como dominar tecnologia. Compare exigências reais de oportunidades com sua experiência e identifique pré-requisitos. Não compre um curso apenas pelo título ou pela promessa de emprego; avalie se haverá prática e forma de verificar aprendizado.",
+          "Exemplo aplicado: Em vez de aprender planilhas, defina criar uma tabela de controle com validação de dados e explicar seus cálculos sem copiar um modelo pronto."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Definir a competência\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 1,
+        "title": "Planejar prática deliberada",
+        "paragraphs": [
+          "Divida a competência em partes e reserve sessões curtas de prática com dificuldade progressiva. Combine estudo, execução sem consulta e retorno sobre os erros. Planeje tempo e orçamento possíveis, sem sacrificar necessidades essenciais. Revisar um conteúdo conhecido pode dar sensação de progresso; produzir uma entrega verificável ajuda a descobrir o que ainda falta.",
+          "Exemplo aplicado: Organize três sessões semanais: estudar uma função, resolver um caso sem tutorial e revisar o arquivo com uma lista de conferência. Registre os erros encontrados."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Planejar prática deliberada\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 2,
+        "title": "Verificar e documentar",
+        "paragraphs": [
+          "Crie uma tarefa inédita semelhante ao trabalho pretendido e avalie precisão, clareza e capacidade de explicar decisões. Uma conclusão automática de vídeo não comprova competência. Peça retorno apenas a pessoas autorizadas, compartilhe dados fictícios e diferencie autoavaliação de certificação formal. Guarde versões que mostrem evolução real.",
+          "Exemplo aplicado: Prepare uma planilha com dados inventados e teste entradas incorretas. Explique por que escolheu cada validação e quais limitações o arquivo ainda apresenta."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Verificar e documentar\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 3,
+        "title": "Transferir para a carreira",
+        "paragraphs": [
+          "Atualize o currículo com a habilidade realmente demonstrada e um exemplo de aplicação, evitando títulos ou certificações inexistentes. Revise o plano a cada mês e escolha se aprofunda, aplica ou muda o foco. Ao usar IA, tente explicar a solução sem depender dela; o objetivo é aumentar autonomia, não apenas obter uma resposta pronta.",
+          "Exemplo aplicado: Descreva um projeto pessoal de controle de estoque com dados fictícios, indicando funcionalidades implementadas e o que você consegue demonstrar em uma entrevista."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Transferir para a carreira\" e qual informação ainda precisaria conferir?"
+      }
+    ],
+    "activity": {
+      "prompt": "Crie uma trilha de quatro semanas e uma tarefa final para demonstrar uma competência.",
+      "template": "Competência e atividade-alvo:\nNível atual e pré-requisitos:\nSemana 1:\nSemana 2:\nSemana 3:\nSemana 4:\nTarefa inédita de verificação:\nEvidências e limitações:",
+      "checklist": [
+        "Use dados próprios autorizados ou um caso fictício, sem identificar terceiros.",
+        "Preencha os critérios e premissas de cada etapa do exercício.",
+        "Distinga informação observada, estimativa e resultado ainda não verificado.",
+        "Revise a entrega e registre um próximo passo realizável."
+      ]
+    },
+    "agentChallenge": "Peça ao agente uma revisão do exercício com dados fictícios, citando dúvidas e pedindo que separe fatos de hipóteses. A execução é opcional e segue o preço/consentimento exibidos antes do uso.",
+    "monthlyChallenge": "A cada mês, refaça o exercício com um cenário diferente, compare suas decisões e anote qual hipótese foi confirmada ou revista.",
+    "quiz": [
+      {
+        "question": "O que demonstra aprendizagem aplicada?",
+        "options": [
+          "Resolver uma tarefa inédita e explicar as decisões.",
+          "O maior número disponível, sem verificar a origem.",
+          "A indicação automática de uma ferramenta, sem revisão."
+        ],
+        "correct": 0,
+        "explanation": "Resolver uma tarefa inédita e explicar as decisões. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Ao executar \"Planejar prática deliberada\", qual atitude preserva a qualidade da análise?",
+        "options": [
+          "Tratar estimativas como fatos comprovados.",
+          "Registrar premissas e conferir informações antes de concluir.",
+          "Ocultar dúvidas para apresentar mais confiança."
+        ],
+        "correct": 1,
+        "explanation": "Registrar premissas e conferir informações antes de concluir. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como usar o exemplo de \"Verificar e documentar\" na sua atividade?",
+        "options": [
+          "Adaptar ao contexto e registrar limites da comparação.",
+          "Copiar os números como se fossem os seus resultados.",
+          "Prometer que o mesmo efeito sempre ocorrerá."
+        ],
+        "correct": 0,
+        "explanation": "Adaptar ao contexto e registrar limites da comparação. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como trabalhar com dados de outras pessoas neste exercício?",
+        "options": [
+          "Publicar nomes e contatos para tornar o caso convincente.",
+          "Preferir um caso fictício ou informações mínimas com autorização aplicável.",
+          "Enviar documentos completos sem conferir a finalidade."
+        ],
+        "correct": 1,
+        "explanation": "Preferir um caso fictício ou informações mínimas com autorização aplicável. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Qual deve ser o fechamento da etapa \"Transferir para a carreira\"?",
+        "options": [
+          "Uma decisão justificada, limites e uma data de revisão.",
+          "Uma garantia de sucesso para qualquer situação.",
+          "Uma decisão irreversível baseada apenas na primeira impressão."
+        ],
+        "correct": 0,
+        "explanation": "Uma decisão justificada, limites e uma data de revisão. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      }
+    ]
+  },
+  {
+    "id": "emp-capacidade",
+    "version": 1,
+    "role": "recruiter",
+    "tier": 4,
+    "title": "Planejamento de equipe e capacidade operacional",
+    "objective": "Planejar necessidades de equipe com cenários de demanda, capacidade disponível e alternativas à contratação, sem reduzir pessoas a uma pontuação.",
+    "format": "Texto e atividades · sem certificado",
+    "agentTask": "training_paths",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Demanda e trabalho real",
+        "paragraphs": [
+          "Descreva entregas, sazonalidade e nível de serviço antes de estimar quantidade de pessoas. Separe capacidade produtiva de horas contratuais: reuniões, preparação, pausas e treinamento também ocupam tempo. Trabalhe com informações agregadas e não use este exercício para monitoramento individual invasivo. Valide as premissas com quem conhece a operação.",
+          "Exemplo aplicado: Uma equipe recebe quarenta pedidos por semana, mas a complexidade varia. Classifique tipos de entrega antes de multiplicar um tempo médio por todo o volume."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Demanda e trabalho real\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 1,
+        "title": "Cenários de capacidade",
+        "paragraphs": [
+          "Estime capacidade por tipo de tarefa e compare cenários de demanda baixa, provável e alta. Inclua ausências previstas, treinamento e margem para variação. Registre o que foi medido e o que é hipótese. A conta orienta discussão; não justifica automaticamente sobrecarga, demissão ou exigência de ritmo incompatível com segurança e qualidade.",
+          "Exemplo aplicado: Se uma atividade depende de uma única pessoa habilitada, contratar para outra função pode não resolver o gargalo. Considere formação e redistribuição autorizada."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Cenários de capacidade\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 2,
+        "title": "Alternativas e orçamento",
+        "paragraphs": [
+          "Compare melhoria de processo, redistribuição, capacitação e contratação. Estime custo total de cada alternativa, prazo de efeito e risco, incluindo integração e supervisão. Não trate salário como único custo nem prometa retorno exato. Use cenários para selecionar uma solução viável e procure os responsáveis por questões legais e de segurança do trabalho.",
+          "Exemplo aplicado: Uma contratação pode aliviar o volume após a integração, enquanto um ajuste simples reduz retrabalho antes disso. Compare horizontes diferentes sem somar ganhos incompatíveis."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Alternativas e orçamento\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 3,
+        "title": "Revisar decisões",
+        "paragraphs": [
+          "Crie um acompanhamento mensal com demanda, prazo, retrabalho e capacidade estimada. Investigue desvios antes de atribuí-los à equipe. Uma mudança na carteira de clientes pode invalidar a previsão anterior. Documente a decisão, quem aprova e quando revisar, mantendo dados individuais restritos a quem possui necessidade legítima de acesso.",
+          "Exemplo aplicado: Se a demanda aumentou em tarefas mais complexas, recalcule a capacidade antes de concluir que a produtividade caiu apenas pelo número de pedidos finalizados."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Revisar decisões\" e qual informação ainda precisaria conferir?"
+      }
+    ],
+    "activity": {
+      "prompt": "Prepare três cenários de equipe para uma operação fictícia e compare duas alternativas.",
+      "template": "Entrega e demanda:\nCapacidade observada:\nPremissas:\nCenário baixo:\nCenário provável:\nCenário alto:\nAlternativas e custos:\nAprovação e revisão:",
+      "checklist": [
+        "Use dados próprios autorizados ou um caso fictício, sem identificar terceiros.",
+        "Preencha os critérios e premissas de cada etapa do exercício.",
+        "Distinga informação observada, estimativa e resultado ainda não verificado.",
+        "Revise a entrega e registre um próximo passo realizável."
+      ]
+    },
+    "agentChallenge": "Peça ao agente uma revisão do exercício com dados fictícios, citando dúvidas e pedindo que separe fatos de hipóteses. A execução é opcional e segue o preço/consentimento exibidos antes do uso.",
+    "monthlyChallenge": "A cada mês, refaça o exercício com um cenário diferente, compare suas decisões e anote qual hipótese foi confirmada ou revista.",
+    "quiz": [
+      {
+        "question": "O que deve orientar a previsão de equipe?",
+        "options": [
+          "Demanda por tipo de entrega e capacidade realista em cenários.",
+          "O maior número disponível, sem verificar a origem.",
+          "A indicação automática de uma ferramenta, sem revisão."
+        ],
+        "correct": 0,
+        "explanation": "Demanda por tipo de entrega e capacidade realista em cenários. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Ao executar \"Cenários de capacidade\", qual atitude preserva a qualidade da análise?",
+        "options": [
+          "Tratar estimativas como fatos comprovados.",
+          "Registrar premissas e conferir informações antes de concluir.",
+          "Ocultar dúvidas para apresentar mais confiança."
+        ],
+        "correct": 1,
+        "explanation": "Registrar premissas e conferir informações antes de concluir. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como usar o exemplo de \"Alternativas e orçamento\" na sua atividade?",
+        "options": [
+          "Adaptar ao contexto e registrar limites da comparação.",
+          "Copiar os números como se fossem os seus resultados.",
+          "Prometer que o mesmo efeito sempre ocorrerá."
+        ],
+        "correct": 0,
+        "explanation": "Adaptar ao contexto e registrar limites da comparação. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como trabalhar com dados de outras pessoas neste exercício?",
+        "options": [
+          "Publicar nomes e contatos para tornar o caso convincente.",
+          "Preferir um caso fictício ou informações mínimas com autorização aplicável.",
+          "Enviar documentos completos sem conferir a finalidade."
+        ],
+        "correct": 1,
+        "explanation": "Preferir um caso fictício ou informações mínimas com autorização aplicável. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Qual deve ser o fechamento da etapa \"Revisar decisões\"?",
+        "options": [
+          "Uma decisão justificada, limites e uma data de revisão.",
+          "Uma garantia de sucesso para qualquer situação.",
+          "Uma decisão irreversível baseada apenas na primeira impressão."
+        ],
+        "correct": 0,
+        "explanation": "Uma decisão justificada, limites e uma data de revisão. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      }
+    ]
+  },
+  {
+    "id": "emp-ia-governanca",
+    "version": 1,
+    "role": "recruiter",
+    "tier": 4,
+    "title": "Uso responsável de IA na seleção",
+    "objective": "Estruturar um fluxo assistido por IA com critérios profissionais, revisão humana e proteção de dados durante a seleção.",
+    "format": "Texto e atividades · sem certificado",
+    "agentTask": "training_paths",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Definir a tarefa e o limite",
+        "paragraphs": [
+          "Determine se a IA vai resumir, organizar ou sugerir perguntas e explique o que ela não decidirá. Defina requisitos relacionados ao trabalho e evidências aceitáveis. Evite inferências sobre saúde, religião, origem ou características pessoais irrelevantes. A decisão de avançar ou contratar deve permanecer com pessoas responsáveis e critérios justificáveis.",
+          "Exemplo aplicado: Peça um resumo de experiências relacionadas à manutenção, sem solicitar inferência de personalidade, estado de saúde ou situação familiar do candidato."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Definir a tarefa e o limite\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 1,
+        "title": "Minimizar informações",
+        "paragraphs": [
+          "Envie somente o conteúdo necessário e autorizado para a finalidade. Remova CPF, endereço completo e contatos quando não forem indispensáveis. Antes de inserir arquivos em ferramentas externas, confira a política e a autorização aplicável. Não copie bases inteiras para facilitar o trabalho; dados sintéticos permitem ensaiar o fluxo sem expor pessoas.",
+          "Exemplo aplicado: Para preparar perguntas de entrevista, utilize uma descrição anonimizada das competências e experiências relevantes, em vez do documento integral com dados de identificação."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Minimizar informações\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 2,
+        "title": "Revisar respostas e vieses",
+        "paragraphs": [
+          "Confira cada afirmação com a fonte, registre incertezas e compare casos equivalentes usando os mesmos critérios. Omissão de um termo no currículo não comprova ausência de competência. Teste respostas com exemplos sintéticos e procure diferenças injustificadas. Não aceite uma classificação apenas porque parece matemática ou porque a ferramenta explica sua conclusão com confiança.",
+          "Exemplo aplicado: Dois candidatos podem descrever a mesma atividade com palavras diferentes. Revise a evidência antes de rejeitar quem não usou o termo exato do anúncio."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Revisar respostas e vieses\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 3,
+        "title": "Responsabilidade e revisão",
+        "paragraphs": [
+          "Documente o responsável pela revisão, a versão dos critérios e um caminho para corrigir informações. Defina prazos de retenção e acesso conforme a finalidade e a política da organização. Se houver erro relevante, suspenda o uso naquele caso e trate a correção. Este roteiro não substitui análise jurídica ou avaliação profissional de proteção de dados.",
+          "Exemplo aplicado: Registre que uma sugestão de pergunta foi revisada por um recrutador e não guarde cópias desnecessárias de currículos em planilhas compartilhadas sem controle."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Responsabilidade e revisão\" e qual informação ainda precisaria conferir?"
+      }
+    ],
+    "activity": {
+      "prompt": "Desenhe um procedimento de triagem assistida com exemplos fictícios e três pontos de revisão humana.",
+      "template": "Finalidade e atividade da IA:\nCritérios profissionais:\nDados necessários e removidos:\nAcessos autorizados:\nValidação da fonte:\nRevisão humana:\nCorreção e atendimento:\nRetenção e responsável:",
+      "checklist": [
+        "Use dados próprios autorizados ou um caso fictício, sem identificar terceiros.",
+        "Preencha os critérios e premissas de cada etapa do exercício.",
+        "Distinga informação observada, estimativa e resultado ainda não verificado.",
+        "Revise a entrega e registre um próximo passo realizável."
+      ]
+    },
+    "agentChallenge": "Peça ao agente uma revisão do exercício com dados fictícios, citando dúvidas e pedindo que separe fatos de hipóteses. A execução é opcional e segue o preço/consentimento exibidos antes do uso.",
+    "monthlyChallenge": "A cada mês, refaça o exercício com um cenário diferente, compare suas decisões e anote qual hipótese foi confirmada ou revista.",
+    "quiz": [
+      {
+        "question": "Qual deve ser o papel da IA na seleção?",
+        "options": [
+          "Apoiar tarefas definidas com revisão humana e critérios profissionais.",
+          "O maior número disponível, sem verificar a origem.",
+          "A indicação automática de uma ferramenta, sem revisão."
+        ],
+        "correct": 0,
+        "explanation": "Apoiar tarefas definidas com revisão humana e critérios profissionais. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Ao executar \"Minimizar informações\", qual atitude preserva a qualidade da análise?",
+        "options": [
+          "Tratar estimativas como fatos comprovados.",
+          "Registrar premissas e conferir informações antes de concluir.",
+          "Ocultar dúvidas para apresentar mais confiança."
+        ],
+        "correct": 1,
+        "explanation": "Registrar premissas e conferir informações antes de concluir. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como usar o exemplo de \"Revisar respostas e vieses\" na sua atividade?",
+        "options": [
+          "Adaptar ao contexto e registrar limites da comparação.",
+          "Copiar os números como se fossem os seus resultados.",
+          "Prometer que o mesmo efeito sempre ocorrerá."
+        ],
+        "correct": 0,
+        "explanation": "Adaptar ao contexto e registrar limites da comparação. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como trabalhar com dados de outras pessoas neste exercício?",
+        "options": [
+          "Publicar nomes e contatos para tornar o caso convincente.",
+          "Preferir um caso fictício ou informações mínimas com autorização aplicável.",
+          "Enviar documentos completos sem conferir a finalidade."
+        ],
+        "correct": 1,
+        "explanation": "Preferir um caso fictício ou informações mínimas com autorização aplicável. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Qual deve ser o fechamento da etapa \"Responsabilidade e revisão\"?",
+        "options": [
+          "Uma decisão justificada, limites e uma data de revisão.",
+          "Uma garantia de sucesso para qualquer situação.",
+          "Uma decisão irreversível baseada apenas na primeira impressão."
+        ],
+        "correct": 0,
+        "explanation": "Uma decisão justificada, limites e uma data de revisão. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      }
+    ]
+  },
+  {
+    "id": "emp-experimentos",
+    "version": 1,
+    "role": "recruiter",
+    "tier": 4,
+    "title": "Experimentos de atração e retenção de talentos",
+    "objective": "Avaliar mudanças pequenas em recrutamento e integração com indicadores comparáveis e limites claros de interpretação.",
+    "format": "Texto e atividades · sem certificado",
+    "agentTask": "training_paths",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Escolher uma hipótese",
+        "paragraphs": [
+          "Descreva um problema específico e uma mudança que possa ser observada. Diferencie atrair mais pessoas de atrair pessoas compatíveis. Se a hipótese envolver retenção, considere o tempo necessário para observar o resultado e os fatores de gestão envolvidos. Não exponha avaliações individuais nem use um experimento para justificar tratamento desigual.",
+          "Exemplo aplicado: A hipótese pode ser que explicar a jornada no anúncio reduza desistências por incompatibilidade de horário, e não simplesmente que um anúncio mais longo gera mais contratações."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Escolher uma hipótese\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 1,
+        "title": "Definir indicadores",
+        "paragraphs": [
+          "Escolha um indicador principal e indicadores de proteção, como adequação, prazo e experiência dos participantes. Defina numerador, denominador e janela de observação antes de executar. Taxas sem volume podem enganar; informe quantos casos foram observados. Use agregados e restrinja o acesso a informações individuais do processo seletivo.",
+          "Exemplo aplicado: Compare desistências por incompatibilidade entre participantes que receberam a informação de jornada, acompanhando também o total de candidaturas compatíveis."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Definir indicadores\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 2,
+        "title": "Executar com comparação",
+        "paragraphs": [
+          "Mude apenas o necessário, registre período, canal e diferenças de contexto. Quando os grupos não forem comparáveis, trate a conclusão como uma indicação, não prova causal. Não esconda informações essenciais de um grupo apenas para medir resultado. Planeje uma regra de interrupção e obtenha aprovação do responsável pelo processo.",
+          "Exemplo aplicado: Anúncios em cidades diferentes não formam comparação direta. Observe o contexto ou repita o teste em condições mais próximas antes de adotar uma regra geral."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Executar com comparação\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 3,
+        "title": "Aprender e decidir",
+        "paragraphs": [
+          "Apresente o que mudou, o que permaneceu incerto e quais efeitos indesejados apareceram. Estime custo e benefício com cenários, não com retorno garantido. Escolha manter, ajustar ou descartar a iniciativa e defina a próxima revisão. Resultados negativos também são aprendizado quando evitam investimento repetido em uma ação pouco eficaz.",
+          "Exemplo aplicado: Se houve menos desistências mas também menos candidatos compatíveis, avalie as duas medidas. Uma melhora isolada não basta para considerar a mudança vencedora."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Aprender e decidir\" e qual informação ainda precisaria conferir?"
+      }
+    ],
+    "activity": {
+      "prompt": "Elabore um experimento de anúncio ou integração com indicador principal e critérios de proteção.",
+      "template": "Problema:\nHipótese:\nMudança proposta:\nIndicador e denominador:\nComparação e limites:\nRisco e regra de parada:\nCusto previsto:\nDecisão após observação:",
+      "checklist": [
+        "Use dados próprios autorizados ou um caso fictício, sem identificar terceiros.",
+        "Preencha os critérios e premissas de cada etapa do exercício.",
+        "Distinga informação observada, estimativa e resultado ainda não verificado.",
+        "Revise a entrega e registre um próximo passo realizável."
+      ]
+    },
+    "agentChallenge": "Peça ao agente uma revisão do exercício com dados fictícios, citando dúvidas e pedindo que separe fatos de hipóteses. A execução é opcional e segue o preço/consentimento exibidos antes do uso.",
+    "monthlyChallenge": "A cada mês, refaça o exercício com um cenário diferente, compare suas decisões e anote qual hipótese foi confirmada ou revista.",
+    "quiz": [
+      {
+        "question": "Como avaliar um experimento de recrutamento?",
+        "options": [
+          "Combinar indicador principal, proteção e comparação contextualizada.",
+          "O maior número disponível, sem verificar a origem.",
+          "A indicação automática de uma ferramenta, sem revisão."
+        ],
+        "correct": 0,
+        "explanation": "Combinar indicador principal, proteção e comparação contextualizada. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Ao executar \"Definir indicadores\", qual atitude preserva a qualidade da análise?",
+        "options": [
+          "Tratar estimativas como fatos comprovados.",
+          "Registrar premissas e conferir informações antes de concluir.",
+          "Ocultar dúvidas para apresentar mais confiança."
+        ],
+        "correct": 1,
+        "explanation": "Registrar premissas e conferir informações antes de concluir. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como usar o exemplo de \"Executar com comparação\" na sua atividade?",
+        "options": [
+          "Adaptar ao contexto e registrar limites da comparação.",
+          "Copiar os números como se fossem os seus resultados.",
+          "Prometer que o mesmo efeito sempre ocorrerá."
+        ],
+        "correct": 0,
+        "explanation": "Adaptar ao contexto e registrar limites da comparação. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como trabalhar com dados de outras pessoas neste exercício?",
+        "options": [
+          "Publicar nomes e contatos para tornar o caso convincente.",
+          "Preferir um caso fictício ou informações mínimas com autorização aplicável.",
+          "Enviar documentos completos sem conferir a finalidade."
+        ],
+        "correct": 1,
+        "explanation": "Preferir um caso fictício ou informações mínimas com autorização aplicável. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Qual deve ser o fechamento da etapa \"Aprender e decidir\"?",
+        "options": [
+          "Uma decisão justificada, limites e uma data de revisão.",
+          "Uma garantia de sucesso para qualquer situação.",
+          "Uma decisão irreversível baseada apenas na primeira impressão."
+        ],
+        "correct": 0,
+        "explanation": "Uma decisão justificada, limites e uma data de revisão. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      }
+    ]
+  },
+  {
+    "id": "edu-funil",
+    "version": 1,
+    "role": "school_staff",
+    "tier": 4,
+    "title": "Captação de alunos: do interesse à matrícula",
+    "objective": "Organizar um funil de captação com etapas, atendimento autorizado e indicadores que distingam interesse, inscrição e matrícula confirmada.",
+    "format": "Texto e atividades · sem certificado",
+    "agentTask": "course_promotion",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Definir oferta e público",
+        "paragraphs": [
+          "Escolha um curso real, público pretendido e motivo concreto para a matrícula. Descreva modalidade, horários, duração, preço e pré-requisitos de forma coerente. Não prometa emprego, certificado reconhecido ou resultados que o curso não entrega. Procure compreender a necessidade do interessado sem criar listas de pessoas por características sensíveis.",
+          "Exemplo aplicado: Para um curso introdutório de CAD, informe o conhecimento prévio necessário e se haverá computador disponível. Evite anunciar formação profissional completa se a oferta é uma oficina curta."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Definir oferta e público\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 1,
+        "title": "Mapear etapas",
+        "paragraphs": [
+          "Separe visualização, interesse autorizado, atendimento, inscrição e matrícula confirmada. Defina o que caracteriza cada passagem, quem atende e o prazo de retorno. Um clique ou uma pergunta não equivale a matrícula. Registre a origem do contato apenas quando necessário e mantenha preferências de comunicação respeitadas durante o acompanhamento.",
+          "Exemplo aplicado: Uma pessoa pediu informações sobre horário: é um contato interessado. Ela só entra na contagem de matriculados depois de cumprir os critérios reais de matrícula da escola."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Mapear etapas\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 2,
+        "title": "Atender sem pressionar",
+        "paragraphs": [
+          "Use perguntas para entender objetivo, disponibilidade e dúvidas, deixando condições comerciais claras. Faça acompanhamento apenas por canais e frequência autorizados, oferecendo saída simples das comunicações. Evite urgência artificial, insistência após recusa e mensagens em massa. Informação correta reduz frustração e ajuda a atrair alunos adequados ao curso.",
+          "Exemplo aplicado: Se a pessoa procura aula noturna e a turma só ocorre à tarde, explique a incompatibilidade. Não esconda o horário para obter uma inscrição que provavelmente será cancelada."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Atender sem pressionar\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 3,
+        "title": "Medir e melhorar",
+        "paragraphs": [
+          "Calcule conversão entre etapas usando o mesmo período e o mesmo grupo de interessados. Observe tempo de atendimento, desistências e motivo declarado de perda sem exposição individual. Não compare campanhas só pelo número bruto de contatos. Use os dados para melhorar oferta e atendimento, sem atribuir à IA garantia de novas matrículas.",
+          "Exemplo aplicado: Uma campanha trouxe cinquenta interessados e cinco matrículas; outra trouxe vinte e quatro. Compare custo, qualidade e capacidade de atendimento antes de escolher o melhor canal."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Medir e melhorar\" e qual informação ainda precisaria conferir?"
+      }
+    ],
+    "activity": {
+      "prompt": "Crie o funil de um curso fictício com definições de etapa e um roteiro de atendimento.",
+      "template": "Curso e público:\nCondições verificáveis:\nEtapas e critérios:\nOrigem e autorização do contato:\nResponsável e prazo:\nDúvidas frequentes:\nConversão e custo:\nMelhoria prioritária:",
+      "checklist": [
+        "Use dados próprios autorizados ou um caso fictício, sem identificar terceiros.",
+        "Preencha os critérios e premissas de cada etapa do exercício.",
+        "Distinga informação observada, estimativa e resultado ainda não verificado.",
+        "Revise a entrega e registre um próximo passo realizável."
+      ]
+    },
+    "agentChallenge": "Peça ao agente uma revisão do exercício com dados fictícios, citando dúvidas e pedindo que separe fatos de hipóteses. A execução é opcional e segue o preço/consentimento exibidos antes do uso.",
+    "monthlyChallenge": "A cada mês, refaça o exercício com um cenário diferente, compare suas decisões e anote qual hipótese foi confirmada ou revista.",
+    "quiz": [
+      {
+        "question": "Quando contar uma matrícula?",
+        "options": [
+          "Quando os critérios reais de matrícula forem cumpridos.",
+          "O maior número disponível, sem verificar a origem.",
+          "A indicação automática de uma ferramenta, sem revisão."
+        ],
+        "correct": 0,
+        "explanation": "Quando os critérios reais de matrícula forem cumpridos. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Ao executar \"Mapear etapas\", qual atitude preserva a qualidade da análise?",
+        "options": [
+          "Tratar estimativas como fatos comprovados.",
+          "Registrar premissas e conferir informações antes de concluir.",
+          "Ocultar dúvidas para apresentar mais confiança."
+        ],
+        "correct": 1,
+        "explanation": "Registrar premissas e conferir informações antes de concluir. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como usar o exemplo de \"Atender sem pressionar\" na sua atividade?",
+        "options": [
+          "Adaptar ao contexto e registrar limites da comparação.",
+          "Copiar os números como se fossem os seus resultados.",
+          "Prometer que o mesmo efeito sempre ocorrerá."
+        ],
+        "correct": 0,
+        "explanation": "Adaptar ao contexto e registrar limites da comparação. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como trabalhar com dados de outras pessoas neste exercício?",
+        "options": [
+          "Publicar nomes e contatos para tornar o caso convincente.",
+          "Preferir um caso fictício ou informações mínimas com autorização aplicável.",
+          "Enviar documentos completos sem conferir a finalidade."
+        ],
+        "correct": 1,
+        "explanation": "Preferir um caso fictício ou informações mínimas com autorização aplicável. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Qual deve ser o fechamento da etapa \"Medir e melhorar\"?",
+        "options": [
+          "Uma decisão justificada, limites e uma data de revisão.",
+          "Uma garantia de sucesso para qualquer situação.",
+          "Uma decisão irreversível baseada apenas na primeira impressão."
+        ],
+        "correct": 0,
+        "explanation": "Uma decisão justificada, limites e uma data de revisão. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      }
+    ]
+  },
+  {
+    "id": "edu-campanhas",
+    "version": 1,
+    "role": "school_staff",
+    "tier": 4,
+    "title": "Campanhas e publicações para preencher turmas",
+    "objective": "Planejar uma campanha de divulgação com conteúdo, canais e verificação de resultados para cursos e atividades da instituição.",
+    "format": "Texto e atividades · sem certificado",
+    "agentTask": "social_posts_school_staff",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Briefing da campanha",
+        "paragraphs": [
+          "Defina curso, público, objetivo, período e ação esperada. Reúna informações aprovadas de preço, horários, vagas e pré-requisitos. Escolha uma mensagem central que corresponda à entrega. A criação visual não deve substituir clareza comercial: uma peça bonita com condição incompleta gera dúvidas e contatos incompatíveis.",
+          "Exemplo aplicado: Uma campanha de oficina de impressão 3D deve informar se é introdutória, presencial, a data e o caminho para conhecer condições e inscrição."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Briefing da campanha\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 1,
+        "title": "Texto e imagem com revisão",
+        "paragraphs": [
+          "Prepare chamada, benefício verificável, informação prática e convite à ação. Ao gerar imagem com IA, escolha proporção adequada e confira logo, palavras e elementos antes de usar. Tenha autorização para referências e imagens de pessoas; prefira materiais próprios. Não atribua selo, parceria ou reconhecimento que a escola não possa comprovar.",
+          "Exemplo aplicado: Uma arte vertical pode servir a um vídeo curto, mas detalhes essenciais também precisam estar na legenda ou na página do curso. Revise letras do logo antes de publicar."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Texto e imagem com revisão\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 2,
+        "title": "Calendário e canais",
+        "paragraphs": [
+          "Distribua conteúdos entre apresentação do curso, demonstração de atividade, dúvidas frequentes e lembrete verdadeiro de prazo. Ajuste formato e linguagem ao canal sem prometer alcance garantido. Defina quem aprova e publica; o agente de publicações do OEO cria materiais, mas não publica nem agenda automaticamente nas redes.",
+          "Exemplo aplicado: Planeje uma demonstração autorizada, uma resposta sobre pré-requisitos e um lembrete de encerramento real. Evite repetir a mesma propaganda sem acrescentar informação."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Calendário e canais\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 3,
+        "title": "Resultado e aprendizado",
+        "paragraphs": [
+          "Identifique campanhas com nomes ou parâmetros que não exponham dados pessoais e acompanhe o percurso até a matrícula. Curtidas e visualizações são sinais de exposição, não receita. Compare custo, contatos adequados, matrículas e cancelamentos. Use o resultado para revisar mensagem, canal e oferta, reconhecendo limites de atribuição entre vários contatos.",
+          "Exemplo aplicado: Uma pessoa pode ver um post e depois visitar a escola por indicação. Registre a informação disponível sem contar a mesma matrícula como resultado integral de vários canais."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Resultado e aprendizado\" e qual informação ainda precisaria conferir?"
+      }
+    ],
+    "activity": {
+      "prompt": "Monte um calendário de duas semanas e dois briefings de peças para divulgar um curso.",
+      "template": "Oferta e objetivo:\nPúblico e canais:\nMensagem central:\nInformações obrigatórias:\nReferências autorizadas:\nCalendário e responsável:\nIndicadores de resultado:\nRevisão antes da publicação:",
+      "checklist": [
+        "Use dados próprios autorizados ou um caso fictício, sem identificar terceiros.",
+        "Preencha os critérios e premissas de cada etapa do exercício.",
+        "Distinga informação observada, estimativa e resultado ainda não verificado.",
+        "Revise a entrega e registre um próximo passo realizável."
+      ]
+    },
+    "agentChallenge": "Peça ao agente uma revisão do exercício com dados fictícios, citando dúvidas e pedindo que separe fatos de hipóteses. A execução é opcional e segue o preço/consentimento exibidos antes do uso.",
+    "monthlyChallenge": "A cada mês, refaça o exercício com um cenário diferente, compare suas decisões e anote qual hipótese foi confirmada ou revista.",
+    "quiz": [
+      {
+        "question": "O que avaliar além de curtidas?",
+        "options": [
+          "Contatos adequados, matrículas e custos da campanha.",
+          "O maior número disponível, sem verificar a origem.",
+          "A indicação automática de uma ferramenta, sem revisão."
+        ],
+        "correct": 0,
+        "explanation": "Contatos adequados, matrículas e custos da campanha. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Ao executar \"Texto e imagem com revisão\", qual atitude preserva a qualidade da análise?",
+        "options": [
+          "Tratar estimativas como fatos comprovados.",
+          "Registrar premissas e conferir informações antes de concluir.",
+          "Ocultar dúvidas para apresentar mais confiança."
+        ],
+        "correct": 1,
+        "explanation": "Registrar premissas e conferir informações antes de concluir. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como usar o exemplo de \"Calendário e canais\" na sua atividade?",
+        "options": [
+          "Adaptar ao contexto e registrar limites da comparação.",
+          "Copiar os números como se fossem os seus resultados.",
+          "Prometer que o mesmo efeito sempre ocorrerá."
+        ],
+        "correct": 0,
+        "explanation": "Adaptar ao contexto e registrar limites da comparação. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como trabalhar com dados de outras pessoas neste exercício?",
+        "options": [
+          "Publicar nomes e contatos para tornar o caso convincente.",
+          "Preferir um caso fictício ou informações mínimas com autorização aplicável.",
+          "Enviar documentos completos sem conferir a finalidade."
+        ],
+        "correct": 1,
+        "explanation": "Preferir um caso fictício ou informações mínimas com autorização aplicável. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Qual deve ser o fechamento da etapa \"Resultado e aprendizado\"?",
+        "options": [
+          "Uma decisão justificada, limites e uma data de revisão.",
+          "Uma garantia de sucesso para qualquer situação.",
+          "Uma decisão irreversível baseada apenas na primeira impressão."
+        ],
+        "correct": 0,
+        "explanation": "Uma decisão justificada, limites e uma data de revisão. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      }
+    ]
+  },
+  {
+    "id": "edu-viabilidade",
+    "version": 1,
+    "role": "school_staff",
+    "tier": 4,
+    "title": "Viabilidade de cursos e crescimento sustentável",
+    "objective": "Analisar preço, custos e ocupação de uma turma antes de investir em divulgação ou ampliar o catálogo de cursos.",
+    "format": "Texto e atividades · sem certificado",
+    "agentTask": "course_promotion",
+    "lessons": [
+      {
+        "id": 0,
+        "title": "Descrever custos e capacidade",
+        "paragraphs": [
+          "Liste custos fixos da turma e custos que variam por aluno, considerando professor, espaço, materiais, plataforma e atendimento. Inclua somente valores coerentes com o período analisado. Diferencie capacidade física de capacidade pedagógica: aumentar lugares não deve comprometer segurança, equipamentos ou qualidade da atividade prática.",
+          "Exemplo aplicado: Uma oficina com oito máquinas pode precisar de limite inferior ao número de cadeiras da sala. Registre a restrição que realmente determina a capacidade da turma."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Descrever custos e capacidade\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 1,
+        "title": "Margem e ponto de equilíbrio",
+        "paragraphs": [
+          "Calcule a contribuição por aluno como receita efetiva menos custos variáveis, incluindo taxas e descontos previstos. Divida os custos fixos por essa contribuição para estimar a quantidade mínima de matrículas, arredondando para cima. Se a contribuição for nula ou negativa, aumentar volume não resolve o problema; revise preço, formato ou custos.",
+          "Exemplo aplicado: Com contribuição de R$ 150 por aluno e custo fixo de R$ 1.200, são necessárias oito matrículas para cobrir esse custo no cenário simplificado, sem chamar isso de lucro garantido."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Margem e ponto de equilíbrio\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 2,
+        "title": "Cenários de ocupação",
+        "paragraphs": [
+          "Compare turma com ocupação baixa, provável e alta, incluindo cancelamentos, inadimplência e gastos de divulgação quando aplicáveis. Não confunda intenção de matrícula com receita recebida. Planeje data de decisão e condições de abertura, comunicação e devolução compatíveis com os direitos dos alunos e orientação dos responsáveis da escola.",
+          "Exemplo aplicado: Se a turma depende de dez matrículas confirmadas, não contrate despesas irreversíveis apenas porque dez pessoas preencheram um formulário de interesse."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Cenários de ocupação\" e qual informação ainda precisaria conferir?"
+      },
+      {
+        "id": 3,
+        "title": "Decidir expansão",
+        "paragraphs": [
+          "Observe satisfação, aprendizagem, cancelamentos e contribuição antes de repetir ou ampliar o curso. Uma turma cheia pode ser insustentável se o suporte necessário foi subestimado. Cresça em etapas, valide procura e preserve a qualidade. As contas do exercício são gerenciais e não substituem análise contábil, tributária ou jurídica da instituição.",
+          "Exemplo aplicado: Antes de abrir três horários novos, repita uma turma com controle de custos e retorno dos alunos. Use a experiência para estimar capacidade e demanda com menos incerteza."
+        ],
+        "reflection": "No seu caso fictício, que evidência você usaria para aplicar a etapa \"Decidir expansão\" e qual informação ainda precisaria conferir?"
+      }
+    ],
+    "activity": {
+      "prompt": "Calcule a viabilidade de uma turma fictícia em três cenários e justifique abrir, ajustar ou adiar.",
+      "template": "Curso e capacidade:\nReceita efetiva por aluno:\nCustos variáveis:\nCustos fixos:\nContribuição por aluno:\nPonto de equilíbrio:\nTrês cenários de ocupação:\nDecisão e data de revisão:",
+      "checklist": [
+        "Use dados próprios autorizados ou um caso fictício, sem identificar terceiros.",
+        "Preencha os critérios e premissas de cada etapa do exercício.",
+        "Distinga informação observada, estimativa e resultado ainda não verificado.",
+        "Revise a entrega e registre um próximo passo realizável."
+      ]
+    },
+    "agentChallenge": "Peça ao agente uma revisão do exercício com dados fictícios, citando dúvidas e pedindo que separe fatos de hipóteses. A execução é opcional e segue o preço/consentimento exibidos antes do uso.",
+    "monthlyChallenge": "A cada mês, refaça o exercício com um cenário diferente, compare suas decisões e anote qual hipótese foi confirmada ou revista.",
+    "quiz": [
+      {
+        "question": "Como calcular a contribuição por aluno?",
+        "options": [
+          "Receita efetiva menos os custos variáveis por aluno.",
+          "O maior número disponível, sem verificar a origem.",
+          "A indicação automática de uma ferramenta, sem revisão."
+        ],
+        "correct": 0,
+        "explanation": "Receita efetiva menos os custos variáveis por aluno. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Ao executar \"Margem e ponto de equilíbrio\", qual atitude preserva a qualidade da análise?",
+        "options": [
+          "Tratar estimativas como fatos comprovados.",
+          "Registrar premissas e conferir informações antes de concluir.",
+          "Ocultar dúvidas para apresentar mais confiança."
+        ],
+        "correct": 1,
+        "explanation": "Registrar premissas e conferir informações antes de concluir. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como usar o exemplo de \"Cenários de ocupação\" na sua atividade?",
+        "options": [
+          "Adaptar ao contexto e registrar limites da comparação.",
+          "Copiar os números como se fossem os seus resultados.",
+          "Prometer que o mesmo efeito sempre ocorrerá."
+        ],
+        "correct": 0,
+        "explanation": "Adaptar ao contexto e registrar limites da comparação. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Como trabalhar com dados de outras pessoas neste exercício?",
+        "options": [
+          "Publicar nomes e contatos para tornar o caso convincente.",
+          "Preferir um caso fictício ou informações mínimas com autorização aplicável.",
+          "Enviar documentos completos sem conferir a finalidade."
+        ],
+        "correct": 1,
+        "explanation": "Preferir um caso fictício ou informações mínimas com autorização aplicável. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      },
+      {
+        "question": "Qual deve ser o fechamento da etapa \"Decidir expansão\"?",
+        "options": [
+          "Uma decisão justificada, limites e uma data de revisão.",
+          "Uma garantia de sucesso para qualquer situação.",
+          "Uma decisão irreversível baseada apenas na primeira impressão."
+        ],
+        "correct": 0,
+        "explanation": "Uma decisão justificada, limites e uma data de revisão. A atividade exige evidências, contexto e responsabilidade pela decisão, em vez de promessa de resultado."
+      }
+    ]
   }
 ]

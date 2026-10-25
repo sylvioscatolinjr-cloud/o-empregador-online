@@ -1,3 +1,9 @@
+# Atualização comercial — 25/10/2026
+
+Venda real de assinaturas expressamente autorizada e implementada para os três perfis em quatro níveis pagos, com cashback20/25/30/30% e nove novos treinamentos4. A restrição histórica de contratação exclusiva do proprietário abaixo está superada. Validação:380 testes aprovados, zero falhas, um PDF privado ausente ignorado; build,30 verificações de layout e ensaio hospedado com rollback aprovados. Ver FOUR-PAID-TIERS-LAUNCH.md. Primeira compra real na nova tabela, testes financeiros externos restantes, campos jurídicos preliminares, adolescentes e autorização institucional do piloto ainda exigem acompanhamento; não equivalem à conclusão integral do lançamento.
+
+---
+
 # Checklist de conclusão — atualização 24/10/2026
 
 Este quadro substitui os estados antigos abaixo. Validado tecnicamente não significa ensaio financeiro real ou aceite institucional.

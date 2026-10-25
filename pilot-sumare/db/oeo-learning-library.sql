@@ -7,7 +7,7 @@ create table public.portal_oeo_learning (
  module text not null check(length(module) between 2 and 100),
  title text not null check(length(title) between 3 and 160),
  description text not null check(length(description) between 20 and 1000),
- tier integer not null check(tier between 0 and 3),
+ tier integer not null check(tier between 0 and 4),
  published boolean not null default false,
  source_type text not null check(source_type in ('pdf','pptx','link')),
  external_url text,
