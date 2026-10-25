@@ -3,21 +3,22 @@ import {businessMetrics} from '../src/owner-business.mjs';import handler from '.
 
 const start='2026-10-01T03:00:00.000Z',end='2026-11-01T03:00:00.000Z';
 test('business metrics count only confirmed payments in the period and current active subscriptions',()=>{
- const m=businessMetrics({start,end,
+ const m=businessMetrics({start,end,now:Date.parse('2026-10-25T12:00:00Z'),
   orders:[{id:'a',profile_type:'Candidato',tier:1,cents:1990,months:1,status:'active',created_at:'2026-10-05T12:00:00+00:00'},
    {id:'b',profile_type:'Empresa',tier:2,cents:161730,months:3,status:'active',created_at:'2026-09-20T12:00:00+00:00'},
    {id:'c',profile_type:'Candidato',tier:2,cents:4990,months:1,status:'canceled',created_at:'2026-10-02T12:00:00+00:00',canceled_at:'2026-10-10T12:00:00+00:00'},
    {id:'d',profile_type:'Candidato',tier:1,cents:1990,months:1,status:'failed',created_at:'2026-10-03T12:00:00+00:00'}],
-  payments:[{order_id:'a',cents:1990,eligible:true,checked_at:'2026-10-05T12:01:00+00:00'},
-   {order_id:'b',cents:161730,eligible:true,checked_at:'2026-09-20T12:01:00+00:00'},
-   {order_id:'c',cents:4990,eligible:false,checked_at:'2026-10-02T12:01:00+00:00'}],
-  topupPayments:[{order_id:'t',cents:1000,eligible:true,checked_at:'2026-10-24T02:00:00+00:00'},{order_id:'u',cents:2500,eligible:false,checked_at:'2026-10-24T02:00:00+00:00'}],
+  topupOrders:[{id:'t',cents:1000},{id:'u',cents:2500}],
+  payments:[{order_id:'a',cents:1990,eligible:true,period_start:'2026-10-05',period_end:'2026-11-05',provider_paid_on:'2026-10-05',checked_at:'2026-10-05T12:01:00+00:00'},
+   {order_id:'b',cents:161730,eligible:true,period_start:'2026-09-20',period_end:'2026-12-20',provider_paid_on:'2026-09-20',checked_at:'2026-09-20T12:01:00+00:00'},
+   {order_id:'c',cents:4990,eligible:false,provider_paid_on:'2026-10-02',checked_at:'2026-10-02T12:01:00+00:00'}],
+  topupPayments:[{order_id:'t',cents:1000,eligible:true,provider_paid_on:'2026-10-24',checked_at:'2026-10-24T02:00:00+00:00'},{order_id:'u',cents:2500,eligible:false,checked_at:'2026-10-24T02:00:00+00:00'}],
   usage:[{request_id:'r1'},{request_id:'r2',refunded_at:'2026-10-24T02:00:00+00:00'},{request_id:'r3'}],
   lines:[{request_id:'r1',cents:100},{request_id:'r2',cents:100},{request_id:'r3',cents:60},{request_id:'r3',cents:40}],
   images:[{status:'completed',cents:250,owner_testing:false},{status:'completed',cents:500,owner_testing:true},{status:'failed',cents:500,owner_testing:false}]});
  assert.equal(m.subscribers.active,2);assert.equal(m.subscribers.byProfile.Candidato[1],1);assert.equal(m.subscribers.byProfile.Empresa[2],1);
  assert.equal(m.subscribers.mrrCents,1990+53910);
- assert.deepEqual(m.revenue,{subscriptionCents:1990,topupCents:1000,totalCents:2990,subscriptionPayments:1,topupPayments:1});
+ assert.deepEqual(m.revenue,{subscriptionCents:1990,topupCents:1000,totalCents:2990,subscriptionPayments:1,topupPayments:1,undatedPayments:0,undatedCents:0});
  assert.equal(m.newSubscriptions,2);assert.equal(m.cancellations,1);
  assert.deepEqual(m.ai,{runs:2,refunded:1,spentCents:200,images:1,imageCents:250});assert.equal(m.truncated,false);
  assert.doesNotMatch(JSON.stringify(m),/user_id|email|cpf/i);

@@ -1,3 +1,4 @@
+import {providerPaidOn} from './payment-date.mjs';
 import {quotePlan,nextCycleDate,PLAN_TERMS} from './billing-plans.mjs';
 export const LIVE_TERMS=PLAN_TERMS;
 export const liveEvents=['CHECKOUT_CREATED','CHECKOUT_PAID','CHECKOUT_CANCELED','CHECKOUT_EXPIRED','PAYMENT_CREATED','PAYMENT_UPDATED','PAYMENT_CONFIRMED','PAYMENT_RECEIVED','PAYMENT_OVERDUE','PAYMENT_DELETED','PAYMENT_RESTORED','PAYMENT_REFUNDED','PAYMENT_PARTIALLY_REFUNDED','PAYMENT_REFUND_IN_PROGRESS','PAYMENT_REFUND_DENIED','PAYMENT_CHARGEBACK_REQUESTED','PAYMENT_CHARGEBACK_DISPUTE','PAYMENT_AWAITING_CHARGEBACK_REVERSAL','SUBSCRIPTION_DELETED'];
@@ -27,7 +28,7 @@ export function livePayment(payment,order,checkedAt=new Date().toISOString()){
  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||new Date(date+'T12:00:00Z').toISOString().slice(0,10)!==date)throw Error('Período inválido.');
  const end=nextCycleDate(date,order.months);
  const refunded=Array.isArray(payment.refunds)&&payment.refunds.some(r=>!['CANCELLED','REFUSED','DENIED'].includes(r.status));
- return {id:payment.id,status:String(payment.status).slice(0,80),cents,period_start:date+'T00:00:00-03:00',period_end:end+'T00:00:00-03:00',eligible:cents===order.cents&&['CONFIRMED','RECEIVED'].includes(payment.status)&&!payment.deleted&&!payment.chargeback&&!refunded,checked_at:checkedAt};
+ return {id:payment.id,provider_paid_on:providerPaidOn(payment),status:String(payment.status).slice(0,80),cents,period_start:date+'T00:00:00-03:00',period_end:end+'T00:00:00-03:00',eligible:cents===order.cents&&['CONFIRMED','RECEIVED'].includes(payment.status)&&!payment.deleted&&!payment.chargeback&&!refunded,checked_at:checkedAt};
 }
 export function currentEntitlement(orders,payments,now=Date.now()){
  const orderMap=new Map(orders.map(o=>[o.id,o]));

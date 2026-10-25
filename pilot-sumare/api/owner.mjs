@@ -21,7 +21,7 @@ export function ownerHandler(clientFactory=createClient,env=process.env){return 
   const args={p_actor:user.id,p_cohort:e.PILOT_COHORT_ID};
   if(req.method==='GET'){
    let period;try{period=metricPeriod(req.query?.period||'month');}catch{return res.status(400).json({error:'Período inválido.'});}
-   if(req.query?.view==='business')return res.status(200).json({...await loadBusinessMetrics(db,e.PILOT_COHORT_ID,period),scope:'Valores confirmados pelo Asaas no período (data da conferência), no horário de Brasília. Inclui compras do proprietário. Assinantes e MRR mostram a situação atual. Uso de IA exclui a cota de teste do proprietário.'});
+   if(req.query?.view==='business')return res.status(200).json({...await loadBusinessMetrics(db,e.PILOT_COHORT_ID,period),scope:'Valores confirmados pelo Asaas no período (data de confirmação/pagamento informada pelo Asaas), no horário de Brasília. Inclui compras do proprietário. Assinantes e MRR mostram a situação atual. Uso de IA exclui a cota de teste do proprietário.'});
    const r=await db.rpc('portal_owner_metrics',{...args,p_start:period.start,p_end:period.end,p_bucket:period.bucket});if(r.error)throw Error();
    const demo=await db.rpc('portal_demo_communication_report',args);if(demo.error)throw Error();
    return res.status(200).json({...r.data,demo:demo.data,scope:'Novos registros reais no período, no horário de Brasília. Contas fictícias e participações em anúncios fictícios estão excluídas. Currículos incluem perfis de candidatos ainda sem preenchimento completo. A receita real está na seção Negócio; pagamentos de teste não são faturamento.'});

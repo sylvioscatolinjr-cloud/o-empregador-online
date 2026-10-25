@@ -1,3 +1,4 @@
+import {providerPaidOn} from './payment-date.mjs';
 import {liveId,liveCheckoutURL} from './billing-live.mjs';
 export const TOPUP_TERMS='2026-10-23-ai-topup-v1';
 export const TOPUP_AMOUNTS=[1000,2500,5000];
@@ -18,7 +19,7 @@ export function topupPayment(payment,order,checkedAt=new Date().toISOString()){
  const cents=Math.round(Number(payment.value)*100);
  if(cents!==order.cents)throw Error('Valor de recarga incompatível.');
  const refunded=Array.isArray(payment.refunds)&&payment.refunds.some(r=>!['CANCELLED','REFUSED','DENIED'].includes(r.status));
- return {id:payment.id,checkout_id:order.checkout_id,cents,status:String(payment.status).slice(0,80),eligible:['CONFIRMED','RECEIVED'].includes(payment.status)&&!payment.deleted&&!payment.chargeback&&!refunded,checked_at:checkedAt};
+ return {id:payment.id,provider_paid_on:providerPaidOn(payment),checkout_id:order.checkout_id,cents,status:String(payment.status).slice(0,80),eligible:['CONFIRMED','RECEIVED'].includes(payment.status)&&!payment.deleted&&!payment.chargeback&&!refunded,checked_at:checkedAt};
 }
 export async function applyTopupPayment(db,payment,checkedAt){
  if(!payment.checkoutSession)return false;
