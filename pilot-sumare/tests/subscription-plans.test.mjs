@@ -2,12 +2,12 @@ import test from 'node:test';import assert from 'node:assert/strict';import vm f
 import {planOptionsMarkup} from '../app/subscription-plans.mjs';import {requestedAgentPlan} from '../src/agent-upgrade.mjs';import {quotePlan,cycles} from '../src/billing-plans.mjs';import {subscriptionsHandler} from '../api/subscriptions.mjs';
 const source=(await readFile(new URL('../app/subscriptions.mjs',import.meta.url),'utf8')).replace(/^import .*;\n/gm,'');
 const tick=()=>new Promise(r=>setTimeout(r,5));
-async function fixture(profile,task,{fail=false,canPurchase=false}={}){
+async function fixture(profile,task,{fail=false,canPurchase=false,requestedProfile,previewProfile=false}={}){
  const {window}=parseHTML('<p id="status"></p><section id="subscriptions"></section>'),document=window.document,calls=[];
  Object.defineProperty(window.HTMLSelectElement.prototype,'value',{configurable:true,get(){return this.querySelector('option[selected]')?.getAttribute('value')||this.querySelector('option')?.getAttribute('value')},set(value){for(const option of this.querySelectorAll('option'))option.toggleAttribute('selected',option.getAttribute('value')===String(value))}});
  class FD{constructor(f){this.entries=[...f.querySelectorAll('input,select')].filter(e=>e.name&&(!['checkbox','radio'].includes(e.type)||e.checked)).map(e=>[e.name,e.type==='checkbox'?'on':e.value]);}[Symbol.iterator](){return this.entries[Symbol.iterator]();}}
- const fetch=async(url,options={})=>{calls.push({url,options});if(url.includes('action=config'))return Response.json({origin:'https://preview.example',supabaseURL:'https://fixture.supabase.co',publishableKey:'sb_publishable_fixture'});if(fail)return Response.json({error:'Consulta indisponível'},{status:503});return Response.json({profile,entitlement:{tier:1,creditCents:398,expiresAt:'2099-01-01'},orders:[],payments:[],ready:false,canPurchase,termsVersion:'fixture'});};
- const context={document,location:{origin:'https://preview.example',search:'?recurso='+task+'&nivel=1'},createClient:()=>({auth:{async getSession(){return {data:{session:{access_token:'synthetic'}}}}}}),fetch,Response,FormData:FD,URLSearchParams,planOptionsMarkup,requestedAgentPlan,quotePlan,cycles};vm.createContext(context);await vm.runInContext('(async()=>{'+source+'})()',context);return {window,root:document.querySelector('#subscriptions'),calls};
+ const fetch=async(url,options={})=>{calls.push({url,options});if(url.includes('action=config'))return Response.json({origin:'https://preview.example',supabaseURL:'https://fixture.supabase.co',publishableKey:'sb_publishable_fixture'});if(fail)return Response.json({error:'Consulta indisponível'},{status:503});return Response.json({profile,previewProfile,ownerTesting:previewProfile,entitlement:{tier:1,creditCents:398,expiresAt:'2099-01-01'},orders:[],payments:[],ready:false,canPurchase,termsVersion:'fixture'});};
+ const context={document,location:{origin:'https://preview.example',search:'?recurso='+task+'&nivel=1'+(requestedProfile?'&perfil='+requestedProfile:'')},createClient:()=>({auth:{async getSession(){return {data:{session:{access_token:'synthetic'}}}}}}),fetch,Response,FormData:FD,URLSearchParams,planOptionsMarkup,requestedAgentPlan,quotePlan,cycles};vm.createContext(context);await vm.runInContext('(async()=>{'+source+'})()',context);return {window,root:document.querySelector('#subscriptions'),calls};
 }
 for(const [profile,task,price]of [['Candidato','interview_practice',4990],['Empresa','training_paths',59900],['Instituição de Ensino','curriculum_review',59900]])test(profile+' sees/selects all plans even with billing disabled; AI query no longer forces a paid upgrade',async()=>{
  const f=await fixture(profile,task);assert(f.root.querySelector('h1'));assert.equal(f.root.querySelectorAll('[data-plan-tier]').length,3);assert.equal(f.root.querySelector('#plan-picker [name=tier]').value,'1');assert.equal(f.root.querySelector('[data-plan-tier="1"]').getAttribute('aria-pressed'),'true');assert(f.root.textContent.includes((price/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})));assert.equal(f.root.querySelector('#checkout'),null);
@@ -22,4 +22,11 @@ for(const [role,profile]of [['learner','Candidato'],['recruiter','Empresa'],['sc
  const r=res();await handler({method:'GET',headers:{authorization:'Bearer fixture'}},r);assert.equal(r.code,200);assert.equal(r.body.profile,profile);assert.equal(r.body.ready,false);assert.equal(r.body.canPurchase,false);assert.equal(hits,0);
  const anon=res();await handler({method:'GET',headers:{}},anon);assert.equal(anon.code,401);
  const mutation=res();await handler({method:'POST',headers:{authorization:'Bearer fixture'},body:{action:'checkout'}},mutation);assert.equal(mutation.code,503);assert.equal(hits,0);
+});
+
+for(const [role,profile,prices] of [['learner','Candidato',[1990,4990,9990]],['recruiter','Empresa',[9900,59900,299000]],['school_staff','Instituição de Ensino',[9900,59900,299000]]])test('plans navigation preserves '+role+' and renders its exact monthly prices',async()=>{
+ const f=await fixture(profile,'',{requestedProfile:role,previewProfile:role!=='learner'});assert(f.calls.some(c=>c.url==='/api/subscriptions?profile='+role));
+ for(const cents of prices)assert(f.root.textContent.includes((cents/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})));
+ if(role!=='learner'){assert.equal(f.root.querySelector('#checkout'),null);assert(f.root.querySelector('a[href="/assinatura.html?perfil='+role+'"]'));}
+ assert.equal(f.calls.filter(c=>c.options.method==='POST').length,0);
 });

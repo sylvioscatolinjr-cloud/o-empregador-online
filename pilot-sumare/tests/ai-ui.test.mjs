@@ -11,14 +11,14 @@ import {readFile} from 'node:fs/promises';
 import {parseHTML} from 'linkedom';
 const source=(await readFile(new URL('../app/ai.mjs',import.meta.url),'utf8')).replace(/^import .*;\n/gm,'');
 const tick=()=>new Promise(resolve=>setTimeout(resolve,10));
-function fixture({signedIn=true,balanceFailure=false,chatFailure=false,pendingChat=false,available=true,multiple=false,search='',ownerTesting=false,premium=false,posts=false,cents=300}={}){
+function fixture({signedIn=true,balanceFailure=false,chatFailure=false,pendingChat=false,available=true,multiple=false,search='',ownerTesting=false,premium=false,posts=false,cents=300,profileRole='recruiter'}={}){
  const {window}=parseHTML('<section id="ai-app"></section>');let session=signedIn?{user:{id:'fixture'},access_token:'session.token'}:null;let balanceReads=0;const calls=[],payloads=[];let authListener,resolveChat;
  const cfg={supabaseURL:'https://fixture.supabase.co',publishableKey:'sb_publishable_fixture',origin:'https://preview.example'};
  const auth={onAuthStateChange(fn){authListener=fn;return {data:{subscription:{unsubscribe(){}}}};},async getSession(){return {data:{session}};},async signInWithPassword(){session={user:{id:'fixture'},access_token:'session.token'};return {error:null};},async signOut(){session=null;return {error:null};}};
  const fetch=async(url,options={})=>{
   if(url==='/api/config')return Response.json({ready:false,aiPreview:cfg});
   const action=new URL(url,cfg.origin).searchParams.get('action');calls.push(action);if(options.body)payloads.push(JSON.parse(options.body));
-  if(action==='catalog')return Response.json({ownerTesting,profileRole:'recruiter',agent:{title:'Agente de teste',mission:'Teste'},tasks:[{id:posts?'social_posts_recruiter':'interview_practice',label:'Revisar currículo',hint:'Texto',available,minTier:2,costCents:premium?250:100,mode:premium?'external_search':'guided_text'},...(multiple?[{id:'personal_introduction',label:'Preparar apresentação pessoal',hint:'Objetivo e experiência',available:true,minTier:1,costCents:100}]:[])]});
+  if(action==='catalog')return Response.json({ownerTesting,profileRole,agent:{title:'Agente de teste',mission:'Teste'},tasks:[{id:posts?'social_posts_recruiter':'interview_practice',label:'Revisar currículo',hint:'Texto',available,minTier:2,costCents:premium?250:100,mode:premium?'external_search':'guided_text'},...(multiple?[{id:'personal_introduction',label:'Preparar apresentação pessoal',hint:'Objetivo e experiência',available:true,minTier:1,costCents:100}]:[])]});
   if(action==='history-list')return Response.json({notes:[]});
   if(action==='history-save')return Response.json({saved:true,id:'fixture'});
   if(action==='chat'&&pendingChat)return new Promise(resolve=>{resolveChat=()=>resolve(Response.json({answer:'Resposta privada anterior'}));});
@@ -57,7 +57,7 @@ test('task must be selected before debit and selected ID is submitted',async()=>
 });
 
 
-test('selected menu task opens directly and unavailable task routes to upgrade without AI execution',async()=>{const a=fixture({search:'?tarefa=interview_practice'});await tick();assert.equal(a.root.querySelector('[data-task]').getAttribute('aria-pressed'),'true');const b=fixture({available:false,search:'?tarefa=interview_practice'});await tick();assert(b.calls.some(c=>c==='navigate:/assinatura.html?recurso=interview_practice&nivel=2'));assert(!b.calls.includes('chat'));});
+test('selected menu task opens directly and unavailable task routes to upgrade without AI execution',async()=>{const a=fixture({search:'?tarefa=interview_practice'});await tick();assert.equal(a.root.querySelector('[data-task]').getAttribute('aria-pressed'),'true');const b=fixture({available:false,search:'?tarefa=interview_practice'});await tick();assert(b.calls.some(c=>c==='navigate:/assinatura.html?recurso=interview_practice&nivel=2&perfil=recruiter'));assert(!b.calls.includes('chat'));});
 
 test('saving guidance is explicit, free of model calls, and does not resend when the button is hidden',async()=>{const f=fixture();await tick();const form=f.root.querySelector('#ai-form'),save=f.root.querySelector('#ai-save-note');assert.equal(save.hidden,true);f.root.querySelector('[data-task]').click();form.querySelector('textarea').value='Objetivo profissional';form.dispatchEvent(new f.window.Event('submit'));await tick();assert.equal(f.calls.filter(x=>x==='history-save').length,0);assert.equal(save.hidden,false);save.click();await tick();assert.equal(f.calls.filter(x=>x==='chat').length,1);assert.equal(f.calls.filter(x=>x==='history-save').length,1);assert.equal(save.hidden,true);save.click();await tick();assert.equal(f.calls.filter(x=>x==='history-save').length,1);});
 
@@ -84,3 +84,5 @@ test('Premium shows R$2.50, checks exact cents, requires consent and sends fixed
 });
 
 test('posts show optional logo and reference before the task, other tasks keep uploads hidden',async()=>{const f=fixture({posts:true});await tick();f.root.querySelector('[data-task]').click();const fields=f.root.querySelector('#ai-post-images');assert.equal(fields.hidden,false);assert.equal(fields.querySelectorAll('input[type=file]').length,2);assert.match(f.root.querySelector('label[for=ai-question]').textContent,/Descreva a tarefa/);assert.equal(f.root.querySelector('textarea').hasAttribute('required'),true);const regular=fixture();await tick();regular.root.querySelector('[data-task]').click();assert.equal(regular.root.querySelector('#ai-post-images').hidden,true);});
+
+for(const profileRole of ['learner','recruiter','school_staff'])test('all agent plan links preserve '+profileRole,async()=>{const f=fixture({profileRole,ownerTesting:true,search:'?perfil='+profileRole});await tick();const links=[...f.root.querySelectorAll('a[href^="/assinatura.html"]')];assert(links.length>=1);for(const a of links)assert.equal(new URL(a.getAttribute('href'),'https://portal.example').searchParams.get('perfil'),profileRole);});

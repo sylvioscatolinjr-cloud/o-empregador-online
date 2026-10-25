@@ -430,3 +430,8 @@ Corrigidas consultas de assinatura para restringir histórico/conferência/cance
 ## Política, Termos, limpeza do protótipo e indicadores — 25/10/2026
 
 Publicadas /privacidade.html e /termos.html como versão preliminar, com campos pendentes destacados, e links no rodapé, login, cadastro, carteira e páginas de conta. Removidos o proxy /laboratorio (site externo do protótipo), a página pública plataforma.html e a frase sobre conta ChatGPT; os endereços antigos redirecionam para a página inicial. Painel do proprietário ganhou a seção Negócio (assinantes, MRR, receita confirmada, recargas, cancelamentos, uso de IA e imagens), só agregada e só para pilot_owner. Assinaturas públicas e indexação continuam fechadas. Detalhes, limites e revisão LGPD em pilot-sumare/docs/LEGAL-PAGES-AND-BUSINESS-METRICS.md. 358 testes aprovados, 0 falhas, 1 ignorado; build aprovado.
+
+
+## Correção de Ver planos por perfil — 25/10/2026
+
+Links dos agentes e treinamentos preservam perfil e catálogo/preços; proprietário pode consultar os três perfis usando a autorização privada existente, sem mudar identidade ou comprar por outro perfil. Usuário comum mantém catálogo do papel real apesar de parâmetros de URL. Valores mensais conferidos: Candidato19,90/49,90/99,90; Empresa/Instituição99/599/2.990; descontos10/20/30% preservados. 46 focados e suíte365 aprovados, zero falhas, um PDF privado ausente ignorado (366); build aprovado. Sem dinheiro, migração, alteração de coleta/retensão/preços ou abertura de assinaturas públicas. Relatório pilot-sumare/docs/PROFILE-PLAN-NAVIGATION.md. Fluxo branch→PR→prévia→merge conforme AGENTS.md; aceite visual autenticado do titular continua separado.
