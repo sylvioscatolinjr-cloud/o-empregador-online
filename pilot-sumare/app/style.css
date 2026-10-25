@@ -84,3 +84,9 @@ p,li{overflow-wrap:anywhere}.owner-profile-actions>.portal-action{overflow-wrap:
 [aria-label="Escolher plano"]>.signup-types{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media(max-width:950px){[aria-label="Escolher plano"]>.signup-types{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){[aria-label="Escolher plano"]>.signup-types{grid-template-columns:minmax(0,1fr)}}
+/* Keep the portal name within the mobile header when text is enlarged. */
+header>strong{min-width:0;overflow-wrap:anywhere}
+/* Long headings and monetary totals must also reflow with enlarged text. */
+h1,h2,h3,.metric{overflow-wrap:anywhere}
+/* Fallback messages can be direct text nodes, outside paragraphs. */
+main{overflow-wrap:anywhere}
