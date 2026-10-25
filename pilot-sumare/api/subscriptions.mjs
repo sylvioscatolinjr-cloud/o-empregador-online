@@ -1,3 +1,4 @@
+import {ownerTestAccess,requestedTestRole} from '../src/owner-test-access.mjs';
 import {topupAction,topupCheckoutEvent,applyTopupPayment} from '../src/ai-topups.mjs';
 import {createClient} from '@supabase/supabase-js';
 import {verifyWebhookToken} from '../src/asaas.mjs';
@@ -42,13 +43,17 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
  const auth=await db.auth.getUser(token),u=auth.data?.user;if(auth.error||!u?.email_confirmed_at||u.banned_until&&Date.parse(u.banned_until)>Date.now())return res.status(401).json({error:'Entre com uma conta confirmada.'});
  const member=assertResult(await db.from('pilot_memberships').select('role,status,is_fictitious').eq('user_id',u.id).eq('cohort_id',e.PILOT_COHORT_ID).maybeSingle());
  if(!member||member.status!=='active'||member.is_fictitious||!['learner','recruiter','school_staff','pilot_owner'].includes(member.role))return res.status(403).json({error:'Conta sem autorização para contratar.'});
- const profile={learner:'Candidato',pilot_owner:'Candidato',recruiter:'Empresa',school_staff:'Instituição de Ensino'}[member.role];
+ const testAccess=ownerTestAccess(e,u.id,member,requestedTestRole(req));
+ const actualRole=member.role==='pilot_owner'?'learner':member.role;
+ const displayRole=req.method==='GET'?testAccess.role:actualRole;
+ const previewProfile=displayRole!==actualRole;
+ const profile={learner:'Candidato',pilot_owner:'Candidato',recruiter:'Empresa',school_staff:'Instituição de Ensino'}[displayRole];
  const config=assertResult(await db.from('billing_live_configuration').select('*').eq('id',true).maybeSingle())||{};
  if(await topupAction({req,res,db,user:u,env:e,request,config,clientFactory,options}))return;
  if(req.method==='GET'){
   const orders=assertResult(await db.from('billing_live_orders').select('*').eq('user_id',u.id).eq('cohort_id',e.PILOT_COHORT_ID).order('created_at',{ascending:false}).limit(50));
   const payments=orders.length?assertResult(await db.from('billing_live_payments').select('*').in('order_id',orders.map(o=>o.id))):[];
-  return res.status(200).json({environment:'production',profile,owner:member.role==='pilot_owner',ready:providerConfigured&&!!(config.connected&&config.account_approved&&config.webhook_ready),canPurchase:providerConfigured&&member.role==='pilot_owner',termsVersion:LIVE_TERMS,entitlement:currentEntitlement(orders.filter(o=>o.profile_type===profile),payments),orders:orders.map(o=>({...o,url:o.checkout_id&&o.status==='pending'?liveCheckoutURL(o.checkout_id):null})),payments});
+  return res.status(200).json({environment:'production',profile,owner:member.role==='pilot_owner',ready:providerConfigured&&!!(config.connected&&config.account_approved&&config.webhook_ready),canPurchase:providerConfigured&&member.role==='pilot_owner'&&!previewProfile,ownerTesting:testAccess.enabled,previewProfile,termsVersion:LIVE_TERMS,entitlement:currentEntitlement(orders.filter(o=>o.profile_type===profile),payments),orders:orders.map(o=>({...o,url:o.checkout_id&&o.status==='pending'?liveCheckoutURL(o.checkout_id):null})),payments});
  }
  if(req.headers.origin!==e.APP_ORIGIN||req.headers['sec-fetch-site']==='cross-site')return res.status(403).json({error:'Origem inválida.'});
  if(!req.headers['content-type']?.startsWith('application/json')||JSON.stringify(req.body||{}).length>4096)return res.status(400).json({error:'Formato inválido.'});
