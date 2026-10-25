@@ -2,7 +2,7 @@
 create table public.billing_live_orders (
  id uuid primary key default gen_random_uuid(),user_id uuid not null references auth.users(id),cohort_id uuid not null references public.pilot_cohorts(id),
  profile_type text not null check(profile_type in ('Candidato','Empresa','Instituição de Ensino')),
- tier smallint not null check(tier between 1 and 3),cycle text not null check(cycle in ('MONTHLY','QUARTERLY','SEMIANNUALLY','YEARLY')),
+ tier smallint not null check(tier between 1 and 4),cycle text not null check(cycle in ('MONTHLY','QUARTERLY','SEMIANNUALLY','YEARLY')),
  cents integer not null check(cents>0),credit_cents integer not null check(credit_cents>=0),months integer not null check(months in (1,3,6,12)),terms_version text not null,
  status text not null default 'creating' check(status in ('creating','pending','active','canceled','expired','review','failed')),
  checkout_id text unique,subscription_id text unique,cancel_requested_at timestamptz,canceled_at timestamptz,created_at timestamptz not null default now());

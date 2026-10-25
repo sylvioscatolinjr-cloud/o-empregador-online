@@ -24,7 +24,7 @@ export function trainingHandler({env=process.env,clientFactory=createClient}={})
   if(action.startsWith('manage-'))return await learningManagement({db,req,res,userId:user.id,cohort:env.PILOT_COHORT_ID,owner});
   const scope=()=>db.from('portal_training_progress').select(columns).eq('user_id',user.id).eq('cohort_id',env.PILOT_COHORT_ID).eq('profile_role',role);
   if(action==='catalog'){
-   const tier=ownerTest.enabled?3:await readTaskTier(db,user.id,role,env.PILOT_COHORT_ID),progress=await scope();if(progress.error)throw Error();
+   const tier=ownerTest.enabled?4:await readTaskTier(db,user.id,role,env.PILOT_COHORT_ID),progress=await scope();if(progress.error)throw Error();
    const custom=await db.from('portal_oeo_learning').select('*').eq('cohort_id',env.PILOT_COHORT_ID).eq('published',true).contains('audiences',[role]).order('created_at');if(custom.error)throw Error();
    return res.status(200).json({ownerTesting:ownerTest.enabled,role,tier,canManage:owner,courses:[...trainingCatalog(role,tier),...(custom.data||[]).map(r=>learningMetadata(r,tier))],progress:progress.data||[]});
   }

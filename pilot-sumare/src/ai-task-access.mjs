@@ -3,7 +3,7 @@ import {AGENT_ROLES} from './ai-agent-catalog.mjs';
 const profiles={candidate:'Candidato',company:'Empresa',institution:'Instituição de Ensino'};
 export async function readTaskTier(db,userId,role,cohortId){
  if(typeof cohortId!=='string'||!cohortId)throw Error('cohort unavailable');
- const orders=await db.from('billing_live_orders').select('id,user_id,cohort_id,profile_type,tier,cycle,cents').eq('user_id',userId).eq('cohort_id',cohortId);
+ const orders=await db.from('billing_live_orders').select('id,user_id,cohort_id,profile_type,tier,cycle,cents,terms_version').eq('user_id',userId).eq('cohort_id',cohortId);
  if(orders.error)throw Error('orders unavailable');
  const eligibleOrders=(orders.data||[]).filter(order=>order.user_id===userId&&order.cohort_id===cohortId&&order.profile_type===profiles[AGENT_ROLES[role]]);
  if(!eligibleOrders.length)return 0;

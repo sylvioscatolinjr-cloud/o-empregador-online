@@ -48,6 +48,6 @@ export function createPortalRepository({supabase,access,cohortId,fetcher=globalT
  async organization(){const u=await actor(['recruiter','school_staff']);return checked(supabase.from('portal_organizations').select('*').eq('user_id',u.id).maybeSingle());},
  async saveOrganization(input){const u=await actor(['recruiter','school_staff']);return saveOwn('portal_organizations',{user_id:u.id,cohort_id:cohortId,name:String(input.name||'').trim(),city:String(input.city||'').trim(),state_code:String(input.state_code||'').trim().toUpperCase(),show_card_image:input.show_card_image==='on',...(input.logo_data!==undefined?{logo_data:cleanImage(input.logo_data)}:{})});},
  async plan(){const u=await actor();return checked(supabase.from('portal_plan_selections').select('*').eq('user_id',u.id).maybeSingle());},
- async selectPlan(tier,cycle){const u=await actor();if(!Number.isInteger(tier)||tier<0||tier>3||!['MONTHLY','QUARTERLY','SEMIANNUALLY','YEARLY'].includes(cycle))throw Error('Plano inválido.');return saveOwn('portal_plan_selections',{user_id:u.id,cohort_id:cohortId,tier,cycle,updated_at:new Date().toISOString()});}
+ async selectPlan(tier,cycle){const u=await actor();if(!Number.isInteger(tier)||tier<0||tier>4||!['MONTHLY','QUARTERLY','SEMIANNUALLY','YEARLY'].includes(cycle))throw Error('Plano inválido.');return saveOwn('portal_plan_selections',{user_id:u.id,cohort_id:cohortId,tier,cycle,updated_at:new Date().toISOString()});}
  };
 }

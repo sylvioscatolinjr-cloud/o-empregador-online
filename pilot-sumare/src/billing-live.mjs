@@ -1,5 +1,5 @@
-import {quotePlan,nextCycleDate} from './billing-plans.mjs';
-export const LIVE_TERMS='2026-10-19-v1';
+import {quotePlan,nextCycleDate,PLAN_TERMS} from './billing-plans.mjs';
+export const LIVE_TERMS=PLAN_TERMS;
 export const liveEvents=['CHECKOUT_CREATED','CHECKOUT_PAID','CHECKOUT_CANCELED','CHECKOUT_EXPIRED','PAYMENT_CREATED','PAYMENT_UPDATED','PAYMENT_CONFIRMED','PAYMENT_RECEIVED','PAYMENT_OVERDUE','PAYMENT_DELETED','PAYMENT_RESTORED','PAYMENT_REFUNDED','PAYMENT_PARTIALLY_REFUNDED','PAYMENT_REFUND_IN_PROGRESS','PAYMENT_REFUND_DENIED','PAYMENT_CHARGEBACK_REQUESTED','PAYMENT_CHARGEBACK_DISPUTE','PAYMENT_AWAITING_CHARGEBACK_REVERSAL','SUBSCRIPTION_DELETED'];
 export function liveId(value,prefix=''){if(typeof value!=='string'||value.length>100||!new RegExp('^'+prefix+'[A-Za-z0-9_-]+$').test(value))throw Error('Referência inválida.');return value;}
 export function liveCheckoutURL(id){return 'https://asaas.com/checkoutSession/show?id='+encodeURIComponent(liveId(id));}

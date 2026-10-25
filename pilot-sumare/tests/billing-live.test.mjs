@@ -27,7 +27,7 @@ test('only confirmed exact payment grants a period; refunds, chargebacks and fut
 });
 const env={SUPABASE_URL:'https://fixture.test',SUPABASE_SECRET_KEY:'server',SUPABASE_PUBLISHABLE_KEY:'sb_publishable_test',ASAAS_PRODUCTION_API_KEY:'prod',ASAAS_PRODUCTION_WEBHOOK_TOKEN:'secret',PILOT_COHORT_ID:'cohort',APP_ORIGIN:'https://www.oempregadoronline.com.br'};
 const res=()=>({setHeader(){},status(n){this.code=n;return this},json(body){this.body=body;return this}});
-test('anonymous, unverified, fictitious and non-owner buyers cannot create real payments',async()=>{
+test('anonymous, unverified, fictitious and invalid buyers cannot create real payments',async()=>{
  let role='learner',confirmed=true,fictitious=false,reauth=true,hits=0;
  const db={auth:{getUser:async()=>({data:{user:{id:'u',email:'u@example.test',email_confirmed_at:confirmed?'yes':null}}}),signInWithPassword:async()=>({data:{user:{id:reauth?'u':'other'}}})},from(table){const q={select(){return q},eq(){return q},maybeSingle:async()=>({data:{role,status:'active',is_fictitious:fictitious}}),single:async()=>({data:{connected:true,account_approved:true,webhook_ready:true}})};return q}};
  const handler=subscriptionsHandler({env,clientFactory:()=>db,fetchImpl:async()=>{hits++;throw Error('unexpected provider request');}});

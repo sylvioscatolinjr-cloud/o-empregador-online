@@ -5,7 +5,7 @@ import {readFile} from 'node:fs/promises';
 import {checkoutBody,checkoutURL,validateCheckoutEvent,asaasRequest} from '../src/billing-sandbox.mjs';
 test('checkout fixes monthly prices, origin and sandbox URL',()=>{
  const b=checkoutBody({profileType:'Empresa',tier:3,reference:'12345678-1234-1234-1234-123456789012',origin:'https://portal.example',now:new Date('2026-11-05T02:00:00Z'),value:1});
- assert.equal(b.items[0].value,2990);assert.equal(b.subscription.nextDueDate,'2026-11-04');assert.equal(b.callback.successUrl,'https://portal.example/pagamentos.html?retorno=sucesso');assert.equal(b.customerData,undefined);assert.deepEqual(b.chargeTypes,['RECURRENT']);
+ assert.equal(b.items[0].value,699.9);assert.equal(b.subscription.nextDueDate,'2026-11-04');assert.equal(b.callback.successUrl,'https://portal.example/pagamentos.html?retorno=sucesso');assert.equal(b.customerData,undefined);assert.deepEqual(b.chargeTypes,['RECURRENT']);
  assert.throws(()=>checkoutBody({profileType:'Candidato',tier:0}));assert.throws(()=>checkoutURL('https://evil.test'));assert.match(checkoutURL('12345678-1234-1234-1234-123456789012'),/^https:\/\/sandbox.asaas.com\//);
 });
 test('sandbox POST is never retried after timeout',async()=>{
