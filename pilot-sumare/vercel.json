@@ -12,14 +12,6 @@
     {
       "source": "/conta/recuperar",
       "destination": "/conta.html"
-    },
-    {
-      "source": "/laboratorio",
-      "destination": "https://o-empregador-online.mythicsage8.chatgpt.site/"
-    },
-    {
-      "source": "/laboratorio/:path*",
-      "destination": "https://o-empregador-online.mythicsage8.chatgpt.site/:path*"
     }
   ],
   "headers": [
@@ -87,8 +79,18 @@
   "redirects": [
     {
       "source": "/laboratorio",
-      "destination": "/laboratorio/",
-      "permanent": false
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/laboratorio/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/plataforma.html",
+      "destination": "/",
+      "permanent": true
     }
   ],
   "functions": {
