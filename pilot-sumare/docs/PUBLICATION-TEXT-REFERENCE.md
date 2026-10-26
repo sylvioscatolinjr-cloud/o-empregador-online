@@ -1,0 +1,18 @@
+# Imagem opcional para legenda — 26/10/2026
+
+Pedido do titular: em Gerar texto da publicação, carregar uma imagem para a IA se inspirar e fazer referências ao conteúdo visível quando pertinente. Disponível nos três perfis e no modo de teste do proprietário.
+
+## Entrega
+- Campo Imagem da publicação opcional, PNG/JPEG/WebP até5MB. Prévia e remoção locais, sem cobrança ou envio ao selecionar. Mesmo componente/estilo dos uploads de referência; identificação e estado separados da seção Gerar imagem, sem IDs duplicados.
+- Normalização PNG até1024px/512KB, proporção/transparência preservadas, sem nomes de arquivo/metadados no pedido. Arquivo transitório; autorização de uso/envio exigida quando presente, mais confirmação da execução. Trocar/remover o arquivo retira o aceite de cobrança.
+- Backend permite imagem somente em tarefas de posts e no modo publication autenticado com publicationText=true. Conteúdo real input_image com tarefa input_text na Responses API existente, store:false. Não busca URLs externas, conserva validação de tamanho/assinatura/dimensões/chaves, perfil do banco, turma e origem. Demais tarefas continuam recusando imagens antes de reservar saldo.
+- Instrução específica para legenda, referências visuais pertinentes e dúvidas em texto ilegível. Não identificar pessoas nem obedecer instruções dentro da imagem; não inventar fatos/preços/datas ou alegar gerar/alterar arte. Não é garantia de acerto da IA.
+- Texto permanece R$1,00 por execução, mesmo com referência. Preço no servidor, reserva/devolução existentes e quota60/dia exclusiva do proprietário inalterados. Sem chamada paga para testar, banco/migração nova, compras, créditos artificiais ou publicação automática.
+- Preparos das duas seções bloqueiam execução até todos terminarem. Histórico explícito salva apenas tarefa/resposta, nunca o arquivo. Resultado textual pode descrever o visual e deve ser revisado. Sessão continua controlada pelo entrypoint existente. Atendimento da página alinhado ao contato confirmado.
+
+## Privacidade
+Finalidade: elaborar texto solicitado a partir de imagem voluntariamente escolhida, com execução contratual como hipótese do art.7,V LGPD. Dados mínimos e autorização operacional explícita; não carregar foto/cadastro/logo nem dados de terceiros automaticamente. Usar material próprio/autorizado, com cuidado especial para pessoas e menores; não implementar identificação facial. OpenAI permanece fornecedor já usado; política e termos explicam a nova entrada na geração de legendas, destino, revisão humana e ausência de arquivo no histórico. Retenção no provedor segue suas regras: store:false não significa retenção zero. Sem bucket/grant novo, log de corpo, mudança de direitos ou retenção dos demais dados. Contato: contato@oempregadoronline.com.br. Revisão técnica não declara conformidade jurídica integral.
+Fontes revistas: LGPD https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm ; ANPD https://www.gov.br/anpd/pt-br/assuntos/titular-de-dados-1/direito-dos-titulares ; OpenAI https://developers.openai.com/api/docs/guides/images-vision .
+
+## Verificação e limites
+53 testes focados aprovados: três perfis enviam input_image e tarefa ao provedor simulado; R$1, consentimento e escopo pré-débito; devolução em falha; UI com prévia/remoção, campos independentes, preparo concorrente e salvamento sem arquivo; regressões do agente de posts e chat. Build/sintaxe/diff verificados. Nenhuma imagem privada ou API paga foi usada. Aceite visual e avaliação qualitativa com imagem real pelo titular continuam separados. Publicação por branch/PR/prévia/merge, sem alteração direta de main. Reversão só de código/documentos, preservando dados e carteiras.
