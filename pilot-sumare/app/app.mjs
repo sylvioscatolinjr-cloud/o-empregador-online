@@ -9,6 +9,7 @@ import {createPortalRepository} from '../src/portal-repository.mjs';
 import {createPortalUI} from './portal.mjs';
 import {createClient} from '@supabase/supabase-js';
 import {createPilotAccess} from '../src/account-access.mjs';
+import {assertPasswordNotLeaked} from '../src/password-breach.mjs';
 import {createPilotRepository} from '../src/pilot-repository.mjs';
 const root=document.querySelector('#app'),status=document.querySelector('#status');
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -53,7 +54,7 @@ document.addEventListener('click',event=>{const push=event.target.closest('[data
 document.addEventListener('submit',event=>{event.preventDefault();if(!access)return;const form=event.target,values=Object.fromEntries(new FormData(form));attempt(async()=>{
  feedback('Processando…');if(form.dataset.talentForm){await talentUI.submit(form,values);return;}if(form.dataset.extended){await extendedUI.submit(form,values);return;}
  if(form.id.startsWith('portal-')){await portalUI.submit(form,values);return;}
- if(form.id==='signup'){if(values.password!==values.confirmation)throw Error('As senhas precisam ser iguais.');await access.signUp(values);form.reset();verification(values.email);feedback('Solicitação recebida pelo serviço. Confirme seu e-mail pelo link; se já tiver conta confirmada, use Entrar ou a recuperação de senha.');}
+ if(form.id==='signup'){if(values.password!==values.confirmation)throw Error('As senhas precisam ser iguais.');await assertPasswordNotLeaked(values.password);await access.signUp(values);form.reset();verification(values.email);feedback('Solicitação recebida pelo serviço. Confirme seu e-mail pelo link; se já tiver conta confirmada, use Entrar ou a recuperação de senha.');}
  if(form.id==='login'){try{await access.signIn(values);}catch(error){if(error.code==='verification_required')verification(values.email);throw error;}await refresh();feedback('Acesso conferido.');}
  if(form.id==='verification'){feedback((await access.resendConfirmation(values.email)).message);}
  if(form.id==='forgot'){feedback((await access.requestPasswordReset(values.email)).message);form.reset();}
@@ -63,7 +64,7 @@ document.addEventListener('submit',event=>{event.preventDefault();if(!access)ret
   try{const {data,error}=await client.auth.verifyOtp({token_hash:tokenHash,type:'recovery'});if(error||!data?.session)throw Error();passwordForm();feedback('Link validado. Defina sua nova senha.');}
   catch{forgot();feedback('Não foi possível validar este link. Solicite uma nova recuperação abaixo.',true);}
  }
- if(form.id==='password'){if(values.password!==values.confirmation)throw Error('As senhas precisam ser iguais.');await access.changePassword(values.password);recovering=false;history.replaceState({},'', '/conta.html');await refresh();feedback('Senha atualizada.');}
+ if(form.id==='password'){if(values.password!==values.confirmation)throw Error('As senhas precisam ser iguais.');await assertPasswordNotLeaked(values.password);await access.changePassword(values.password);recovering=false;history.replaceState({},'', '/conta.html');await refresh();feedback('Senha atualizada.');}
  if(form.id==='identity'){const {data,error}=await client.auth.getSession();if(error||!data.session)throw Error('Entre novamente na sua conta.');const response=await fetch('/api/identity',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+data.session.access_token},body:JSON.stringify({profileType:values.profileType,document:values.document})});const result=await response.json();if(!response.ok)throw Error(result.error||'Não foi possível concluir o cadastro.');form.reset();await refresh();feedback('Cadastro concluído. Seu acesso foi conferido.');}
  if(form.id==='invite'){await access.redeemInvitation(values.token.trim());await account();feedback('Seu ingresso no piloto foi confirmado.');}
  if(form.id==='profile'){Object.assign(values,resumeWizard.values());const revision=sessionRevision;values.resume_path=await resumeUpload.attachment();if(revision!==sessionRevision)throw Error('A conta mudou. Entre novamente.');await repository.saveProfile(values);resumeUpload.committed(values.resume_path);resumeWizard.committed();feedback('Currículo salvo no banco da sua conta.');}
