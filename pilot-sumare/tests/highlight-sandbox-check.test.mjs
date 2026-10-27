@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {checkHighlightSandbox,sandboxProbeHandler} from '../src/highlight-sandbox-check.mjs';
+import {checkHighlightSandbox,inspectHighlightSandbox,sandboxProbeHandler} from '../src/highlight-sandbox-check.mjs';
 
 test('sandbox checkout probe uses only the isolated endpoint and exact production highlight payload',async()=>{
  const calls=[];const fetchImpl=async(url,options)=>{calls.push({url,options});return {ok:true,json:async()=>options.method==='POST'?({id:'checkout_fixture'}):({data:[],hasMore:false})};};
@@ -10,6 +10,12 @@ test('sandbox checkout probe uses only the isolated endpoint and exact productio
  assert.deepEqual(JSON.parse(calls[0].options.body).chargeTypes,['DETACHED']);
  assert.equal(JSON.parse(calls[0].options.body).items[0].value,9.9);
  assert.match(result.checkoutURL,/^https:\/\/sandbox\.asaas\.com\//);assert(!JSON.stringify(result).includes('sandbox-test-secret'));
+});
+test('sandbox inspection fetches the fresh payment and verifies checkout, amount and eligibility',async()=>{
+ const calls=[];const fetchImpl=async(url)=>{calls.push(url);return {ok:true,json:async()=>url.includes('?checkoutSession=')?{data:[{id:'pay_test'}],hasMore:false}:{id:'pay_test',checkoutSession:'checkout_fixture',value:9.9,status:'CONFIRMED'}}};
+ const result=await inspectHighlightSandbox({key:'fixture',checkoutId:'checkout_fixture',fetchImpl});
+ assert.equal(calls.length,2);assert.equal(result.payments[0].eligible,true);assert.equal(result.payments[0].cents,990);
+ await assert.rejects(inspectHighlightSandbox({key:'fixture',checkoutId:'../wrong',fetchImpl}),/Referência inválida/);
 });
 test('probe refuses production, other branches and unauthorized callers before contacting Asaas',async()=>{
  let calls=0;const res={setHeader(){},status(n){this.code=n;return this;},json(o){this.body=o;return this;}};
