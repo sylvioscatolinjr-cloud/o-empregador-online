@@ -1,4 +1,4 @@
-import {randomUUID} from 'node:crypto';
+import {randomUUID,timingSafeEqual} from 'node:crypto';
 import {highlightCheckoutBody} from './highlight-checkout.mjs';
 import {HIGHLIGHT_TERMS} from './highlight-pricing.mjs';
 import {liveId} from './billing-live.mjs';
@@ -19,4 +19,15 @@ export async function checkHighlightSandbox({key,origin,fetchImpl=fetch}) {
  const returned=await request('/checkouts/'+encodeURIComponent(id));
  if(returned?.id!==id)throw Error('A referência retornada pelo Sandbox não corresponde ao checkout criado.');
  return {id,checkoutURL:'https://sandbox.asaas.com/checkoutSession/show?id='+encodeURIComponent(id),reference:order.id,cents:order.cents};
+}
+
+export async function sandboxProbeHandler(req,res,{env=process.env,fetchImpl=fetch}={}) {
+ res.setHeader('Cache-Control','private, no-store');
+ if(env.VERCEL_ENV!=='preview'||env.VERCEL_GIT_COMMIT_REF!=='feat/destaque-pago')return res.status(404).json({error:'Indisponível.'});
+ if(req.method!=='POST')return res.status(405).json({error:'Método inválido.'});
+ const expected=env.HIGHLIGHT_SANDBOX_PROBE_TOKEN,received=/^Bearer ([a-f0-9]{64})$/.exec(req.headers.authorization||'')?.[1];
+ if(!/^[a-f0-9]{64}$/.test(expected||'')||!received||!timingSafeEqual(Buffer.from(received),Buffer.from(expected)))return res.status(401).json({error:'Não autorizado.'});
+ if(!env.ASAAS_SANDBOX_API_KEY||!/^[-a-z0-9]+\.vercel\.app$/.test(env.VERCEL_URL||''))return res.status(503).json({error:'Sandbox ainda não configurado.'});
+ try{return res.status(200).json(await checkHighlightSandbox({key:env.ASAAS_SANDBOX_API_KEY,origin:'https://'+env.VERCEL_URL,fetchImpl}));}
+ catch(error){return res.status(502).json({error:'Não foi possível verificar o checkout Sandbox.',detail:/HTTP \d{3}/.exec(error.message)?.[0]||'Falha de comunicação'});}
 }
