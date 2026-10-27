@@ -81,6 +81,11 @@ for(const role of ['learner','recruiter','school_staff','pilot_owner'])test(role
  assert.match(f.document.querySelector('h1').textContent,role==='learner'||role==='pilot_owner'?/Meus vínculos/:/Departamentos e equipe/);assert.match(f.document.querySelector('.workspace-main').textContent,/Nenhum convite/);assert(f.document.querySelector('[data-extended=team][aria-current=page]'));
 });
 
+for(const role of ['recruiter','school_staff'])test(role+' marks its organization area as the current menu item',async()=>{
+ const f=fixture({ready:true,origin:'https://pilot.example'});await wait();f.access.snapshot=()=>({phase:'active',role});f.client.auth.getSession=async()=>({data:{session:{access_token:'fixture'}}});f.submit('login',{email:'test@example.invalid',password:'fixture'});await wait();
+ f.click('[data-view=account]');await wait();assert(f.document.querySelector('.space-nav [data-view=account][aria-current=page]'));
+});
+
 test('owner keeps a direct sender shortcut and can open the dedicated notices URL',async()=>{const f=fixture({ready:true,origin:'https://pilot.example'},{search:'?gerenciar-avisos=1'});await wait();f.access.snapshot=()=>({phase:'active',role:'pilot_owner'});f.submit('login',{email:'owner@example.invalid',password:'fixture'});await wait();assert.match(f.document.querySelector('h1').textContent,/Enviar avisos/);assert(f.document.querySelector('.space-nav [data-portal=owner-broadcast]'));assert(f.document.querySelector('#portal-broadcast'));assert(!f.document.querySelector('#portal-period'));});
 test('sender shortcut stays absent for ordinary accounts and its URL does not grant ownership',async()=>{const f=fixture({ready:true,origin:'https://pilot.example'},{search:'?gerenciar-avisos=1'});await wait();f.submit('login',{email:'candidate@example.invalid',password:'fixture'});await wait();assert(!f.document.querySelector('#portal-broadcast'));assert.match(f.document.querySelector('#status').textContent,/proprietário/);});
 
