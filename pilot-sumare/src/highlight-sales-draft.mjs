@@ -47,9 +47,11 @@ export async function highlightAction({req,res,db,user,member,env,request,config
   const allowed=role==='learner'?['candidate']:role==='recruiter'?['job']:['course','training'];
   const items=targets.map(x=>role==='learner'?{id:x.id,title:x.name,kind:'candidate'}:{id:x.id,title:x.title,kind:x.kind}).filter(x=>allowed.includes(x.kind));
   const orders=checked(await db.from('portal_highlight_orders').select('id,kind,target_id,days,cents,status,checkout_id,starts_at,ends_at,created_at').eq('user_id',user.id).eq('cohort_id',cohort).order('created_at',{ascending:false}).limit(50));
+  const totals=orders.length?checked(await db.rpc('portal_highlight_stats',{p_user:user.id,p_cohort:cohort,p_orders:orders.map(o=>o.id)})):[];
+  const metrics=new Map(totals.map(row=>[row.order_id,{views:Number(row.views)||0,clicks:Number(row.clicks)||0}]));
   const prices=Object.fromEntries(allowed.map(kind=>[kind,HIGHLIGHT_DURATIONS.map(days=>quoteHighlight({role,kind,days,verifiedTier:tier}))]));
   const ready=env.HIGHLIGHT_SALES_ENABLED==='true'&&!!(env.ASAAS_PRODUCTION_API_KEY&&env.ASAAS_PRODUCTION_WEBHOOK_TOKEN&&config.connected&&config.account_approved&&config.webhook_ready);
-  return send(200,{role,tier,items,prices,ready,termsVersion:HIGHLIGHT_TERMS,orders:orders.map(o=>({...o,url:o.checkout_id&&o.status==='pending'?liveCheckoutURL(o.checkout_id):null}))});
+  return send(200,{role,tier,items,prices,ready,termsVersion:HIGHLIGHT_TERMS,orders:orders.map(o=>({...o,metrics:metrics.get(o.id)||{views:0,clicks:0},url:o.checkout_id&&o.status==='pending'?liveCheckoutURL(o.checkout_id):null}))});
  }
  if(req.headers.origin!==env.APP_ORIGIN||req.headers['sec-fetch-site']==='cross-site')return send(403,{error:'Origem inválida.'});
  if(!req.headers['content-type']?.startsWith('application/json')||JSON.stringify(req.body||{}).length>4096)return send(400,{error:'Formato inválido.'});
