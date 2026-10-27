@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {checkHighlightSandbox,inspectHighlightSandbox,sandboxProbeHandler} from '../src/highlight-sandbox-check.mjs';
+import {checkHighlightSandbox,inspectHighlightSandbox,sandboxProbeHandler,controlSandboxWebhook} from '../src/highlight-sandbox-check.mjs';
 
 test('sandbox checkout probe uses only the isolated endpoint and exact production highlight payload',async()=>{
  const calls=[];const fetchImpl=async(url,options)=>{calls.push({url,options});return {ok:true,json:async()=>options.method==='POST'?({id:'checkout_fixture'}):({data:[],hasMore:false})};};
@@ -29,4 +29,12 @@ test('probe refuses production, other branches and unauthorized callers before c
 test('sandbox probe rejects missing credentials and errors without disclosing provider response',async()=>{
  await assert.rejects(checkHighlightSandbox({key:'',origin:'https://preview.example'}),/chave/);
  await assert.rejects(checkHighlightSandbox({key:'secret',origin:'https://preview.example',fetchImpl:async()=>({ok:false,status:401})}),/HTTP 401/);
+});
+test('temporary webhook control permits only the isolated sandbox and fixed test refund',async()=>{
+ const calls=[],fetchImpl=async(url,opts)=>{calls.push({url,opts});return {ok:true,json:async()=>({id:'fixture_webhook',enabled:true})}};
+ const cfg={key:'fixture',token:'a'.repeat(64),host:'preview.vercel.app',shareSecret:'b'.repeat(32),fetchImpl};
+ await controlSandboxWebhook({...cfg,action:'create-webhook'});const body=JSON.parse(calls[0].opts.body);assert.equal(calls[0].url,'https://api-sandbox.asaas.com/v3/webhooks');assert.match(body.url,/^https:\/\/preview\.vercel\.app\//);assert.deepEqual(body.events,['PAYMENT_REFUNDED','PAYMENT_REFUND_IN_PROGRESS']);
+ await controlSandboxWebhook({...cfg,action:'refund-fixture'});assert.equal(calls[1].url,'https://api-sandbox.asaas.com/v3/payments/pay_l9wvx0oeq5fiojba/refund');
+ await controlSandboxWebhook({...cfg,action:'disable-webhook',webhookId:'fixture_webhook'});assert.equal(calls[2].opts.method,'PUT');
+ await assert.rejects(controlSandboxWebhook({...cfg,host:'evil.example',action:'create-webhook'}));await assert.rejects(controlSandboxWebhook({...cfg,action:'refund-other'}));
 });

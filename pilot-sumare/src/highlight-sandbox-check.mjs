@@ -39,6 +39,23 @@ export async function inspectHighlightSandbox({key,checkoutId,fetchImpl=fetch}) 
  return {id,payments};
 }
 
+// Temporary, sandbox-only control for verifying provider-originated webhooks.
+export async function controlSandboxWebhook({key,token,host,action,shareSecret,webhookId,fetchImpl=fetch}) {
+ let path,method='POST',body;
+ if(action==='create-webhook'){
+  if(!/^[-a-z0-9]+\.vercel\.app$/.test(host||'')||!/^[-A-Za-z0-9_]{16,256}$/.test(shareSecret||''))throw Error('Destino de teste inválido.');
+  path='/webhooks';
+  body={name:'OEO teste temporário de destaque',url:'https://'+host+'/api/subscriptions?action=highlight-sandbox-webhook&_vercel_share='+encodeURIComponent(shareSecret),email:'contato@oempregadoronline.com.br',interrupted:false,enabled:true,authToken:token,events:['PAYMENT_REFUNDED','PAYMENT_REFUND_IN_PROGRESS'],sendType:'SEQUENTIALLY',apiVersion:3};
+ }else if(action==='refund-fixture'){
+  path='/payments/pay_l9wvx0oeq5fiojba/refund';body={};
+ }else if(action==='disable-webhook'){
+  path='/webhooks/'+encodeURIComponent(liveId(webhookId));method='PUT';body={enabled:false};
+ }else throw Error('Ação inválida.');
+ const response=await fetchImpl('https://api-sandbox.asaas.com/v3'+path,{method,redirect:'error',headers:{access_token:key,'Content-Type':'application/json','User-Agent':'OEmpregadorOnline/1.0'},body:JSON.stringify(body),signal:AbortSignal.timeout(15000)});
+ if(!response.ok)throw Error(`Asaas Sandbox respondeu HTTP ${response.status}.`);
+ const result=await response.json();return {id:liveId(result?.id),status:result?.status||null,enabled:result?.enabled??null};
+}
+
 export async function sandboxProbeHandler(req,res,{env=process.env,fetchImpl=fetch}={}) {
  res.setHeader('Cache-Control','private, no-store');
  if(env.VERCEL_ENV!=='preview'||env.VERCEL_GIT_COMMIT_REF!=='feat/destaque-pago')return res.status(404).json({error:'Indisponível.'});
@@ -46,6 +63,6 @@ export async function sandboxProbeHandler(req,res,{env=process.env,fetchImpl=fet
  const expected=env.HIGHLIGHT_SANDBOX_PROBE_TOKEN,received=/^Bearer ([a-f0-9]{64})$/.exec(req.headers.authorization||'')?.[1];
  if(!/^[a-f0-9]{64}$/.test(expected||'')||!received||!timingSafeEqual(Buffer.from(received),Buffer.from(expected)))return res.status(401).json({error:'Não autorizado.'});
  if(!env.ASAAS_SANDBOX_API_KEY||!/^[-a-z0-9]+\.vercel\.app$/.test(env.VERCEL_URL||''))return res.status(503).json({error:'Sandbox ainda não configurado.'});
- try{return res.status(200).json(req.body?.checkoutId?await inspectHighlightSandbox({key:env.ASAAS_SANDBOX_API_KEY,checkoutId:req.body.checkoutId,fetchImpl}):await checkHighlightSandbox({key:env.ASAAS_SANDBOX_API_KEY,origin:'https://'+env.VERCEL_URL,fetchImpl}));}
+ try{if(req.body?.control)return res.status(200).json(await controlSandboxWebhook({key:env.ASAAS_SANDBOX_API_KEY,token:expected,host:env.VERCEL_URL,action:req.body.control,shareSecret:req.body.shareSecret,webhookId:req.body.webhookId,fetchImpl}));return res.status(200).json(req.body?.checkoutId?await inspectHighlightSandbox({key:env.ASAAS_SANDBOX_API_KEY,checkoutId:req.body.checkoutId,fetchImpl}):await checkHighlightSandbox({key:env.ASAAS_SANDBOX_API_KEY,origin:'https://'+env.VERCEL_URL,fetchImpl}));}
  catch(error){return res.status(502).json({error:'Não foi possível verificar o checkout Sandbox.',detail:/HTTP \d{3}/.exec(error.message)?.[0]||'Falha de comunicação'});}
 }
