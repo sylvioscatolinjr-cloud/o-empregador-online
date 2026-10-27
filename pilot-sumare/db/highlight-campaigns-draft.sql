@@ -74,11 +74,12 @@ begin
  if o.checkout_id is null or p_payment->>'checkout_id' is distinct from o.checkout_id or (p_payment->>'cents')::integer is distinct from o.cents or p_payment->>'id' !~ '^pay_[A-Za-z0-9_-]+$' then raise exception 'payment mismatch';end if;
  checked:=(p_payment->>'checked_at')::timestamptz;eligible:=(p_payment->>'eligible')::boolean;
  if checked is null or eligible is null then raise exception 'invalid snapshot';end if;
+ if exists(select 1 from public.portal_highlight_payments where id=p_payment->>'id' and order_id<>o.id) then raise exception 'payment ownership mismatch';end if;
  if exists(select 1 from public.portal_highlight_payments where order_id=o.id and id<>p_payment->>'id') then raise exception 'multiple payments require review';end if;
  insert into public.portal_highlight_payments(id,order_id,cents,status,eligible,checked_at,provider_paid_on)
  values(p_payment->>'id',o.id,o.cents,left(p_payment->>'status',80),eligible,checked,nullif(p_payment->>'provider_paid_on','')::date)
  on conflict(id) do update set status=excluded.status,eligible=excluded.eligible,checked_at=excluded.checked_at,provider_paid_on=coalesce(excluded.provider_paid_on,public.portal_highlight_payments.provider_paid_on)
- where public.portal_highlight_payments.order_id=excluded.order_id and public.portal_highlight_payments.checked_at<=excluded.checked_at;
+ where public.portal_highlight_payments.order_id=excluded.order_id and public.portal_highlight_payments.checked_at<excluded.checked_at;
  if not found then return;end if;
  update public.portal_highlight_orders set
   starts_at=case when eligible then coalesce(o.starts_at,now()) else o.starts_at end,
