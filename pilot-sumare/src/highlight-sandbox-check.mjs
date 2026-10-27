@@ -16,9 +16,9 @@ export async function checkHighlightSandbox({key,origin,fetchImpl=fetch}) {
  };
  const created=await request('/checkouts','POST',body);
  const id=liveId(created?.id);
- const returned=await request('/checkouts/'+encodeURIComponent(id));
- if(returned?.id!==id)throw Error('A referência retornada pelo Sandbox não corresponde ao checkout criado.');
- return {id,checkoutURL:'https://sandbox.asaas.com/checkoutSession/show?id='+encodeURIComponent(id),reference:order.id,cents:order.cents};
+ const returned=await request('/payments?checkoutSession='+encodeURIComponent(id)+'&limit=100');
+ if(!Array.isArray(returned?.data)||returned.hasMore)throw Error('Não foi possível conferir as cobranças vinculadas ao checkout.');
+ return {id,checkoutURL:'https://sandbox.asaas.com/checkoutSession/show?id='+encodeURIComponent(id),reference:order.id,cents:order.cents,payments:returned.data.length};
 }
 
 export async function sandboxProbeHandler(req,res,{env=process.env,fetchImpl=fetch}={}) {
