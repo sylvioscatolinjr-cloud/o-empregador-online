@@ -23,7 +23,7 @@ create index portal_highlight_order_actor on public.portal_highlight_orders(user
 create index portal_highlight_order_target on public.portal_highlight_orders(cohort_id,kind,target_id,ends_at);
 create table public.portal_highlight_payments (
  id text primary key check(id ~ '^pay_[A-Za-z0-9_-]+$'),
- order_id uuid not null unique references public.portal_highlight_orders(id),
+ order_id uuid not null references public.portal_highlight_orders(id),
  cents integer not null check(cents>0),
  status text not null,
  eligible boolean not null,
@@ -75,12 +75,23 @@ begin
  checked:=(p_payment->>'checked_at')::timestamptz;eligible:=(p_payment->>'eligible')::boolean;
  if checked is null or eligible is null then raise exception 'invalid snapshot';end if;
  if exists(select 1 from public.portal_highlight_payments where id=p_payment->>'id' and order_id<>o.id) then raise exception 'payment ownership mismatch';end if;
- if exists(select 1 from public.portal_highlight_payments where order_id=o.id and id<>p_payment->>'id') then raise exception 'multiple payments require review';end if;
  insert into public.portal_highlight_payments(id,order_id,cents,status,eligible,checked_at,provider_paid_on)
  values(p_payment->>'id',o.id,o.cents,left(p_payment->>'status',80),eligible,checked,nullif(p_payment->>'provider_paid_on','')::date)
  on conflict(id) do update set status=excluded.status,eligible=excluded.eligible,checked_at=excluded.checked_at,provider_paid_on=coalesce(excluded.provider_paid_on,public.portal_highlight_payments.provider_paid_on)
- where public.portal_highlight_payments.order_id=excluded.order_id and public.portal_highlight_payments.checked_at<excluded.checked_at;
+ where public.portal_highlight_payments.order_id=excluded.order_id and (
+  public.portal_highlight_payments.checked_at<excluded.checked_at or
+  (public.portal_highlight_payments.checked_at=excluded.checked_at and public.portal_highlight_payments.eligible and not excluded.eligible)
+ );
  if not found then return;end if;
+ -- A second payment or another paid campaign for this item requires manual
+ -- reconciliation. Keep every snapshot and never grant overlapping time.
+ if o.status='review' or (select count(*) from public.portal_highlight_payments where order_id=o.id)>1 or
+  (eligible and exists(select 1 from public.portal_highlight_orders other
+   join public.portal_highlight_payments paid on paid.order_id=other.id
+   where other.id<>o.id and other.user_id=o.user_id and other.cohort_id=o.cohort_id and other.kind=o.kind and other.target_id=o.target_id
+   and other.status='confirmed' and paid.eligible and paid.cents=other.cents and other.starts_at<=now() and other.ends_at>now())) then
+  update public.portal_highlight_orders set status='review' where id=o.id;return;
+ end if;
  update public.portal_highlight_orders set
   starts_at=case when eligible then coalesce(o.starts_at,now()) else o.starts_at end,
   ends_at=case when eligible then coalesce(o.ends_at,now()+o.days*interval '1 day') else o.ends_at end,

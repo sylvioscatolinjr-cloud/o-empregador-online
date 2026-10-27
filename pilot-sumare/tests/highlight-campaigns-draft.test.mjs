@@ -27,9 +27,11 @@ test('draft ledger checks ownership and tier, prevents duplicates, applies payme
  await assert.rejects(apply({...payment,cents:1}),/payment mismatch/);await apply(payment);
  const first=(await db.query('select starts_at,ends_at,status from public.portal_highlight_orders where id=$1',[o.id])).rows[0];assert.equal(first.status,'confirmed');assert.equal(new Date(first.ends_at)-new Date(first.starts_at),7*86400000);
  await apply(payment);const again=(await db.query('select starts_at,ends_at from public.portal_highlight_orders where id=$1',[o.id])).rows[0];assert.deepEqual(again,{starts_at:first.starts_at,ends_at:first.ends_at});
+ await apply({...payment,status:'REFUNDED',eligible:false});await apply(payment);assert.equal((await db.query('select eligible from public.portal_highlight_payments where order_id=$1',[o.id])).rows[0].eligible,false);
+ await apply({...payment,checked_at:'2026-10-26T12:00:30Z'});assert.equal((await db.query('select eligible from public.portal_highlight_payments where order_id=$1',[o.id])).rows[0].eligible,true);
  await apply({...payment,status:'REFUNDED',eligible:false,checked_at:'2026-10-26T12:01:00Z'});
  await apply(payment);const saved=(await db.query('select eligible,status from public.portal_highlight_payments where order_id=$1',[o.id])).rows[0];assert.equal(saved.eligible,false);assert.equal(saved.status,'REFUNDED');
- await assert.rejects(apply({...payment,id:'pay_second'}),/multiple payments/);
+ await apply({...payment,id:'pay_second'});const review=(await db.query('select status from public.portal_highlight_orders where id=$1',[o.id])).rows[0];assert.equal(review.status,'review');assert.equal((await db.query('select count(*)::int as n from public.portal_highlight_payments where order_id=$1',[o.id])).rows[0].n,2);
  await db.exec('reset role');for(const role of ['anon','authenticated']){const x=(await db.query("select has_table_privilege($1,'public.portal_highlight_orders','select') as table_access,has_function_privilege($1,'public.portal_highlight_create(uuid,uuid,text,uuid,integer,integer,integer,text)','execute') as function_access",[role])).rows[0];assert.equal(x.table_access,false);assert.equal(x.function_access,false);}
  }finally{await db.close();}
 });
@@ -55,5 +57,10 @@ test('server quote agrees with the price book for all roles, durations and verif
    await db.query('delete from public.portal_highlight_orders where id=$1',[r.id]);
   }
  }
+ await db.query("update public.pilot_memberships set role='learner'");await db.query('update pilot_private.fixture_tier set tier=4');
+ const create=async()=>(await db.query('select public.portal_highlight_create($1,$2,$3,$4,$5,$6,$7,$8) as result',[U,C,'candidate',T,7,4,743,terms])).rows[0].result.id;
+ const old=await create();await db.query("update public.portal_highlight_orders set checkout_id='chk_old',status='expired' where id=$1",[old]);const newer=await create();await db.query("update public.portal_highlight_orders set checkout_id='chk_new',status='pending' where id=$1",[newer]);
+ for(const [id,checkout,payment] of [[old,'chk_old','pay_old'],[newer,'chk_new','pay_new']])await db.query('select public.portal_highlight_apply($1,$2::jsonb)',[id,JSON.stringify({id:payment,checkout_id:checkout,cents:743,status:'CONFIRMED',eligible:true,checked_at:'2026-10-26T12:00:00Z'})]);
+ const statuses=(await db.query('select id,status from public.portal_highlight_orders order by status')).rows;assert.equal(statuses.find(x=>x.id===old).status,'confirmed');assert.equal(statuses.find(x=>x.id===newer).status,'review');
  }finally{await db.close();}
 });

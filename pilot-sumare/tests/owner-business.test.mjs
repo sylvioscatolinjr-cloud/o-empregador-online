@@ -18,10 +18,15 @@ test('business metrics count only confirmed payments in the period and current a
   images:[{status:'completed',cents:250,owner_testing:false},{status:'completed',cents:500,owner_testing:true},{status:'failed',cents:500,owner_testing:false}]});
  assert.equal(m.subscribers.active,2);assert.equal(m.subscribers.byProfile.Candidato[1],1);assert.equal(m.subscribers.byProfile.Empresa[2],1);
  assert.equal(m.subscribers.mrrCents,1990+53910);
- assert.deepEqual(m.revenue,{subscriptionCents:1990,topupCents:1000,totalCents:2990,subscriptionPayments:1,topupPayments:1,undatedPayments:0,undatedCents:0});
+ assert.deepEqual(m.revenue,{subscriptionCents:1990,topupCents:1000,highlightCents:0,totalCents:2990,subscriptionPayments:1,topupPayments:1,highlightPayments:0,undatedPayments:0,undatedCents:0});
  assert.equal(m.newSubscriptions,2);assert.equal(m.cancellations,1);
  assert.deepEqual(m.ai,{runs:2,refunded:1,spentCents:200,images:1,imageCents:250});assert.equal(m.truncated,false);
  assert.doesNotMatch(JSON.stringify(m),/user_id|email|cpf/i);
+});
+
+test('confirmed highlight revenue is included by provider date and refunded payments are excluded',()=>{
+ const m=businessMetrics({start,end,highlightOrders:[{id:'one',cents:2990},{id:'two',cents:9990},{id:'three',cents:743}],highlightPayments:[{order_id:'one',cents:2990,eligible:true,provider_paid_on:'2026-10-25'},{order_id:'two',cents:9990,eligible:false,provider_paid_on:'2026-10-25'},{order_id:'three',cents:743,eligible:true,provider_paid_on:null}]});
+ assert.equal(m.revenue.highlightCents,2990);assert.equal(m.revenue.highlightPayments,1);assert.equal(m.revenue.totalCents,2990);assert.equal(m.revenue.undatedPayments,1);assert.equal(m.revenue.undatedCents,743);
 });
 
 test('business view stays owner-only and reads billing tables only after authorization',async()=>{
@@ -32,7 +37,7 @@ test('business view stays owner-only and reads billing tables only after authori
  const req={method:'GET',query:{view:'business',period:'month'},headers:{authorization:'Bearer fixture'}},response=()=>({code:0,setHeader(){},status(n){this.code=n;return this;},json(body){this.body=body;return this;}});
  try{let r=response();await handler(req,r);assert.equal(r.code,403);assert.equal(tables.length,0);
   role='pilot_owner';r=response();await handler(req,r);assert.equal(r.code,200);assert.equal(r.body.subscribers.active,0);assert.equal(r.body.revenue.totalCents,0);assert.match(r.body.scope,/Asaas/);
-  assert.deepEqual([...new Set(tables)].sort(),['billing_live_orders','portal_ai_image_jobs','portal_ai_topup_orders','portal_ai_wallet_usage']);
+  assert.deepEqual([...new Set(tables)].sort(),['billing_live_orders','portal_ai_image_jobs','portal_ai_topup_orders','portal_ai_wallet_usage','portal_highlight_orders']);
  }finally{globalThis.fetch=oldFetch;for(const k of keys)if(old[k]===undefined)delete process.env[k];else process.env[k]=old[k];}
 });
 

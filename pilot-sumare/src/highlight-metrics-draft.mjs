@@ -15,6 +15,10 @@ export function highlightMetricsHandler({env=process.env,clientFactory=createCli
   const digest=createHash('sha256').update(day+'|'+session.toLowerCase()).digest('hex');
   const db=clientFactory(env.SUPABASE_URL,env.SUPABASE_SECRET_KEY,{auth:{persistSession:false,autoRefreshToken:false}});
   const r=await db.rpc('portal_highlight_record_metric',{p_cohort:env.PILOT_COHORT_ID,p_kind:kind,p_target:targetId,p_event:event,p_digest:digest});
-  if(r.error)throw Error();return res.status(204).end();
+  if(r.error)throw Error();
+  // A small fraction of events performs bounded cleanup; it is not a guarantee
+  // that old keys disappear on a particular date when there is no traffic.
+  if(parseInt(digest.slice(0,2),16)<3)await db.rpc('portal_highlight_metric_cleanup');
+  return res.status(204).end();
  }catch{return res.status(503).json({error:'Medição indisponível.'});}
 };}
