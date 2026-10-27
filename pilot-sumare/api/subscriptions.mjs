@@ -10,6 +10,11 @@ const options={auth:{persistSession:false,autoRefreshToken:false,detectSessionIn
 const assertResult=r=>{if(r.error)throw Error('Não foi possível salvar a operação financeira.');return r.data;};
 export function subscriptionsHandler({env=process.env,clientFactory=createClient,fetchImpl=fetch}={}) {return async(req,res)=>{
  if(req.query?.action==='highlight-sandbox-probe')return sandboxProbeHandler(req,res,{env,fetchImpl});
+ if(req.query?.action==='highlight-sandbox-webhook'){
+  if(env.VERCEL_ENV!=='preview'||env.VERCEL_GIT_COMMIT_REF!=='feat/destaque-pago'||!env.ASAAS_SANDBOX_API_KEY||!env.HIGHLIGHT_SANDBOX_PROBE_TOKEN)return res.status(404).json({error:'Indisponível.'});
+  const sandboxFetch=(url,options)=>{if(!url.startsWith('https://api.asaas.com/v3/'))throw Error('Destino inválido.');return fetchImpl(url.replace('https://api.asaas.com/v3/','https://api-sandbox.asaas.com/v3/'),options);};
+  return subscriptionsHandler({env:{...env,ASAAS_PRODUCTION_API_KEY:env.ASAAS_SANDBOX_API_KEY,ASAAS_PRODUCTION_WEBHOOK_TOKEN:env.HIGHLIGHT_SANDBOX_PROBE_TOKEN},clientFactory,fetchImpl:sandboxFetch})({...req,query:{...req.query,action:'webhook'}},res);
+ }
  res.setHeader('Cache-Control','private, no-store');
  if(!['GET','POST'].includes(req.method))return res.status(405).json({error:'Método inválido.'});
  const e=env;
