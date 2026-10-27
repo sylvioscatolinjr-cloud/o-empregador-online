@@ -12,3 +12,10 @@ for(const [role,expected] of [['learner','Meu cartão na página inicial'],['rec
  await mountHighlightPurchase(root,{api:async()=>({role,items:[],orders:[],prices:{},ready:false}),isCurrent:()=>true}).show();
  assert(root.textContent.includes(expected));assert.equal(root.querySelector('[name=target]').disabled,true);assert.equal(root.querySelector('button[type=submit]').disabled,true);assert.equal(root.querySelector('a.portal-action').getAttribute('href'),'/conta.html');
 });
+test('price is visible without an item, while consent and purchase remain disabled',async()=>{
+ const {document,window}=parseHTML('<main></main>'),root=document.querySelector('main');
+ const prices={candidate:[7,15,30].map(days=>quoteHighlight({role:'learner',kind:'candidate',days,verifiedTier:0}))};
+ await mountHighlightPurchase(root,{api:async()=>({role:'learner',items:[],orders:[],prices,ready:true}),isCurrent:()=>true}).show();
+ const form=root.querySelector('form');assert.match(form.querySelector('[data-quote]').textContent,/9,90/);assert.equal(form.querySelector('[name=accept]').disabled,true);assert.equal(form.querySelector('button[type=submit]').disabled,true);
+ const days=form.querySelector('[name=days]');options(days);days.value='15';days.dispatchEvent(new window.Event('change'));assert.match(form.querySelector('[data-quote]').textContent,/19,90/);assert.equal(form.querySelector('[name=accept]').disabled,true);
+});
