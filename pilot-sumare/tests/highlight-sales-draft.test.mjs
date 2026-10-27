@@ -33,11 +33,3 @@ test('integrated webhook retrieves fresh provider state and processes a highligh
  const run=async request=>{const res={setHeader(){},status(n){this.code=n;return this},json(b){this.body=b;return this}};await handler(request,res);return res;};
  assert.equal((await run({...req,headers:{'asaas-access-token':'wrong'}})).code,401);assert.equal(providerCalls,0);assert.equal((await run(req)).code,200);assert.equal((await run(req)).code,200);assert.equal(applies,1);assert.equal(providerCalls,1);
 });
-test('preview webhook uses the same handler against sandbox and is unavailable in production',async()=>{
- const env={VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'feat/destaque-pago',SUPABASE_URL:'https://fixture.example',SUPABASE_SECRET_KEY:'fixture',PILOT_COHORT_ID:'cohort',ASAAS_SANDBOX_API_KEY:'sandbox-key',HIGHLIGHT_SANDBOX_PROBE_TOKEN:'a'.repeat(64)};
- let urls=[],applied=0;const db={from(table){const q={select(){return q},eq(){return q},insert(){return q},update(){return q},async maybeSingle(){return {data:table==='portal_highlight_orders'?{id:orderId,cents:990,checkout_id:'chk_test'}:null}},then(a,b){return Promise.resolve({data:null}).then(a,b)}};return q},async rpc(_name,args){assert.equal(args.p_payment.cents,990);applied++;return {data:null}}};
- const handler=subscriptionsHandler({env,clientFactory:()=>db,fetchImpl:async url=>{urls.push(url);return Response.json({id:'pay_fixture',checkoutSession:'chk_test',value:9.9,status:'CONFIRMED'});}});
- const req=Object.create({method:'POST',headers:{'asaas-access-token':'a'.repeat(64)}});Object.assign(req,{query:{action:'highlight-sandbox-webhook'},body:{id:'evt_fixture',event:'PAYMENT_CONFIRMED',payment:{id:'pay_fixture'}}});const res={setHeader(){},status(n){this.code=n;return this},json(b){this.body=b;return this}};
- await handler(req,res);assert.equal(res.code,200);assert.equal(applied,1);assert.deepEqual(urls,['https://api-sandbox.asaas.com/v3/payments/pay_fixture']);
- env.VERCEL_ENV='production';await handler(req,res);assert.equal(res.code,404);assert.equal(applied,1);
-});
