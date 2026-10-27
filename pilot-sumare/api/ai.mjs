@@ -1,4 +1,5 @@
 import {publicationImageHandler} from '../src/publication-image-handler.mjs';
+import {highlightMetricsHandler} from '../src/highlight-metrics-draft.mjs';
 import {noticeFileHandler} from '../src/notice-file-handler.mjs';
 import {candidateRegionHandler} from '../src/candidate-region-handler.mjs';
 import {distanceDiscoveryHandler} from '../src/distance-discovery-handler.mjs';
@@ -20,10 +21,12 @@ const history=aiHistoryHandler();
 const resume=aiResumeHandler();
 const chat=aiChatHandler();
 const publicationImage=publicationImageHandler();
+const highlightMetrics=highlightMetricsHandler();
 const balance=aiBalanceHandler();
 const catalog=agentCatalogHandler();
 export default function handler(req,res){
  const action=req.query?.action;
+ if(action==='highlight-metric')return highlightMetrics(req,res);
  if(['image-create','image-list','image-delete'].includes(action))return publicationImage(req,res);
  if(action==='notice-file')return noticeFile(req,res);
  if(action==='candidate-region')return candidateRegion(req,res);
