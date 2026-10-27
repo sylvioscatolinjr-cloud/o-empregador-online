@@ -26,7 +26,7 @@ test('draft feeds display eligible paid highlights only within their period and 
  insert into public.portal_listings values('${E}','${E}','${C}','job','Vaga','Empresa','Descrição','Campinas','SP','Online','CLT',now(),false,false,'','13000000','published'),('${S}','${S}','${C}','course','Curso','Escola','Descrição','Campinas','SP','Online',null,now(),false,false,'','13000000','published');
  insert into public.portal_highlight_orders values('${U}','${C}','${U}','candidate','${U}','confirmed',743,now()-interval '1 hour',now()+interval '1 day'),('${E}','${C}','${E}','job','${E}','confirmed',2243,now()-interval '1 hour',now()+interval '1 day'),('${S}','${C}','${S}','course','${S}','confirmed',2243,now()-interval '1 hour',now()+interval '1 day');
  insert into public.portal_highlight_payments values('${U}',743,true),('${E}',2243,true),('${S}',2243,true);`);
- await db.exec(await readFile(new URL('../db/highlight-feeds-draft.sql',import.meta.url),'utf8'));
+ const feedSql=await readFile(new URL('../db/highlight-feeds-draft.sql',import.meta.url),'utf8');await db.exec(feedSql);
  const feeds=async()=>{
   const rows=[];for(const [q,args] of [
    ['select public.portal_ordered_public_feed($1,$2,\'\',0,30) as r',[C,'candidates']],
@@ -40,6 +40,26 @@ test('draft feeds display eligible paid highlights only within their period and 
  await db.exec('set role service_role');let rows=await feeds();assert(rows.every(row=>row.is_featured===true));assert(rows.every(row=>!('cents' in row)&&!('subscription_tier' in row)));await db.exec('reset role');
  await db.query("update public.portal_highlight_orders set ends_at=now()-interval '1 minute'");await db.exec('set role service_role');rows=await feeds();assert(rows.every(row=>row.is_featured===false));await db.exec('reset role');
  await db.query("update public.portal_highlight_orders set ends_at=now()+interval '1 day'");await db.query('update public.portal_highlight_payments set eligible=false');await db.exec('set role service_role');rows=await feeds();assert(rows.every(row=>row.is_featured===false));await db.exec('reset role');
- await db.query('update public.portal_candidate_cards set is_fictitious=true,is_featured=true');await db.exec('set role service_role');rows=await feeds();assert.equal(rows[0].is_featured,true);assert.equal(rows[3].is_featured,true);assert.equal(rows[5].is_featured,true);
+ await db.query('update public.portal_candidate_cards set is_fictitious=true,is_featured=true');await db.exec('set role service_role');rows=await feeds();assert.equal(rows[0].is_featured,true);assert.equal(rows[3].is_featured,true);assert.equal(rows[5].is_featured,true);await db.exec('reset role');
+ const N='55555555-5555-4555-8555-555555555555';
+ await db.exec(`update public.portal_candidate_cards set is_fictitious=false,is_featured=false;update public.portal_highlight_payments set eligible=true;
+ insert into auth.users values('${N}',now(),null);insert into public.pilot_memberships values('${N}','${C}','learner','active',false);
+ insert into public.portal_candidate_cards values('${N}','${N}','${C}','Outra pessoa','CAD','Campinas','SP','CAD',now(),false,false,false,'',false,true,null);
+ insert into public.portal_highlight_orders values('${N}','${C}','${N}','candidate','${N}','confirmed',743,now()-interval '1 hour',now()+interval '1 day');
+ insert into public.portal_highlight_payments values('${N}',743,true);`);
+ const fakeClock=instant=>feedSql.replaceAll('extract(epoch from statement_timestamp())',`extract(epoch from timestamptz '${instant}')`);
+ await db.exec(fakeClock('2026-10-26 00:00:00+00'));await db.exec('set role service_role');const first=(await db.query("select public.portal_ordered_public_feed($1,'candidates','',0,30) as r",[C])).rows[0].r;await db.exec('reset role');
+ await db.exec(fakeClock('2026-10-26 00:05:00+00'));await db.exec('set role service_role');const second=(await db.query("select public.portal_ordered_public_feed($1,'candidates','',0,30) as r",[C])).rows[0].r;
+ assert.equal(first.length,2);assert.equal(second.length,2);assert.notEqual(first[0].id,second[0].id);assert.deepEqual(first.map(x=>x.id).sort(),second.map(x=>x.id).sort());assert(first.every(row=>!('promotion_order' in row)));
+ await db.exec('reset role');
+ for(let i=0;i<35;i++){
+  const id=`66666666-6666-4666-8666-${String(i).padStart(12,'0')}`;
+  await db.query('insert into auth.users values($1,now(),null)',[id]);await db.query("insert into public.pilot_memberships values($1,$2,'learner','active',false)",[id,C]);
+  await db.query("insert into public.portal_candidate_cards values($1,$1,$2,$3,'CAD','Campinas','SP','CAD',now(),false,false,false,'',false,true,null)",[id,C,'Pessoa '+i]);
+  await db.query("insert into public.portal_highlight_orders values($1,$2,$1,'candidate',$1,'confirmed',743,now()-interval '1 hour',now()+interval '1 day')",[id,C]);await db.query('insert into public.portal_highlight_payments values($1,743,true)',[id]);
+ }
+ await db.exec('set role service_role');const page0=(await db.query("select public.portal_ordered_public_feed($1,'candidates','',0,30) as r",[C])).rows[0].r;const page1=(await db.query("select public.portal_ordered_public_feed($1,'candidates','',1,30) as r",[C])).rows[0].r;
+ assert.equal(page0.length,30);assert.equal(page1.length,7);assert.equal(new Set([...page0,...page1].map(x=>x.id)).size,37);await db.exec('reset role');
+ await db.exec(fakeClock('2026-10-26 00:10:00+00'));await db.exec('set role service_role');const rotated=(await db.query("select public.portal_ordered_public_feed($1,'candidates','',0,30) as r",[C])).rows[0].r;assert.notEqual(page0[0].id,rotated[0].id);
  }finally{await db.close();}
 });
