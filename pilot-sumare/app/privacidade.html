@@ -14,7 +14,7 @@
 <p>Coletamos apenas o necessário para cada função. A maior parte é informada por você; alguns dados técnicos são gerados quando você usa o portal.</p>
 <div class="table-scroll"><table><thead><tr><th>Categoria</th><th>Exemplos</th><th>Quem informa</th></tr></thead><tbody>
 <tr><td>Cadastro de Candidato</td><td>nome, CPF, e-mail, senha (guardada de forma cifrada pelo provedor de autenticação), telefone, cidade e CEP</td><td>Você</td></tr>
-<tr><td>Dados adicionais opcionais do currículo</td><td>endereço (que pode ser sugerido a partir do CEP), data de nascimento, estado civil, nacionalidade e categoria da CNH (sem o número do documento); nada disso é obrigatório para usar o portal. A sugestão de endereço só é gravada quando você salva, e esses dados só acompanham o currículo se você ligar o compartilhamento de dados adicionais</td><td>Você</td></tr>
+<tr><td>Dados adicionais opcionais do currículo</td><td>endereço (que pode ser sugerido a partir do CEP), data de nascimento, nacionalidade e categoria da CNH (sem o número do documento); nada disso é obrigatório para usar o portal. A sugestão de endereço só é gravada quando você salva, e esses dados só acompanham o currículo se você ligar o compartilhamento de dados adicionais</td><td>Você</td></tr>
 <tr><td>Cadastro de Empresa ou Instituição</td><td>razão social, CNPJ, logo, endereço, e-mail e nome do responsável e dos usuários convidados (com o CPF informado para o convite)</td><td>O responsável pela organização</td></tr>
 <tr><td>Currículo e carreira</td><td>foto, formação, cursos, experiências, competências, idiomas, meta profissional, vínculos, promoções e salários do histórico privado, arquivo de currículo enviado (PDF ou DOCX) e comprovantes de formação</td><td>Você</td></tr>
 <tr><td>Desenvolvimento pessoal</td><td>registros de aprendizado e, se você quiser, de desenvolvimento intelectual ou espiritual (opcional, privado e fora da classificação de emprego)</td><td>Você</td></tr>
@@ -24,7 +24,7 @@
 <tr><td>Uso de IA</td><td>texto que você digita para a tarefa, campos do currículo enviados à revisão, logo e imagens de referência, resultados que você decidir salvar e imagens geradas</td><td>Você</td></tr>
 <tr><td>Destaques pagos</td><td>item destacado, período, valor, situação do pagamento e contagens aproximadas de exibições e cliques por dia</td><td>Você, o Asaas e gerado pelo uso</td></tr>
 <tr><td>Campanhas patrocinadas (Turbinar)</td><td>para quem recebe: sua autorização, temas escolhidos, data e versão de cada alteração e avisos patrocinados entregues e lidos; para quem anuncia: texto, folder, filtros, orçamento, aprovação e débito</td><td>Você e gerado pelo uso</td></tr>
-<tr><td>Programa de afiliados</td><td>seu código de indicação, o vínculo entre quem indicou e quem contratou, a contagem de pagamentos elegíveis e os pedidos de resgate</td><td>Você e gerado pelo uso</td></tr>
+<tr><td>Programa de afiliados</td><td>seu código de indicação, o vínculo entre quem indicou e quem contratou, as datas de pagamento e de cancelamento das assinaturas indicadas (para aplicar a carência de 30 dias), a contagem de pagamentos elegíveis e os pedidos de resgate</td><td>Você e gerado pelo uso</td></tr>
 <tr><td>Treinamentos e avisos</td><td>progresso nos treinamentos, respostas dos questionários, leitura de avisos e notificações</td><td>Gerado pelo uso</td></tr>
 <tr><td>Dados técnicos</td><td>endereço IP, data e hora de acesso, navegador, dispositivo, identificador de notificação do app e registros de segurança</td><td>Gerado pelo uso</td></tr>
 </tbody></table></div>
@@ -61,7 +61,7 @@
 <li><strong>Foto e marcação SENAI:</strong> têm autorizações separadas. A marcação SENAI é informação declarada por você e não substitui diploma validado.</li>
 <li><strong>Região aproximada:</strong> se você autorizar, empresas que buscam por distância veem apenas a ordenação por proximidade. Seu CEP, endereço e coordenadas não são mostrados.</li>
 <li><strong>Candidaturas:</strong> a empresa ou instituição da vaga vê o currículo que você enviou para aquela vaga e conduz o processo seletivo.</li>
-<li><strong>Anúncios de vagas e cursos:</strong> são públicos e podem ser compartilhados por link.</li>
+<li><strong>Anúncios de vagas e cursos:</strong> são públicos e podem ser compartilhados por link. Cada anúncio publicado tem uma página própria (/vaga/…) que pode aparecer no Google e em outros buscadores, com título, organização, cidade, descrição, requisitos, benefícios e salário informados no anúncio. CEP, endereço e dados de quem publicou não aparecem nessa página. Anúncios encerrados deixam de ser exibidos e saem do mapa do site. Currículos e perfis de candidatos não são publicados em buscadores.</li>
 <li><strong>Equipes de empresas e instituições:</strong> usuários convidados só acessam o que o responsável liberou (editar perfil, publicar, buscar candidatos ou avaliar). O convite exige o CPF exato da pessoa e só vale depois que ela aceita.</li>
 <li><strong>Foto e logo nos cartões:</strong> a logo salva por uma empresa ou instituição aparece nos cartões dos seus anúncios, inclusive destaques. A foto do candidato só acompanha o cartão público enquanto ele autorizar. Sem imagem, o cartão aparece sem foto ou logo. Enviar uma foto não publica o currículo completo.</li>
 <li><strong>Destaques:</strong> um currículo destacado aparece apenas por meio do cartão público que o candidato autorizou.</li>
@@ -121,7 +121,7 @@
 <h3>Programa de afiliados</h3>
 <ul>
 <li><strong>Código no navegador:</strong> o primeiro código de indicação válido fica guardado no seu navegador por 30 dias e pode ser corrigido antes da primeira contratação. Depois que o vínculo é registrado, ele é permanente.</li>
-<li><strong>O que o afiliado vê:</strong> apenas a contagem de pagamentos elegíveis, sem dados de quem foi indicado.</li>
+<li><strong>O que o afiliado vê:</strong> apenas a contagem de pagamentos elegíveis e quantos ainda estão na carência de 30 dias, sem dados de quem foi indicado. Usamos as datas de pagamento e de cancelamento só para tirar da contagem quem cancelou nesse prazo.</li>
 <li><strong>Resgate:</strong> ao pedir um resgate, seu nome, perfil e e-mail cadastrado ficam disponíveis só para o OEO conferir e combinar a entrega. Não pedimos chave Pix no link público.</li>
 </ul>
 <h2>9. Por quanto tempo guardamos</h2>
