@@ -13,10 +13,10 @@ export function businessMetrics({orders=[],payments=[],topupOrders=[],topupPayme
  const byProfile=Object.fromEntries(profiles.map(p=>[p,{1:0,2:0,3:0,4:0,total:0}]));
  for(const o of active){const row=byProfile[o.profile_type];if(!row)continue;row[o.tier]=(row[o.tier]||0)+1;row.total++;}
  const mrrCents=Math.round(active.reduce((sum,o)=>sum+o.cents/(o.months||1),0));
- const paid=payments.filter(p=>valid(p,orderMap)&&inPeriod(paidDate(p),start,end));
+ const paid=payments.filter(p=>p.payment_source!=='wallet'&&valid(p,orderMap)&&inPeriod(paidDate(p),start,end));
  const paidTopups=topupPayments.filter(p=>valid(p,topupMap)&&inPeriod(paidDate(p),start,end));
- const paidHighlights=highlightPayments.filter(p=>valid(p,highlightMap)&&inPeriod(paidDate(p),start,end));
- const undated=[...payments.filter(p=>valid(p,orderMap)),...topupPayments.filter(p=>valid(p,topupMap)),...highlightPayments.filter(p=>valid(p,highlightMap))].filter(p=>!paidDate(p));
+ const paidHighlights=highlightPayments.filter(p=>p.payment_source!=='wallet'&&valid(p,highlightMap)&&inPeriod(paidDate(p),start,end));
+ const undated=[...payments.filter(p=>p.payment_source!=='wallet'&&valid(p,orderMap)),...topupPayments.filter(p=>valid(p,topupMap)),...highlightPayments.filter(p=>p.payment_source!=='wallet'&&valid(p,highlightMap))].filter(p=>!paidDate(p));
  const everPaid=new Set(payments.filter(p=>orderMap.has(p.order_id)&&p.cents===orderMap.get(p.order_id).cents&&(p.eligible||paidDate(p))).map(p=>p.order_id));
  const subscriptionCents=paid.reduce((s,p)=>s+p.cents,0),topupCents=paidTopups.reduce((s,p)=>s+p.cents,0),highlightCents=paidHighlights.reduce((s,p)=>s+p.cents,0);
  const charged=new Set(usage.filter(u=>!u.refunded_at).map(u=>u.request_id));
@@ -46,9 +46,9 @@ export async function loadBusinessMetrics(db,cohort,period){
   rows(db.from('portal_ai_image_jobs').select('status,cents,owner_testing,created_at').eq('cohort_id',cohort).gte('created_at',period.start).lt('created_at',period.end))
  ]);
  const [payments,topupPayments,highlightPayments,lines]=await Promise.all([
-  byIds(db,'billing_live_payments','order_id,cents,eligible,provider_paid_on,period_start,period_end','order_id',orders.map(o=>o.id)),
+  byIds(db,'billing_live_payments','order_id,cents,eligible,provider_paid_on,period_start,period_end,payment_source','order_id',orders.map(o=>o.id)),
   byIds(db,'portal_ai_topup_payments','order_id,cents,eligible,provider_paid_on','order_id',topupOrders.map(o=>o.id)),
-  byIds(db,'portal_highlight_payments','order_id,cents,eligible,provider_paid_on','order_id',highlightOrders.map(o=>o.id)),
+  byIds(db,'portal_highlight_payments','order_id,cents,eligible,provider_paid_on,payment_source','order_id',highlightOrders.map(o=>o.id)),
   byIds(db,'portal_ai_wallet_lines','request_id,cents','request_id',usage.map(u=>u.request_id))
  ]);
  return businessMetrics({orders,payments,topupOrders,topupPayments,highlightOrders,highlightPayments,usage,lines,images,start:period.start,end:period.end});

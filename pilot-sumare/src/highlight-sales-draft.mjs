@@ -50,8 +50,8 @@ export async function highlightAction({req,res,db,user,member,env,request,config
   const totals=orders.length?checked(await db.rpc('portal_highlight_stats',{p_user:user.id,p_cohort:cohort,p_orders:orders.map(o=>o.id)})):[];
   const metrics=new Map(totals.map(row=>[row.order_id,{views:Number(row.views)||0,clicks:Number(row.clicks)||0}]));
   const prices=Object.fromEntries(allowed.map(kind=>[kind,HIGHLIGHT_DURATIONS.map(days=>quoteHighlight({role,kind,days,verifiedTier:tier}))]));
-  const ready=env.HIGHLIGHT_SALES_ENABLED==='true'&&!!(env.ASAAS_PRODUCTION_API_KEY&&env.ASAAS_PRODUCTION_WEBHOOK_TOKEN&&config.connected&&config.account_approved&&config.webhook_ready);
-  return send(200,{role,tier,items,prices,ready,termsVersion:HIGHLIGHT_TERMS,orders:orders.map(o=>({...o,metrics:metrics.get(o.id)||{views:0,clicks:0},url:o.checkout_id&&o.status==='pending'?liveCheckoutURL(o.checkout_id):null}))});
+  const ready=env.HIGHLIGHT_SALES_ENABLED==='true';
+  return send(200,{role,tier,items,prices,ready,paymentMode:'wallet',walletTermsVersion:'2026-10-28-unified-wallet-v1',termsVersion:HIGHLIGHT_TERMS,orders:orders.map(o=>({...o,metrics:metrics.get(o.id)||{views:0,clicks:0},url:o.checkout_id&&o.status==='pending'?liveCheckoutURL(o.checkout_id):null}))});
  }
  if(req.headers.origin!==env.APP_ORIGIN||req.headers['sec-fetch-site']==='cross-site')return send(403,{error:'Origem inválida.'});
  if(!req.headers['content-type']?.startsWith('application/json')||JSON.stringify(req.body||{}).length>4096)return send(400,{error:'Formato inválido.'});

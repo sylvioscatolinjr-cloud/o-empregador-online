@@ -1,5 +1,9 @@
 # O Empregador Online — contrato de continuidade e revisão de produção
 
+## Carteira unificada e renovação — migração aplicada, ativação pendente (28/10/2026)
+
+Titular autorizou plano/destaque na carteira, renovação automática com saldo e aviso de insuficiência um dia antes. Migração revisada/idempotente/atômica com checksum, preflight e flag desligada foi aprovada/aplicada em20261028220859. Teste de rollback/reaplicação e ensaio hospedado sintético com rollback passaram;453 testes aprovados,0falhas,1PDF ignorado. A ativação do cohort real foi recusada por exigir autorização específica de compras financeiras reais. Flag desligada, cron inativo, código/Termos novos não publicados. Não contornar nem declarar recurso ativo. Contratos Asaas e dinheiro real preservados. Ver pilot-sumare/docs/UNIFIED-WALLET-RENEWALS.md.
+
 ## Turbinar — 28/10/2026
 
 Autorizada implementação e publicação do fluxo completo: campanha com texto/folder PNG/JPG/PDF até3MB, filtros por perfil/UF/cidade/interesse declarado, orçamento R$0,05 por entrega interna e público congelado, solicitação com aceite, revisão exclusiva do proprietário e tentativa automática após aprovação. Sem saldo, permanece aprovada e permite nova tentativa explícita após recarga confirmada. Somente recargas compradas, jamais cashback/créditos do plano. Saldo e entrega na mesma transação, mesmo advisory lock da IA/recargas; idempotência por campanha, rollback integral em falha. Histórico e relatórios agregados, sem diretório de destinatários. Preferência comercial específica, revogável e inicialmente desligada; primeira versão para adultos18_plus. Sem inferir currículo, dados sensíveis ou disparar email/WhatsApp. Limites1000 pessoas/campanha,20 prévias/dia, prévia15min e campanha7dias. Mudanças exigem nova campanha/aprovação.

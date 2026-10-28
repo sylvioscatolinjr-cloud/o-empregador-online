@@ -1,4 +1,5 @@
 import {affiliateAction} from '../src/affiliates.mjs';
+import {unifiedWalletAction,WALLET_TERMS} from '../src/unified-wallet.mjs';
 import {ownerTestAccess,requestedTestRole} from '../src/owner-test-access.mjs';
 import {topupAction,topupCheckoutEvent,applyTopupPayment} from '../src/ai-topups.mjs';
 import {highlightAction,highlightCheckoutEvent,applyHighlightPayment} from '../src/highlight-sales-draft.mjs';
@@ -16,7 +17,7 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
  if(!e.SUPABASE_SECRET_KEY||!e.SUPABASE_URL||!e.PILOT_COHORT_ID)return res.status(503).json({error:'Consulta de assinatura indisponível.'});
  const providerConfigured=!!(e.ASAAS_PRODUCTION_API_KEY&&e.ASAAS_PRODUCTION_WEBHOOK_TOKEN);
  // Reading plans/history is independent of provider readiness. Mutations stay gated.
- if((req.method==='POST'||req.query?.action==='webhook')&&!providerConfigured)return res.status(503).json({error:'Cobrança real em configuração.'});
+ if((req.method==='POST'||req.query?.action==='webhook')&&!providerConfigured&&!['wallet-plan','wallet-plan-cancel','highlight-checkout'].includes(req.body?.action))return res.status(503).json({error:'Cobrança real em configuração.'});
  const db=clientFactory(e.SUPABASE_URL,e.SUPABASE_SECRET_KEY,options),request=liveRequestFactory(e,fetchImpl);
  try{
  if(req.query?.action==='webhook'){
@@ -53,6 +54,7 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
  const profile={learner:'Candidato',pilot_owner:'Candidato',recruiter:'Empresa',school_staff:'Instituição de Ensino'}[displayRole];
  const config=assertResult(await db.from('billing_live_configuration').select('*').eq('id',true).maybeSingle())||{};
  if(await affiliateAction({req,res,db,user:u,member,env:e}))return;
+ if(await unifiedWalletAction({req,res,db,user:u,member,env:e,clientFactory,options}))return;
  if(await topupAction({req,res,db,user:u,env:e,request,config,clientFactory,options}))return;
  if(await highlightAction({req,res,db,user:u,member,env:e,request,config,clientFactory,options}))return;
  if(req.method==='GET'){
@@ -63,12 +65,14 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
  if(req.headers.origin!==e.APP_ORIGIN||req.headers['sec-fetch-site']==='cross-site')return res.status(403).json({error:'Origem inválida.'});
  if(!req.headers['content-type']?.startsWith('application/json')||JSON.stringify(req.body||{}).length>4096)return res.status(400).json({error:'Formato inválido.'});
  const b=req.body||{};
+ if(b.action==='checkout'&&!salesAllowed)return res.status(403).json({error:'Novas assinaturas indisponíveis.'});
  if(b.action==='sync'){const order=assertResult(await db.from('billing_live_orders').select('*').eq('id',b.id).eq('user_id',u.id).eq('cohort_id',e.PILOT_COHORT_ID).single());await syncLiveOrder(db,request,order);const payments=assertResult(await db.from('billing_live_payments').select('*').eq('order_id',order.id));const entitlement=currentEntitlement(order.profile_type===profile?[order]:[],payments);return res.status(200).json({synced:payments.length>0,message:entitlement.tier?'Pagamento confirmado. Plano e créditos liberados.':'A conferência terminou, mas ainda não foi possível liberar este pagamento. Não pague novamente.'});}
  // Re-authenticate money-changing operations with this account's password; no delegated organization id.
  if(typeof b.password!=='string'||b.password.length>200)return res.status(400).json({error:'Confirme sua senha.'});
  const verifier=clientFactory(e.SUPABASE_URL,e.SUPABASE_PUBLISHABLE_KEY,options),proof=await verifier.auth.signInWithPassword({email:u.email,password:b.password});
  if(proof.error||proof.data?.user?.id!==u.id)return res.status(403).json({error:'Não foi possível confirmar sua senha.'});
  if(proof.data?.session)await verifier.auth.signOut({scope:'local'});
+ if(b.action==='checkout')return res.status(409).json({error:'Novas contratações usam a carteira unificada. Atualize a página; nenhuma cobrança foi criada no Asaas.'});
  if(b.action==='cancel'){
   let o=assertResult(await db.from('billing_live_orders').select('*').eq('id',b.id).eq('user_id',u.id).eq('cohort_id',e.PILOT_COHORT_ID).single());o=await syncLiveOrder(db,request,o);
   if(!o.subscription_id)return res.status(409).json({error:'Ainda não há assinatura confirmada. O link de checkout expira em uma hora.'});
