@@ -1,5 +1,11 @@
 # O Empregador Online — contrato de continuidade e revisão de produção
 
+## Turbinar — 28/10/2026
+
+Autorizada implementação e publicação do fluxo completo: campanha com texto/folder PNG/JPG/PDF até3MB, filtros por perfil/UF/cidade/interesse declarado, orçamento R$0,05 por entrega interna e público congelado, solicitação com aceite, revisão exclusiva do proprietário e tentativa automática após aprovação. Sem saldo, permanece aprovada e permite nova tentativa explícita após recarga confirmada. Somente recargas compradas, jamais cashback/créditos do plano. Saldo e entrega na mesma transação, mesmo advisory lock da IA/recargas; idempotência por campanha, rollback integral em falha. Histórico e relatórios agregados, sem diretório de destinatários. Preferência comercial específica, revogável e inicialmente desligada; primeira versão para adultos18_plus. Sem inferir currículo, dados sensíveis ou disparar email/WhatsApp. Limites1000 pessoas/campanha,20 prévias/dia, prévia15min e campanha7dias. Mudanças exigem nova campanha/aprovação.
+
+Migração20261028194350 aplicada; ensaio no banco real em turma sintética com rollback confirmou aprovação, insuficiência, débito5centavos de recarga sintética, entrega única, repetição idempotente e privilégios. Zero compra/débito/envio para contas reais. Termos/Privacidade atualizados; revisão de LGPD vigente na Câmara e orientação ANPD, sem certificação jurídica integral. Publicação deve seguir branch/PR/prévia/merge. Detalhes e pendências de aceite autenticado em pilot-sumare/docs/TURBINAR-STATUS.md. O serviço destaque na vitrine permanece separado.
+
 Revisão de 17/10/2026 (Brasília). Origem: histórico disponível e recuperado, implementação em `pilot-sumare`, testes e documentos do protótipo. Não confundir funcionalidades da demonstração em `web/` com funcionalidades reais em `pilot-sumare/`. Este levantamento não significa que todo o backlog esteja implementado.
 
 ## Regras permanentes

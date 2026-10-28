@@ -20,7 +20,7 @@ test('unlisted passwords pass and service failures never block the account flow'
 
 test('signup and password change run the check, and the CSP allows the range API',async()=>{
  const [app,vercel]=await Promise.all(['app/app.mjs','vercel.json'].map(f=>readFile(new URL('../'+f,import.meta.url),'utf8')));
- assert.match(app,/form\.id==='signup'\)\{[^}]*await assertPasswordNotLeaked\(values\.password\);await access\.signUp/);
- assert.match(app,/form\.id==='password'\)\{[^}]*await assertPasswordNotLeaked\(values\.password\);await access\.changePassword/);
+ assert.match(app,/\(form\.getAttribute\?\.\('id'\)\|\|form\.id\)==='signup'\)\{[^}]*await assertPasswordNotLeaked\(values\.password\);await access\.signUp/);
+ assert.match(app,/\(form\.getAttribute\?\.\('id'\)\|\|form\.id\)==='password'\)\{[^}]*await assertPasswordNotLeaked\(values\.password\);await access\.changePassword/);
  assert.match(vercel,/connect-src [^;"]*https:\/\/api\.pwnedpasswords\.com/);
 });

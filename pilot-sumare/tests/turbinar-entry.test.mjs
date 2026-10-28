@@ -1,15 +1,11 @@
-import test from 'node:test';
-import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';
-test('Turbinar is separate from paid showcase highlights and remains fail-closed',async()=>{
- const app=await readFile(new URL('../app/app.mjs',import.meta.url),'utf8');
- assert.match(app,/recruiting\?'<a class="portal-action" href="\/turbinar.html">Turbinar anúncio/);
- assert.match(app,/href="\/destaques.html">Destacar na vitrine/);
- const html=await readFile(new URL('../app/turbinar.html',import.meta.url),'utf8');
- assert.match(html,/Envio comercial ainda indisponível/);
- assert.match(html,/R\$ 0,05/);
- assert.match(html,/Nenhum valor será debitado/);
- assert.doesNotMatch(html,/<form|<script|<input|<button/i);
- const build=await readFile(new URL('../scripts/build.mjs',import.meta.url),'utf8');
- assert.match(build,/copyFile\('app\/turbinar.html','dist\/turbinar.html'\)/);
-});
+import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {parseHTML} from 'linkedom';
+const fixture={role:'school_staff',adult:true,publisher:true,owner:false,preference:{enabled:false,topics:[]},campaigns:[{id:'00000000-0000-4000-8000-000000000001',title:'Curso',body:'Texto',filters:{role:'learner'},status:'approved',own:true,quoted_count:2,quoted_cents:10,charged_cents:0,delivered:0,read:0,expires_at:new Date(Date.now()+86400000).toISOString()}],listings:[],purchasedCents:0,held:false,termsVersion:'2026-10-28-turbinar-v1'};
+async function render(data=fixture){const {document,Event}=parseHTML('<section id="campaigns"></section>');const calls=[];const session={user:{id:'fixture'},access_token:'fixture'},client={auth:{async getSession(){return {data:{session}};},onAuthStateChange(){}},storage:{}};
+ const fetch=async(url,options={})=>{calls.push({url,options});if(url.includes('action=config'))return Response.json({origin:'https://portal.example',supabaseURL:'https://db.example',publishableKey:'fixture'});if(options.method==='POST')return Response.json({status:'approved',missingCents:10,requiredCents:10,availableCents:0});return Response.json(data);};
+ const source=(await readFile(new URL('../app/turbinar.mjs',import.meta.url),'utf8')).replace(/^import .*;\n/,'');
+ const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
+ class FormData{constructor(form){this.form=form;}get(key){return this.form.querySelector(`[name=${key}]`)?.value||null;}has(key){return !!this.form.querySelector(`[name=${key}]`)?.checked;}getAll(){return [];}}
+ await new AsyncFunction('createClient','document','location','fetch','FormData',source)(()=>client,document,{origin:'https://portal.example'},fetch,FormData);return {document,Event,calls};}
+test('Turbinar shows exact price, purchased-only consent and shortage after explicit retry',async()=>{const f=await render(),root=f.document.querySelector('#campaigns');assert.match(root.textContent,/Créditos do plano não pagam/);assert.match(root.textContent,/R\$ 0,05/);assert.equal(f.calls.filter(c=>c.options.method==='POST').length,0);const form=root.querySelector('[data-action=send]');form.querySelector('[name=accept]').checked=true;form.dispatchEvent(new f.Event('submit',{bubbles:true,cancelable:true}));await new Promise(r=>setTimeout(r,20));assert.match(root.querySelector('[data-status]').textContent,/Saldo insuficiente/);assert.equal(f.calls.filter(c=>c.options.method==='POST').length,1);});
+test('candidate sees preferences only, never campaign purchase or approval forms',async()=>{const f=await render({...fixture,publisher:false,campaigns:[]});assert.equal(f.document.querySelector('[data-create]'),null);assert.equal(f.document.querySelector('[data-action]'),null);assert(f.document.querySelector('[data-preference]'));});
+test('build ships the campaign module; menu preserves separate showcase service',async()=>{const app=await readFile(new URL('../app/app.mjs',import.meta.url),'utf8'),build=await readFile(new URL('../scripts/build.mjs',import.meta.url),'utf8');assert.match(app,/Destacar na vitrine/);assert.match(app,/Turbinar anúncio/);assert.match(app,/Preferências de campanhas/);assert.match(build,/app\/turbinar.mjs/);});
