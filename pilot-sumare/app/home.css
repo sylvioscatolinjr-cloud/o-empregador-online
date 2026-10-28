@@ -29,3 +29,5 @@ html{scroll-behavior:smooth;scroll-padding-top:100px}.public-home{background:#fb
 /* Keep the mobile header inside the viewport while its navigation scrolls locally. */
 .public-header{width:100%;min-width:0}.public-header nav{min-width:0;max-width:100%}.public-header nav a{flex:0 0 auto}.home-hero form button{white-space:normal}
 @media(max-width:600px){.public-header{align-items:stretch}.public-header>.brand{align-self:flex-start}.public-header nav{width:100%;flex-basis:auto}.public-header .auth-actions{align-self:stretch;justify-content:flex-start}}
+.home-hero .entry-options{margin:0 0 22px;border:1px solid #e5deeb;border-radius:12px;background:white}
+.home-hero .entry-options a{padding:16px}

@@ -470,3 +470,7 @@ Fontes oficiais revistas: https://www.planalto.gov.br/ccivil_03/_ato2015-2018/20
 
 ## Imagem para inspirar o texto da publicação — 26/10/2026
 Pedido do titular implementado nos três perfis: um upload opcional na seção Gerar texto, com prévia/remoção e autorização independente. Reutiliza normalização/validação segura de referência; imagem efetiva input_image na geração da legenda, junto com a tarefa. Campos de Gerar imagem preservados e independentes, sem execução/envio/cobrança ao selecionar. Preparos concorrentes bloqueiam ambas as gerações. R$1,00, quota do proprietário, reserva/devolução, isolamento de perfil e histórico somente textual preservados. Termos/Política atualizados, atendimento alinhado a contato@oempregadoronline.com.br. Sem banco/migração, dinheiro, mensagem ou API paga para validar.53 testes focados e build aprovados; limites, finalidade contratual/dados mínimos, autorização/retenção/direitos e fontes LGPD/ANPD/OpenAI em pilot-sumare/docs/PUBLICATION-TEXT-REFERENCE.md. Não declara aceite qualitativo real ou certificação jurídica integral.
+
+
+## Ordem dos botões e recursos — 28/10/2026
+Pedido do titular: botões na ordem de leitura. Menu do perfil em grupos por jornada, Sair por último, menu recolhido no celular; ações destrutivas por último nas telas; página inicial e login reordenados. Mesmas permissões por papel, sem nova coleta de dados. Detalhes e análise LGPD em pilot-sumare/docs/BUTTON-ORDER-20261028.md.
