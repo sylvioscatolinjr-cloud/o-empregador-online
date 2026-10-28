@@ -5,6 +5,7 @@ export const applicationStates={submitted:'Enviada',reviewing:'Em análise',inte
 export function listingInput(input){
  const record=Object.fromEntries(['kind','title','organization','description','city','state_code','modality'].map(k=>[k,String(input[k]||'').trim()]));
  for(const key of ['required_requirements','desired_requirements','behavioral_profile','benefits','salary']){const value=record.kind==='job'?String(input[key]||'').trim():'';if(value.length>(key==='salary'?200:6000))throw Error('Reduza o texto dos campos da vaga.');record[key]=value;}
+ record.address=String(input.address||'').trim();if(record.address.length>300)throw Error('Endereço muito longo.');
  record.postal_code=String(input.postal_code||'').replace(/\D/g,'');record.state_code=record.state_code.toUpperCase();record.job_type=record.kind==='job'?input.job_type:null;
  if(!['job','course','training'].includes(record.kind)||record.title.length<3||record.title.length>160||record.organization.length<2||record.organization.length>160||record.description.length<20||record.description.length>12000||!/^\d{8}$/.test(record.postal_code)||record.city.length<2||record.city.length>100||!(/^[A-Z]{2}$/).test(record.state_code)||!['Presencial','Online','Híbrido'].includes(record.modality)||record.kind==='job'&&!jobTypes.includes(record.job_type))throw Error('Confira título, organização, descrição (mínimo 20 caracteres), CEP, cidade, UF e tipo de anúncio.');
  return record;
