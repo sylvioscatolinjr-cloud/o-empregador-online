@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /conta.html
+Disallow: /conta/
+Disallow: /assistente.html
+Disallow: /assinatura.html
+Disallow: /carteira.html
+Disallow: /pagamentos.html
+Disallow: /publicacoes.html
+Disallow: /editorial.html
+Disallow: /destaques.html
+Disallow: /turbinar.html
+Disallow: /treinamentos.html
+Disallow: /cursos-desejados.html
+Disallow: /revisao-interface.html
+
+Sitemap: https://www.oempregadoronline.com.br/sitemap.xml
