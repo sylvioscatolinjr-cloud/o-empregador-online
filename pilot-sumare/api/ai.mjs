@@ -1,4 +1,5 @@
 import {publicationImageHandler} from '../src/publication-image-handler.mjs';
+import {campaignHandler} from '../src/campaign-handler.mjs';
 import {highlightMetricsHandler} from '../src/highlight-metrics-draft.mjs';
 import {noticeFileHandler} from '../src/notice-file-handler.mjs';
 import {candidateRegionHandler} from '../src/candidate-region-handler.mjs';
@@ -12,6 +13,7 @@ import {aiChatHandler} from '../src/ai-chat-handler.mjs';
 import {aiBalanceHandler} from '../src/ai-balance-handler.mjs';
 import {agentCatalogHandler} from '../src/agent-catalog-handler.mjs';
 const organizationPoints=organizationPointsHandler();
+const campaign=campaignHandler();
 const noticeFile=noticeFileHandler();
 const candidateRegion=candidateRegionHandler();
 const distanceDiscovery=distanceDiscoveryHandler();
@@ -26,6 +28,7 @@ const balance=aiBalanceHandler();
 const catalog=agentCatalogHandler();
 export default function handler(req,res){
  const action=req.query?.action;
+ if(action==='turbinar')return campaign(req,res);
  if(action==='highlight-metric')return highlightMetrics(req,res);
  if(['image-create','image-list','image-delete'].includes(action))return publicationImage(req,res);
  if(action==='notice-file')return noticeFile(req,res);

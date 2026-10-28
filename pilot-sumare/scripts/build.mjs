@@ -1,6 +1,5 @@
 import {mkdir,copyFile,cp,rm,readFile,writeFile} from 'node:fs/promises';
 import {build} from 'esbuild';
-// Turbinar has no payment or delivery endpoint until its production integration is validated.
 await rm('dist',{recursive:true,force:true});await mkdir('dist',{recursive:true});
 await Promise.all(['index.html','conta.html','assistente.html','treinamentos.html','home.css','logo.png','logo-web.webp','style.css','pagamentos.html','assinatura.html','carteira.html','blog.html','cursos-desejados.html','privacidade.html','termos.html','editorial.html','instalar.html','offline.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','icon-180.png'].map(name=>copyFile('app/'+name,'dist/'+name)));
 await build({entryPoints:['app/app.mjs'],external:['/import/*'],outfile:'dist/app.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
@@ -49,4 +48,5 @@ await build({entryPoints:['app/publications-entry.mjs'],outfile:'dist/publicatio
 
 await copyFile('app/destaques.html','dist/destaques.html');
 await copyFile('app/turbinar.html','dist/turbinar.html');
+await build({entryPoints:['app/turbinar.mjs'],outfile:'dist/turbinar.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
 await build({entryPoints:['app/highlight-entry.mjs'],outfile:'dist/highlight-purchase.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
