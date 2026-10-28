@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {PGlite} from '@electric-sql/pglite';
 import {liveCheckoutBody,livePayment,currentEntitlement,liveRequestFactory} from '../src/billing-live.mjs';
+import {quotePlan} from '../src/billing-plans.mjs';
 import {subscriptionsHandler} from '../api/subscriptions.mjs';
 const order={id:'11111111-1111-4111-8111-111111111111',profile_type:'Candidato',tier:1,cycle:'MONTHLY',months:1,cents:1990,credit_cents:398,subscription_id:'sub_1'};
 const payment={id:'pay_1',subscription:'sub_1',value:19.90,status:'CONFIRMED',dueDate:'2026-10-19'};
@@ -56,3 +57,5 @@ test('SQL ledger is idempotent, preserves spent credits, ignores stale snapshots
  await db.exec('set role authenticated');await assert.rejects(db.query('select * from billing_live_payments'));await assert.rejects(apply(p));
  }finally{await db.close();}
 });
+
+test('Pix pays a single plan period without a recurring subscription',()=>{const order={id:'00000000-0000-4000-8000-000000000001',profile_type:'Candidato',tier:1,cycle:'QUARTERLY',cents:quotePlan('Candidato',1,'QUARTERLY').cents};const pix=liveCheckoutBody(order,'https://portal.example',new Date('2026-10-28T12:00:00Z'),'PIX');assert.deepEqual(pix.billingTypes,['PIX']);assert.deepEqual(pix.chargeTypes,['DETACHED']);assert.equal(pix.subscription,undefined);assert.equal(pix.items[0].value,order.cents/100);const card=liveCheckoutBody(order,'https://portal.example',new Date('2026-10-28T12:00:00Z'));assert.deepEqual(card.chargeTypes,['RECURRENT']);assert.throws(()=>liveCheckoutBody(order,'https://portal.example',new Date(),'BOLETO'));});
