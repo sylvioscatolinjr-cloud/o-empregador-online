@@ -45,3 +45,6 @@ await build({entryPoints:['app/wallet-entry.mjs'],outfile:'dist/wallet.js',bundl
 await copyFile('app/publicacoes.html','dist/publicacoes.html');
 await build({entryPoints:['app/publications-entry.mjs'],outfile:'dist/publications.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
 
+
+await copyFile('app/destaques.html','dist/destaques.html');
+await build({entryPoints:['app/highlight-entry.mjs'],outfile:'dist/highlight-purchase.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});

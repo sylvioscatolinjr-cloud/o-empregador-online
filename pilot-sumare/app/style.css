@@ -91,5 +91,4 @@ h1,h2,h3,.metric{overflow-wrap:anywhere}
 /* Fallback messages can be direct text nodes, outside paragraphs. */
 main{overflow-wrap:anywhere}
 
-/* Programmatic heading focus aids navigation without drawing a box around the title. */
 #app h1[tabindex="-1"]:focus{outline:none}
