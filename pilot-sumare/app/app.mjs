@@ -1,3 +1,4 @@
+import {attachPostalAutofill} from './postal-autofill.mjs';
 import {mountHighlightMetrics} from './highlight-metrics-draft.mjs';
 import {attachAgentMenu} from './agent-menu.mjs';
 import {resumeWizardMarkup,attachResumeWizard,resumeDocument} from './resume-wizard.mjs';
@@ -13,6 +14,7 @@ import {createPilotAccess} from '../src/account-access.mjs';
 import {assertPasswordNotLeaked} from '../src/password-breach.mjs';
 import {createPilotRepository} from '../src/pilot-repository.mjs';
 const root=document.querySelector('#app'),status=document.querySelector('#status');
+if(typeof attachPostalAutofill==='function')attachPostalAutofill(root);
 let highlightTracker;try{if(globalThis.crypto?.randomUUID)highlightTracker=mountHighlightMetrics(root);}catch{}
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const field=(name,label,value='',type='text',extra='')=>`<label>${label}<input name="${name}" type="${type}" value="${esc(value)}" ${extra}></label>`;
