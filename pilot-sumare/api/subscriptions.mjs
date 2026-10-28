@@ -1,5 +1,6 @@
 import {ownerTestAccess,requestedTestRole} from '../src/owner-test-access.mjs';
 import {topupAction,topupCheckoutEvent,applyTopupPayment} from '../src/ai-topups.mjs';
+import {highlightAction,highlightCheckoutEvent,applyHighlightPayment} from '../src/highlight-sales-draft.mjs';
 import {createClient} from '@supabase/supabase-js';
 import {verifyWebhookToken} from '../src/asaas.mjs';
 import {quotePlan} from '../src/billing-plans.mjs';
@@ -26,13 +27,13 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
   if(!exists){const saved=await db.from('billing_live_events').insert({id:b.id,event_type:b.event,resource_id:resource.id});if(saved.error&&saved.error.code!=='23505')throw Error();}
   if(b.event.startsWith('CHECKOUT_')){
    const order=assertResult(await db.from('billing_live_orders').select('*').eq('checkout_id',resource.id).maybeSingle());
-   if(!order){if(!await topupCheckoutEvent(db,request,b.event,resource))return res.status(503).json({error:'Vínculo do pedido ainda em processamento.'});}
+   if(!order){if(!await topupCheckoutEvent(db,request,b.event,resource)&&!await highlightCheckoutEvent(db,request,b.event,resource))return res.status(503).json({error:'Vínculo do pedido ainda em processamento.'});}
    else
    if(['CHECKOUT_CANCELED','CHECKOUT_EXPIRED'].includes(b.event)){assertResult(await db.from('billing_live_orders').update({status:b.event==='CHECKOUT_EXPIRED'?'expired':'canceled'}).eq('id',order.id).in('status',['creating','pending']));}
    else await syncLiveOrder(db,request,order);
   } else if(b.event.startsWith('PAYMENT_')){
    const checkedAt=new Date().toISOString(),p=await request('/payments/'+encodeURIComponent(liveId(resource.id,'pay_')));
-   const order=await findLivePaymentOrder(db,p);if(order)assertResult(await db.rpc('billing_live_apply_payment',{p_order:order.id,p_payment:livePayment(p,order,checkedAt)}));else if(!await applyTopupPayment(db,p,checkedAt)&&p.checkoutSession)return res.status(503).json({error:'Vínculo do pagamento ainda em processamento.'});
+   const order=await findLivePaymentOrder(db,p);if(order)assertResult(await db.rpc('billing_live_apply_payment',{p_order:order.id,p_payment:livePayment(p,order,checkedAt)}));else if(!await applyTopupPayment(db,p,checkedAt)&&!await applyHighlightPayment(db,p,checkedAt)&&p.checkoutSession)return res.status(503).json({error:'Vínculo do pagamento ainda em processamento.'});
   }else if(b.event==='SUBSCRIPTION_DELETED'){
    // Authenticated provider deletion terminates future renewals, not paid periods.
    assertResult(await db.from('billing_live_orders').update({status:'canceled',canceled_at:new Date().toISOString()}).eq('subscription_id',resource.id));
@@ -51,6 +52,7 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
  const profile={learner:'Candidato',pilot_owner:'Candidato',recruiter:'Empresa',school_staff:'Instituição de Ensino'}[displayRole];
  const config=assertResult(await db.from('billing_live_configuration').select('*').eq('id',true).maybeSingle())||{};
  if(await topupAction({req,res,db,user:u,env:e,request,config,clientFactory,options}))return;
+ if(await highlightAction({req,res,db,user:u,member,env:e,request,config,clientFactory,options}))return;
  if(req.method==='GET'){
   const orders=assertResult(await db.from('billing_live_orders').select('*').eq('user_id',u.id).eq('cohort_id',e.PILOT_COHORT_ID).order('created_at',{ascending:false}).limit(50));
   const payments=orders.length?assertResult(await db.from('billing_live_payments').select('*').in('order_id',orders.map(o=>o.id))):[];

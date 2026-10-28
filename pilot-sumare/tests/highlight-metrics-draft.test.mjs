@@ -1,0 +1,24 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {PGlite} from '@electric-sql/pglite';import {readFile} from 'node:fs/promises';import {highlightMetricsHandler} from '../src/highlight-metrics-draft.mjs';
+const C='11111111-1111-4111-8111-111111111111',U='22222222-2222-4222-8222-222222222222',L='33333333-3333-4333-8333-333333333333',O='44444444-4444-4444-8444-444444444444',SESSION='55555555-5555-4555-8555-555555555555',hash='a'.repeat(64);
+test('metric ledger counts only current public promotions once per session/day and protects its tables',async()=>{const db=new PGlite();try{
+ await db.exec(`create role anon;create role authenticated;create role service_role bypassrls;create schema auth;create table auth.users(id uuid primary key,email_confirmed_at timestamptz,banned_until timestamptz);
+ create table public.pilot_memberships(user_id uuid,cohort_id uuid,role text,status text,is_fictitious boolean);create table public.portal_candidate_cards(id uuid,user_id uuid,cohort_id uuid,visible boolean,is_fictitious boolean);create table public.portal_listings(id uuid,publisher_id uuid,cohort_id uuid,kind text,status text,is_fictitious boolean);
+ create table public.portal_highlight_orders(id uuid primary key,cohort_id uuid,user_id uuid,kind text,target_id uuid,status text,cents integer,starts_at timestamptz,ends_at timestamptz);create table public.portal_highlight_payments(order_id uuid,cents integer,eligible boolean);
+ grant usage on schema auth,public to service_role;grant select on all tables in schema auth,public to service_role;
+ insert into auth.users values('${U}',now(),null);insert into public.pilot_memberships values('${U}','${C}','recruiter','active',false);insert into public.portal_listings values('${L}','${U}','${C}','job','published',false);insert into public.portal_highlight_orders values('${O}','${C}','${U}','job','${L}','confirmed',100,now()-interval '1 day',now()+interval '1 day');insert into public.portal_highlight_payments values('${O}',100,true);`);
+ await db.exec(await readFile(new URL('../db/highlight-metrics-draft.sql',import.meta.url),'utf8'));await db.exec('set role service_role');
+ const event=async(kind='job',action='view',digest=hash)=>(await db.query('select public.portal_highlight_record_metric($1,$2,$3,$4,$5) as recorded',[C,kind,L,action,digest])).rows[0].recorded;
+ assert.equal(await event(),true);assert.equal(await event(),false);assert.equal(await event('job','click'),true);assert.equal(await event('candidate','click'),false);
+ const stats=(await db.query('select views,clicks from public.portal_highlight_daily_stats')).rows[0];assert.deepEqual(stats,{views:1,clicks:1});
+ const totals=(await db.query('select public.portal_highlight_stats($1,$2,$3::uuid[]) as result',[U,C,[O]])).rows[0].result;assert.deepEqual(totals,[{order_id:O,views:1,clicks:1}]);
+ const foreign=(await db.query('select public.portal_highlight_stats($1,$2,$3::uuid[]) as result',[L,C,[O]])).rows[0].result;assert.deepEqual(foreign,[]);
+ await db.exec('reset role');await db.query('update public.portal_highlight_payments set eligible=false');await db.exec('set role service_role');assert.equal(await event('job','view','b'.repeat(64)),false);
+ await db.exec('reset role');await db.query('update public.portal_highlight_payments set eligible=true');await db.query("update public.portal_listings set status='closed'");await db.exec('set role service_role');assert.equal(await event('job','view','b'.repeat(64)),false);
+ await db.exec('reset role');for(const role of ['anon','authenticated']){const row=(await db.query("select has_table_privilege($1,'public.portal_highlight_metric_keys','select') as allowed,has_function_privilege($1,'public.portal_highlight_record_metric(uuid,text,uuid,text,text)','execute') as can_call",[role])).rows[0];assert.equal(row.allowed,false);assert.equal(row.can_call,false);}
+ }finally{await db.close();}});
+test('metrics endpoint validates source and hashes the ephemeral identifier instead of forwarding it',async()=>{
+ const calls=[],env={APP_ORIGIN:'https://portal.example',SUPABASE_URL:'https://db.example',SUPABASE_SECRET_KEY:'fixture',PILOT_COHORT_ID:C};const handler=highlightMetricsHandler({env,clock:()=>new Date('2026-10-26T12:00:00Z'),clientFactory:()=>({rpc:async(name,args)=>{calls.push({name,args});return {data:true};}})});
+ const req={method:'POST',headers:{origin:env.APP_ORIGIN,'content-type':'application/json'},body:{kind:'job',targetId:L,event:'view',session:SESSION}},res={setHeader(){},status(n){this.code=n;return this},json(v){this.body=v;return this},end(){return this}};
+ await handler(req,res);assert.equal(res.code,204);assert.equal(calls.length,1);assert.match(calls[0].args.p_digest,/^[a-f0-9]{64}$/);assert(!JSON.stringify(calls).includes(SESSION));
+ req.headers.origin='https://foreign.example';await handler(req,res);assert.equal(res.code,403);assert.equal(calls.length,1);
+});

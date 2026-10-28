@@ -20,6 +20,12 @@ export function ownerHandler(clientFactory=createClient,env=process.env){return 
   if(member.data?.role!=='pilot_owner'||member.data?.status!=='active')return res.status(403).json({error:'Área exclusiva do proprietário.'});
   const args={p_actor:user.id,p_cohort:e.PILOT_COHORT_ID};
   if(req.method==='GET'){
+   if(req.query?.view==='highlight-reviews'){
+    const base=()=>db.from('portal_highlight_orders').select('id,kind,days,cents,status,checkout_id,created_at').eq('cohort_id',e.PILOT_COHORT_ID);
+    const [review,creating]=await Promise.all([base().eq('status','review').order('created_at',{ascending:false}).limit(50),base().eq('status','creating').lt('created_at',new Date(Date.now()-120000).toISOString()).order('created_at',{ascending:false}).limit(50)]);
+    if(review.error||creating.error)throw Error();
+    return res.status(200).json({orders:[...(review.data||[]),...(creating.data||[])],scope:'Pedidos em conferência ou com criação demorada. Consulta apenas; não confirma pagamento nem realiza estorno.'});
+   }
    let period;try{period=metricPeriod(req.query?.period||'month');}catch{return res.status(400).json({error:'Período inválido.'});}
    if(req.query?.view==='business')return res.status(200).json({...await loadBusinessMetrics(db,e.PILOT_COHORT_ID,period),scope:'Valores confirmados pelo Asaas no período (data de confirmação/pagamento informada pelo Asaas), no horário de Brasília. Inclui compras do proprietário. Assinantes e MRR mostram a situação atual. Uso de IA exclui a cota de teste do proprietário.'});
    const r=await db.rpc('portal_owner_metrics',{...args,p_start:period.start,p_end:period.end,p_bucket:period.bucket});if(r.error)throw Error();
