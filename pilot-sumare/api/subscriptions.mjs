@@ -1,3 +1,4 @@
+import {affiliateAction} from '../src/affiliates.mjs';
 import {ownerTestAccess,requestedTestRole} from '../src/owner-test-access.mjs';
 import {topupAction,topupCheckoutEvent,applyTopupPayment} from '../src/ai-topups.mjs';
 import {highlightAction,highlightCheckoutEvent,applyHighlightPayment} from '../src/highlight-sales-draft.mjs';
@@ -51,6 +52,7 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
  const salesAllowed=member.role==='pilot_owner'||e.PUBLIC_SUBSCRIPTIONS_ENABLED==='true';
  const profile={learner:'Candidato',pilot_owner:'Candidato',recruiter:'Empresa',school_staff:'Instituição de Ensino'}[displayRole];
  const config=assertResult(await db.from('billing_live_configuration').select('*').eq('id',true).maybeSingle())||{};
+ if(await affiliateAction({req,res,db,user:u,member,env:e}))return;
  if(await topupAction({req,res,db,user:u,env:e,request,config,clientFactory,options}))return;
  if(await highlightAction({req,res,db,user:u,member,env:e,request,config,clientFactory,options}))return;
  if(req.method==='GET'){
@@ -82,6 +84,7 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
  let q;try{q=quotePlan(profile,Number(b.tier),b.cycle);}catch{return res.status(400).json({error:'Plano inválido.'});}if(!q.cents)return res.status(400).json({error:'O plano gratuito não gera cobrança.'});
  const recent=assertResult(await db.from('billing_live_orders').select('id').eq('user_id',u.id).eq('cohort_id',e.PILOT_COHORT_ID).gte('created_at',new Date(Date.now()-3600000).toISOString()));if(recent.length>=3)return res.status(429).json({error:'Limite de tentativas atingido. Confira seu histórico.'});
  const old=assertResult(await db.from('billing_live_orders').select('id').eq('user_id',u.id).eq('cohort_id',e.PILOT_COHORT_ID));if(old.length){const paid=assertResult(await db.from('billing_live_payments').select('id').in('order_id',old.map(o=>o.id)).eq('eligible',true).gt('period_end',new Date().toISOString()).limit(1));if(paid.length)return res.status(409).json({error:'Você já tem um período pago. A troca de plano ficará disponível após o fim desse período.'});}
+ if(b.affiliateCode){if(!/^[a-f0-9-]{36}$/i.test(b.affiliateCode))return res.status(400).json({error:'Código de afiliado inválido.'});const linked=await db.rpc('portal_affiliate_bind',{p_user:u.id,p_cohort:e.PILOT_COHORT_ID,p_code:b.affiliateCode});if(linked.error)return res.status(409).json({error:'Não foi possível vincular a indicação. Confira o código; o vínculo precisa ser anterior à primeira contratação.'});}
  const created=await db.from('billing_live_orders').insert({user_id:u.id,cohort_id:e.PILOT_COHORT_ID,profile_type:profile,tier:q.tier,cycle:q.cycle,cents:q.cents,credit_cents:q.aiCreditCents,months:q.months,terms_version:LIVE_TERMS}).select('*').single();
  if(created.error)return res.status(409).json({error:'Já existe uma contratação aberta. Confira seu histórico antes de repetir.'});const o=created.data;
  try{

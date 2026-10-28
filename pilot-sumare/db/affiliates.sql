@@ -1,0 +1,31 @@
+create table public.portal_affiliates(user_id uuid primary key references auth.users(id),cohort_id uuid not null references public.pilot_cohorts(id),code uuid not null unique default gen_random_uuid(),created_at timestamptz not null default now());
+create table public.portal_affiliate_referrals(user_id uuid primary key references auth.users(id),affiliate_id uuid not null references public.portal_affiliates(user_id),cohort_id uuid not null references public.pilot_cohorts(id),created_at timestamptz not null default now(),check(user_id<>affiliate_id));
+create index affiliate_referrals_owner on public.portal_affiliate_referrals(affiliate_id,cohort_id);
+create table public.portal_affiliate_claims(id uuid primary key default gen_random_uuid(),user_id uuid not null references public.portal_affiliates(user_id),cohort_id uuid not null references public.pilot_cohorts(id),milestone integer not null check(milestone>0),role text not null check(role in ('learner','recruiter','school_staff')),name text not null,email text not null,prize_cents integer not null default 400000 check(prize_cents=400000),status text not null default 'requested' check(status in ('requested','contacted','completed')),created_at timestamptz not null default now(),completed_at timestamptz,handled_by uuid references auth.users(id),unique(user_id,milestone));
+alter table public.portal_affiliates enable row level security;
+alter table public.portal_affiliate_referrals enable row level security;
+alter table public.portal_affiliate_claims enable row level security;
+revoke all on public.portal_affiliates,public.portal_affiliate_referrals,public.portal_affiliate_claims from public,anon,authenticated;
+grant select,insert,update on public.portal_affiliates,public.portal_affiliate_referrals,public.portal_affiliate_claims to service_role;
+create function public.portal_affiliate_count(p_user uuid,p_cohort uuid) returns bigint language sql stable security invoker set search_path='' as $$select count(distinct p.id) from public.portal_affiliate_referrals r join public.billing_live_orders o on o.user_id=r.user_id and o.cohort_id=r.cohort_id and o.created_at>=r.created_at join public.billing_live_payments p on p.order_id=o.id join public.pilot_memberships m on m.user_id=r.affiliate_id and m.cohort_id=r.cohort_id where r.affiliate_id=p_user and r.cohort_id=p_cohort and o.cycle='QUARTERLY' and p.eligible and p.cents=o.cents and p.status in ('CONFIRMED','RECEIVED') and m.status='active' and not m.is_fictitious$$;
+create function public.portal_affiliate_bind(p_user uuid,p_cohort uuid,p_code uuid) returns void language plpgsql security invoker set search_path='' as $$declare a uuid;begin
+ perform pg_advisory_xact_lock(hashtextextended(p_user::text,0));
+ if exists(select 1 from public.portal_affiliate_referrals where user_id=p_user) then return;end if;
+ if exists(select 1 from public.billing_live_orders where user_id=p_user) then raise exception 'A indicação deve ser vinculada antes da primeira contratação.';end if;
+ select f.user_id into a from public.portal_affiliates f join public.pilot_memberships m on m.user_id=f.user_id and m.cohort_id=f.cohort_id where f.code=p_code and f.cohort_id=p_cohort and m.status='active' and not m.is_fictitious and m.role in ('learner','recruiter','school_staff');
+ if a is null or a=p_user then raise exception 'Código de indicação inválido.';end if;
+ insert into public.portal_affiliate_referrals(user_id,affiliate_id,cohort_id) values(p_user,a,p_cohort);
+end$$;
+create function public.portal_affiliate_claim(p_user uuid,p_cohort uuid,p_email text,p_milestone integer) returns uuid language plpgsql security invoker set search_path='' as $$declare n bigint;used integer;rid uuid;r text;nm text;begin
+ perform pg_advisory_xact_lock(hashtextextended(p_user::text,0));
+ select m.role,p.display_name into r,nm from public.pilot_memberships m join public.pilot_profiles p on p.user_id=m.user_id where m.user_id=p_user and m.cohort_id=p_cohort and m.status='active' and not m.is_fictitious and m.role in ('learner','recruiter','school_staff');
+ if r is null then raise exception 'Perfil indisponível.';end if;
+ select id into rid from public.portal_affiliate_claims where user_id=p_user and milestone=p_milestone;if rid is not null then return rid;end if;
+ n=public.portal_affiliate_count(p_user,p_cohort);select count(*) into used from public.portal_affiliate_claims where user_id=p_user and cohort_id=p_cohort;
+ if p_milestone<>used+1 or n<(used+1)*1000 then raise exception 'A meta para um novo resgate ainda não foi atingida.';end if;
+ insert into public.portal_affiliate_claims(user_id,cohort_id,milestone,role,name,email) values(p_user,p_cohort,used+1,r,coalesce(nm,'Afiliado'),p_email) returning id into rid;
+ insert into public.portal_notifications(cohort_id,user_id,title,body) select p_cohort,m.user_id,'Solicitação de premiação de afiliado','Resgate solicitado. Acesse Programa de afiliados no painel do proprietário para conferir os dados e entrar em contato. Referência: '||rid::text from public.pilot_memberships m where m.cohort_id=p_cohort and m.role='pilot_owner' and m.status='active';
+ return rid;
+end$$;
+revoke all on function public.portal_affiliate_count(uuid,uuid),public.portal_affiliate_bind(uuid,uuid,uuid),public.portal_affiliate_claim(uuid,uuid,text,integer) from public,anon,authenticated;
+grant execute on function public.portal_affiliate_count(uuid,uuid),public.portal_affiliate_bind(uuid,uuid,uuid),public.portal_affiliate_claim(uuid,uuid,text,integer) to service_role;

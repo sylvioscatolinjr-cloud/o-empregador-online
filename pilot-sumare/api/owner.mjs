@@ -19,6 +19,8 @@ export function ownerHandler(clientFactory=createClient,env=process.env){return 
   if(member.error)throw Error();
   if(member.data?.role!=='pilot_owner'||member.data?.status!=='active')return res.status(403).json({error:'Área exclusiva do proprietário.'});
   const args={p_actor:user.id,p_cohort:e.PILOT_COHORT_ID};
+  if(req.method==='POST'&&req.body?.action==='affiliate-update'){const b=req.body;if(!/^[a-f0-9-]{36}$/i.test(b.id||'')||!['contacted','completed'].includes(b.status))return res.status(400).json({error:'Solicitação inválida.'});const result=await db.from('portal_affiliate_claims').update({status:b.status,handled_by:user.id,...(b.status==='completed'?{completed_at:new Date().toISOString()}:{})}).eq('id',b.id).eq('cohort_id',e.PILOT_COHORT_ID).neq('status','completed').select('id').single();if(result.error)throw Error();return res.status(200).json({ok:true});}
+  if(req.method==='GET'&&req.query?.view==='affiliate-claims'){const result=await db.from('portal_affiliate_claims').select('*').eq('cohort_id',e.PILOT_COHORT_ID).order('created_at',{ascending:false}).limit(200);if(result.error)throw Error();const claims=await Promise.all(result.data.map(async c=>{const count=await db.rpc('portal_affiliate_count',{p_user:c.user_id,p_cohort:e.PILOT_COHORT_ID});if(count.error)throw Error();return {...c,valid:Number(count.data)};}));return res.status(200).json({claims});}
   if(req.method==='GET'){
    if(req.query?.view==='highlight-reviews'){
     const base=()=>db.from('portal_highlight_orders').select('id,kind,days,cents,status,checkout_id,created_at').eq('cohort_id',e.PILOT_COHORT_ID);
