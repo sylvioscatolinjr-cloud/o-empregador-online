@@ -37,7 +37,7 @@ test('business view stays owner-only and reads billing tables only after authori
  const req={method:'GET',query:{view:'business',period:'month'},headers:{authorization:'Bearer fixture'}},response=()=>({code:0,setHeader(){},status(n){this.code=n;return this;},json(body){this.body=body;return this;}});
  try{let r=response();await handler(req,r);assert.equal(r.code,403);assert.equal(tables.length,0);
   role='pilot_owner';r=response();await handler(req,r);assert.equal(r.code,200);assert.equal(r.body.subscribers.active,0);assert.equal(r.body.revenue.totalCents,0);assert.match(r.body.scope,/Asaas/);
-  assert.deepEqual([...new Set(tables)].sort(),['billing_live_orders','portal_ai_image_jobs','portal_ai_topup_orders','portal_ai_wallet_usage','portal_highlight_orders']);
+  assert.deepEqual([...new Set(tables)].sort(),['billing_live_orders','portal_ai_image_jobs','portal_ai_topup_orders','portal_ai_wallet_usage','portal_campaigns','portal_highlight_orders']);
  }finally{globalThis.fetch=oldFetch;for(const k of keys)if(old[k]===undefined)delete process.env[k];else process.env[k]=old[k];}
 });
 
@@ -47,4 +47,12 @@ test('legal pages are published and linked, and prototype leftovers are gone',as
  assert.doesNotMatch(vercel,/chatgpt\.site/);const redirects=JSON.parse(vercel).redirects.map(r=>r.source);for(const s of ['/laboratorio','/laboratorio/:path*','/plataforma.html'])assert(redirects.includes(s));
  assert.doesNotMatch(app,/ChatGPT/);for(const text of [app,home,wallet])assert.match(text,/\/termos\.html[\s\S]*\/privacidade\.html/);
  for(const page of [privacy,terms]){assert.match(page,/Versão preliminar/);assert.match(page,/class="pendente"/);assert.match(page,/<meta name="robots" content="noindex,nofollow">/);}
+});
+
+test('conversion and Turbinar indicators are aggregate counts per profile',()=>{
+ const m=businessMetrics({start,end,now:Date.parse('2026-10-25T12:00:00Z'),orders:[{id:'a',user_id:'u1',profile_type:'Candidato',tier:1,cents:1990,months:1,status:'active',created_at:'2026-10-05T12:00:00Z'}],payments:[{order_id:'a',cents:1990,eligible:true,period_start:'2026-10-05',period_end:'2026-11-05',provider_paid_on:'2026-10-05'}],
+  signups:[{role:'learner',joined_at:'2026-10-04T12:00:00Z'},{role:'learner',joined_at:'2026-10-06T12:00:00Z'},{role:'learner',joined_at:'2026-10-06T12:00:00Z',is_fictitious:true},{role:'recruiter',joined_at:'2026-10-06T12:00:00Z'}],
+  campaigns:[{status:'sent',sent_at:'2026-10-10T12:00:00Z',quoted_count:120,charged_cents:600},{status:'pending',expires_at:'2026-10-30T12:00:00Z'},{status:'pending',expires_at:'2026-10-20T12:00:00Z'},{status:'sent',sent_at:'2026-09-10T12:00:00Z',quoted_count:5,charged_cents:25}]});
+ assert.deepEqual(m.conversion.Candidato,{signups:2,paid:1,rate:50});assert.deepEqual(m.conversion.Empresa,{signups:1,paid:0,rate:0});assert.equal(m.conversion['Instituição de Ensino'].rate,null);
+ assert.deepEqual(m.turbinar,{sent:1,recipients:120,chargedCents:600,pending:1});assert.doesNotMatch(JSON.stringify(m),/u1/);
 });
