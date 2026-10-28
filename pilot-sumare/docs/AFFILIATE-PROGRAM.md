@@ -1,21 +1,11 @@
-# Programa de afiliados — especificação autorizada
+# Programa de afiliados
 
-Estado: especificação; ainda não implementado, sem links ou contadores ativos.
+Implementação: três perfis, link UUID individual, atribuição antes da primeira contratação, contador de pagamentos trimestrais confirmados incluindo renovações e resgate manual a cada mil. Primeiro código é lembrado por 30 dias neste navegador; o campo da contratação permite conferir/corrigir/remover antes da compra. Atribuição gravada no servidor é permanente. Não concede crédito retroativo a contratos anteriores.
 
-## Participantes e meta
-Candidato, Empresa e Instituição de Ensino. Link exclusivo por conta, sem documento ou e-mail na URL. A cada mil pagamentos confirmados de planos trimestrais de qualquer nível, incluindo renovações, uma premiação. Cada cobrança conta uma vez. Recargas, destaques, mensalidades e outros ciclos não contam. Estornos e contestações retiram elegibilidade. Autoindicação não conta. Não migrar compras históricas sem vínculo de indicação comprovado.
+Cada ID de pagamento elegível conta uma vez; recargas, destaques, outros ciclos, autoindicações, fictícios e estornos não contam. Resgate possui marco único e bloqueio transacional por afiliado; repetição do mesmo marco é idempotente. Resgates não fazem Pix nem compram equipamentos. Candidato: R$4.000 por Pix combinado com equipe. Empresa/instituição: equipamento útil até R$4.000. Aviso interno ao proprietário, painel com nome/e-mail/perfil/marco e registro manual de contato/conclusão. Reversão depois do pedido reduz contador e gera alerta ao consultar pedido; não debita usuário automaticamente. Não recalcula prêmio entregue nem faz cobrança automática.
 
-## Premiação
-Candidato: R$ 4.000 por Pix, realizado manualmente pela equipe após contato e conferência. Empresa e Instituição: impressora 3D ou equipamento útil de até R$ 4.000, combinado com a equipe. Não executar transferências nem compras automaticamente.
+Banco: db/affiliates.sql; tabelas com RLS, sem grants para anon/authenticated. API confirma usuário/e-mail/papel/conta ativa e não fictícia. RPCs security invoker, somente service_role. Ganhos não são acessíveis ao cliente por SQL direto. Afiliado só recebe agregados e seus pedidos. Proprietário recebe contato cadastrado apenas nos resgates. Equipe ainda não recebe acesso administrativo delegado; proprietário organiza contato fora do sistema.
 
-## Resgate
-Botão Resgatar Premiação desabilitado até haver um marco de mil pagamentos válidos ainda não solicitado. Validação e reserva atômicas no servidor; clique repetido não cria novo resgate. Cada marco tem identificador único. Solicitação fica visível no painel do proprietário e gera aviso interno para o proprietário. O usuário recebe confirmação de solicitação, nunca confirmação de pagamento ou entrega. O progresso excedente segue para o próximo marco.
+Finalidades: atribuição da indicação, contabilização e execução da premiação contratada (LGPD art.7 V); minimização e transparência (arts.6 e9), acesso e correção por contato@oempregadoronline.com.br. Não guarda chave Pix nem documento adicional. Registros contratuais permanecem para conferência/obrigações aplicáveis; prazo específico de retenção e enquadramento jurídico/tributário do programa dependem de revisão. Não é certificação jurídica. Termos/Privacidade informam regras e armazenamento local do código. Fontes oficiais consultadas: https://www.gov.br/anpd/pt-br/assuntos/titular-de-dados/direito-dos-titulares ; consulta ao Planalto foi bloqueada na execução.
 
-## Painel do proprietário
-Nome, tipo de perfil, contato cadastrado disponível, código do afiliado, marco, quantidade válida, tipo/limite de prêmio, data e estado do pedido. Acesso exclusivo do proprietário; eventual acesso da equipe depende de permissão explícita, não de papel informado pelo cliente. Estados: solicitado, em conferência, contato realizado, concluído, revisão. Registrar conclusão manual e responsável; reversão posterior exige revisão humana e não débito automático.
-
-## Proteção e transparência
-Nenhum afiliado recebe dados pessoais dos indicados. Não coletar chave Pix ou documento adicional pelo link ou painel público. A equipe combina recebimento diretamente. Contagem e atribuição verificadas no servidor, com pagamento consultado no Asaas. Atribuição precisa ser imutável antes da primeira cobrança elegível; regra de conflito entre links e prazo de atribuição deve constar do regulamento antes de abertura. Atualizar Termos e Privacidade e validar enquadramento jurídico da campanha e tratamento de dados antes do lançamento. Não declarar revisão jurídica concluída.
-
-## Critérios de aceite
-Testar os três perfis, link e atribuição após confirmação de e-mail, renovação, evento duplicado, estorno, autoindicação, concorrência de resgates, limites 999/1000/2000, conta suspensa, isolamento de dados, aviso ao proprietário e conclusão manual. Publicar por branch/PR/prévia/merge. Nenhum pagamento real automático nos testes.
+Validação: build; testes com dados sintéticos para999/1000, cobranças recorrentes, reversão, autoindicação, vínculo e resgate idempotente, aviso interno e ausência de SELECT de clientes; regressão de sessão/navegação/assinaturas. Não foram criadas mil assinaturas reais, prêmio ou transferência real. Teste manual final de link em contas reais permanece distinto dos testes automatizados.
