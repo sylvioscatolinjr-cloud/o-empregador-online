@@ -1,5 +1,9 @@
 # O Empregador Online — contrato de continuidade e revisão de produção
 
+## Carteira unificada e renovação — preparada, não publicada (28/10/2026)
+
+Titular autorizou plano/destaque na carteira, renovação automática com saldo e aviso de insuficiência um dia antes. Implementação e Termos preparados,452 testes aprovados/0falhas/1PDF ignorado. Migração financeira bloqueada pela revisão automática após erro de estado; schema reconciliado com0colunas/0tabelas novas. Cron novo desativado. Não declarar recurso ativo nem substituir produção antes da aprovação/revisão da migração, ensaio hospedado e publicação. Contratos Asaas e dinheiro real preservados. Ver pilot-sumare/docs/UNIFIED-WALLET-RENEWALS.md.
+
 ## Turbinar — 28/10/2026
 
 Autorizada implementação e publicação do fluxo completo: campanha com texto/folder PNG/JPG/PDF até3MB, filtros por perfil/UF/cidade/interesse declarado, orçamento R$0,05 por entrega interna e público congelado, solicitação com aceite, revisão exclusiva do proprietário e tentativa automática após aprovação. Sem saldo, permanece aprovada e permite nova tentativa explícita após recarga confirmada. Somente recargas compradas, jamais cashback/créditos do plano. Saldo e entrega na mesma transação, mesmo advisory lock da IA/recargas; idempotência por campanha, rollback integral em falha. Histórico e relatórios agregados, sem diretório de destinatários. Preferência comercial específica, revogável e inicialmente desligada; primeira versão para adultos18_plus. Sem inferir currículo, dados sensíveis ou disparar email/WhatsApp. Limites1000 pessoas/campanha,20 prévias/dia, prévia15min e campanha7dias. Mudanças exigem nova campanha/aprovação.
