@@ -1,0 +1,1 @@
+create or replace function pilot_private.capture_card_photo() returns trigger language plpgsql security definer set search_path='' as $$begin new.show_card_image=true; new.photo_data=case when new.visible then coalesce((select photo_data from public.pilot_profiles where user_id=new.user_id),'') else '' end; return new;end$$;
