@@ -1,5 +1,9 @@
 # O Empregador Online — contrato de continuidade e revisão de produção
 
+## Carteira unificada ATIVA em produção — 28/10/2026
+
+Substitui o estado pendente histórico abaixo. Titular autorizou explicitamente compras reais de planos/destaques e renovação automática. Flag do cohort Production conferida no Vercel foi habilitada; PR29 juntado como aeb0d494e75a646f170a5144994ec2a9195bb44f, deployment dpl_6S5UrqEMWZC6mJL2bCj9zuA4zs8z READY no domínio oficial. Cron oeo-wallet-renewals ativo a cada5min. Páginas carteira/assinatura/Termos200, APIwallet-status401 sem login.453 testes aprovados e ensaio hospedado sintético com rollback; compras/contratos wallet reais ainda0 na conferência, sem usar saldo de usuário para testar. Primeira contratação/renovação real por usuário ainda não validada. Contratos Asaas antigos não foram convertidos/cancelados automaticamente.
+
 ## Carteira unificada e renovação — migração aplicada, ativação pendente (28/10/2026)
 
 Titular autorizou plano/destaque na carteira, renovação automática com saldo e aviso de insuficiência um dia antes. Migração revisada/idempotente/atômica com checksum, preflight e flag desligada foi aprovada/aplicada em20261028220859. Teste de rollback/reaplicação e ensaio hospedado sintético com rollback passaram;453 testes aprovados,0falhas,1PDF ignorado. A ativação do cohort real foi recusada por exigir autorização específica de compras financeiras reais. Flag desligada, cron inativo, código/Termos novos não publicados. Não contornar nem declarar recurso ativo. Contratos Asaas e dinheiro real preservados. Ver pilot-sumare/docs/UNIFIED-WALLET-RENEWALS.md.
