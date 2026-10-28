@@ -1,5 +1,11 @@
 # O Empregador Online — contrato de continuidade e revisão de produção
 
+Resumo do que vale hoje: `pilot-sumare/docs/REGRAS-EM-VIGOR.md`. Este arquivo guarda o histórico; se os dois divergirem, a seção mais recente daqui e o resumo devem ser corrigidos juntos.
+
+## Correções do Raio-X 3 — 28/10/2026 (PR, branch claude/project-thread-a6yy5b)
+
+Pedido do titular: corrigir riscos alto/médio/baixo e implementar as oportunidades 1 a 5. Indexação no Google com páginas `/vaga/<id>` e dados estruturados JobPosting/Course; Pix nas assinaturas (um período, sem renovação); afiliados de candidatos com R$ 200 a cada 200 pagamentos e carência de 30 dias (cancelamento no prazo sai da contagem), regra de R$ 4.000/1.000 mantida para empresas e instituições; modelo de campanha de matrícula no Turbinar; conversão e Turbinar no painel Negócio; aviso ao proprietário quando uma campanha pede aprovação; limite no CEP; estado civil removido do currículo; CSP aplicada. Migração `20261028210000_affiliate_200_maturity` deve ser aplicada antes do merge. Detalhes e registro LGPD em `pilot-sumare/docs/RAIOX3-FIXES-20261028.md`.
+
 ## Turbinar — 28/10/2026
 
 Autorizada implementação e publicação do fluxo completo: campanha com texto/folder PNG/JPG/PDF até3MB, filtros por perfil/UF/cidade/interesse declarado, orçamento R$0,05 por entrega interna e público congelado, solicitação com aceite, revisão exclusiva do proprietário e tentativa automática após aprovação. Sem saldo, permanece aprovada e permite nova tentativa explícita após recarga confirmada. Somente recargas compradas, jamais cashback/créditos do plano. Saldo e entrega na mesma transação, mesmo advisory lock da IA/recargas; idempotência por campanha, rollback integral em falha. Histórico e relatórios agregados, sem diretório de destinatários. Preferência comercial específica, revogável e inicialmente desligada; primeira versão para adultos18_plus. Sem inferir currículo, dados sensíveis ou disparar email/WhatsApp. Limites1000 pessoas/campanha,20 prévias/dia, prévia15min e campanha7dias. Mudanças exigem nova campanha/aprovação.

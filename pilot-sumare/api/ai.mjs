@@ -1,3 +1,4 @@
+import {publicPagesHandler} from '../src/public-pages.mjs';
 import {publicationImageHandler} from '../src/publication-image-handler.mjs';
 import {campaignHandler} from '../src/campaign-handler.mjs';
 import {highlightMetricsHandler} from '../src/highlight-metrics-draft.mjs';
@@ -12,6 +13,7 @@ import {aiResumeHandler} from '../src/ai-resume-handler.mjs';
 import {aiChatHandler} from '../src/ai-chat-handler.mjs';
 import {aiBalanceHandler} from '../src/ai-balance-handler.mjs';
 import {agentCatalogHandler} from '../src/agent-catalog-handler.mjs';
+const publicPages=publicPagesHandler();
 const organizationPoints=organizationPointsHandler();
 const campaign=campaignHandler();
 const noticeFile=noticeFileHandler();
@@ -28,6 +30,8 @@ const balance=aiBalanceHandler();
 const catalog=agentCatalogHandler();
 export default function handler(req,res){
  const action=req.query?.action;
+ // Public, indexable pages share this function to stay within the deployment's function limit.
+ if(action==='sitemap'||action==='public-listing')return publicPages(req,res);
  if(action==='turbinar')return campaign(req,res);
  if(action==='highlight-metric')return highlightMetrics(req,res);
  if(['image-create','image-list','image-delete'].includes(action))return publicationImage(req,res);

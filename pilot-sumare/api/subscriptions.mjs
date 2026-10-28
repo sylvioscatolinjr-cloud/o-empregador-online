@@ -1,6 +1,6 @@
 import {affiliateAction} from '../src/affiliates.mjs';
 import {ownerTestAccess,requestedTestRole} from '../src/owner-test-access.mjs';
-import {topupAction,topupCheckoutEvent,applyTopupPayment} from '../src/ai-topups.mjs';
+import {topupAction,topupCheckoutEvent,applyTopupPayment,availableTopupMethods} from '../src/ai-topups.mjs';
 import {highlightAction,highlightCheckoutEvent,applyHighlightPayment} from '../src/highlight-sales-draft.mjs';
 import {createClient} from '@supabase/supabase-js';
 import {verifyWebhookToken} from '../src/asaas.mjs';
@@ -58,7 +58,9 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
  if(req.method==='GET'){
   const orders=assertResult(await db.from('billing_live_orders').select('*').eq('user_id',u.id).eq('cohort_id',e.PILOT_COHORT_ID).order('created_at',{ascending:false}).limit(50));
   const payments=orders.length?assertResult(await db.from('billing_live_payments').select('*').in('order_id',orders.map(o=>o.id))):[];
-  return res.status(200).json({environment:'production',profile,owner:member.role==='pilot_owner',ready:providerConfigured&&!!(config.connected&&config.account_approved&&config.webhook_ready),canPurchase:providerConfigured&&salesAllowed&&!previewProfile,ownerTesting:testAccess.enabled,previewProfile,termsVersion:LIVE_TERMS,entitlement:currentEntitlement(orders.filter(o=>o.profile_type===profile),payments),orders:orders.map(o=>({...o,url:o.checkout_id&&o.status==='pending'?liveCheckoutURL(o.checkout_id):null})),payments});
+  // Reading plans never calls the provider; the active Pix key is checked when the checkout is created.
+  const pixAvailable=providerConfigured&&salesAllowed&&!previewProfile&&e.SUBSCRIPTION_PIX_ENABLED!=='false';
+  return res.status(200).json({environment:'production',profile,pixAvailable,owner:member.role==='pilot_owner',ready:providerConfigured&&!!(config.connected&&config.account_approved&&config.webhook_ready),canPurchase:providerConfigured&&salesAllowed&&!previewProfile,ownerTesting:testAccess.enabled,previewProfile,termsVersion:LIVE_TERMS,entitlement:currentEntitlement(orders.filter(o=>o.profile_type===profile),payments),orders:orders.map(o=>({...o,url:o.checkout_id&&o.status==='pending'?liveCheckoutURL(o.checkout_id):null})),payments});
  }
  if(req.headers.origin!==e.APP_ORIGIN||req.headers['sec-fetch-site']==='cross-site')return res.status(403).json({error:'Origem inválida.'});
  if(!req.headers['content-type']?.startsWith('application/json')||JSON.stringify(req.body||{}).length>4096)return res.status(400).json({error:'Formato inválido.'});
@@ -71,6 +73,7 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
  if(proof.data?.session)await verifier.auth.signOut({scope:'local'});
  if(b.action==='cancel'){
   let o=assertResult(await db.from('billing_live_orders').select('*').eq('id',b.id).eq('user_id',u.id).eq('cohort_id',e.PILOT_COHORT_ID).single());o=await syncLiveOrder(db,request,o);
+  if(!o.subscription_id&&o.status==='active')return res.status(409).json({error:'Este período foi pago por Pix e não renova automaticamente. Não há cobrança futura para cancelar.'});
   if(!o.subscription_id)return res.status(409).json({error:'Ainda não há assinatura confirmada. O link de checkout expira em uma hora.'});
   assertResult(await db.from('billing_live_orders').update({cancel_requested_at:new Date().toISOString()}).eq('id',o.id));
   try{await request('/subscriptions/'+encodeURIComponent(liveId(o.subscription_id,'sub_')),{method:'DELETE'});}catch(error){if(error.providerStatus!==404)throw error;}
@@ -82,13 +85,17 @@ export function subscriptionsHandler({env=process.env,clientFactory=createClient
  if(b.termsVersion!==LIVE_TERMS||b.accept!==true)return res.status(400).json({error:'Leia e aceite as condições da contratação.'});
  const wishes=assertResult(await db.from('portal_course_wishlists').select('user_id').eq('user_id',u.id).maybeSingle());if(!wishes)return res.status(400).json({error:'Preencha sua lista de cursos desejados antes de contratar.'});
  let q;try{q=quotePlan(profile,Number(b.tier),b.cycle);}catch{return res.status(400).json({error:'Plano inválido.'});}if(!q.cents)return res.status(400).json({error:'O plano gratuito não gera cobrança.'});
+ const method=b.method===undefined?'CREDIT_CARD':b.method;if(!['CREDIT_CARD','PIX'].includes(method))return res.status(400).json({error:'Meio de pagamento inválido.'});
+ if(method==='PIX'&&(e.SUBSCRIPTION_PIX_ENABLED==='false'||!(await availableTopupMethods(request)).includes('PIX')))return res.status(409).json({error:'Pix indisponível no momento. Use o cartão ou tente mais tarde.'});
  const recent=assertResult(await db.from('billing_live_orders').select('id').eq('user_id',u.id).eq('cohort_id',e.PILOT_COHORT_ID).gte('created_at',new Date(Date.now()-3600000).toISOString()));if(recent.length>=3)return res.status(429).json({error:'Limite de tentativas atingido. Confira seu histórico.'});
  const old=assertResult(await db.from('billing_live_orders').select('id').eq('user_id',u.id).eq('cohort_id',e.PILOT_COHORT_ID));if(old.length){const paid=assertResult(await db.from('billing_live_payments').select('id').in('order_id',old.map(o=>o.id)).eq('eligible',true).gt('period_end',new Date().toISOString()).limit(1));if(paid.length)return res.status(409).json({error:'Você já tem um período pago. A troca de plano ficará disponível após o fim desse período.'});}
+ // A period paid by Pix never gets a subscription_id; once it ends, close it so a new period can be bought.
+ if(old.length){const stale=assertResult(await db.from('billing_live_orders').select('id').eq('user_id',u.id).eq('cohort_id',e.PILOT_COHORT_ID).eq('status','active').is('subscription_id',null));if(stale.length)assertResult(await db.from('billing_live_orders').update({status:'expired'}).in('id',stale.map(o=>o.id)).eq('status','active').is('subscription_id',null));}
  if(b.affiliateCode){if(!/^[a-f0-9-]{36}$/i.test(b.affiliateCode))return res.status(400).json({error:'Código de afiliado inválido.'});const linked=await db.rpc('portal_affiliate_bind',{p_user:u.id,p_cohort:e.PILOT_COHORT_ID,p_code:b.affiliateCode});if(linked.error)return res.status(409).json({error:'Não foi possível vincular a indicação. Confira o código; o vínculo precisa ser anterior à primeira contratação.'});}
  const created=await db.from('billing_live_orders').insert({user_id:u.id,cohort_id:e.PILOT_COHORT_ID,profile_type:profile,tier:q.tier,cycle:q.cycle,cents:q.cents,credit_cents:q.aiCreditCents,months:q.months,terms_version:LIVE_TERMS}).select('*').single();
  if(created.error)return res.status(409).json({error:'Já existe uma contratação aberta. Confira seu histórico antes de repetir.'});const o=created.data;
  try{
-  const checkout=await request('/checkouts',{method:'POST',body:liveCheckoutBody(o,e.APP_ORIGIN)});liveId(checkout.id);
+  const checkout=await request('/checkouts',{method:'POST',body:liveCheckoutBody(o,e.APP_ORIGIN,new Date(),method)});liveId(checkout.id);
   assertResult(await db.from('billing_live_orders').update({checkout_id:checkout.id,status:'pending'}).eq('id',o.id));
   return res.status(200).json({id:o.id,url:liveCheckoutURL(checkout.id)});
  }catch(error){await db.from('billing_live_orders').update({status:error.providerStatus>=400&&error.providerStatus<500&&![408,409,429].includes(error.providerStatus)?'failed':'review'}).eq('id',o.id).eq('status','creating');return res.status(503).json({error:'Tentativa registrada. Não repita a compra antes da conferência; o resultado ainda não foi confirmado.'});}

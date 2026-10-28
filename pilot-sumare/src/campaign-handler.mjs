@@ -1,6 +1,10 @@
 import {createClient} from '@supabase/supabase-js';
 import {noticeUpload} from './notice-upload.mjs';
 import {noticeLink,noticeUUID,noticeBucket} from './notice-material.mjs';
+export async function notifyOwners(db,cohort,id,title){try{
+ const owners=await db.from('pilot_memberships').select('user_id').eq('cohort_id',cohort).eq('role','pilot_owner').eq('status','active');if(owners.error||!Array.isArray(owners.data)||!owners.data.length)return false;
+ const r=await db.from('portal_notifications').insert(owners.data.map(o=>({cohort_id:cohort,user_id:o.user_id,title:'Campanha Turbinar aguardando aprovação',body:`Uma campanha foi enviada para análise: "${String(title||'').slice(0,120)}". Ela expira em 7 dias se não for aprovada. Abra Turbinar para revisar. Referência: ${id}`})));return !r.error;
+}catch{return false;}}
 export function campaignHandler({env=process.env,clientFactory=createClient}={}){return async(req,res)=>{
  res.setHeader('Cache-Control','private, no-store');
  if(!['GET','POST'].includes(req.method))return res.status(405).json({error:'Método inválido.'});
@@ -53,7 +57,10 @@ export function campaignHandler({env=process.env,clientFactory=createClient}={})
  if(!noticeUUID(b.id)||!['submit','approve','reject','send','cancel'].includes(b.action))return res.status(400).json({error:'Ação inválida.'});
  if(['submit','send'].includes(b.action)&&(b.accept!==true||b.termsVersion!=='2026-10-28-turbinar-v1'))return res.status(400).json({error:'Confirme orçamento e Termos antes de enviar.'});
  if(['approve','reject'].includes(b.action)&&!owner)return res.status(403).json({error:'Aprovação exclusiva do proprietário.'});
+ let before=null;if(b.action==='submit'){try{const r=await db.from('portal_campaigns').select('status,title').eq('id',b.id).eq('cohort_id',co).eq('user_id',user.id).maybeSingle();before=r.error?null:r.data;}catch{}}
  const result=await rpc('portal_campaign_action',{...args,p_id:b.id,p_action:b.action,p_reason:String(b.reason||''),p_cents:Number.isSafeInteger(b.cents)?b.cents:null});
+ // Each request waits for the owner's approval and expires in 7 days, so the owner gets a notice once per submission.
+ if(before?.status==='quoted')await notifyOwners(db,co,b.id,before.title);
  return res.status(200).json(result);
  }catch(e){return res.status(e.http||503).json({error:e.http?e.message:'Turbinar temporariamente indisponível. Consulte o histórico antes de repetir.'});}
 };}

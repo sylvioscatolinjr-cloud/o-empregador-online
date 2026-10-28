@@ -40,3 +40,6 @@ for(const [role,profile] of [['learner','Candidato'],['recruiter','Empresa'],['s
 test('ordinary users cannot switch pricing profile with query parameters',async()=>{
  for(const role of ['learner','recruiter','school_staff']){const r=await fixture({role}).run(null,null,role==='learner'?'recruiter':'learner');assert.equal(r.body.profile,{learner:'Candidato',recruiter:'Empresa',school_staff:'Instituição de Ensino'}[role]);assert.equal(r.body.previewProfile,false);assert.equal(r.body.ownerTesting,false);}
 });
+test('a period paid by Pix has nothing to cancel and never calls subscription deletion',async()=>{
+ const f=fixture({orders:[order('pix',{subscription_id:null,checkout_id:'chk_pix'})],payments:[payment('pix')]});const r=await f.run('cancel','pix');assert.equal(r.code,409);assert.match(r.body.error,/Pix/);assert(!f.calls.some(c=>c.method==='DELETE'));
+});

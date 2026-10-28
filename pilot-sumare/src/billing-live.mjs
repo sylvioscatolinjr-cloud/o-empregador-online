@@ -11,11 +11,16 @@ export function liveRequestFactory(env,fetchImpl=fetch){return async(path,{metho
  if(!response.ok)throw Object.assign(Error('O Asaas não concluiu a operação. Confira o histórico antes de tentar novamente.'),{providerStatus:response.status});
  return response.status===204?{}:response.json();
 };}
-export function liveCheckoutBody(order,origin,now=new Date()){
+// method PIX: one detached charge for the chosen period, without automatic renewal (the Asaas
+// recurring checkout only accepts credit card). The order never receives a subscription_id.
+export function liveCheckoutBody(order,origin,now=new Date(),method='CREDIT_CARD'){
+ if(!['CREDIT_CARD','PIX'].includes(method))throw Error('Meio de pagamento inválido.');
  if(new URL(origin).origin!==origin||!origin.startsWith('https://'))throw Error('Origem inválida.');
  const q=quotePlan(order.profile_type,order.tier,order.cycle);if(!q.cents||q.cents!==order.cents)throw Error('Valor inválido.');
  const today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Sao_Paulo',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
- return {billingTypes:['CREDIT_CARD'],chargeTypes:['RECURRENT'],minutesToExpire:60,externalReference:order.id,callback:{successUrl:origin+'/assinatura.html?retorno=sucesso',cancelUrl:origin+'/assinatura.html?retorno=cancelado',expiredUrl:origin+'/assinatura.html?retorno=expirado'},items:[{name:`O Empregador Online — Nível ${q.tier}`,description:`${q.profileType} — ${q.label}. Renovação a cada ${q.months} mês(es).`,quantity:1,value:q.cents/100}],subscription:{cycle:q.cycle,nextDueDate:today}};
+ const callback={successUrl:origin+'/assinatura.html?retorno=sucesso',cancelUrl:origin+'/assinatura.html?retorno=cancelado',expiredUrl:origin+'/assinatura.html?retorno=expirado'};
+ if(method==='PIX')return {billingTypes:['PIX'],chargeTypes:['DETACHED'],minutesToExpire:60,externalReference:order.id,callback,items:[{name:`O Empregador Online — Nível ${q.tier}`,description:`${q.profileType} — ${q.label}. Pagamento único por Pix, sem renovação automática.`,quantity:1,value:q.cents/100}]};
+ return {billingTypes:['CREDIT_CARD'],chargeTypes:['RECURRENT'],minutesToExpire:60,externalReference:order.id,callback,items:[{name:`O Empregador Online — Nível ${q.tier}`,description:`${q.profileType} — ${q.label}. Renovação a cada ${q.months} mês(es).`,quantity:1,value:q.cents/100}],subscription:{cycle:q.cycle,nextDueDate:today}};
 }
 export function livePayment(payment,order,checkedAt=new Date().toISOString()){
  liveId(payment.id,'pay_');
