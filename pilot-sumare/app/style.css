@@ -92,3 +92,13 @@ h1,h2,h3,.metric{overflow-wrap:anywhere}
 main{overflow-wrap:anywhere}
 
 #app h1[tabindex="-1"]:focus{outline:none}
+.space-nav,.workspace-shell>.space-nav{display:block}
+.space-nav-toggle{display:none;width:100%;text-align:left;font-weight:600}
+.space-nav-groups{display:grid;gap:16px}
+.space-nav-group{display:grid;gap:8px;min-width:0}
+.space-nav-title{margin:0;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6b5a80}
+.space-nav-items{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+.space-nav-items>*{min-width:0}
+.space-nav-account{border-top:1px solid #e4ddeb;padding-top:14px}
+@media(max-width:950px){.space-nav-toggle{display:block}.space-nav:not(.open) .space-nav-groups{display:none}.space-nav.open .space-nav-groups{margin-top:14px}.space-nav-items{grid-template-columns:repeat(3,minmax(0,1fr))}.space-nav-items>.agent-menu:has(>[data-agent-toggle][aria-expanded=true]){grid-column:1/-1}}
+@media(max-width:600px){.space-nav-items{grid-template-columns:repeat(2,minmax(0,1fr))}}

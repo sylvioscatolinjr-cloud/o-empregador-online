@@ -76,7 +76,7 @@ test('candidate navigation hides resume search and recruitment; organizations hi
 
 for(const role of ['learner','recruiter','school_staff','pilot_owner'])test(role+' keeps its sidebar when opening team, listings and account',async()=>{
  const f=fixture({ready:true,origin:'https://pilot.example'});await wait();f.access.snapshot=()=>({phase:'active',role});f.client.auth.getSession=async()=>({data:{session:{access_token:'fixture'}}});f.submit('login',{email:'test@example.invalid',password:'fixture'});await wait();
- const menu=()=>[...f.document.querySelectorAll('.space-nav button')].map(b=>b.textContent);const initial=menu();assert(initial.length>8);
+ const menu=()=>[...f.document.querySelectorAll('.space-nav-items button')].map(b=>b.textContent);const initial=menu();assert(initial.length>8);
  for(const selector of ['[data-extended=team]','[data-portal=listings]','[data-view=account]','[data-extended=team]']){f.click(selector);await wait();assert.deepEqual(menu(),initial);assert.equal(f.document.querySelectorAll('.space-nav').length,1);}
  assert.match(f.document.querySelector('h1').textContent,role==='learner'||role==='pilot_owner'?/Meus vínculos/:/Departamentos e equipe/);assert.match(f.document.querySelector('.workspace-main').textContent,/Nenhum convite/);assert(f.document.querySelector('[data-extended=team][aria-current=page]'));
 });
@@ -102,3 +102,12 @@ test('busy operations preserve disabled controls on errors and on newly rendered
 });
 
 test('global submit dispatch uses the form attribute when a hidden id field shadows form.id',async()=>{const f=fixture({ready:true,origin:'https://pilot.example',supabaseURL:'https://fixture.supabase.co',publishableKey:'fixture',cohortId:'cohort'});await wait();f.document.querySelector('#app').innerHTML='<form id="portal-apply"><input name="id" value="listing"><button>Enviar candidatura</button></form>';const form=f.document.querySelector('form');Object.defineProperty(form,'id',{value:form.querySelector('[name=id]')});f.evaluate("portalUI={submit:async()=>feedback('Candidatura recebida pelo fluxo correto.')}");form.dispatchEvent(new f.document.defaultView.Event('submit',{bubbles:true,cancelable:true}));await wait();assert.match(f.document.querySelector('#status').textContent,/Candidatura recebida/);});
+
+for(const [role,first] of [['learner','Meu perfil'],['recruiter','Minha empresa'],['school_staff','Minha instituição'],['pilot_owner','Administração']])test(role+' menu follows the reading order: grouped items first, account and logout last',async()=>{
+ const f=fixture({ready:true,origin:'https://pilot.example'});await wait();f.access.snapshot=()=>({phase:'active',role});f.client.auth.getSession=async()=>({data:{session:{access_token:'fixture'}}});f.submit('login',{email:'test@example.invalid',password:'fixture'});await wait();
+ const titles=[...f.document.querySelectorAll('.space-nav-title')].map(t=>t.textContent);assert.equal(titles[0],first);assert.equal(titles.at(-1),'Conta');
+ const items=[...f.document.querySelectorAll('.space-nav-items :is(button,a)')].filter(e=>!e.closest('.agent-submenu'));assert.equal(items.at(-1).dataset.view,'logout');assert.equal(f.document.querySelectorAll('.space-nav [data-view=logout]').length,1);
+ const hrefs=items.map(e=>e.getAttribute('href')).filter(Boolean);assert.equal(new Set(hrefs).size,hrefs.length-(['recruiter','school_staff','pilot_owner'].includes(role)?1:0));
+ const toggle=f.document.querySelector('[data-space-nav-toggle]');assert.equal(toggle.getAttribute('aria-expanded'),'false');toggle.click();assert.equal(toggle.getAttribute('aria-expanded'),'true');assert(f.document.querySelector('.space-nav.open'));
+ f.click('[data-extended=team]');await wait();assert.equal(f.document.querySelector('[data-space-nav-toggle]').getAttribute('aria-expanded'),'false');assert.match(f.document.querySelector('[data-space-nav-current]').textContent,/vínculos|Departamentos/);
+});
