@@ -94,7 +94,7 @@ test('busy operations preserve disabled controls on errors and on newly rendered
  const disabled=f.document.querySelector('[data-view=forgot]');disabled.disabled=true;
  f.access.signIn=async()=>{throw Error('Erro temporário de teste.');};
  f.submit('login',{email:'pessoa@example.invalid',password:'synthetic-password'});await wait();
- assert.equal(disabled.disabled,true);assert.equal(f.document.querySelector('#login button').disabled,false);
+ assert.equal(disabled.disabled,true);assert.equal(f.document.querySelector('#login button.primary').disabled,false);
  assert.equal(f.document.querySelector('#status').getAttribute('role'),'alert');assert.equal(f.document.querySelector('#status').getAttribute('aria-live'),'assertive');assert.equal(f.document.querySelector('#app').getAttribute('aria-busy'),'false');
  await f.evaluate("attempt(async()=>panel('Resultados de busca','<button id=previous disabled>Anterior</button><button id=next>Próxima</button>'))");
  assert.equal(f.document.querySelector('#previous').disabled,true);assert.equal(f.document.querySelector('#next').disabled,false);assert.equal(f.document.querySelector('h1').getAttribute('tabindex'),'-1');
@@ -111,3 +111,5 @@ for(const [role,first] of [['learner','Meu perfil'],['recruiter','Minha empresa'
  const toggle=f.document.querySelector('[data-space-nav-toggle]');assert.equal(toggle.getAttribute('aria-expanded'),'false');toggle.click();assert.equal(toggle.getAttribute('aria-expanded'),'true');assert(f.document.querySelector('.space-nav.open'));
  f.click('[data-extended=team]');await wait();assert.equal(f.document.querySelector('[data-space-nav-toggle]').getAttribute('aria-expanded'),'false');assert.match(f.document.querySelector('[data-space-nav-current]').textContent,/vínculos|Departamentos/);
 });
+test('login offers password recovery under the password field, signup next and confirmation last',async()=>{const f=fixture({ready:true,origin:'https://pilot.example'});await wait();const order=[...f.document.querySelectorAll('#app button')].map(b=>b.dataset.view||'submit');assert.deepEqual(order,['forgot','submit','signup','verification']);assert.equal(f.document.querySelector('#login [data-view=forgot]').getAttribute('type'),'button');});
+test('homepage profile links preselect the signup type',async()=>{const f=fixture({ready:true,origin:'https://pilot.example'},{search:'?cadastro=1&perfil=Empresa'});await wait();assert.equal(f.document.querySelector('#signup [name=profileType]').value,'Empresa');});
