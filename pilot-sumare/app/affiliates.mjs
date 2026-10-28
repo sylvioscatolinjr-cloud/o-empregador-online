@@ -1,6 +1,7 @@
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export function captureReferral(){try{const code=new URLSearchParams(location.search).get('ref');if(!/^[a-f0-9-]{36}$/i.test(code||''))return;const old=JSON.parse(localStorage.getItem('oeo-referral')||'null');if(!old||old.expires<Date.now())localStorage.setItem('oeo-referral',JSON.stringify({code,expires:Date.now()+30*86400000}));}catch{}}
+export function captureReferral(){try{const code=new URLSearchParams(location.search).get('ref');if(!/^[a-f0-9-]{36}$/i.test(code||''))return;const old=JSON.parse(localStorage.getItem('oeo-referral')||'null');if(!old||old.expires<Date.now())localStorage.setItem('oeo-referral',JSON.stringify({code,expires:Date.now()+30*86400000,redirectPending:true}));else localStorage.setItem('oeo-referral',JSON.stringify({...old,redirectPending:true}));}catch{}}
 export function referralCode(){try{const value=JSON.parse(localStorage.getItem('oeo-referral')||'null');return value?.expires>Date.now()?value.code:'';}catch{return '';}}
+export function referralSignupDestination(){try{const value=JSON.parse(localStorage.getItem('oeo-referral')||'null');if(!value?.redirectPending||value.expires<=Date.now())return null;localStorage.setItem('oeo-referral',JSON.stringify({...value,redirectPending:false}));return '/assinatura.html?ciclo=QUARTERLY';}catch{return null;}}
 export async function affiliatePanel({panel,navigation,root,call,owner=false,isCurrent=()=>true}){
  const data=await call('GET',null);if(!isCurrent())return;
  const labels={requested:'Solicitado',contacted:'Contato realizado',completed:'Concluído'};
