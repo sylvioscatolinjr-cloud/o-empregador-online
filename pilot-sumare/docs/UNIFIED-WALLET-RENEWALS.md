@@ -1,4 +1,8 @@
-# Carteira unificada — migração aplicada, ativação financeira pendente (28/10/2026)
+# Carteira unificada — ativa em produção (28/10/2026)
+
+## Ativação concluída — substitui os estados históricos abaixo
+
+Após autorização explícita do titular para compras financeiras reais, flag habilitada somente no cohort confirmado na configuração Production do Vercel. PR29 juntado, commit aeb0d494e75a646f170a5144994ec2a9195bb44f; deployment dpl_6S5UrqEMWZC6mJL2bCj9zuA4zs8z READY com domínio www.oempregadoronline.com.br. Cron oeo-wallet-renewals ativado, */5 * * * *. Páginas carteira, assinatura e Termos retornaram200, Termos contêm carteira unificada/renovação; APIwallet-status401 sem login. Conferência no banco:1cohort habilitado, cron ativo,0compras e0contratos wallet reais. Nenhuma transação real foi feita como teste.453 testes aprovados/0falhas/1PDF ignorado e ensaio hospedado revertido não substituem o primeiro aceite/autenticação/compra/renovação real do usuário. Contratos Asaas antigos preservados. Rollback operacional permanece desligar flag/cron, sem apagar dados financeiros.
 
 ## Estado atual, substitui o bloqueio histórico abaixo
 
