@@ -10,5 +10,5 @@ export async function affiliateAction({req,res,db,user,member,env}){
  }
  ok(await db.from('portal_affiliates').upsert({user_id:user.id,cohort_id:env.PILOT_COHORT_ID},{onConflict:'user_id',ignoreDuplicates:true}));
  const affiliate=ok(await db.from('portal_affiliates').select('code').eq('user_id',user.id).single()),valid=Number(ok(await db.rpc('portal_affiliate_count',args))),claims=ok(await db.from('portal_affiliate_claims').select('id,milestone,status,created_at').eq('user_id',user.id).eq('cohort_id',env.PILOT_COHORT_ID).order('created_at',{ascending:false}));
- res.status(200).json({code:affiliate.code,url:env.APP_ORIGIN+'/conta.html?ref='+affiliate.code,valid,nextGoal:(claims.length+1)*1000,canClaim:valid>=(claims.length+1)*1000,claims,role:member.role});return true;
+ res.status(200).json({code:affiliate.code,url:env.APP_ORIGIN+'/conta.html?cadastro=1&ref='+affiliate.code,valid,nextGoal:(claims.length+1)*1000,canClaim:valid>=(claims.length+1)*1000,claims,role:member.role});return true;
 }
