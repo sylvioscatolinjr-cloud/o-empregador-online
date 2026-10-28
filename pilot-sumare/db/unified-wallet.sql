@@ -1,4 +1,18 @@
 -- Purchased credits pay services; subscription bonus credits remain IA-only.
+-- No financial feature is enabled by applying this schema. Activation is separate and per cohort.
+create table public.portal_wallet_rollout(
+ cohort_id uuid primary key references public.pilot_cohorts(id),enabled boolean not null default false,
+ updated_at timestamptz not null default now()
+);
+alter table public.portal_wallet_rollout enable row level security;
+revoke all on public.portal_wallet_rollout from public,anon,authenticated;
+grant select,insert,update on public.portal_wallet_rollout to service_role;
+create function public.portal_wallet_require_enabled(p_cohort uuid) returns void
+language plpgsql security invoker set search_path='' as $$begin
+ if not exists(select 1 from public.portal_wallet_rollout where cohort_id=p_cohort and enabled) then raise exception 'wallet rollout disabled';end if;
+end$$;
+revoke all on function public.portal_wallet_require_enabled(uuid) from public,anon,authenticated;
+grant execute on function public.portal_wallet_require_enabled(uuid) to service_role;
 alter table public.billing_live_orders add column payment_source text not null default 'asaas' check(payment_source in('asaas','wallet'));
 alter table public.billing_live_payments add column payment_source text not null default 'asaas' check(payment_source in('asaas','wallet'));
 alter table public.portal_highlight_orders add column payment_source text not null default 'asaas' check(payment_source in('asaas','wallet'));
@@ -24,6 +38,7 @@ do $$declare t text;begin foreach t in array array['portal_wallet_purchases','po
 
 create function public.portal_wallet_debit(p_user uuid,p_cohort uuid,p_request uuid,p_kind text,p_order uuid,p_cents integer) returns boolean
 language plpgsql security invoker set search_path='' as $$declare b jsonb;remaining integer:=p_cents;t integer;pay record;existing public.portal_wallet_purchases;begin
+ perform public.portal_wallet_require_enabled(p_cohort);
  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(p_user::text,0));
  perform public.portal_campaign_actor(p_user,p_cohort);
  select * into existing from public.portal_wallet_purchases where id=p_request;
@@ -41,6 +56,7 @@ end$$;
 create function public.portal_wallet_plan(p_user uuid,p_cohort uuid,p_request uuid,p_tier integer,p_cycle text,p_expected integer,p_terms text) returns jsonb
 language plpgsql security invoker set search_path='' as $$
 declare r text;profile text;months integer;discount integer;monthly integer;price integer;credit integer;ord uuid;purchase public.portal_wallet_purchases;finish timestamptz;b jsonb;begin
+ perform public.portal_wallet_require_enabled(p_cohort);
  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(p_user::text,0));r:=public.portal_campaign_actor(p_user,p_cohort);
  if p_terms is distinct from '2026-10-28-unified-wallet-v1' then raise exception 'terms changed';end if;
  profile:=case r when 'recruiter' then 'Empresa' when 'school_staff' then 'Instituição de Ensino' else 'Candidato' end;
@@ -69,6 +85,7 @@ end$$;
 
 create function public.portal_wallet_highlight(p_user uuid,p_cohort uuid,p_request uuid,p_kind text,p_target uuid,p_days integer,p_tier integer,p_expected integer,p_terms text) returns jsonb
 language plpgsql security invoker set search_path='' as $$declare q jsonb;b jsonb;ord uuid;purchase public.portal_wallet_purchases;begin
+ perform public.portal_wallet_require_enabled(p_cohort);
  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(p_user::text,0));perform public.portal_campaign_actor(p_user,p_cohort);
  select * into purchase from public.portal_wallet_purchases where id=p_request;
  if found then if purchase.user_id<>p_user or purchase.cohort_id<>p_cohort or purchase.kind<>'highlight' or purchase.cents<>p_expected or not exists(select 1 from public.portal_highlight_orders where id=purchase.order_id and kind=p_kind and target_id=p_target and days=p_days) then raise exception 'request mismatch';end if;return jsonb_build_object('paid',true,'id',purchase.order_id,'duplicate',true);end if;
@@ -93,7 +110,7 @@ create function public.portal_wallet_renewals() returns integer
 language plpgsql security invoker set search_path='' as $$
 declare row record;contract public.portal_wallet_subscriptions;ord public.billing_live_orders;b jsonb;price integer;request uuid;finish timestamptz;done integer:=0;begin
  if not pg_catalog.pg_try_advisory_xact_lock(pg_catalog.hashtextextended('oeo-wallet-renewals',0)) then return 0;end if;
- for row in select s.order_id,o.user_id from public.portal_wallet_subscriptions s join public.billing_live_orders o on o.id=s.order_id where s.auto_renew and s.next_due<=now()+interval '24 hours' and (s.next_due<=now() or s.reminded_for is distinct from s.next_due) order by s.next_due limit 200 loop
+ for row in select s.order_id,o.user_id from public.portal_wallet_subscriptions s join public.billing_live_orders o on o.id=s.order_id join public.portal_wallet_rollout rollout on rollout.cohort_id=o.cohort_id and rollout.enabled where s.auto_renew and s.next_due<=now()+interval '24 hours' and (s.next_due<=now() or s.reminded_for is distinct from s.next_due) order by s.next_due limit 200 loop
  begin
  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(row.user_id::text,0));
  select * into strict contract from public.portal_wallet_subscriptions where order_id=row.order_id for update;

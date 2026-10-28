@@ -1,8 +1,8 @@
 # O Empregador Online — contrato de continuidade e revisão de produção
 
-## Carteira unificada e renovação — preparada, não publicada (28/10/2026)
+## Carteira unificada e renovação — migração aplicada, ativação pendente (28/10/2026)
 
-Titular autorizou plano/destaque na carteira, renovação automática com saldo e aviso de insuficiência um dia antes. Implementação e Termos preparados,452 testes aprovados/0falhas/1PDF ignorado. Migração financeira bloqueada pela revisão automática após erro de estado; schema reconciliado com0colunas/0tabelas novas. Cron novo desativado. Não declarar recurso ativo nem substituir produção antes da aprovação/revisão da migração, ensaio hospedado e publicação. Contratos Asaas e dinheiro real preservados. Ver pilot-sumare/docs/UNIFIED-WALLET-RENEWALS.md.
+Titular autorizou plano/destaque na carteira, renovação automática com saldo e aviso de insuficiência um dia antes. Migração revisada/idempotente/atômica com checksum, preflight e flag desligada foi aprovada/aplicada em20261028220859. Teste de rollback/reaplicação e ensaio hospedado sintético com rollback passaram;453 testes aprovados,0falhas,1PDF ignorado. A ativação do cohort real foi recusada por exigir autorização específica de compras financeiras reais. Flag desligada, cron inativo, código/Termos novos não publicados. Não contornar nem declarar recurso ativo. Contratos Asaas e dinheiro real preservados. Ver pilot-sumare/docs/UNIFIED-WALLET-RENEWALS.md.
 
 ## Turbinar — 28/10/2026
 

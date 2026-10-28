@@ -1,4 +1,16 @@
-# Carteira unificada — entrega bloqueada em 28/10/2026
+# Carteira unificada — migração aplicada, ativação financeira pendente (28/10/2026)
+
+## Estado atual, substitui o bloqueio histórico abaixo
+
+Revisão de segurança materialmente alterada: uma única migração atômica, registro de versão/checksum SHA256, rejeição de schema parcial, reaplicação idempotente, lock_timeout2s e feature flag por cohort inicialmente desligada. Sem particionar operações financeiras para contornar a recusa. Teste isolado validou aplicação, rollback integral, reaplicação, recusa de estado parcial e preservação de contrato/saldo legado.
+
+Migração revisada `20261028220859_guarded_unified_wallet_disabled_rollout` aprovada e aplicada. Agendamento anterior `20261028211429_unified_wallet_renewal_scheduler` permanece inativo. Ensaio hospedado service_role com conta/turma/saldo sintéticos e rollback passou: insuficiência, contratação, concessão efetiva do nível1, destaque com desconto10%, repetição sem débito duplicado, lembrete único, renovação, cancelamento, reversão do financiamento e privilégios. No primeiro ensaio, a simulação do avanço de mês não alterava created_at do ciclo sintético, colidindo com unicidade por timestamp fixo da transação; fixture corrigida para representar um ciclo anterior real, sem alterar a regra de cobrança. Consulta posterior confirmou zero resíduos e compras reais zero.
+
+Build aprovado.454 testes:453 aprovados,0falhas,1PDF privado ignorado. Advisors: INFO de tabelas privadas com RLS sem política (intencional service-only) e WARN prévio de proteção nativa de senhas vazadas, sem novo acesso de cliente.
+
+A tentativa de habilitar a flag do cohort real foi recusada porque a revisão automática exige autorização explícita para ativar compras financeiras reais, distinta da autorização de migração. Não contornar. Flag continua desligada; cron inativo; código e Termos novos NÃO publicados em produção para não interromper contratação vigente. Nenhum contrato Asaas cancelado, dinheiro real debitado ou nova compra gerada. Próxima decisão: autorização específica de ativação comercial/financeira, depois habilitar flag, publicar via PR/prévia/merge e ativar/verificar cron.
+
+Rollback operacional seguro: desligar flag do cohort e cron impede novos débitos, sem apagar histórico financeiro; cancelar renovação própria continua permitido. Não remover tabelas/colunas se já houver compras. Uma reversão destrutiva só foi testada em banco isolado antes de existir dinheiro real no novo fluxo.
 
 Autorização do titular: destaques e planos na mesma carteira; renovação automática se houver saldo; lembrete de insuficiência um dia antes; atualizar Termos.
 

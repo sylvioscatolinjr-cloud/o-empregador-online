@@ -8,6 +8,7 @@ export async function unifiedWalletAction({req,res,db,user,member,env,clientFact
  const send=(code,data)=>{res.status(code).json(data);return true;};
  if(action==='wallet-status'){
  if(req.method!=='GET')return send(405,{error:'Método inválido.'});
+ const rollout=await db.from('portal_wallet_rollout').select('enabled').eq('cohort_id',env.PILOT_COHORT_ID).maybeSingle();if(rollout.error)throw Error('rollout');
  const balance=await db.rpc('portal_ai_wallet_balance',{p_user:user.id,p_cohort:env.PILOT_COHORT_ID});if(balance.error)throw Error('wallet');
  const orders=await db.from('billing_live_orders').select('id').eq('user_id',user.id).eq('cohort_id',env.PILOT_COHORT_ID);if(orders.error)throw Error('orders');
  const contracts=orders.data.length?await db.from('portal_wallet_subscriptions').select('order_id,next_due,auto_renew,last_error').in('order_id',orders.data.map(o=>o.id)):{data:[]};if(contracts.error)throw Error('contracts');
@@ -16,7 +17,7 @@ export async function unifiedWalletAction({req,res,db,user,member,env,clientFact
  const usage=await db.from('portal_ai_wallet_usage').select('request_id,created_at,refunded_at').eq('user_id',user.id).eq('cohort_id',env.PILOT_COHORT_ID).order('created_at',{ascending:false}).limit(100);if(usage.error)throw Error('usage');
  const lines=usage.data.length?await db.from('portal_ai_wallet_lines').select('request_id,cents').in('request_id',usage.data.map(x=>x.request_id)):{data:[]};if(lines.error)throw Error('lines');
  const transactions=[...statement.data,...campaigns.data.map(x=>({id:x.id,kind:'Turbinar',cents:x.charged_cents,created_at:x.sent_at})),...usage.data.map(x=>({id:x.request_id,kind:x.refunded_at?'IA — devolvido':'IA — plano/recarga',cents:x.refunded_at?0:lines.data.filter(l=>l.request_id===x.request_id).reduce((a,l)=>a+l.cents,0),created_at:x.created_at}))].sort((a,b)=>Date.parse(b.created_at)-Date.parse(a.created_at)).slice(0,100);
- return send(200,{paymentMode:'wallet',ready:true,canPurchase:member.role==='pilot_owner'||env.PUBLIC_SUBSCRIPTIONS_ENABLED==='true',walletTermsVersion:WALLET_TERMS,walletBalance:balance.data,walletContracts:contracts.data,transactions});
+ return send(200,{paymentMode:'wallet',ready:rollout.data?.enabled===true,canPurchase:rollout.data?.enabled===true&&(member.role==='pilot_owner'||env.PUBLIC_SUBSCRIPTIONS_ENABLED==='true'),walletTermsVersion:WALLET_TERMS,walletBalance:balance.data,walletContracts:contracts.data,transactions});
  }
  if(req.method!=='POST')return send(405,{error:'Método inválido.'});
  if(req.headers.origin!==env.APP_ORIGIN||req.headers['sec-fetch-site']==='cross-site'||!req.headers['content-type']?.startsWith('application/json')||JSON.stringify(b).length>4096)return send(403,{error:'Origem ou formato inválido.'});
