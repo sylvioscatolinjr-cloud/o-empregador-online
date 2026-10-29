@@ -172,3 +172,50 @@ export function nebuFieldTip({form='',name='',label='',type='',required=false,ma
  const parts=[required?'Este campo é obrigatório.':'',type==='email'?'Use um e-mail válido.':type==='date'?'Escolha a data no calendário.':type==='number'?'Use só números.':'',maxLength>0&&maxLength<=500?'Até '+maxLength+' caracteres.':''].filter(Boolean);
  return {label:clean,tip:parts.length?parts.join(' '):'Preencha com a informação pedida. Em caso de dúvida, use o "?" ao lado do campo, quando houver.'};
 }
+
+// Farejar: busca local no conteúdo da Nebu. A pergunta não sai do aparelho.
+const places=[
+ ['Criar conta grátis (cadastro)','Cadastre-se como Candidato, Empresa ou Instituição de ensino.','/conta.html?cadastro=1'],
+ ['Entrar na minha conta (login)','Acesse com e-mail e senha. Também tem recuperar senha.','/conta.html'],
+ ['Planos e assinatura','Compare os planos Grátis e pagos, preços, níveis e o que cada um libera.','/assinatura.html'],
+ ['Minha carteira de créditos','Saldo de créditos de IA e recargas de R$ 10, R$ 25 ou R$ 50 por Pix ou cartão.','/carteira.html'],
+ ['Agentes de IA (assistente)','Tarefas com inteligência artificial: currículo, entrevista, vaga, carreira, publicações.','/assistente.html'],
+ ['Cursos e treinamentos','Aulas, exercícios e certificados do portal.','/treinamentos.html'],
+ ['Blog','Matérias sobre carreira, emprego e estudos.','/blog.html'],
+ ['Lista de desejos de cursos','Diga o que quer aprender para as instituições abrirem turmas.','/cursos-desejados.html'],
+ ['Destacar na vitrine','Faça seu perfil, vaga ou curso aparecer em destaque na página inicial.','/destaques.html'],
+ ['Turbinar anúncio','Envie aviso da sua vaga ou curso para mais pessoas. R$ 0,05 por pessoa.','/turbinar.html'],
+ ['Publicações com imagem','Crie imagens para divulgar nas redes sociais.','/publicacoes.html'],
+ ['Instalar o aplicativo no celular','Coloque o portal na tela inicial do Android ou iPhone.','/instalar.html'],
+ ['Termos de Uso','Regras de uso, cancelamento e reembolso.','/termos.html'],
+ ['Política de Privacidade','Como seus dados são usados e protegidos (LGPD), excluir conta.','/privacidade.html'],
+ ['Vagas e cursos','Veja as oportunidades de emprego e cursos em destaque.','/#vagas'],
+ ['Falar com a equipe (contato, suporte)','Escreva para contato@oempregadoronline.com.br.','mailto:contato@oempregadoronline.com.br']
+].map(([title,text,href])=>({title,text,href,kind:'lugar'}));
+
+const fieldTitles={document:'CPF ou CNPJ',password:'Senha',confirmation:'Repetir a senha',postal_code:'CEP',postal:'CEP',driving_license:'CNH (carteira de motorista)',email:'E-mail',phone:'Telefone',skills:'Competências e habilidades',about:'Resumo e objetivo do currículo',description:'Descrição das atividades',salary:'Salário desejado',state_code:'Estado (UF)',birth_date:'Data de nascimento',marital_status:'Estado civil',token:'Código do convite'};
+
+export function nebuKnowledge(){
+ const out=[...places],seen=new Set();
+ const ctx=[{},{signedIn:true},{school:true}];
+ for(const [key,fn] of Object.entries(guides))for(const c of ctx){const g=fn(c);for(const f of g.faq){const id=f.q+f.a;if(seen.has(id))continue;seen.add(id);out.push({title:f.q,text:f.a,kind:'dúvida'});}
+  const id='g:'+g.title+g.steps.map(s=>s.text).join();if(!seen.has(id)){seen.add(id);out.push({title:g.title,text:g.steps.map((s,i)=>(i+1)+'. '+s.text).join(' '),kind:'passo',href:Object.entries(pages).find(([,k])=>k===key)?.[0]});}}
+ for(const [name,title] of Object.entries(fieldTitles))out.push({title:'Campo: '+title,text:fields[name],kind:'campo'});
+ return out;
+}
+
+const stop=new Set('a o as os de da do das dos e em no na nos nas um uma uns umas para pra por com como que qual quais onde quando eu meu minha meus minhas me se ao aos é ser ter tem tenho fazer faço faz posso pode consigo quero preciso sobre isso esse essa este esta nebu oi ola'.split(' '));
+export const sniffWords=t=>words(t);
+export const fold=t=>String(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9@. ]+/g,' ');
+const near=(a,b)=>{if(a===b)return true;let i=0;while(i<a.length&&a[i]===b[i])i++;return i>=Math.max(4,Math.min(a.length,b.length)-2);};
+const stem=w=>w.length>4?w.replace(/(oes|aes|ais|eis|ns|s)$/,''):w;
+const words=t=>fold(t).split(/\s+/).filter(w=>w&&!stop.has(w)).map(stem);
+const synonyms={emprego:['vaga','trabalho'],trabalho:['vaga','emprego'],vaga:['emprego','trabalho'],login:['entrar'],entrar:['login'],logar:['entrar','login'],cadastrar:['cadastro','conta','criar'],registrar:['cadastro','conta'],dinheiro:['credito','pagamento','pix'],pagar:['pagamento','pix','cartao'],credito:['carteira','saldo','recarga'],saldo:['carteira','credito'],preco:['plano','custa','valor'],custa:['preco','plano','valor'],curso:['treinamento','aula'],ia:['agente','inteligencia'],robo:['agente','ia'],cv:['curriculo'],senha:['password'],celular:['aplicativo','instalar'],app:['aplicativo','instalar'],apagar:['excluir','privacidade'],excluir:['privacidade','dados'],empresa:['recrutar','publicar'],aluno:['instituicao','curso'],suporte:['contato','equipe'],ajuda:['contato','duvida']};
+
+export function nebuSniff(query,entries=nebuKnowledge()){
+ const q=words(query);if(!q.length)return [];
+ const terms=[...new Set(q.flatMap(w=>[w,...(synonyms[w]||[]).map(stem)]))];
+ const score=e=>{const title=words(e.title),text=words(e.text);let s=0,hits=0;for(const t of terms){const main=q.includes(t)?1:0.5;const inTitle=title.some(w=>near(w,t)),inText=text.some(w=>near(w,t));if(inTitle||inText)hits+=main;s+=main*((inTitle?3:0)+(inText?1:0));}return hits?s*(hits/q.length):0;};
+ const titles=new Set();
+ return entries.map(e=>({...e,score:score(e)})).filter(e=>e.score>=1).sort((a,b)=>b.score-a.score).filter(e=>!titles.has(e.title)&&titles.add(e.title)).slice(0,3);
+}
