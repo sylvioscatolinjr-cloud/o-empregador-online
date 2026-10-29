@@ -2,9 +2,10 @@ import {nebuAvatar,nebuRunner,catSprite,duckToy,playToy} from './nebu-avatar.mjs
 // Brincadeiras da Nebu quando a tela fica parada (pedido do titular em 29/10/2026):
 // 1 min: um gato passa e ela corre latindo atrás. 2 min: ela dorme, às vezes com o pato de brinquedo.
 // Dormindo, às vezes solta um pum ou o gato chega de mansinho, cutuca 3 vezes e ela acorda correndo atrás dele.
+// 15 s: ela dá uma volta pela parte de baixo da tela, fareja e volta para o canto.
 // 30 s: às vezes ela traz a bolinha ou o frango para brincar de bobinho: o brinquedo sempre desvia do ponteiro.
 // Qualquer movimento do usuário acorda a Nebu e desfaz a cena. Tudo é decorativo (aria-hidden, sem cliques).
-export const IDLE={play:30000,playChance:0.6,playDodges:6,playGiveUp:20000,chase:60000,sleep:120000,sleepEventMin:25000,sleepEventMax:45000,resleep:30000};
+export const IDLE={stroll:15000,play:30000,playChance:0.6,playDodges:6,playGiveUp:20000,chase:60000,sleep:120000,sleepEventMin:25000,sleepEventMax:45000,resleep:30000};
 export const idleCss=`.nebu-stage{position:fixed;left:0;right:0;bottom:6px;height:84px;pointer-events:none;z-index:899;overflow:hidden}
 .nebu-sprite{position:absolute;bottom:0;left:0;will-change:transform}.nebu-flip svg{transform:scaleX(-1)}
 .nebu-sprite .nebu-leg-a{animation:nebu-leg .22s steps(2) infinite}.nebu-sprite .nebu-leg-b{animation:nebu-leg .22s steps(2) infinite reverse}
@@ -14,15 +15,15 @@ export const idleCss=`.nebu-stage{position:fixed;left:0;right:0;bottom:6px;heigh
 .nebu-flip .nebu-say{left:auto;right:40px}
 .nebu-tap{animation:nebu-tap .4s ease-in-out}@keyframes nebu-tap{50%{transform:translateY(-6px) rotate(-6deg)}}
 .nebu-launcher .nebu-avatar{transition:opacity .3s}.nebu-launcher.nebu-away .nebu-avatar{opacity:0}
-.nebu-zzz{position:fixed;right:22px;bottom:84px;z-index:900;pointer-events:none;font:700 16px/1 system-ui,sans-serif;color:#543878;animation:nebu-zzz 2.4s ease-in-out infinite}
+.nebu-zzz{position:fixed;right:14px;bottom:100px;z-index:900;pointer-events:none;font:700 16px/1 system-ui,sans-serif;color:#543878;animation:nebu-zzz 2.4s ease-in-out infinite}
 @keyframes nebu-zzz{0%{opacity:0;transform:translate(0,6px)}50%{opacity:1}100%{opacity:0;transform:translate(10px,-14px)}}
-.nebu-toy{position:fixed;right:78px;bottom:14px;z-index:900;pointer-events:none}
-.nebu-puff{position:fixed;right:64px;bottom:20px;z-index:900;pointer-events:none;font:700 12px/1 system-ui,sans-serif;color:#6b7d4f;background:radial-gradient(circle,#dfe8c8 55%,transparent 60%);padding:12px 10px;border-radius:50%;animation:nebu-puff 2s ease-out forwards}
+.nebu-toy{position:fixed;right:88px;bottom:8px;z-index:900;pointer-events:none}
+.nebu-puff{position:fixed;right:76px;bottom:16px;z-index:900;pointer-events:none;font:700 12px/1 system-ui,sans-serif;color:#6b7d4f;background:radial-gradient(circle,#dfe8c8 55%,transparent 60%);padding:12px 10px;border-radius:50%;animation:nebu-puff 2s ease-out forwards}
 @keyframes nebu-puff{0%{opacity:0;transform:scale(.4)}25%{opacity:1}100%{opacity:0;transform:translate(-18px,-10px) scale(1.4)}}
 .nebu-play{position:fixed;z-index:900;pointer-events:auto;cursor:grab;transition:right .35s cubic-bezier(.3,1.6,.5,1),bottom .35s cubic-bezier(.3,1.6,.5,1);touch-action:none}
-.nebu-play-say{position:fixed;right:20px;bottom:86px;z-index:900;pointer-events:none;background:#fff;border:1px solid #ddd4e6;border-radius:12px;padding:2px 8px;font:700 13px/1.4 system-ui,sans-serif;color:#543878}
+.nebu-play-say{position:fixed;right:16px;bottom:104px;z-index:900;pointer-events:none;background:#fff;border:1px solid #ddd4e6;border-radius:12px;padding:2px 8px;font:700 13px/1.4 system-ui,sans-serif;color:#543878}
 .nebu-launcher.nebu-wiggle{animation:nebu-wiggle .5s ease-in-out 2}@keyframes nebu-wiggle{25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
-@media (max-width:600px){.nebu-zzz{right:16px;bottom:72px}.nebu-toy{right:70px;bottom:10px}.nebu-puff{right:58px;bottom:14px}}
+@media (max-width:600px){.nebu-zzz{right:10px;bottom:82px}.nebu-toy{right:70px;bottom:6px}.nebu-puff{right:62px;bottom:12px}.nebu-play-say{bottom:86px}}
 @media (prefers-reduced-motion:reduce){.nebu-play{transition:none}.nebu-zzz,.nebu-sprite .nebu-leg-a,.nebu-sprite .nebu-leg-b{animation:none}}`;
 
 export function attachNebuIdle({doc=document,launcher,isPanelOpen=()=>false,random=Math.random,reducedMotion}={}){
@@ -41,6 +42,13 @@ export function attachNebuIdle({doc=document,launcher,isPanelOpen=()=>false,rand
  function wake(){if(state!=='awake')face('happy');state='awake';}
  const busy=()=>isPanelOpen()||doc.hidden;
 
+ function stroll(){
+  state='strolling';away(true);const far=Math.max(40,Math.round(width()*0.4)),dog=sprite(nebuRunner(),{flip:true,cls:'nebu-sneak'});
+  move(dog,home(),far,3600);
+  later(()=>{dog.classList.remove('nebu-sneak');const s=doc.createElement('span');s.className='nebu-say';s.textContent='snif snif';dog.append(s);},3700);
+  later(()=>{dog.innerHTML=nebuRunner();dog.classList.remove('nebu-flip');dog.classList.add('nebu-sneak');move(dog,far,home(),3600);},4700);
+  later(()=>{dog.remove();away(false);state='awake';},8400);
+ }
  function chaseRight(done){
   state='chasing';const cat=sprite(catSprite()),dog=sprite(nebuRunner(),{say:'Au! Au!'});away(true);
   move(cat,-90,width()+100,3200);move(dog,-230,width()+20,3600);
@@ -101,7 +109,7 @@ export function attachNebuIdle({doc=document,launcher,isPanelOpen=()=>false,rand
  function endPlay(){if(state!=='playing')return;say('É meu! Hehe',1800);toy?.remove();toy=null;state='awake';launcher.classList.remove('nebu-wiggle');idleStart();}
  function idleStart(){
   for(const t of idleTimers)clearTimeout(t);
-  idleTimers=[setTimeout(()=>{if(state==='awake'&&!busy()&&!calm&&random()<IDLE.playChance)play();},IDLE.play),setTimeout(()=>{if(state==='awake'&&!busy()&&!calm)chaseRight();},IDLE.chase),setTimeout(()=>{const go=()=>['chasing','playing'].includes(state)?later(go,500):sleep();go();},IDLE.sleep)];
+  idleTimers=[setTimeout(()=>{if(state==='awake'&&!busy()&&!calm)stroll();},IDLE.stroll),setTimeout(()=>{if(state==='awake'&&!busy()&&!calm&&random()<IDLE.playChance)play();},IDLE.play),setTimeout(()=>{if(state==='awake'&&!busy()&&!calm)chaseRight();},IDLE.chase),setTimeout(()=>{const go=()=>['chasing','playing','strolling'].includes(state)?later(go,500):sleep();go();},IDLE.sleep)];
  }
  function activity(e){
   // No bobinho, chegar perto do brinquedo faz ele desviar; o resto da tela segue normal.
