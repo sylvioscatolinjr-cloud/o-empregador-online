@@ -50,3 +50,6 @@ await copyFile('app/destaques.html','dist/destaques.html');
 await copyFile('app/turbinar.html','dist/turbinar.html');
 await build({entryPoints:['app/turbinar.mjs'],outfile:'dist/turbinar.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
 await build({entryPoints:['app/highlight-entry.mjs'],outfile:'dist/highlight-purchase.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
+
+// Nebu: assistente de ajuda carregada em todas as páginas públicas e da conta.
+await build({entryPoints:['app/nebu.mjs'],outfile:'dist/nebu.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
