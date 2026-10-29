@@ -1,6 +1,6 @@
 # Nebu — assistente de ajuda do portal
 
-Pedido do titular em 29/10/2026: uma assistente "Nebu" (bulldog francês fêmea, cabeça preta, corpo branco com manchas pretas) para orientar usuários perdidos sobre próximos passos e preenchimento de campos. Visual desenhado em SVG a partir das fotos da Nebu real enviadas pelo titular.
+Pedido do titular em 29/10/2026: uma assistente "Nebu" (bulldog francês fêmea, cabeça preta, corpo branco com manchas pretas) para orientar usuários perdidos sobre próximos passos e preenchimento de campos. Visual em SVG no estilo da Nebu da Super Maker (imagem enviada pelo titular em 29/10 à noite): sentada, cabeça preta, orelhas rosadas com lacinho, coleira azul-turquesa com medalhinha dourada.
 
 ## Como funciona (sem IA)
 

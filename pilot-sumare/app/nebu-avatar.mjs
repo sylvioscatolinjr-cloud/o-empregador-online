@@ -1,45 +1,54 @@
-// Nebu: bulldog francês fêmea, inspirada nas fotos enviadas pelo titular em 29/10/2026.
-// Cabeça preta com focinho grisalho, orelhas eretas, corpo branco com pintinhas cinzas e mancha preta no dorso.
+// Nebu: bulldog francês fêmea no visual da Nebu da Super Maker (imagem enviada pelo titular em 29/10/2026).
+// Desenho simples, sentada: cabeça preta, orelhas rosadas por dentro com lacinho, olhos castanhos,
+// coleira azul-turquesa com medalhinha dourada, corpo branco e mancha preta no lado.
+const INK='#2b2a33',PINK='#f2a5b0',TEAL='#1aa3b8';
 export function nebuAvatar({size=64,title='Nebu, assistente do portal',mood='happy'}={}){
  const id='nebu-'+Math.random().toString(36).slice(2,8);
- const mouth=mood==='thinking'||mood==='sleep'?'<path d="M52 86q8 2 16 0" fill="none" stroke="#0d0b10" stroke-width="2" stroke-linecap="round"/>':'<path d="M50 85q10 6 20 0" fill="none" stroke="#0d0b10" stroke-width="2" stroke-linecap="round"/><path d="M56 87q4 8 8 0z" fill="#e8798f"/>';
- const eyes=mood==='sleep'?'<path d="M34 59q7 5 14 0M72 59q7 5 14 0" fill="none" stroke="#c4bec8" stroke-width="2.4" stroke-linecap="round"/>':`<g class="nebu-eyes"><g><circle cx="41" cy="58" r="7.5" fill="#f4eee6"/><circle cx="41.5" cy="58.5" r="6" fill="#4a2a17"/><circle cx="41.5" cy="58.5" r="3.4" fill="#0d0b10"/><circle cx="39.5" cy="56" r="1.7" fill="#fff"/></g>
-<g><circle cx="79" cy="58" r="7.5" fill="#f4eee6"/><circle cx="78.5" cy="58.5" r="6" fill="#4a2a17"/><circle cx="78.5" cy="58.5" r="3.4" fill="#0d0b10"/><circle cx="76.5" cy="56" r="1.7" fill="#fff"/></g></g>`;
- return `<svg class="nebu-avatar" width="${Number(size)}" height="${Number(size)}" viewBox="0 0 120 120" role="img" aria-labelledby="${id}"><title id="${id}">${title}</title>
-<path d="M14 120c0-26 20-40 46-40s46 14 46 40z" fill="#fbfaf7" stroke="#2c2138" stroke-width="1.5"/>
-<path d="M80 92c12-2 22 6 25 22l1 6H86c-6-8-10-18-6-28z" fill="#1d1a22"/>
-<g fill="#9a95a0"><circle cx="34" cy="104" r="1.6"/><circle cx="40" cy="110" r="1.3"/><circle cx="28" cy="112" r="1.4"/><circle cx="46" cy="102" r="1.1"/><circle cx="70" cy="108" r="1.4"/><circle cx="62" cy="114" r="1.2"/><circle cx="36" cy="97" r="1"/></g>
-<g class="nebu-ear-l"><path d="M30 50C16 34 10 14 20 6c10-7 26 8 32 24z" fill="#1d1a22"/><path d="M31 42C22 30 18 17 23 12c6-4 16 7 21 18z" fill="#5a4648"/></g>
-<g class="nebu-ear-r"><path d="M90 50c14-16 20-36 10-44-10-7-26 8-32 24z" fill="#1d1a22"/><path d="M89 42c9-12 13-25 8-30-6-4-16 7-21 18z" fill="#5a4648"/></g>
-<path d="M60 26c26 0 46 14 46 38 0 18-14 30-46 30S14 82 14 64c0-24 20-38 46-38z" fill="#1d1a22"/>
-<path d="M30 86q30 13 60 0" fill="none" stroke="#543878" stroke-width="7" stroke-linecap="round"/><circle cx="60" cy="97" r="4.5" fill="#f2c94c" stroke="#8a6d1c" stroke-width="1"/>
-<ellipse cx="48" cy="80" rx="15" ry="10" fill="#3d3842"/><ellipse cx="72" cy="80" rx="15" ry="10" fill="#3d3842"/>
-<g fill="#c4bec8"><circle cx="40" cy="78" r="1.1"/><circle cx="45" cy="84" r="1"/><circle cx="52" cy="77" r=".9"/><circle cx="80" cy="78" r="1.1"/><circle cx="75" cy="84" r="1"/><circle cx="68" cy="77" r=".9"/><circle cx="37" cy="83" r=".9"/><circle cx="83" cy="83" r=".9"/><circle cx="56" cy="66" r=".8"/><circle cx="64" cy="66" r=".8"/><circle cx="60" cy="63" r=".8"/></g>
-<path d="M47 62q13-7 26 0" fill="none" stroke="#3d3842" stroke-width="2" stroke-linecap="round"/>
-<path d="M51 72q9-6 18 0q1 6-9 7q-10-1-9-7z" fill="#0d0b10"/><ellipse cx="56" cy="71.5" rx="2.6" ry="1.2" fill="#6d6872"/><circle cx="56.5" cy="75" r="1.2" fill="#3d3842"/><circle cx="63.5" cy="75" r="1.2" fill="#3d3842"/>
-<path d="M60 79v4" stroke="#0d0b10" stroke-width="1.6"/>
+ const mouth=mood==='thinking'||mood==='sleep'?'':'<path d="M61.5 75q3.5 6 7 0z" fill="#e8798f"/>';
+ const eye=(x)=>`<circle cx="${x}" cy="52" r="8" fill="#3a1a08"/><circle cx="${x}" cy="52" r="6.6" fill="#7a3b14"/><circle cx="${x}" cy="52" r="3.6" fill="#1a0c04"/><circle cx="${x-2.4}" cy="49.2" r="2.4" fill="#fff"/><circle cx="${x+2.4}" cy="54.4" r="1.1" fill="#fff"/>`;
+ const eyes=mood==='sleep'?'<path d="M40 53q7 4.5 14 0M76 53q7 4.5 14 0" fill="none" stroke="#c4bec8" stroke-width="2.4" stroke-linecap="round"/>':`<g class="nebu-eyes">${eye(47)}${eye(83)}</g>`;
+ return `<svg class="nebu-avatar" width="${Number(size)}" height="${Number(size)}" viewBox="12 0 106 128" role="img" aria-labelledby="${id}"><title id="${id}">${title}</title>
+<ellipse cx="65" cy="125" rx="38" ry="3.5" fill="#000" opacity=".1"/>
+<path d="M28 124c-6-20 0-38 16-44h42c16 6 22 24 16 44z" fill="#fff" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M88 86c12 6 16 24 11 38H86c4-13 4-26 2-38z" fill="${INK}"/>
+<g fill="#b9b6c0"><circle cx="40" cy="94" r="1.3"/><circle cx="45" cy="101" r="1.1"/><circle cx="38" cy="108" r="1.2"/><circle cx="82" cy="98" r="1"/><circle cx="56" cy="88" r="1"/></g>
+<g fill="#fff" stroke="${INK}" stroke-width="1.8"><rect x="46" y="95" width="16" height="29" rx="7"/><rect x="68" y="95" width="16" height="29" rx="7"/></g>
+<path d="M50.5 119v5M55 119v5M73 119v5M78 119v5" stroke="${INK}" stroke-width="1.2"/>
+<g class="nebu-ear-l"><path d="M33 46C22 32 17 16 21 8c4-7 15-5 24 5 6 7 12 15 14 20z" fill="${INK}"/><path d="M35 39c-7-10-10-20-8-25 3-4 10-2 16 5 4 5 8 10 9 13z" fill="${PINK}"/></g>
+<g class="nebu-ear-r"><path d="M97 46c11-14 16-30 12-38-4-7-15-5-24 5-6 7-12 15-14 20z" fill="${INK}"/><path d="M95 39c7-10 10-20 8-25-3-4-10-2-16 5-4 5-8 10-9 13z" fill="${PINK}"/></g>
+<path d="M65 27c27 0 40 12 40 30 0 17-14 27-40 27S25 74 25 57c0-18 13-30 40-30z" fill="${INK}"/>
+<path d="M41 82q24 11 48 0" fill="none" stroke="${TEAL}" stroke-width="6.5" stroke-linecap="round"/>
+<circle cx="65" cy="91" r="5" fill="#f2c230" stroke="#b8860b" stroke-width="1"/><path d="M63 93v-4l4 4v-4" fill="none" stroke="#8a6410" stroke-width=".9"/>
+<path d="M50 44q15-6 30 0" fill="none" stroke="#45434f" stroke-width="2" stroke-linecap="round"/><path d="M56 40q9-3 18 0" fill="none" stroke="#45434f" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M52 63q13-5 26 0" fill="none" stroke="#45434f" stroke-width="2" stroke-linecap="round"/>
+<ellipse cx="55" cy="72" rx="12.5" ry="8.5" fill="#3b3a45"/><ellipse cx="75" cy="72" rx="12.5" ry="8.5" fill="#3b3a45"/>
+<path d="M45 76q4 6 10 5M85 76q-4 6-10 5" fill="none" stroke="#1d1c24" stroke-width="1.4" stroke-linecap="round"/>
+<g fill="#a29eaa"><circle cx="48" cy="71" r=".9"/><circle cx="51" cy="75" r=".8"/><circle cx="53" cy="69" r=".7"/><circle cx="82" cy="71" r=".9"/><circle cx="79" cy="75" r=".8"/><circle cx="77" cy="69" r=".7"/></g>
+<ellipse cx="37" cy="66" rx="4.5" ry="2.6" fill="#e9768a" opacity=".7"/><ellipse cx="93" cy="66" rx="4.5" ry="2.6" fill="#e9768a" opacity=".7"/>
+<path d="M57 65q8-5 16 0q0 5.5-8 6.5q-8-1-8-6.5z" fill="#0d0b10"/><ellipse cx="61" cy="65" rx="2" ry=".9" fill="#6d6872"/><circle cx="61.5" cy="68" r="1" fill="#2b2a33"/><circle cx="68.5" cy="68" r="1" fill="#2b2a33"/>
+<path d="M65 71.5v3" stroke="#0d0b10" stroke-width="1.4"/>
 ${mouth}
 ${eyes}
-<g transform="translate(30 34) rotate(-20)"><path d="M0 0-11-6v12zM0 0l11-6v12z" fill="#ff7aa8" stroke="#c94a7a" stroke-width="1"/><circle r="3.4" fill="#ff9cc0" stroke="#c94a7a" stroke-width="1"/></g>
+<g transform="translate(91 34) rotate(20)"><path d="M0 0-8-4.5v9zM0 0l8-4.5v9z" fill="#ff7aa8" stroke="#c94a7a" stroke-width=".9"/><circle r="2.6" fill="#ff9cc0" stroke="#c94a7a" stroke-width=".9"/></g>
 </svg>`;
 }
 
 // Figuras das brincadeiras de ociosidade (decorativas, sem texto para leitores de tela).
 export function nebuRunner({duck=false}={}){
  return `<svg class="nebu-runner-svg" width="96" height="68" viewBox="0 0 100 70" aria-hidden="true" focusable="false">
-<path d="M14 36l-6-4" stroke="#1d1a22" stroke-width="4" stroke-linecap="round"/>
+<path d="M14 36l-6-4" stroke="#2b2a33" stroke-width="4" stroke-linecap="round"/>
 <g class="nebu-leg-b"><rect x="22" y="46" width="7" height="18" rx="3.5" fill="#fbfaf7" stroke="#2c2138"/><rect x="58" y="46" width="7" height="18" rx="3.5" fill="#fbfaf7" stroke="#2c2138"/></g>
 <ellipse cx="44" cy="40" rx="30" ry="16" fill="#fbfaf7" stroke="#2c2138" stroke-width="1.2"/>
-<path d="M18 34c4-10 14-12 22-10 6 2 10 10 6 18-6 8-22 8-28 0z" fill="#1d1a22"/>
-<path d="M44 26c8-4 16-2 18 3-6 3-12 3-18-3z" fill="#1d1a22"/>
+<path d="M18 34c4-10 14-12 22-10 6 2 10 10 6 18-6 8-22 8-28 0z" fill="#2b2a33"/>
+<path d="M44 26c8-4 16-2 18 3-6 3-12 3-18-3z" fill="#2b2a33"/>
 <g fill="#9a95a0"><circle cx="56" cy="42" r="1.2"/><circle cx="62" cy="38" r="1"/><circle cx="52" cy="48" r="1"/><circle cx="66" cy="46" r="1.1"/></g>
 <g class="nebu-leg-a"><rect x="30" y="46" width="7" height="18" rx="3.5" fill="#fbfaf7" stroke="#2c2138"/><rect x="66" y="46" width="7" height="18" rx="3.5" fill="#fbfaf7" stroke="#2c2138"/></g>
-<path d="M66 28q8 8 16 6" stroke="#543878" stroke-width="4" fill="none" stroke-linecap="round"/>
-<path d="M70 20c-2-8 0-16 4-18 4 0 6 8 6 16z" fill="#1d1a22"/><path d="M72 18c-1-6 0-11 2-12 2 1 4 6 4 11z" fill="#5a4648"/>
-<circle cx="80" cy="28" r="15" fill="#1d1a22"/>
+<path d="M66 28q8 8 16 6" stroke="#1aa3b8" stroke-width="4" fill="none" stroke-linecap="round"/>
+<path d="M68 20c-4-8-3-17 2-19 5-1 10 7 12 17z" fill="#2b2a33"/><path d="M70.5 17c-2.5-6-2-11 1-12.5 3-.5 6 4.5 7.5 11z" fill="#f2a5b0"/>
+<circle cx="80" cy="28" r="15" fill="#2b2a33"/>
 <ellipse cx="91" cy="33" rx="8" ry="7" fill="#3d3842"/><g fill="#c4bec8"><circle cx="89" cy="36" r=".8"/><circle cx="93" cy="35" r=".8"/><circle cx="91" cy="38" r=".7"/></g>
 <ellipse cx="96" cy="29" rx="3.5" ry="2.6" fill="#0d0b10"/>
-<circle cx="83" cy="23" r="3.4" fill="#f4eee6"/><circle cx="84" cy="23" r="2.2" fill="#4a2a17"/><circle cx="83.4" cy="22.2" r=".8" fill="#fff"/>
+<circle cx="83" cy="23" r="3.4" fill="#3a1a08"/><circle cx="83.2" cy="23" r="2.6" fill="#7a3b14"/><circle cx="83.4" cy="22.2" r=".8" fill="#fff"/>
 <g transform="translate(70 22) rotate(-10)"><path d="M0 0-6-4v8zM0 0l6-4v8z" fill="#ff7aa8"/><circle r="2" fill="#ff9cc0"/></g>
 ${duck?`<g transform="translate(88 34)">${duckShape()}</g>`:''}
 </svg>`;
