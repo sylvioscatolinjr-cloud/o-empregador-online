@@ -91,9 +91,9 @@ test('idle: after 1 minute a cat runs by and Nebu chases it barking, then comes 
 test('idle: after 2 minutes Nebu sleeps, and any activity wakes her',()=>{
  const {doc,launcher}=idlePage(),idle=attachNebuIdle({doc,launcher,reducedMotion:false,random:()=>0.9});
  advance(IDLE.sleep);advance(500);
- assert.equal(idle.state(),'sleeping');assert.ok(doc.querySelector('.nebu-zzz'));assert.match(launcher.innerHTML,/M34 59/);
+ assert.equal(idle.state(),'sleeping');assert.ok(doc.querySelector('.nebu-zzz'));assert.match(launcher.innerHTML,/M45 51/);
  poke(doc);
- assert.equal(idle.state(),'awake');assert.equal(doc.querySelector('.nebu-zzz'),null);assert.doesNotMatch(launcher.innerHTML,/M34 59/);
+ assert.equal(idle.state(),'awake');assert.equal(doc.querySelector('.nebu-zzz'),null);assert.doesNotMatch(launcher.innerHTML,/M45 51/);
  advance(IDLE.chase-1);assert.equal(idle.state(),'awake','idle clock restarts after activity');
  idle.stop();
 });
@@ -185,4 +185,10 @@ test('launcher Nebu blinks and moves her ears while waiting',()=>{
  const {doc,loc}=page('<main></main>','/');const n=mountNebu(doc,loc);n.idle.stop();
  const svg=doc.querySelector('.nebu-launcher .nebu-avatar');assert.ok(svg.querySelector('.nebu-eyes'));assert.ok(svg.querySelector('.nebu-ear-l'));assert.ok(svg.querySelector('.nebu-ear-r'));
  const css=doc.querySelector('style[data-nebu]').textContent;assert.match(css,/nebu-blink/);assert.match(css,/nebu-ear/);assert.match(css,/prefers-reduced-motion/);
+});
+
+test('Nebu keeps the Super Maker look: black head, pink ears and bow, teal collar with gold tag',async()=>{
+ const {nebuAvatar}=await import('../app/nebu-avatar.mjs');const svg=nebuAvatar();
+ for(const color of ['#2b2a33','#f2a5b0','#1aa3b8','#f2c230','#ff7aa8'])assert.ok(svg.includes(color),color);
+ assert.match(svg,/<title id="nebu-[a-z0-9]+">Nebu, assistente do portal<\/title>/);
 });
