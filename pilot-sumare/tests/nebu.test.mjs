@@ -114,8 +114,9 @@ test('idle: while asleep she may fart, or the cat taps her 3 times and she chase
  assert.equal(idle.state(),'sleeping');
  advance(IDLE.sleepEventMin);assert.ok(doc.querySelector('.nebu-puff'));assert.ok(launcher.classList.contains('nebu-wiggle'));
  advance(2100);assert.equal(doc.querySelector('.nebu-puff'),null);assert.equal(idle.state(),'sleeping');
- advance(IDLE.sleepEventMin-2100);assert.equal(idle.state(),'teased');
- advance(4000);assert.equal(idle.state(),'chasing');assert.equal(doc.querySelector('.nebu-zzz'),null);
+ advance(IDLE.sleepEventMin-2100);assert.equal(idle.state(),'teased');assert.ok(doc.querySelector('.nebu-stick'),'cat carries a stick');
+ let tocs=0;for(let t=0;t<5400;t+=100){advance(100);if(/toc/.test(doc.body.textContent)&&!doc.body.dataset.tocSeen){tocs++;doc.body.dataset.tocSeen='1';}if(!/toc/.test(doc.body.textContent))delete doc.body.dataset.tocSeen;}
+ assert.equal(tocs,3,'pokes 3 times');assert.equal(idle.state(),'chasing');assert.equal(doc.querySelector('.nebu-zzz'),null);
  advance(4800);assert.equal(idle.state(),'awake');
  advance(IDLE.resleep);assert.equal(idle.state(),'sleeping','goes back to sleep');
  idle.stop();

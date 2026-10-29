@@ -18,7 +18,7 @@ Pedido do titular em 29/10/2026: uma assistente "Nebu" (bulldog francês fêmea,
   - 15 s: passeia pela parte de baixo da tela, fareja ("snif snif") e volta ao canto.
   - 30 s: às vezes (60%) traz a bolinha ou o frango de brinquedo para brincar de bobinho; o brinquedo sempre desvia do ponteiro ou do toque. Depois de 6 tentativas ou 20 s, "É meu!".
   - 1 min: um gato passa e ela corre latindo atrás.
-  - 2 min: dorme (às vezes antes busca o pato de brinquedo e dorme junto). Dormindo, de 25 a 45 s: pum, ou o gato chega de mansinho, cutuca 3 vezes, ela acorda e corre atrás; depois volta a dormir.
+  - 2 min: dorme (às vezes antes busca o pato de brinquedo e dorme junto). Dormindo, de 25 a 45 s: pum, ou o gato chega de mansinho e, desconfiado, cutuca 3 vezes com um galho ("toc"); ela acorda e corre atrás; depois volta a dormir.
 - Com "reduzir movimento" ligado no aparelho, só o soninho, sem correria.
 - As cenas são decorativas (aria-hidden) e não bloqueiam cliques, exceto o brinquedo do bobinho.
 

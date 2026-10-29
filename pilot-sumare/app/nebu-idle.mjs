@@ -13,7 +13,11 @@ export const idleCss=`.nebu-stage{position:fixed;left:0;right:0;bottom:6px;heigh
 @keyframes nebu-leg{0%{transform:translateY(0)}100%{transform:translateY(-3px)}}
 .nebu-say{position:absolute;bottom:64px;left:40px;background:#fff;border:1px solid #ddd4e6;border-radius:12px;padding:2px 8px;font:700 13px/1.4 system-ui,sans-serif;color:#543878;white-space:nowrap}
 .nebu-flip .nebu-say{left:auto;right:40px}
-.nebu-tap{animation:nebu-tap .4s ease-in-out}@keyframes nebu-tap{50%{transform:translateY(-6px) rotate(-6deg)}}
+.nebu-still .nebu-leg-a,.nebu-still .nebu-leg-b{animation:none}
+.nebu-wary svg{transform-origin:30% 100%;transform:scaleY(.94)}
+.nebu-poke .nebu-stick{animation:nebu-poke .55s ease-in-out}.nebu-poke svg{animation:nebu-lean .55s ease-in-out}
+@keyframes nebu-poke{0%,100%{transform:translateX(0)}40%,60%{transform:translateX(12px)}}
+@keyframes nebu-lean{0%,100%{transform:scaleY(.94) translateX(0)}70%{transform:scaleY(.94) translateX(-6px)}}
 .nebu-launcher .nebu-avatar{transition:opacity .3s}.nebu-launcher.nebu-away .nebu-avatar{opacity:0}
 .nebu-zzz{position:fixed;right:14px;bottom:100px;z-index:900;pointer-events:none;font:700 16px/1 system-ui,sans-serif;color:#543878;animation:nebu-zzz 2.4s ease-in-out infinite}
 @keyframes nebu-zzz{0%{opacity:0;transform:translate(0,6px)}50%{opacity:1}100%{opacity:0;transform:translate(10px,-14px)}}
@@ -80,9 +84,11 @@ export function attachNebuIdle({doc=document,launcher,isPanelOpen=()=>false,rand
   },IDLE.sleepEventMin+random()*(IDLE.sleepEventMax-IDLE.sleepEventMin));
  }
  function catWake(){
-  state='teased';const cat=sprite(catSprite(),{cls:'nebu-sneak'});move(cat,-90,width()-170,2500);
-  for(let i=0;i<3;i++)later(()=>{cat.classList.remove('nebu-tap');void cat.offsetWidth;cat.classList.add('nebu-tap');},2600+i*450);
-  later(()=>{cat.remove();for(const z of doc.querySelectorAll('.nebu-zzz'))z.remove();launcher.classList.remove('nebu-sleeping');face('happy');state='awake';chaseLeft(()=>later(sleep,IDLE.resleep));},4000);
+  // O gato chega de mansinho e, desconfiado, cutuca a Nebu 3 vezes com um galho.
+  state='teased';const cat=sprite(catSprite({stick:true}),{cls:'nebu-sneak'});move(cat,-130,width()-215,2500);
+  later(()=>{cat.classList.remove('nebu-sneak');cat.classList.add('nebu-still','nebu-wary');},2550);
+  for(let i=0;i<3;i++)later(()=>{cat.classList.remove('nebu-poke');void cat.offsetWidth;cat.classList.add('nebu-poke');later(()=>say('toc',450),220);},2800+i*900);
+  later(()=>{cat.remove();for(const z of doc.querySelectorAll('.nebu-zzz'))z.remove();launcher.classList.remove('nebu-sleeping');face('happy');say('!',900);state='awake';chaseLeft(()=>later(sleep,IDLE.resleep));},5400);
  }
  const toyZone={minRight:96,maxRight:320,minBottom:16,maxBottom:170};
  let toy=null,toyPos=null,dodges=0,giveUp=null;

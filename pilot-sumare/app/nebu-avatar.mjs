@@ -55,8 +55,8 @@ ${duck?`<g transform="translate(88 34)">${duckShape()}</g>`:''}
 }
 function duckShape(){return '<ellipse cx="8" cy="12" rx="9" ry="6.5" fill="#ffd23f" stroke="#c99a00"/><circle cx="13" cy="4" r="5" fill="#ffd23f" stroke="#c99a00"/><path d="M17 4l5 1.5-5 1.5z" fill="#ff8a00"/><circle cx="14" cy="3" r=".9" fill="#2c2138"/>';}
 export function duckToy(){return `<svg class="nebu-duck-svg" width="30" height="24" viewBox="-1 -2 25 22" aria-hidden="true" focusable="false">${duckShape()}</svg>`;}
-export function catSprite(){
- return `<svg class="nebu-cat-svg" width="80" height="60" viewBox="0 0 80 60" aria-hidden="true" focusable="false">
+export function catSprite({stick=false}={}){
+ return `<svg class="nebu-cat-svg" width="${stick?124:80}" height="60" viewBox="0 0 ${stick?124:80} 60" aria-hidden="true" focusable="false">
 <path d="M10 30C2 26 2 12 8 8" stroke="#d98a3a" stroke-width="5" fill="none" stroke-linecap="round"/>
 <g class="nebu-leg-b"><rect x="18" y="38" width="5" height="16" rx="2.5" fill="#d98a3a"/><rect x="46" y="38" width="5" height="16" rx="2.5" fill="#d98a3a"/></g>
 <ellipse cx="34" cy="34" rx="24" ry="11" fill="#e8a25a"/>
@@ -64,6 +64,7 @@ export function catSprite(){
 <g class="nebu-leg-a"><rect x="24" y="38" width="5" height="16" rx="2.5" fill="#e8a25a"/><rect x="52" y="38" width="5" height="16" rx="2.5" fill="#e8a25a"/></g>
 <circle cx="60" cy="24" r="11" fill="#e8a25a"/><path d="M52 17l1-10 7 7zM62 14l6-7 2 10z" fill="#e8a25a"/>
 <circle cx="64" cy="22" r="2" fill="#2c2138"/><path d="M70 26l1 1-2 1z" fill="#c94a7a"/><path d="M69 28l8-1M69 29l8 2" stroke="#2c2138" stroke-width=".6"/>
+${stick?'<g class="nebu-stick"><path d="M60 34 120 22" stroke="#8b5a2b" stroke-width="3" stroke-linecap="round"/><path d="M96 27l6-8M108 24.5l5 4" stroke="#8b5a2b" stroke-width="1.8" stroke-linecap="round"/><circle cx="105" cy="18" r="2.6" fill="#6aa84f"/><circle cx="61" cy="34" r="4" fill="#e8a25a" stroke="#c46f25"/></g>':''}
 </svg>`;
 }
 export function playToy(kind='ball'){
