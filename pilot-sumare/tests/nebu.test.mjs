@@ -91,9 +91,9 @@ test('idle: after 1 minute a cat runs by and Nebu chases it barking, then comes 
 test('idle: after 2 minutes Nebu sleeps, and any activity wakes her',()=>{
  const {doc,launcher}=idlePage(),idle=attachNebuIdle({doc,launcher,reducedMotion:false,random:()=>0.9});
  advance(IDLE.sleep);advance(500);
- assert.equal(idle.state(),'sleeping');assert.ok(doc.querySelector('.nebu-zzz'));assert.match(launcher.innerHTML,/M45 51/);
+ assert.equal(idle.state(),'sleeping');assert.ok(doc.querySelector('.nebu-zzz'));assert.match(launcher.innerHTML,/M40 53/);
  poke(doc);
- assert.equal(idle.state(),'awake');assert.equal(doc.querySelector('.nebu-zzz'),null);assert.doesNotMatch(launcher.innerHTML,/M45 51/);
+ assert.equal(idle.state(),'awake');assert.equal(doc.querySelector('.nebu-zzz'),null);assert.doesNotMatch(launcher.innerHTML,/M40 53/);
  advance(IDLE.chase-1);assert.equal(idle.state(),'awake','idle clock restarts after activity');
  idle.stop();
 });

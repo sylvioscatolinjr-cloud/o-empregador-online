@@ -4,29 +4,32 @@
 const INK='#2b2a33',PINK='#f2a5b0',TEAL='#1aa3b8';
 export function nebuAvatar({size=64,title='Nebu, assistente do portal',mood='happy'}={}){
  const id='nebu-'+Math.random().toString(36).slice(2,8);
- const mouth=mood==='thinking'||mood==='sleep'?'<path d="M60 67q5 2 10 0" fill="none" stroke="#0d0b10" stroke-width="1.6" stroke-linecap="round"/>':'<path d="M59 65q3 3 6 0q3 3 6 0" fill="none" stroke="#0d0b10" stroke-width="1.6" stroke-linecap="round"/><path d="M62.5 67q2.5 6 5 0z" fill="#e8798f"/>';
- const eyes=mood==='sleep'?'<path d="M45 51q6 4 12 0M73 51q6 4 12 0" fill="none" stroke="#c4bec8" stroke-width="2.2" stroke-linecap="round"/>':`<g class="nebu-eyes"><circle cx="51" cy="50" r="7.2" fill="#3a1a08"/><circle cx="51" cy="50" r="6" fill="#7a3b14"/><circle cx="51" cy="50" r="3.2" fill="#1a0c04"/><circle cx="49" cy="47.5" r="2.2" fill="#fff"/><circle cx="53.2" cy="52" r="1" fill="#fff"/>
-<circle cx="79" cy="50" r="7.2" fill="#3a1a08"/><circle cx="79" cy="50" r="6" fill="#7a3b14"/><circle cx="79" cy="50" r="3.2" fill="#1a0c04"/><circle cx="77" cy="47.5" r="2.2" fill="#fff"/><circle cx="81.2" cy="52" r="1" fill="#fff"/></g>`;
- return `<svg class="nebu-avatar" width="${Number(size)}" height="${Number(size)}" viewBox="18 0 94 128" role="img" aria-labelledby="${id}"><title id="${id}">${title}</title>
-<ellipse cx="65" cy="125" rx="32" ry="3.5" fill="#000" opacity=".1"/>
-<path d="M38 123C30 101 34 81 50 75h30c16 6 20 26 12 48z" fill="#fff" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/>
-<path d="M84 88c11 6 13 24 8 35H82c4-12 4-24 2-35z" fill="${INK}"/>
-<g fill="#b9b6c0"><circle cx="46" cy="90" r="1.2"/><circle cx="50" cy="97" r="1"/><circle cx="44" cy="104" r="1.1"/><circle cx="78" cy="94" r="1"/></g>
-<g fill="#fff" stroke="${INK}" stroke-width="1.8"><rect x="52" y="93" width="11" height="30" rx="5"/><rect x="67" y="93" width="11" height="30" rx="5"/></g>
-<path d="M55.5 118v5M59.5 118v5M70.5 118v5M74.5 118v5" stroke="${INK}" stroke-width="1.2"/>
-<g class="nebu-ear-l"><path d="M40 40 33 7c-1-4 3-6 6-3l18 27z" fill="${INK}"/><path d="M42 34 37.5 13 51 30z" fill="${PINK}"/></g>
-<g class="nebu-ear-r"><path d="M90 40l7-33c1-4-3-6-6-3L73 31z" fill="${INK}"/><path d="M88 34l4.5-21L79 30z" fill="${PINK}"/></g>
-<path d="M65 26c23 0 34 12 34 28 0 16-12 24-34 24S31 70 31 54c0-16 11-28 34-28z" fill="${INK}"/>
-<path d="M44 76q21 10 42 0" fill="none" stroke="${TEAL}" stroke-width="6" stroke-linecap="round"/>
-<circle cx="65" cy="84" r="5" fill="#f2c230" stroke="#b8860b" stroke-width="1"/><path d="M63 86v-4l4 4v-4" fill="none" stroke="#8a6410" stroke-width=".9"/>
-<ellipse cx="65" cy="63" rx="15" ry="10" fill="#393843"/>
-<g fill="#9e9aa6"><circle cx="54" cy="64" r=".9"/><circle cx="56" cy="68" r=".8"/><circle cx="76" cy="64" r=".9"/><circle cx="74" cy="68" r=".8"/><circle cx="58" cy="60" r=".7"/><circle cx="72" cy="60" r=".7"/></g>
-<ellipse cx="42" cy="62" rx="4.5" ry="2.6" fill="#e9768a" opacity=".75"/><ellipse cx="88" cy="62" rx="4.5" ry="2.6" fill="#e9768a" opacity=".75"/>
-<path d="M60 58.5q5-3.5 10 0q0 4-5 5q-5-1-5-5z" fill="#0d0b10"/><ellipse cx="63" cy="58.6" rx="1.6" ry=".8" fill="#6d6872"/>
-<path d="M65 63.5v2" stroke="#0d0b10" stroke-width="1.4"/>
+ const mouth=mood==='thinking'||mood==='sleep'?'':'<path d="M61.5 75q3.5 6 7 0z" fill="#e8798f"/>';
+ const eye=(x)=>`<circle cx="${x}" cy="52" r="8" fill="#3a1a08"/><circle cx="${x}" cy="52" r="6.6" fill="#7a3b14"/><circle cx="${x}" cy="52" r="3.6" fill="#1a0c04"/><circle cx="${x-2.4}" cy="49.2" r="2.4" fill="#fff"/><circle cx="${x+2.4}" cy="54.4" r="1.1" fill="#fff"/>`;
+ const eyes=mood==='sleep'?'<path d="M40 53q7 4.5 14 0M76 53q7 4.5 14 0" fill="none" stroke="#c4bec8" stroke-width="2.4" stroke-linecap="round"/>':`<g class="nebu-eyes">${eye(47)}${eye(83)}</g>`;
+ return `<svg class="nebu-avatar" width="${Number(size)}" height="${Number(size)}" viewBox="12 0 106 128" role="img" aria-labelledby="${id}"><title id="${id}">${title}</title>
+<ellipse cx="65" cy="125" rx="38" ry="3.5" fill="#000" opacity=".1"/>
+<path d="M28 124c-6-20 0-38 16-44h42c16 6 22 24 16 44z" fill="#fff" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/>
+<path d="M88 86c12 6 16 24 11 38H86c4-13 4-26 2-38z" fill="${INK}"/>
+<g fill="#b9b6c0"><circle cx="40" cy="94" r="1.3"/><circle cx="45" cy="101" r="1.1"/><circle cx="38" cy="108" r="1.2"/><circle cx="82" cy="98" r="1"/><circle cx="56" cy="88" r="1"/></g>
+<g fill="#fff" stroke="${INK}" stroke-width="1.8"><rect x="46" y="95" width="16" height="29" rx="7"/><rect x="68" y="95" width="16" height="29" rx="7"/></g>
+<path d="M50.5 119v5M55 119v5M73 119v5M78 119v5" stroke="${INK}" stroke-width="1.2"/>
+<g class="nebu-ear-l"><path d="M33 46C22 32 17 16 21 8c4-7 15-5 24 5 6 7 12 15 14 20z" fill="${INK}"/><path d="M35 39c-7-10-10-20-8-25 3-4 10-2 16 5 4 5 8 10 9 13z" fill="${PINK}"/></g>
+<g class="nebu-ear-r"><path d="M97 46c11-14 16-30 12-38-4-7-15-5-24 5-6 7-12 15-14 20z" fill="${INK}"/><path d="M95 39c7-10 10-20 8-25-3-4-10-2-16 5-4 5-8 10-9 13z" fill="${PINK}"/></g>
+<path d="M65 27c27 0 40 12 40 30 0 17-14 27-40 27S25 74 25 57c0-18 13-30 40-30z" fill="${INK}"/>
+<path d="M41 82q24 11 48 0" fill="none" stroke="${TEAL}" stroke-width="6.5" stroke-linecap="round"/>
+<circle cx="65" cy="91" r="5" fill="#f2c230" stroke="#b8860b" stroke-width="1"/><path d="M63 93v-4l4 4v-4" fill="none" stroke="#8a6410" stroke-width=".9"/>
+<path d="M50 44q15-6 30 0" fill="none" stroke="#45434f" stroke-width="2" stroke-linecap="round"/><path d="M56 40q9-3 18 0" fill="none" stroke="#45434f" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M52 63q13-5 26 0" fill="none" stroke="#45434f" stroke-width="2" stroke-linecap="round"/>
+<ellipse cx="55" cy="72" rx="12.5" ry="8.5" fill="#3b3a45"/><ellipse cx="75" cy="72" rx="12.5" ry="8.5" fill="#3b3a45"/>
+<path d="M45 76q4 6 10 5M85 76q-4 6-10 5" fill="none" stroke="#1d1c24" stroke-width="1.4" stroke-linecap="round"/>
+<g fill="#a29eaa"><circle cx="48" cy="71" r=".9"/><circle cx="51" cy="75" r=".8"/><circle cx="53" cy="69" r=".7"/><circle cx="82" cy="71" r=".9"/><circle cx="79" cy="75" r=".8"/><circle cx="77" cy="69" r=".7"/></g>
+<ellipse cx="37" cy="66" rx="4.5" ry="2.6" fill="#e9768a" opacity=".7"/><ellipse cx="93" cy="66" rx="4.5" ry="2.6" fill="#e9768a" opacity=".7"/>
+<path d="M57 65q8-5 16 0q0 5.5-8 6.5q-8-1-8-6.5z" fill="#0d0b10"/><ellipse cx="61" cy="65" rx="2" ry=".9" fill="#6d6872"/><circle cx="61.5" cy="68" r="1" fill="#2b2a33"/><circle cx="68.5" cy="68" r="1" fill="#2b2a33"/>
+<path d="M65 71.5v3" stroke="#0d0b10" stroke-width="1.4"/>
 ${mouth}
 ${eyes}
-<g transform="translate(88 31) rotate(18)"><path d="M0 0-8-4.5v9zM0 0l8-4.5v9z" fill="#ff7aa8" stroke="#c94a7a" stroke-width=".9"/><circle r="2.6" fill="#ff9cc0" stroke="#c94a7a" stroke-width=".9"/></g>
+<g transform="translate(91 34) rotate(20)"><path d="M0 0-8-4.5v9zM0 0l8-4.5v9z" fill="#ff7aa8" stroke="#c94a7a" stroke-width=".9"/><circle r="2.6" fill="#ff9cc0" stroke="#c94a7a" stroke-width=".9"/></g>
 </svg>`;
 }
 
@@ -41,7 +44,7 @@ export function nebuRunner({duck=false}={}){
 <g fill="#9a95a0"><circle cx="56" cy="42" r="1.2"/><circle cx="62" cy="38" r="1"/><circle cx="52" cy="48" r="1"/><circle cx="66" cy="46" r="1.1"/></g>
 <g class="nebu-leg-a"><rect x="30" y="46" width="7" height="18" rx="3.5" fill="#fbfaf7" stroke="#2c2138"/><rect x="66" y="46" width="7" height="18" rx="3.5" fill="#fbfaf7" stroke="#2c2138"/></g>
 <path d="M66 28q8 8 16 6" stroke="#1aa3b8" stroke-width="4" fill="none" stroke-linecap="round"/>
-<path d="M70 20c-2-8 0-16 4-18 4 0 6 8 6 16z" fill="#2b2a33"/><path d="M72 18c-1-6 0-11 2-12 2 1 4 6 4 11z" fill="#f2a5b0"/>
+<path d="M68 20c-4-8-3-17 2-19 5-1 10 7 12 17z" fill="#2b2a33"/><path d="M70.5 17c-2.5-6-2-11 1-12.5 3-.5 6 4.5 7.5 11z" fill="#f2a5b0"/>
 <circle cx="80" cy="28" r="15" fill="#2b2a33"/>
 <ellipse cx="91" cy="33" rx="8" ry="7" fill="#3d3842"/><g fill="#c4bec8"><circle cx="89" cy="36" r=".8"/><circle cx="93" cy="35" r=".8"/><circle cx="91" cy="38" r=".7"/></g>
 <ellipse cx="96" cy="29" rx="3.5" ry="2.6" fill="#0d0b10"/>
