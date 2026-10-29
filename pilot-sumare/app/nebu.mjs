@@ -3,10 +3,11 @@ import {nebuGuide,nebuFieldTip,nebuSniff,sniffWords} from '../src/nebu-guide.mjs
 import {attachNebuIdle,idleCss} from './nebu-idle.mjs';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const shortcuts=['[data-view="forgot"]','[data-view="login"]','[data-view="account"]','[data-view="goal"]','[data-portal="listings"]','[data-portal="applications"]','[data-portal="candidates"]','[data-portal="notifications"]'];
-const css=`.nebu-launcher{position:fixed;right:16px;bottom:16px;z-index:900;width:64px;height:64px;padding:0;border-radius:50%;border:2px solid var(--purple,#543878);background:#fff;box-shadow:0 6px 20px rgba(44,33,56,.25);cursor:pointer;display:grid;place-items:center;min-height:0}
-.nebu-launcher .nebu-avatar{width:56px;height:56px}.nebu-launcher[aria-expanded=true]{transform:scale(.92)}
-.nebu-bubble{position:fixed;right:88px;bottom:30px;z-index:900;background:#fff;color:#2c2138;border:1px solid #ddd4e6;border-radius:14px 14px 4px 14px;padding:8px 12px;font-size:14px;box-shadow:0 4px 14px rgba(44,33,56,.15);max-width:200px}
-.nebu-panel{position:fixed;right:16px;bottom:92px;z-index:901;width:min(380px,calc(100vw - 32px));max-height:min(620px,calc(100vh - 120px));overflow:auto;background:#fff;color:#2c2138;border:1px solid #ddd4e6;border-radius:18px;box-shadow:0 12px 40px rgba(44,33,56,.3);padding:0 0 12px;font-size:15px;line-height:1.5;text-align:left}
+const css=`.nebu-launcher{position:fixed;right:10px;bottom:6px;z-index:900;width:80px;height:98px;padding:0;border:0;border-radius:12px;background:none;box-shadow:none;cursor:pointer;display:block;min-height:0;filter:drop-shadow(0 3px 5px rgba(44,33,56,.28));transition:transform .2s}
+.nebu-launcher:hover{transform:translateY(-3px)}
+.nebu-launcher .nebu-avatar{width:80px;height:98px;display:block}.nebu-launcher[aria-expanded=true]{transform:scale(.92)}
+.nebu-bubble{position:fixed;right:92px;bottom:58px;z-index:900;background:#fff;color:#2c2138;border:1px solid #ddd4e6;border-radius:14px 14px 4px 14px;padding:8px 12px;font-size:14px;box-shadow:0 4px 14px rgba(44,33,56,.15);max-width:200px}
+.nebu-panel{position:fixed;right:16px;bottom:110px;z-index:901;width:min(380px,calc(100vw - 32px));max-height:min(620px,calc(100vh - 130px));overflow:auto;background:#fff;color:#2c2138;border:1px solid #ddd4e6;border-radius:18px;box-shadow:0 12px 40px rgba(44,33,56,.3);padding:0 0 12px;font-size:15px;line-height:1.5;text-align:left}
 .nebu-panel[hidden],.nebu-bubble[hidden]{display:none}
 .nebu-head{display:flex;gap:10px;align-items:center;padding:12px 14px;background:#f1ebf7;border-radius:18px 18px 0 0;position:sticky;top:0}
 .nebu-head strong{display:block;color:#543878;font-size:16px}.nebu-head small{color:#70637d}.nebu-head .nebu-close{margin-left:auto;min-height:40px;min-width:40px;padding:6px 10px}
@@ -16,7 +17,7 @@ const css=`.nebu-launcher{position:fixed;right:16px;bottom:16px;z-index:900;widt
 .nebu-tip{background:#eaf5f2;border-radius:10px;padding:10px 12px;margin:8px 0}.nebu-tip p{margin:4px 0 0}
 .nebu-faq details{border-top:1px solid #ddd4e6;padding:8px 0}.nebu-faq summary{cursor:pointer;font-weight:650}.nebu-faq p{margin:6px 0 0}
 .nebu-note{font-size:13px;color:#70637d;margin:10px 16px 0}
-@media (max-width:600px){.nebu-launcher{width:56px;height:56px;right:12px;bottom:12px}.nebu-launcher .nebu-avatar{width:48px;height:48px}.nebu-panel{right:8px;left:8px;width:auto;bottom:76px;max-height:calc(100vh - 96px)}.nebu-bubble{right:76px;bottom:22px}}
+@media (max-width:600px){.nebu-launcher{width:64px;height:78px;right:6px;bottom:4px}.nebu-launcher .nebu-avatar{width:64px;height:78px}.nebu-panel{right:8px;left:8px;width:auto;bottom:88px;max-height:calc(100vh - 104px)}.nebu-bubble{right:74px;bottom:44px}}
 .nebu-avatar .nebu-ear-l,.nebu-avatar .nebu-ear-r,.nebu-avatar .nebu-eyes{transform-box:fill-box}
 .nebu-launcher .nebu-eyes{transform-origin:center;animation:nebu-blink 5s infinite}
 .nebu-launcher .nebu-ear-l{transform-origin:80% 90%;animation:nebu-ear 7s infinite}.nebu-launcher .nebu-ear-r{transform-origin:20% 90%;animation:nebu-ear-r 9s 2s infinite}

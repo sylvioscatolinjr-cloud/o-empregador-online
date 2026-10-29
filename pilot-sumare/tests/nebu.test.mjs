@@ -192,3 +192,17 @@ test('Nebu keeps the Super Maker look: black head, pink ears and bow, teal colla
  for(const color of ['#2b2a33','#f2a5b0','#1aa3b8','#f2c230','#ff7aa8'])assert.ok(svg.includes(color),color);
  assert.match(svg,/<title id="nebu-[a-z0-9]+">Nebu, assistente do portal<\/title>/);
 });
+
+test('idle: after 15 s Nebu strolls along the bottom, sniffs and goes back to her corner',()=>{
+ const {doc,launcher}=idlePage(),idle=attachNebuIdle({doc,launcher,reducedMotion:false,random:()=>0.9});
+ advance(IDLE.stroll);assert.equal(idle.state(),'strolling');assert.ok(launcher.classList.contains('nebu-away'));assert.equal(doc.querySelectorAll('.nebu-sprite').length,1);
+ advance(3800);assert.match(doc.querySelector('.nebu-stage').textContent,/snif snif/);
+ advance(4700);assert.equal(idle.state(),'awake');assert.equal(doc.querySelector('.nebu-sprite'),null);assert.ok(!launcher.classList.contains('nebu-away'));
+ idle.stop();
+});
+
+test('Nebu sits free in the bottom-right corner, without the round frame',()=>{
+ const {doc,loc}=page('<main></main>','/');const n=mountNebu(doc,loc);n.idle.stop();
+ const css=doc.querySelector('style[data-nebu]').textContent,rule=css.match(/\.nebu-launcher\{[^}]*\}/)[0];
+ assert.match(rule,/right:\d+px;bottom:\d+px/);assert.match(rule,/border:0/);assert.match(rule,/background:none/);assert.doesNotMatch(rule,/border-radius:50%/);
+});
