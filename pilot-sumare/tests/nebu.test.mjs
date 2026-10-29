@@ -206,3 +206,9 @@ test('Nebu sits free in the bottom-right corner, without the round frame',()=>{
  const css=doc.querySelector('style[data-nebu]').textContent,rule=css.match(/\.nebu-launcher\{[^}]*\}/)[0];
  assert.match(rule,/right:\d+px;bottom:\d+px/);assert.match(rule,/border:0/);assert.match(rule,/background:none/);assert.doesNotMatch(rule,/border-radius:50%/);
 });
+
+test('Nebu greets with the owner chosen phrase',()=>{
+ const {doc,loc}=page('<main></main>','/');const n=mountNebu(doc,loc);n.idle.stop();
+ assert.match(doc.querySelector('.nebu-head').textContent,/Oi, eu sou a Nebu!\s*Pergunte e eu farejo a resposta para você!/);
+ assert.equal(doc.querySelector('[data-nebu-bubble]').textContent,'Oi, eu sou a Nebu! Pergunte e eu farejo a resposta para você!');
+});
