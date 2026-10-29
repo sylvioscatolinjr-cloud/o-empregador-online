@@ -1,5 +1,9 @@
 # O Empregador Online — contrato de continuidade e revisão de produção
 
+## Frase de lançamento — 29/10/2026
+
+Titular aprovou “Sua plataforma de conexão e evolução profissional.” para o flyer e o título principal da página inicial, substituindo “Seu talento. Seu próximo passo.”. Alteração editorial apenas: nenhuma nova coleta, finalidade de tratamento, hipótese legal, compartilhamento, acesso ou retenção de dados; direitos e transparência existentes preservados. Sem novas promessas financeiras ou de contratação. Consulta às fontes oficiais LGPD/Planalto e ANPD tentada nesta revisão, indisponíveis no acesso automatizado; não declarar certificação jurídica. Teste de regressão do título adicionado; demais recursos preservados.
+
 ## Carteira unificada ATIVA em produção — 28/10/2026
 
 Substitui o estado pendente histórico abaixo. Titular autorizou explicitamente compras reais de planos/destaques e renovação automática. Flag do cohort Production conferida no Vercel foi habilitada; PR29 juntado como aeb0d494e75a646f170a5144994ec2a9195bb44f, deployment dpl_6S5UrqEMWZC6mJL2bCj9zuA4zs8z READY no domínio oficial. Cron oeo-wallet-renewals ativo a cada5min. Páginas carteira/assinatura/Termos200, APIwallet-status401 sem login.453 testes aprovados e ensaio hospedado sintético com rollback; compras/contratos wallet reais ainda0 na conferência, sem usar saldo de usuário para testar. Primeira contratação/renovação real por usuário ainda não validada. Contratos Asaas antigos não foram convertidos/cancelados automaticamente.
