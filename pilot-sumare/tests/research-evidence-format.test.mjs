@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {parseHTML} from 'linkedom';
 import {searchResultMarkup} from '../app/ai-result.mjs';
-import {externalResult,externalInstruction} from '../src/ai-external-search.mjs';
+import {externalResult,externalInstruction,validateDeclaredEvidence} from '../src/ai-external-search.mjs';
 const result=answer=>({answer,searchedAt:'2026-10-30T20:00:00Z',citations:[]});
 test('legacy Markdown becomes readable opportunity blocks and safe links',()=>{
  const {document}=parseHTML(searchResultMarkup(result('**1. Projetista Mecânico — Sumaré**\n\n- **Link da vaga:** [Jooble](https://br.jooble.org/jdp/123)\n- **Requisito:** SolidWorks\n\n**2. Projetista — Campinas**\nInformação não fornecida — confirmar: AutoCAD.')));
@@ -41,4 +41,18 @@ test('both modes require declared evidence and distinguish unknown from incompat
 test('plain specific HTTPS URLs are clickable without long addresses in the label',()=>{
  const {document}=parseHTML(searchResultMarkup(result('1. Vaga\nLink: https://example.org/job/123?source=test.')));
  const a=document.querySelector('a');assert.equal(a.getAttribute('href'),'https://example.org/job/123?source=test');assert.equal(a.textContent,'Abrir anúncio · example.org');
+});
+test('both bold title conventions render without leftover Markdown',()=>{
+ const {document}=parseHTML(searchResultMarkup(result('1. **Vaga: Projetista Mecânico**\nTexto.\n**2. Outra vaga**')));
+ assert.equal(document.querySelectorAll('article').length,2);assert.doesNotMatch(document.querySelector('.research-result').textContent,/\*\*/);
+});
+test('a compatible criterion must be supported in full by a literal declared excerpt',()=>{
+ const profile='Técnico em mecânica com três anos de experiência em SolidWorks e desenho mecânico 3D.';
+ const row=(req,evidence,situation='Compatível com a informação declarada')=>`Requisito do anúncio: ${req}\nEvidência no perfil: ${evidence}\nSituação: ${situation}`;
+ assert.doesNotThrow(()=>validateDeclaredEvidence(row('SolidWorks','três anos de experiência em SolidWorks'),profile));
+ assert.doesNotThrow(()=>validateDeclaredEvidence(row('Técnico em mecânica','Técnico em mecânica'),profile));
+ assert.doesNotThrow(()=>validateDeclaredEvidence(row('AutoCAD','Não fornecida','Informação não fornecida — confirmar'),profile));
+ assert.throws(()=>validateDeclaredEvidence(row('SolidWorks; máquinas industriais; listas de materiais','três anos de experiência em SolidWorks'),profile),/Unsupported/);
+ assert.throws(()=>validateDeclaredEvidence(row('AutoCAD','três anos de experiência em SolidWorks'),profile),/Unsupported/);
+ assert.throws(()=>validateDeclaredEvidence(row('SolidWorks avançado','SolidWorks avançado'),profile),/Unsupported/);
 });

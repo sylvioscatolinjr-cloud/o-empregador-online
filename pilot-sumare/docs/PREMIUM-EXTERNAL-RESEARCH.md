@@ -68,3 +68,9 @@ Proteção adicional do servidor rejeita rótulos explícitos de chance/probabil
 Privacidade: finalidade, critérios mínimos e hipótese contratual a avaliar permanecem os descritos acima; sem nova coleta, persistência, acesso a dados de terceiros ou mudança de retenção/direitos. Fontes oficiais revistas nesta sessão: catálogo de materiais educativos da ANPD acessível; consulta ao texto compilado do Planalto bloqueada na origem. Preservadas as regras documentadas de minimização, transparência e isolamento; não se declara conformidade jurídica integral.
 
 Validação local: 51 testes específicos de API, três perfis/dois modos, preços, UI, histórico, escape/links, formatação e devolução passaram. Build aprovado. Teste real autenticado e resultado de implantação serão registrados separadamente; testes unitários não comprovam vigência de anúncios externos.
+
+### Complemento após ensaio autenticado
+
+Ensaio padrão real na conta de candidato expressamente autorizada, com perfil fictício e critérios gerais, consumiu R$2,50 (saldo exibido 7,50 → 5,00). Resposta sem previsão de contratação, mas ainda agrupou vários requisitos como compatíveis com uma evidência somente de SolidWorks, trouxe página genérica e duas possíveis duplicatas. Não considerar esse ensaio aprovação integral da qualidade.
+
+Acrescentada validação no servidor: para comparações positivas no formato obrigatório, a evidência precisa ser um trecho literal do pedido e cobrir integralmente o requisito curto; compostos com ponto e vírgula são rejeitados. Rejeição segue falha/devolução existente. Não é comprovação documental nem verificador universal de semântica; pode rejeitar paráfrases válidas em favor de evidência conservadora. Instrução exige comparações atômicas, agrupamento de duplicatas e exclusão de páginas de busca da contagem de vagas. Corrigidos os dois formatos de título em negrito observados. 53 testes específicos aprovados e build aprovado.

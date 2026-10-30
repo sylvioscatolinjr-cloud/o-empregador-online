@@ -30,7 +30,7 @@ export function researchTextMarkup(text){
  const lines=String(text||'').replace(/\r\n?/g,'\n').split('\n');let html='',list=false,card=false;
  const closeList=()=>{if(list){html+='</ul>';list=false;}};
  for(const raw of lines){const line=raw.trim();if(!line){closeList();continue;}
-  const numbered=/^(?:\*\*)?(\d+)[.)]\s+(.+?)(?:\*\*)?$/.exec(line);
+  const numbered=/^(\d+)[.)]\s+(.+)$/.exec(line.startsWith('**')&&line.endsWith('**')?line.slice(2,-2):line);
   if(numbered){closeList();if(card)html+='</article>';html+='<article class="research-opportunity"><h3>'+inlineText(numbered[1]+'. '+numbered[2])+'</h3>';card=true;continue;}
   const heading=/^#{1,6}\s+(.+)$/.exec(line);
   if(heading){closeList();html+='<h4>'+inlineText(heading[1])+'</h4>';continue;}

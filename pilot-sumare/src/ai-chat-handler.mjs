@@ -58,7 +58,7 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
      if(!response.ok)throw Error('provider rejected');
      const data=await response.json();
      answer=(data.output||[]).flatMap(o=>o.content||[]).filter(c=>c.type==='output_text').map(c=>c.text).join('\n').trim();
-     if(premium){searchResult=externalResult(data);answer=searchResult.answer;}
+     if(premium){searchResult=externalResult(data,{question:req.body.question});answer=searchResult.answer;}
      if(!answer||data.status==='incomplete')throw Error('incomplete provider response');
     }finally{clearTimeout(timeout);}
    }catch{
