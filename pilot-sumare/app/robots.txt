@@ -1,0 +1,8 @@
+# O Empregador Online — páginas públicas liberadas; áreas logadas e APIs ficam fora da busca.
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /conta/
+Disallow: /revisao-interface.html
+
+Sitemap: https://www.oempregadoronline.com.br/sitemap.xml

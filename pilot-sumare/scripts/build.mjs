@@ -1,7 +1,11 @@
 import {mkdir,copyFile,cp,rm,readFile,writeFile} from 'node:fs/promises';
 import {build} from 'esbuild';
 await rm('dist',{recursive:true,force:true});await mkdir('dist',{recursive:true});
-await Promise.all(['index.html','conta.html','assistente.html','treinamentos.html','home.css','logo.png','logo-web.webp','style.css','pagamentos.html','assinatura.html','carteira.html','blog.html','cursos-desejados.html','privacidade.html','termos.html','editorial.html','instalar.html','offline.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','icon-180.png'].map(name=>copyFile('app/'+name,'dist/'+name)));
+await Promise.all(['index.html','conta.html','assistente.html','treinamentos.html','home.css','logo.png','logo-web.webp','style.css','pagamentos.html','assinatura.html','carteira.html','blog.html','cursos-desejados.html','privacidade.html','termos.html','editorial.html','instalar.html','offline.html','manifest.webmanifest','sw.js','icon-192.png','icon-512.png','icon-180.png','404.html','robots.txt','favicon.ico','og-image.png','logo-header.webp'].map(name=>copyFile('app/'+name,'dist/'+name)));
+// Sitemap só com as páginas públicas liberadas para busca (ver X-Robots-Tag em vercel.json).
+// Conta, áreas logadas, Política/Termos preliminares e itens da vitrine ficam de fora.
+const SITE_ORIGIN='https://www.oempregadoronline.com.br',INDEXABLE_PAGES=['/','/blog.html','/instalar.html'];
+await writeFile('dist/sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${INDEXABLE_PAGES.map(path=>`  <url><loc>${SITE_ORIGIN}${path}</loc><lastmod>${new Date().toISOString().slice(0,10)}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 await build({entryPoints:['app/app.mjs'],external:['/import/*'],outfile:'dist/app.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
 await build({entryPoints:['app/ai.mjs'],external:['/import/*'],outfile:'dist/ai.js',bundle:true,format:'esm',platform:'browser',target:['es2022'],minify:true,legalComments:'eof'});
 console.log('Piloto compilado. A ativação depende da configuração do projeto, e-mail e turma.');
