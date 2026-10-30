@@ -31,3 +31,6 @@ html{scroll-behavior:smooth;scroll-padding-top:100px}.public-home{background:#fb
 @media(max-width:600px){.public-header{align-items:stretch}.public-header>.brand{align-self:flex-start}.public-header nav{width:100%;flex-basis:auto}.public-header .auth-actions{align-self:stretch;justify-content:flex-start}}
 .home-hero .entry-options{margin:0 0 22px;border:1px solid #e5deeb;border-radius:12px;background:white}
 .home-hero .entry-options a{padding:16px}
+/* Keep the circular brand level with the start of the hero copy, not its midpoint. */
+@media(min-width:651px){.public-home .home-hero>.hero-art{align-self:start}}
+.public-home .brand-arc-text{font-size:30px}
