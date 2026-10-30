@@ -486,3 +486,8 @@ Pedido do titular implementado nos três perfis: um upload opcional na seção G
 
 ## Ordem dos botões e recursos — 28/10/2026
 Pedido do titular: botões na ordem de leitura. Menu do perfil em grupos por jornada, Sair por último, menu recolhido no celular; ações destrutivas por último nas telas; página inicial e login reordenados. Mesmas permissões por papel, sem nova coleta de dados. Detalhes e análise LGPD em pilot-sumare/docs/BUTTON-ORDER-20261028.md.
+
+
+## Nebu: orientação local para dificuldades — 30/10/2026
+
+Pedido do titular: eficiência sem IA paga. Regras locais separam instrução de relatos de falha; candidatura, pagamento, acesso, salvamento e pergunta de esclarecimento. Sem novas chamadas, coleta ou persistência; não diagnostica banco nem confirma operações. Seis testes focados locais e sintaxe aprovados; validação na prévia antes do merge, conforme AGENTS.md. Escopo e limites em pilot-sumare/docs/NEBU.md.

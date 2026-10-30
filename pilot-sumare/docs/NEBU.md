@@ -35,3 +35,12 @@ Pedido do titular em 29/10/2026: uma assistente "Nebu" (bulldog francês fêmea,
 ## Decisão do titular (29/10/2026)
 
 As respostas da Nebu não usam IA: é um sistema autônomo e gratuito, com conteúdo fixo e busca local. Novas dúvidas entram editando `src/nebu-guide.mjs` (FAQ por página, `places`, `fields` e `synonyms`).
+
+
+## Ajuda para dificuldades — 30/10/2026
+
+Autorização do titular: manter a Nebu gratuita e sem modelo de IA pago. A busca agora prioriza relatos de falha em candidatura, pagamento, acesso e salvamento; casos ambíguos pedem a etapa. Não confirma operações nem consulta dados da conta. Pagamentos orientam conferir a compra e não pagar novamente. Formulários orientam preservar textos antes de atualizar. A interface usa “Vamos verificar” em dificuldades, sem resultados de navegação genéricos ou anúncio de sucesso.
+
+Validação local: seis testes focados aprovados e sintaxe do widget conferida. Prévia/produção e testes dentro dos três perfis ainda precisam confirmação; não representar testes locais como validação integral.
+
+Privacidade: mesma finalidade de orientação, sem transmissão, fornecedor, nova coleta ou persistência. Pergunta só em memória do navegador; não registrar texto nem conteúdo de formulários. Links de navegação e e-mail permanecem acionados pelo usuário. Não pedir senha, CPF, códigos ou dados bancários. Não há nova hipótese de tratamento no servidor; demais bases/direitos da política permanecem. Revisão das referências oficiais LGPD/ANPD tentada nesta sessão, mas indisponível na ferramenta de consulta; não alegar revisão jurídica ou conformidade integral. Referências já adotadas: LGPD, arts. 6 e 46, e Guia de Segurança da Informação para Agentes de Tratamento de Pequeno Porte da ANPD.
