@@ -14,6 +14,7 @@ Pedido do titular em 29/10/2026: uma assistente "Nebu" (bulldog francês fêmea,
 
 - Fica solta no canto inferior direito, sem moldura, por cima da página (só a figura recebe cliques). Esperando, pisca e mexe as orelhas.
 - Farejar: campo "Pergunte à Nebu" com botão Farejar. Busca local (sem acentos, sinônimos e palavras parecidas) nas dúvidas, passos, campos e páginas do portal, e aponta botões e títulos da tela atual ("Mostrar"), destacando o elemento.
+- Nas correrias e passeios, Nebu e gato andam pela tela toda (3 rotas que se alternam) e a Nebu deixa pegadas que somem em 3,5 s.
 - Brincadeiras só com a tela parada (`app/nebu-idle.mjs`); qualquer tecla, toque, rolagem ou movimento volta tudo ao normal:
   - 15 s: passeia pela parte de baixo da tela, fareja ("snif snif") e volta ao canto.
   - 30 s: às vezes (60%) traz a bolinha ou o frango de brinquedo para brincar de bobinho; o brinquedo sempre desvia do ponteiro ou do toque. Depois de 6 tentativas ou 20 s, "É meu!".

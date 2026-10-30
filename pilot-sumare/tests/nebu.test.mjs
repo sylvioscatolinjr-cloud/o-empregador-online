@@ -213,3 +213,19 @@ test('Nebu greets with the owner chosen phrase',()=>{
  assert.match(doc.querySelector('.nebu-head').textContent,/Oi, eu sou a Nebu!\s*Pergunte e eu farejo a resposta para você!/);
  assert.equal(doc.querySelector('[data-nebu-bubble]').textContent,'Oi, eu sou a Nebu! Pergunte e eu farejo a resposta para você!');
 });
+
+test('idle: Nebu leaves paw prints that fade away and roams the whole screen',()=>{
+ const {doc,launcher}=idlePage(),win=doc.defaultView;win.innerWidth=1000;win.innerHeight=800;
+ const idle=attachNebuIdle({doc,launcher,reducedMotion:false,random:()=>0.9});
+ advance(IDLE.stroll+3500);
+ const prints=doc.querySelectorAll('.nebu-paw');assert.ok(prints.length>=5,'paw prints on the way: '+prints.length);
+ assert.match(prints[0].style.transform,/rotate\(/);
+ const ys=[...prints].map(p=>Number(p.style.transform.match(/translate\([^,]+,(-?\d+)px/)[1]));
+ assert.ok(Math.min(...ys)<600,'goes up the screen, not only along the bottom');
+ advance(3700);assert.ok(![...doc.querySelectorAll('.nebu-paw')].includes(prints[0]),'old prints disappear');
+ advance(2000);assert.equal(idle.state(),'awake');
+ advance(IDLE.chase-IDLE.stroll-9200);assert.equal(idle.state(),'chasing');
+ const cat=doc.querySelector('.nebu-cat-svg').parentNode;advance(1500);
+ assert.ok(Number(cat.style.transform.match(/translate\([^,]+,(-?\d+)px/)[1])<700,'cat runs across the screen');
+ idle.stop();
+});

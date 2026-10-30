@@ -4,10 +4,13 @@ import {nebuAvatar,nebuRunner,catSprite,duckToy,playToy} from './nebu-avatar.mjs
 // Dormindo, às vezes solta um pum ou o gato chega de mansinho, cutuca 3 vezes e ela acorda correndo atrás dele.
 // 15 s: ela dá uma volta pela parte de baixo da tela, fareja e volta para o canto.
 // 30 s: às vezes ela traz a bolinha ou o frango para brincar de bobinho: o brinquedo sempre desvia do ponteiro.
+// Nas correrias e passeios ela anda pela tela toda e deixa pegadas que vão sumindo.
 // Qualquer movimento do usuário acorda a Nebu e desfaz a cena. Tudo é decorativo (aria-hidden, sem cliques).
 export const IDLE={stroll:15000,play:30000,playChance:0.6,playDodges:6,playGiveUp:20000,chase:60000,sleep:120000,sleepEventMin:25000,sleepEventMax:45000,resleep:30000};
-export const idleCss=`.nebu-stage{position:fixed;left:0;right:0;bottom:6px;height:84px;pointer-events:none;z-index:899;overflow:hidden}
-.nebu-sprite{position:absolute;bottom:0;left:0;will-change:transform}.nebu-flip svg{transform:scaleX(-1)}
+export const idleCss=`.nebu-stage{position:fixed;inset:0;pointer-events:none;z-index:899;overflow:hidden}
+.nebu-sprite{position:absolute;top:0;left:0;will-change:transform}
+.nebu-paw{position:absolute;top:0;left:0;width:16px;height:16px;animation:nebu-paw-fade 3.5s ease-in forwards}.nebu-paw svg{display:block}
+@keyframes nebu-paw-fade{0%{opacity:.75}100%{opacity:0}}.nebu-flip svg{transform:scaleX(-1)}
 .nebu-sprite .nebu-leg-a{animation:nebu-leg .22s steps(2) infinite}.nebu-sprite .nebu-leg-b{animation:nebu-leg .22s steps(2) infinite reverse}
 .nebu-sneak .nebu-leg-a,.nebu-sneak .nebu-leg-b{animation-duration:.6s}
 @keyframes nebu-leg{0%{transform:translateY(0)}100%{transform:translateY(-3px)}}
@@ -39,7 +42,20 @@ export function attachNebuIdle({doc=document,launcher,isPanelOpen=()=>false,rand
  const stage=()=>{if(!sceneLayer){sceneLayer=doc.createElement('div');sceneLayer.className='nebu-stage';sceneLayer.setAttribute('aria-hidden','true');sceneLayer.setAttribute('data-nebu-scene','');doc.body.append(sceneLayer);}return sceneLayer;};
  const extra=(cls,html)=>{const el=doc.createElement('div');el.className=cls;el.setAttribute('aria-hidden','true');el.setAttribute('data-nebu-scene','');el.innerHTML=html;doc.body.append(el);return el;};
  function sprite(html,{flip=false,say='',cls=''}={}){const el=doc.createElement('div');el.className='nebu-sprite'+(flip?' nebu-flip':'')+(cls?' '+cls:'');el.innerHTML=html+(say?`<span class="nebu-say">${say}</span>`:'');stage().append(el);return el;}
- function move(el,from,to,ms){el.style.transition='none';el.style.transform=`translateX(${from}px)`;later(()=>{el.style.transition=`transform ${ms}ms linear`;el.style.transform=`translateX(${to}px)`;},30);}
+ const height=()=>win.innerHeight||768,ground=(h=68)=>height()-h-6,pt=(fx,fy)=>({x:Math.round(width()*fx),y:Math.round(height()*fy)});
+ const PAW='<svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true"><g fill="#2b2a33" fill-opacity=".55"><ellipse cx="10" cy="13" rx="5" ry="4.2"/><ellipse cx="4" cy="7.5" rx="2" ry="2.6"/><ellipse cx="8" cy="4" rx="2" ry="2.6"/><ellipse cx="12" cy="4" rx="2" ry="2.6"/><ellipse cx="16" cy="7.5" rx="2" ry="2.6"/></g></svg>';
+ function paw(x,y,angle){const el=doc.createElement('span');el.className='nebu-paw';el.innerHTML=PAW;el.style.transform=`translate(${Math.round(x)}px,${Math.round(y)}px) rotate(${Math.round(angle)}deg)`;stage().append(el);later(()=>el.remove(),3600);}
+ // Percorre os pontos em linha reta, virando para o lado em que anda; com prints, deixa pegadas no caminho.
+ function path(el,pts,ms,{prints=false,h=68,w=96}={}){
+  const lens=pts.slice(1).map((p,i)=>Math.hypot(p.x-pts[i].x,p.y-pts[i].y)||1),total=lens.reduce((a,b)=>a+b,0);
+  const place=(p,dur)=>{el.style.transition=dur?`transform ${dur}ms linear`:'none';el.style.transform=`translate(${p.x}px,${p.y}px)`;};
+  place(pts[0],0);let t=30;
+  lens.forEach((len,i)=>{const dur=Math.round(ms*len/total),a=pts[i],b=pts[i+1];later(()=>{el.classList.toggle('nebu-flip',b.x<a.x);place(b,dur);},t);
+   if(prints){const steps=Math.max(1,Math.floor(dur/160)),ang=Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI+90;
+    for(let k=1;k<=steps;k++){const f=k/steps,side=k%2?-5:5,nx=-(b.y-a.y)/len,ny=(b.x-a.x)/len;later(()=>paw(a.x+(b.x-a.x)*f+w/2+nx*side,a.y+(b.y-a.y)*f+h-8+ny*side,ang),t+Math.round(dur*f));}}
+   t+=dur;});
+ }
+ let route=0;
  const face=mood=>{const svg=launcher.querySelector('.nebu-avatar');if(svg)svg.outerHTML=nebuAvatar({size:56,title:'Nebu',mood});};
  const away=on=>launcher.classList.toggle('nebu-away',on);
  const clearScene=()=>{toy=null;for(const t of timers)clearTimeout(t);timers.clear();sceneLayer?.remove();sceneLayer=null;for(const el of doc.querySelectorAll('[data-nebu-scene]'))el.remove();launcher.classList.remove('nebu-away','nebu-wiggle','nebu-sleeping');};
@@ -47,29 +63,34 @@ export function attachNebuIdle({doc=document,launcher,isPanelOpen=()=>false,rand
  const busy=()=>isPanelOpen()||doc.hidden;
 
  function stroll(){
-  state='strolling';away(true);const far=Math.max(40,Math.round(width()*0.4)),dog=sprite(nebuRunner(),{flip:true,cls:'nebu-sneak'});
-  move(dog,home(),far,3600);
+  state='strolling';away(true);const start={x:home(),y:ground()},sniffAt=pt(0.3,0.35),dog=sprite(nebuRunner(),{cls:'nebu-sneak'});
+  path(dog,[start,pt(0.6,0.6),sniffAt],3600,{prints:true});
   later(()=>{dog.classList.remove('nebu-sneak');const s=doc.createElement('span');s.className='nebu-say';s.textContent='snif snif';dog.append(s);},3700);
-  later(()=>{dog.innerHTML=nebuRunner();dog.classList.remove('nebu-flip');dog.classList.add('nebu-sneak');move(dog,far,home(),3600);},4700);
+  later(()=>{dog.innerHTML=nebuRunner();dog.classList.add('nebu-sneak');path(dog,[sniffAt,pt(0.45,0.8),start],3600,{prints:true});},4700);
   later(()=>{dog.remove();away(false);state='awake';},8400);
  }
+ const routes=[[[0.3,0.35],[0.6,0.7],[1,0.25]],[[0.25,0.7],[0.5,0.2],[1,0.55]],[[0.4,0.5],[0.7,0.15],[1,0.75]]];
  function chaseRight(done){
-  state='chasing';const cat=sprite(catSprite()),dog=sprite(nebuRunner(),{say:'Au! Au!'});away(true);
-  move(cat,-90,width()+100,3200);move(dog,-230,width()+20,3600);
+  state='chasing';const r=routes[route++%routes.length],cat=sprite(catSprite()),dog=sprite(nebuRunner(),{say:'Au! Au!'});away(true);
+  const via=r.map(([fx,fy])=>pt(fx,fy));
+  path(cat,[{x:-90,y:ground(60)},...via.slice(0,2),{x:width()+100,y:via[2].y}],3200,{h:60,w:80});
+  path(dog,[{x:-230,y:ground()},...via.slice(0,2),{x:width()+20,y:via[2].y}],3600,{prints:true});
   later(()=>{cat.remove();dog.remove();away(false);state='awake';done?.();},3700);
  }
  function chaseLeft(done){
-  state='chasing';const cat=sprite(catSprite(),{flip:true}),dog=sprite(nebuRunner(),{flip:true,say:'Au! Au!'});away(true);
-  move(cat,width()-170,-110,2400);move(dog,home(),-130,2800);
-  later(()=>{dog.innerHTML=nebuRunner();dog.classList.remove('nebu-flip');move(dog,-130,home(),1800);},2900);
+  state='chasing';const cat=sprite(catSprite()),dog=sprite(nebuRunner(),{say:'Au! Au!'});away(true);
+  const mid=pt(0.5,0.3),out={x:-130,y:Math.round(height()*0.6)};
+  path(cat,[{x:width()-215,y:ground(60)},mid,{x:-110,y:out.y}],2400,{h:60,w:80});
+  path(dog,[{x:home(),y:ground()},mid,out],2800,{prints:true});
+  later(()=>{dog.innerHTML=nebuRunner();path(dog,[out,pt(0.4,0.8),{x:home(),y:ground()}],1800,{prints:true});},2900);
   later(()=>{cat.remove();dog.remove();away(false);state='awake';done?.();},4800);
  }
  function sleep(){
   if(busy())return void later(sleep,5000);
   const nap=()=>{state='sleeping';launcher.classList.add('nebu-sleeping');face('sleep');extra('nebu-zzz','Zzz');scheduleSleepEvent();};
   if(!calm&&random()<0.5){
-   state='fetching';away(true);const dog=sprite(nebuRunner(),{flip:true});move(dog,home(),-120,1800);
-   later(()=>{dog.innerHTML=nebuRunner({duck:true});dog.classList.remove('nebu-flip');move(dog,-120,home(),1800);},1900);
+   state='fetching';away(true);const dog=sprite(nebuRunner()),start={x:home(),y:ground()},far={x:-120,y:ground()};path(dog,[start,far],1800,{prints:true});
+   later(()=>{dog.innerHTML=nebuRunner({duck:true});path(dog,[far,start],1800,{prints:true});},1900);
    later(()=>{dog.remove();away(false);extra('nebu-toy',duckToy());nap();},3800);
   }else nap();
  }
@@ -85,7 +106,7 @@ export function attachNebuIdle({doc=document,launcher,isPanelOpen=()=>false,rand
  }
  function catWake(){
   // O gato chega de mansinho e, desconfiado, cutuca a Nebu 3 vezes com um galho.
-  state='teased';const cat=sprite(catSprite({stick:true}),{cls:'nebu-sneak'});move(cat,-130,width()-215,2500);
+  state='teased';const cat=sprite(catSprite({stick:true}),{cls:'nebu-sneak'});path(cat,[{x:-130,y:ground(60)},{x:width()-215,y:ground(60)}],2500,{h:60,w:124});
   later(()=>{cat.classList.remove('nebu-sneak');cat.classList.add('nebu-still','nebu-wary');},2550);
   for(let i=0;i<3;i++)later(()=>{cat.classList.remove('nebu-poke');void cat.offsetWidth;cat.classList.add('nebu-poke');later(()=>say('toc',450),220);},2800+i*900);
   later(()=>{cat.remove();for(const z of doc.querySelectorAll('.nebu-zzz'))z.remove();launcher.classList.remove('nebu-sleeping');face('happy');say('!',900);state='awake';chaseLeft(()=>later(sleep,IDLE.resleep));},5400);
