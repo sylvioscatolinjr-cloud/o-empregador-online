@@ -71,7 +71,7 @@ const guides={
  assistente:()=>({
   title:'Usando os agentes de IA',
   steps:[step('Escolha uma tarefa na lista. O "?" ao lado explica cada uma.'),step('Escreva as informações pedidas. Não coloque CPF, telefone ou dados de outras pessoas.'),step('Confira o preço no botão e clique em "Confirmar e executar".'),step('Gostou da resposta? Salve no histórico privado.')],
-  faq:[faq('Quanto custa?','A maioria das tarefas custa R$ 1,00 em créditos. A pesquisa externa Premium custa R$ 2,50. Selecionar uma tarefa não cobra nada.'),faq('Como coloco créditos?','Em Minha carteira, com recargas de R$ 10, R$ 25 ou R$ 50 por Pix ou cartão.')]
+  faq:[faq('Quanto custa?','A maioria das tarefas custa R$ 1,00 em créditos. A pesquisa externa Premium custa R$ 2,50 no modo padrão ou R$ 5,00 no modo ampliado. Selecionar uma tarefa não cobra nada.'),faq('Como coloco créditos?','Em Minha carteira, com recargas de R$ 10, R$ 25 ou R$ 50 por Pix ou cartão.')]
  }),
  assinatura:()=>({
   title:'Escolhendo um plano',
@@ -213,9 +213,31 @@ const words=t=>fold(t).split(/\s+/).filter(w=>w&&!stop.has(w)).map(stem);
 const synonyms={emprego:['vaga','trabalho'],trabalho:['vaga','emprego'],vaga:['emprego','trabalho'],login:['entrar'],entrar:['login'],logar:['entrar','login'],cadastrar:['cadastro','conta','criar'],registrar:['cadastro','conta'],dinheiro:['credito','pagamento','pix'],pagar:['pagamento','pix','cartao'],credito:['carteira','saldo','recarga'],saldo:['carteira','credito'],preco:['plano','custa','valor'],custa:['preco','plano','valor'],curso:['treinamento','aula'],ia:['agente','inteligencia'],robo:['agente','ia'],cv:['curriculo'],senha:['password'],celular:['aplicativo','instalar'],app:['aplicativo','instalar'],apagar:['excluir','privacidade'],excluir:['privacidade','dados'],empresa:['recrutar','publicar'],aluno:['instituicao','curso'],suporte:['contato','equipe'],ajuda:['contato','duvida']};
 
 export function nebuSniff(query,entries=nebuKnowledge()){
+ const problem=nebuTroubleshoot(query);if(problem)return [problem];
  const q=words(query);if(!q.length)return [];
  const terms=[...new Set(q.flatMap(w=>[w,...(synonyms[w]||[]).map(stem)]))];
  const score=e=>{const title=words(e.title),text=words(e.text);let s=0,hits=0;for(const t of terms){const main=q.includes(t)?1:0.5;const inTitle=title.some(w=>near(w,t)),inText=text.some(w=>near(w,t));if(inTitle||inText)hits+=main;s+=main*((inTitle?3:0)+(inText?1:0));}return hits?s*(hits/q.length):0;};
  const titles=new Set();
  return entries.map(e=>({...e,score:score(e)})).filter(e=>e.score>=1).sort((a,b)=>b.score-a.score).filter(e=>!titles.has(e.title)&&titles.add(e.title)).slice(0,3);
 }
+
+// Regras locais: uma dificuldade relatada tem prioridade sobre instruções de uso.
+// Não consultam conta, pagamentos ou dados pessoais e não executam operações.
+export function nebuTroubleshoot(query){
+ const q=fold(query);
+ const failed=/\b(erro|falha|travou|travado|expirou|expirado|recusado|problema)\b|nao (?:\w+ ){0,3}(?:funciona|funcionou|acontece|aconteceu|aparece|apareceu|chegou|recebi|consigo|entrou|liberou|salva|salvou|carrega|abre)|nada (?:\w+ ){0,2}acontece|sem (?:resposta|retorno)|deu errado|nao deu certo/.test(q);
+ if(!failed)return null;
+ const result=(title,text,href)=>({title,text,href,kind:'problema'});
+ const support=' Se continuar, escreva para contato@oempregadoronline.com.br informando a etapa e a mensagem de erro. Não envie senha, código de acesso, CPF ou dados bancários.';
+ if(/candidat|participa|vaga/.test(q))return result('A candidatura não funcionou?',
+  'Primeiro, entre na sua conta de Candidato e confira Minhas participações para saber se a candidatura já foi registrada. Se não estiver lá, volte à vaga e confira se há algum campo obrigatório ou mensagem de erro. Preserve textos não salvos antes de atualizar a página. A Nebu não consegue confirmar ou enviar sua candidatura por você.'+support,'/conta.html');
+ if(/pix|pag|credito|saldo|recarga|assinatura|plano/.test(q))return result('Pagamento ou benefício não apareceu?',
+  'Confira se está na mesma conta usada na compra. Para recargas, abra Minha carteira; para planos, abra Planos e assinatura. Na compra correspondente, use "Atualizar situação do pagamento", se disponível, e confira a mensagem exibida. Não pague novamente para tentar liberar o saldo. A Nebu não consulta pagamentos e não confirma crédito ou estorno.'+support,/assinatura|plano/.test(q)?'/assinatura.html':'/carteira.html');
+ if(/senha|login|entrar|acesso|email|e mail|confirm|link|otp/.test(q))return result('Não conseguiu entrar ou confirmar o e-mail?',
+  'Confira o e-mail digitado e a mensagem exibida. Para recuperar a senha, use "Esqueci minha senha". Se o link expirou, solicite um novo e abra o mais recente; confira também o lixo eletrônico. Não compartilhe senha nem códigos com a Nebu ou com o atendimento.'+support,'/conta.html');
+ if(/salv|curriculo|formulario|cadastro|campo|publica/.test(q))return result('Não conseguiu salvar ou concluir?',
+  'Confira os campos obrigatórios e a mensagem mostrada junto ao formulário. Preserve o texto que ainda não foi salvo antes de sair ou atualizar a página. Só considere concluído depois de receber a confirmação na tela. A Nebu não salva nem altera seus dados.'+support);
+ return result('Em qual etapa você encontrou o problema?',
+  'Foi ao entrar, salvar o currículo, enviar uma candidatura ou conferir um pagamento? Escreva a etapa e o que apareceu na tela, sem senha, código de acesso, CPF ou dados bancários. A Nebu oferece orientações locais; não consulta sua conta. Se preferir, fale com contato@oempregadoronline.com.br.');
+}
+

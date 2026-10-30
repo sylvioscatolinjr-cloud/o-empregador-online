@@ -486,3 +486,40 @@ Pedido do titular implementado nos três perfis: um upload opcional na seção G
 
 ## Ordem dos botões e recursos — 28/10/2026
 Pedido do titular: botões na ordem de leitura. Menu do perfil em grupos por jornada, Sair por último, menu recolhido no celular; ações destrutivas por último nas telas; página inicial e login reordenados. Mesmas permissões por papel, sem nova coleta de dados. Detalhes e análise LGPD em pilot-sumare/docs/BUTTON-ORDER-20261028.md.
+
+
+## Nebu: orientação local para dificuldades — 30/10/2026
+
+Pedido do titular: eficiência sem IA paga. Regras locais separam instrução de relatos de falha; candidatura, pagamento, acesso, salvamento e pergunta de esclarecimento. Sem novas chamadas, coleta ou persistência; não diagnostica banco nem confirma operações. Seis testes focados locais e sintaxe aprovados; validação na prévia antes do merge, conforme AGENTS.md. Escopo e limites em pilot-sumare/docs/NEBU.md.
+
+
+## Preços por abrangência e bloqueio explícito — 30/10/2026
+
+Pedido expresso de Sylvio: padrão até5 oportunidades R$2,50; ampliada até10 R$5,00. Substitui o preço único anterior somente para novas solicitações. Servidor calcula250/500 pelo modo e valida preço/aceite/termosv2 antes de reservar; respostas antigas não autorizam o novo preço. Interface atualiza botão, autorização e capacidade do saldo; trocar modo desmarca o aceite. Modo proprietário mantém quota sem débito. Campos pessoais/currículo completo continuam fora deste fluxo.
+
+Botão desativado agora explica saldo insuficiente, serviço não validado, seleção ou operação em andamento. Não concede créditos nem altera dinheiro para testes. RPC de produção consultada já aceita100/250/500; nenhuma migração ou grant necessário. Cinco testes focados locais aprovados e sintaxe conferida; prévia antes do merge e qualidade real das vagas seguem verificações distintas.
+
+Privacidade: mesma finalidade e dados mínimos; apenas modo/preço autorizado já enviados têm os novos valores. Sem nova coleta, fornecedor, retenção, acesso ou transmissão de currículo. Termos e Política atualizados para transparência. Consulta oficial Supabase sobre funções concluída; fontes LGPD/ANPD e changelog indisponíveis na ferramenta de consulta nesta sessão, sem alegação de revisão jurídica completa. Preservados direitos/canal de atendimento. Nenhuma execução paga ou débito real usado para validar.
+
+
+## Rótulo do botão sem saldo — 30/10/2026
+Pedido expresso de Sylvio: quando a conta comum não tiver saldo para a tarefa selecionada, o botão deve ficar clicável, abrir /carteira.html sem submeter a tarefa e mostrar “Recarregue para executar a operação”. Com saldo suficiente, restaura “Confirmar e executar” com o preço do modo. Mantidos atalho de compra, motivo detalhado, autorização, preços e quota do proprietário. Mudança de texto sem nova coleta, finalidade, retenção ou transmissão; revisão LGPD oficial tentada na sessão e indisponível, sem declaração de conformidade jurídica. Sintaxe conferida; publicação segue branch/PR/prévia. Teste visual autenticado permanece separado.
+
+
+## Evidência na comparação profissional — 30/10/2026
+
+Após teste real relatado e capturas do titular, instrução da pesquisa externa reforçada: requisitos não se tornam qualificações do usuário; curso não comprova domínio avançado; experiência não infere AutoCAD/PDM/NR-12/BOMs ou outros conhecimentos. Comparação de até3 requisitos prioritários por oportunidade com evidência citada do texto fornecido, compatível/informação não fornecida/divergência declarada. Não estima chances de contratação, mesmo sob pedido. Dados declarados não são comprovados. Links específicos e disponibilidade incerta devem ser distinguidos; duplicatas agrupadas. Texto simples com rótulos, sem Markdown cru.
+
+Sem mudança de modelo, preços, carteira, quota, dados enviados ou permissões. Sintaxe e preservação de preços/abrangência/fontes obrigatórias conferidas localmente, sem API paga. Instruções não garantem obediência integral; novo teste real de qualidade com perfil fictício continua necessário. Não afirmar verificação independente dos anúncios: titular relata que links permitem candidatura; consulta externa da sessão falhou.
+
+Mesma finalidade/dados mínimos/retensão/direitos já descritos; sem nova coleta ou tratamento de currículos. Revisão oficial LGPD/ANPD tentada na sessão, ferramenta indisponível; sem certificação jurídica. Publicação segue PR e prévia.
+
+## Pesquisa externa — complemento de apresentação, 30/10/2026
+
+Preservadas as regras publicadas em cd0ded7 para evidência declarada e ausência de estimativas de contratação. Acrescentados renderizador restrito para resultados (blocos por oportunidade, títulos/listas e links seguros), aviso de preço variável no histórico e rejeição com caminho de devolução para rótulos explícitos de chance de contratação. Nenhum currículo é enviado automaticamente, nenhuma permissão ou preço foi alterado. 51 testes específicos aprovados e build local aprovado. Ver docs/PREMIUM-EXTERNAL-RESEARCH.md; validação real da qualidade e vigência de cada anúncio continua necessária.
+
+Ensaio autenticado de pesquisa em 30/10: primeira execução de R$2,50 encontrou cinco resultados sem previsões de contratação, porém com um falso positivo composto e possíveis duplicatas. Complemento exige evidência literal que cubra cada requisito compatível e rejeita compostos sem suporte, com fluxo de devolução preservado. Instruções reforçam anúncios específicos/deduplicação; 53 testes específicos e build aprovados. Não afirmar que todos os anúncios estão ativos ou que a qualidade semântica está garantida.
+
+Refino final: comparações positivas sem suporte literal passam a informação não confirmada, sem descartar os demais resultados; evidências inventadas são retiradas e citações continuam alinhadas. Negação explícita não vira compatibilidade. Testes específicos: 54 aprovados; fluxo real continua sujeito à conferência das fontes.
+
+Fechamento: busca autenticada voltou a retornar três anúncios, sem estimativa de contratação. Links em texto simples são reconhecidos só quando sustentados por fontes retornadas pela ferramenta. Variante real plural/bullets passou ao teste de regressão da checagem de evidência, evitando rótulo compatível para lista inteira. 56 testes específicos/build aprovados; última checagem de formato validada localmente com a resposta observada, sem nova cobrança. Não afirmar vigência das vagas. Detalhes, falhas/devoluções e limites em pilot-sumare/docs/PREMIUM-EXTERNAL-RESEARCH.md.

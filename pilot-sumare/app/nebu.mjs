@@ -92,8 +92,8 @@ export function mountNebu(doc=document,loc=location){
   panel.classList.add('nebu-sniffing');found.innerHTML='<p class="nebu-trail">Farejando<span>.</span><span>.</span><span>.</span></p>';
   setTimeout(()=>{
    panel.classList.remove('nebu-sniffing');
-   const hits=nebuSniff(q);onScreen=pageMatches(q);
-   found.innerHTML=(hits.length||onScreen.length?'<h2>Achei!</h2>':`<p>Farejei tudo e não achei esse cheiro. Tente outras palavras ou escreva para <a href="mailto:contato@oempregadoronline.com.br">contato@oempregadoronline.com.br</a>.</p>`)
+   const hits=nebuSniff(q),problem=hits.some(h=>h.kind==='problema');onScreen=problem?[]:pageMatches(q);
+   found.innerHTML=(problem?'<h2>Vamos verificar</h2>':hits.length||onScreen.length?'<h2>Achei!</h2>':`<p>Farejei tudo e não achei esse cheiro. Tente outras palavras ou escreva para <a href="mailto:contato@oempregadoronline.com.br">contato@oempregadoronline.com.br</a>.</p>`)
     +hits.map(h=>`<div class="nebu-hit"><strong>${esc(h.title)}</strong><p>${esc(h.text)}</p>${h.href&&h.href!==loc.pathname?`<p><a href="${esc(h.href)}">${h.href.startsWith('mailto:')?'Escrever e-mail':'Ir para lá'}</a></p>`:''}</div>`).join('')
     +(onScreen.length?`<div class="nebu-hit"><strong>Aqui nesta tela</strong>${onScreen.map((m,i)=>`<p><button type="button" data-nebu-here="${i}">Mostrar "${esc(m.text)}"</button></p>`).join('')}</div>`:'');
   },calm?200:1200);
@@ -121,3 +121,4 @@ export function mountNebu(doc=document,loc=location){
 if(typeof document!=='undefined'&&typeof window!=='undefined'&&!globalThis.__NEBU_TEST__){
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>mountNebu());else mountNebu();
 }
+
