@@ -71,7 +71,7 @@ const guides={
  assistente:()=>({
   title:'Usando os agentes de IA',
   steps:[step('Escolha uma tarefa na lista. O "?" ao lado explica cada uma.'),step('Escreva as informações pedidas. Não coloque CPF, telefone ou dados de outras pessoas.'),step('Confira o preço no botão e clique em "Confirmar e executar".'),step('Gostou da resposta? Salve no histórico privado.')],
-  faq:[faq('Quanto custa?','A maioria das tarefas custa R$ 1,00 em créditos. A pesquisa externa Premium custa R$ 2,50. Selecionar uma tarefa não cobra nada.'),faq('Como coloco créditos?','Em Minha carteira, com recargas de R$ 10, R$ 25 ou R$ 50 por Pix ou cartão.')]
+  faq:[faq('Quanto custa?','A maioria das tarefas custa R$ 1,00 em créditos. A pesquisa externa Premium custa R$ 2,50 no modo padrão ou R$ 5,00 no modo ampliado. Selecionar uma tarefa não cobra nada.'),faq('Como coloco créditos?','Em Minha carteira, com recargas de R$ 10, R$ 25 ou R$ 50 por Pix ou cartão.')]
  }),
  assinatura:()=>({
   title:'Escolhendo um plano',
