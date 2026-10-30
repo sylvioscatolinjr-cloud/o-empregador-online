@@ -1,5 +1,6 @@
 // Conteúdo da Nebu: próximos passos por página e dicas de campos.
 // Tudo é texto fixo no navegador: nada é enviado a servidores nem a fornecedores de IA.
+import {ORDER_CANDIDATES,ORDER_LISTINGS} from './nebu-coach.mjs';
 
 const step=(text,target={})=>({text,...target});
 const faq=(q,a)=>({q,a});
@@ -54,14 +55,14 @@ const guides={
  }),
  candidate:()=>({
   title:'O que fazer agora?',
-  steps:[step('Complete seu currículo. Quanto mais completo, mais você aparece.',{click:'[data-view="account"]'}),step('Defina sua meta profissional.',{click:'[data-view="goal"]'}),step('Procure vagas e cursos e candidate-se.',{click:'[data-portal="listings"]'}),step('Acompanhe as respostas em Minhas participações.',{click:'[data-portal="applications"]'})],
-  faq:[faq('Como me candidato a uma vaga?','Abra Vagas e cursos, escolha a vaga e clique para participar. A empresa recebe seu currículo e responde pelo portal.'),faq('Onde vejo se a empresa respondeu?','Em Minhas participações e no sino de Avisos. Você também pode ligar os Alertas no celular.'),...common.slice(2)]
+  steps:[step('Complete seu currículo e autorize seu cartão público. Sem o cartão, as empresas não te encontram na busca.',{click:'[data-view="account"]'}),step('Defina sua meta profissional.',{click:'[data-view="goal"]'}),step('Procure vagas e cursos e candidate-se.',{click:'[data-portal="listings"]'}),step('Acompanhe as respostas em Minhas participações.',{click:'[data-portal="applications"]'})],
+  faq:[faq('Como me candidato a uma vaga?','Abra Vagas e cursos, escolha a vaga e clique para participar. A empresa recebe seu currículo e responde pelo portal.'),faq('Como funciona a ordem dos currículos?',ORDER_CANDIDATES+' Só aparecem os cartões públicos autorizados, e a busca procura pelo título profissional e pelas competências do cartão.'),faq('Como ganho pontos profissionais?','Cadastre suas formações com comprovante em Minha formação e pontos. Depois de validadas, somam pontos: graduação 300, técnico 200, curso 1 ponto por hora, treinamento 2 pontos por hora, entre outros. O currículo em si não gera pontos.'),faq('Onde vejo se a empresa respondeu?','Em Minhas participações e no sino de Avisos. Você também pode ligar os Alertas no celular.'),...common.slice(2)]
  }),
  company:({school})=>({
   title:'O que fazer agora?',
   steps:school?[step('Complete os dados da instituição.',{click:'[data-view="account"]'}),step('Publique seus cursos e turmas.',{click:'[data-view="account"]'}),step('Veja os interesses recebidos.',{click:'[data-portal="applications"]'}),step('Busque alunos com o perfil dos seus cursos.',{click:'[data-portal="candidates"]'})]
    :[step('Complete os dados da empresa.',{click:'[data-view="account"]'}),step('Publique sua primeira vaga.',{click:'[data-view="account"]'}),step('Acompanhe as participações recebidas.',{click:'[data-portal="applications"]'}),step('Busque currículos com o perfil que você procura.',{click:'[data-portal="candidates"]'})],
-  faq:[faq('Como publico uma vaga ou curso?','Em '+(school?'Dados da instituição e cursos':'Dados da empresa e publicações')+', preencha o formulário de publicação com título, descrição e local. O CEP define a região onde ela aparece.'),faq('Como dou acesso à minha equipe?','Em Equipe, use Subusuários e permissões. O convite exige o CPF exato da pessoa e ela precisa aceitar.'),faq('Como faço meu anúncio aparecer mais?','Use Destacar na vitrine ou Turbinar anúncio. O preço aparece antes de confirmar.')]
+  faq:[faq('Como publico uma vaga ou curso?','Em '+(school?'Dados da instituição e cursos':'Dados da empresa e publicações')+', preencha o formulário de publicação com título, descrição e local. O CEP define a região onde ela aparece.'),faq('Como dou acesso à minha equipe?','Em Equipe, use Subusuários e permissões. O convite exige o CPF exato da pessoa e ela precisa aceitar.'),faq('Como faço meu anúncio aparecer mais?','Use Destacar na vitrine ou Turbinar anúncio. O preço aparece antes de confirmar.'),faq('Como funciona a ordem dos anúncios?',ORDER_LISTINGS),faq('Como vejo a pontuação de cada setor?','Crie os departamentos e convide seus funcionários em Departamentos e equipe, pelo CPF. Depois que cada um aceita o vínculo e autoriza o cartão público, a média de pontos profissionais aparece por setor na área da '+(school?'instituição':'empresa')+'.')]
  }),
  signedIn:()=>({
   title:'O que fazer agora?',
@@ -92,7 +93,7 @@ const guides={
  desejos:()=>({title:'Sua lista de desejos',steps:[step('Diga o que você quer aprender.'),step('As instituições do portal usam esses pedidos para abrir novas turmas.')],faq:[]}),
  publicacoes:()=>({title:'Criando publicações',steps:[step('Escolha o formato e a qualidade da imagem.'),step('Escreva o que a publicação deve mostrar e confira o preço.'),step('Autorize a geração e baixe a imagem para postar nas suas redes.')],faq:[faq('A plataforma posta por mim?','Não. Você baixa a imagem e publica onde quiser.')]}),
  destaques:()=>({title:'Destacar na vitrine',steps:[step('Escolha o que quer destacar.'),step('Confira o período e o preço.'),step('Confirme o pagamento. O destaque entra no ar após a confirmação.')],faq:[]}),
- turbinar:()=>({title:'Turbinar anúncio',steps:[step('Escolha o anúncio e o público.'),step('Confira quantas pessoas recebem e o valor total antes de confirmar.')],faq:[faq('Quanto custa?','R$ 0,05 por pessoa que recebe o aviso. O total aparece antes da confirmação.')]}),
+ turbinar:({signedIn})=>({title:'Turbinar anúncio',steps:[step('Turbinar é exclusivo para empresas e instituições de ensino.'),step('Escolha o anúncio e o público.'),step('Confira quantas pessoas recebem e o valor total antes de confirmar.'),step('Candidatos usam esta página só para escolher se querem receber campanhas patrocinadas.')],faq:[faq('Quanto custa?','R$ 0,05 por pessoa que recebe o aviso. O total aparece antes da confirmação.'),faq('Sou candidato. Posso turbinar meu currículo?','Não. Turbinar é exclusivo para empresas e instituições de ensino. Para aparecer mais, complete o currículo, autorize seu cartão público, valide suas formações ou veja Destacar na vitrine e os planos.')]}),
  instalar:()=>({title:'Instalar o aplicativo',steps:[step('No Android, toque em Instalar ou no menu ⋮ e "Adicionar à tela inicial".'),step('No iPhone, toque em Compartilhar e depois em "Adicionar à Tela de Início".')],faq:[]}),
  legal:()=>({title:'Documentos do portal',steps:[step('Aqui estão as regras de uso e de privacidade.'),step('Dúvidas? Escreva para contato@oempregadoronline.com.br.')],faq:[]})
 };
@@ -184,7 +185,7 @@ const places=[
  ['Blog','Matérias sobre carreira, emprego e estudos.','/blog.html'],
  ['Lista de desejos de cursos','Diga o que quer aprender para as instituições abrirem turmas.','/cursos-desejados.html'],
  ['Destacar na vitrine','Faça seu perfil, vaga ou curso aparecer em destaque na página inicial.','/destaques.html'],
- ['Turbinar anúncio','Envie aviso da sua vaga ou curso para mais pessoas. R$ 0,05 por pessoa.','/turbinar.html'],
+ ['Turbinar anúncio (empresas e instituições)','Exclusivo para empresas e instituições de ensino: envie aviso da sua vaga ou curso para mais pessoas. R$ 0,05 por pessoa.','/turbinar.html'],
  ['Publicações com imagem','Crie imagens para divulgar nas redes sociais.','/publicacoes.html'],
  ['Instalar o aplicativo no celular','Coloque o portal na tela inicial do Android ou iPhone.','/instalar.html'],
  ['Termos de Uso','Regras de uso, cancelamento e reembolso.','/termos.html'],

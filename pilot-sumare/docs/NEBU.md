@@ -44,3 +44,19 @@ Autorização do titular: manter a Nebu gratuita e sem modelo de IA pago. A busc
 Validação local: seis testes focados aprovados e sintaxe do widget conferida. Prévia/produção e testes dentro dos três perfis ainda precisam confirmação; não representar testes locais como validação integral.
 
 Privacidade: mesma finalidade de orientação, sem transmissão, fornecedor, nova coleta ou persistência. Pergunta só em memória do navegador; não registrar texto nem conteúdo de formulários. Links de navegação e e-mail permanecem acionados pelo usuário. Não pedir senha, CPF, códigos ou dados bancários. Não há nova hipótese de tratamento no servidor; demais bases/direitos da política permanecem. Revisão das referências oficiais LGPD/ANPD tentada nesta sessão, mas indisponível na ferramenta de consulta; não alegar revisão jurídica ou conformidade integral. Referências já adotadas: LGPD, arts. 6 e 46, e Guia de Segurança da Informação para Agentes de Tratamento de Pequeno Porte da ANPD.
+
+## Incentivo ao cadastro completo — 30/10/2026
+
+Pedido do titular: a Nebu incentiva candidatos, empresas e instituições a completar o cadastro, explica o efeito na ordem de exibição e sugere recursos pagos (planos, agentes de IA, Turbinar), além de frases positivas. Continua sem IA e sem chamadas de rede (`src/nebu-coach.mjs`).
+
+- Dados usados: a tela da conta (`app/app.mjs` para candidato, `app/portal.mjs` para empresa/instituição) calcula marcas sim/não com os dados que ela já carregou (perfil, cartão público, meta, organização, publicações próprias, média da equipe) e as entrega à Nebu pelo evento `oeo:nebu-status` (`window.__oeoNebuStatus`). Nenhum texto dos campos vai para a Nebu. Ao sair da conta, as marcas são apagadas.
+- Painel: "Seu cadastro: X de Y", barra de progresso, até 3 dicas do que falta (com botão "Mostrar onde" ou "Abrir") e uma dica de crescimento em rodízio. Só aparece nas telas da própria conta.
+- Fatos conferidos no código (db/ordered-public-feeds.sql, db/paid-candidate-priority.sql):
+  - Currículos: destaques pagos, depois nível do plano, depois pontos profissionais validados. Só cartões públicos autorizados entram na busca, que procura nome, título profissional e competências do cartão.
+  - Anúncios: destaques pagos, depois nível do plano da organização, depois média de pontos profissionais da equipe.
+  - O currículo preenchido em si não gera pontos; pontos vêm de formações comprovadas e validadas. A Nebu não diz o contrário.
+  - Turbinar R$ 0,05 por destinatário; agentes a partir de R$ 1,00; pesquisa Premium R$ 2,50.
+  - Não há campo de início de turma nem de vagas da turma: a Nebu só pergunta se a próxima turma já está completa e sugere Turbinar, sem contar vagas.
+- Frequência: um único recado extra por sessão do navegador (marca `nebu-coach` em `sessionStorage`, sem dado pessoal), no mínimo 30 s depois de abrir a página (ou 20 s depois de a tela da conta carregar), nunca com o painel aberto nem durante as brincadeiras; some em 12 s. Com cadastro incompleto, o recado é o percentual e o próximo passo; senão, a frase do dia.
+- Frases: 30 frases escritas para o portal, uma por dia em rodízio (sem sorteio), no topo do painel.
+- LGPD: mesma finalidade de orientação de uso. Sem nova coleta, sem envio, sem fornecedor. Armazenamento novo: só a marca técnica `nebu-coach` (sessão), a incluir na tabela de armazenamento do navegador da Política junto com `nebu-seen`.
