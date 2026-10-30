@@ -1,8 +1,14 @@
 // Public opportunities only. No account credentials, private profiles or personal leads.
-export const EXTERNAL_TERMS='2026-10-23-premium-search-v1';
+export const EXTERNAL_TERMS='2026-10-30-premium-search-v2';
+export function externalSearchCost(mode){
+ if(mode==='standard')return 250;
+ if(mode==='expanded')return 500;
+ throw Error('Escolha pesquisa padrão ou ampliada.');
+}
 export function validateExternalInput(body){
- if(body?.externalConsent!==true||body?.priceCents!==250||body?.terms!==EXTERNAL_TERMS)throw Error('Confirme a pesquisa Premium de R$ 2,50 e o envio dos critérios à pesquisa externa.');
- if(!['standard','expanded'].includes(body.searchMode))throw Error('Escolha pesquisa padrão ou ampliada.');
+ if(!['standard','expanded'].includes(body?.searchMode))throw Error('Escolha pesquisa padrão ou ampliada.');
+ const cost=externalSearchCost(body.searchMode);
+ if(body?.externalConsent!==true||body?.priceCents!==cost||body?.terms!==EXTERNAL_TERMS)throw Error('Confira o preço e autorize novamente: pesquisa padrão R$ 2,50; ampliada R$ 5,00.');
  if(typeof body.question!=='string'||!body.question.trim()||body.question.length>1500||body.context&&Object.keys(body.context).length)throw Error('Use até 1.500 caracteres de critérios gerais, sem currículo completo ou dados pessoais.');
  if(/\b(?:lista|base|cadastro|contatos?|telefones?|e-mails?)\s+(?:de\s+)?(?:alunos|pessoas|candidatos|estudantes)|(?:dados|perfis)\s+(?:pessoais|privados)|(?:endereços?|documentos?)\s+(?:de\s+)?(?:pessoas|alunos|candidatos)/i.test(body.question))throw Error('Pesquise oportunidades e organizações públicas, sem listas ou dados pessoais.');
  if(/\b[^\s@]+@[^\s@]+\.[^\s@]+\b|\b\d{3}\.?(?:\d{3})\.?(?:\d{3})-?\d{2}\b|(?:\+55\s*)?\(?\d{2}\)?[\s.-]*9?\d{4}[\s.-]*\d{4}\b|\b(?:cpf|rg|senha|password)\s*[:=]/i.test(body.question))throw Error('Retire documentos, telefones, e-mails e senhas. Informe apenas tema, região e critérios gerais.');
@@ -27,3 +33,4 @@ export function externalResult(data){
  if(!answer.trim()||answer.length>16000||!citations.length)throw Error('No cited search result');
  return {answer,citations:citations.slice(0,40),searchedAt:new Date().toISOString()};
 }
+

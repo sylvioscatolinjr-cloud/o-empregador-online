@@ -9,7 +9,7 @@ Autorização expressa do proprietário: pesquisa padrão e ampliada a R$ 2,50 p
 - Instituição: oportunidades para atrair alunos e matrículas, canais locais de divulgação, eventos e possíveis parcerias; ação e mensagem sugeridas. Não é um agente de colocação de alunos em empregos nem diretório de contatos pessoais.
 - Posts para Empresa e Instituição: 3 legendas, chamadas para ação/matrícula, ideias de carrossel, roteiro curto e hashtags. Dados comerciais ausentes viram marcadores, sem inventar condições. Texto e ideias visuais, sem geração de imagem, agendamento, conexão de redes ou postagem automática.
 - 20 recursos de Candidato e 21 em cada outro perfil, 62 no total. Novos cards mantêm estilo, seleção, ajuda e numeração existentes.
-- Padrão: até 5 oportunidades e no máximo 3 chamadas da ferramenta; ampliada: até 10 e no máximo 5. Ambas R$ 2,50, sem garantir quantidade, atualidade absoluta ou resultado. Fontes inline clicáveis e horário de Brasília. Verificar condições na origem.
+- Padrão: até 5 oportunidades e no máximo 3 chamadas da ferramenta; ampliada: até 10 e no máximo 5. Padrão R$ 2,50; ampliada R$ 5,00, sem garantir quantidade, atualidade absoluta ou resultado. Fontes inline clicáveis e horário de Brasília. Verificar condições na origem.
 - Somente web pública pela ferramenta OpenAI; não há login externo, scraping de área restrita, envio de mensagem ou ação em fontes. Não consulta base interna OEO neste fluxo; busca interna existente permanece separada.
 
 ## Dinheiro e operação
@@ -40,3 +40,12 @@ Fontes oficiais consultadas:
 325 testes aprovados, zero falhas, um PDF privado ausente ignorado (326 total). Cobrem 6 combinações perfil/modo, preço/aceite/termos, isolamento, saldo insuficiente, pausa, fontes seguras, HTML escapado, falha/devolução, quota do proprietário, UI em centavos, posts nos fluxos comuns, débito fracionado98+152 e concorrência de quatro reservas Premium sobreR$10. Build local aprovado. Ensaio hospedado sintético com rollback confere débito250, devolução idempotente, bloqueios de acesso e overspend, sem alterações financeiras reais. Advisors sem novoWARN/ERROR; WARN preexistente de proteção de senha vazada.
 
 Verificação pontual do provedor nesta publicação: duas pesquisas genéricas sobre SENAI e dois rascunhos fictícios de posts, sem dados pessoais ou débito de usuário. Verificação real concluída: pesquisa padrão retornou2 citações, ampliada4; posts de Empresa2.748 caracteres e Instituição2.809, ambos concluídos. Quatro chamadas reais, sem dados pessoais ou movimentação de carteira. Invocação temporária retirada do build; script mantido para execução operacional explícita, sem execução automática. Resultado real e publicação devem ser registrados no contrato de continuidade. Aceite visual autenticado no aparelho e qualidade de resultados do caso real permanecem necessários; não alegar automação completa dessa etapa.
+
+
+## Preços por abrangência e bloqueio explícito — 30/10/2026
+
+Pedido expresso de Sylvio: padrão até5 oportunidades R$2,50; ampliada até10 R$5,00. Substitui o preço único anterior somente para novas solicitações. Servidor calcula250/500 pelo modo e valida preço/aceite/termosv2 antes de reservar; respostas antigas não autorizam o novo preço. Interface atualiza botão, autorização e capacidade do saldo; trocar modo desmarca o aceite. Modo proprietário mantém quota sem débito. Campos pessoais/currículo completo continuam fora deste fluxo.
+
+Botão desativado agora explica saldo insuficiente, serviço não validado, seleção ou operação em andamento. Não concede créditos nem altera dinheiro para testes. RPC de produção consultada já aceita100/250/500; nenhuma migração ou grant necessário. Cinco testes focados locais aprovados e sintaxe conferida; prévia antes do merge e qualidade real das vagas seguem verificações distintas.
+
+Privacidade: mesma finalidade e dados mínimos; apenas modo/preço autorizado já enviados têm os novos valores. Sem nova coleta, fornecedor, retenção, acesso ou transmissão de currículo. Termos e Política atualizados para transparência. Consulta oficial Supabase sobre funções concluída; fontes LGPD/ANPD e changelog indisponíveis na ferramenta de consulta nesta sessão, sem alegação de revisão jurídica completa. Preservados direitos/canal de atendimento. Nenhuma execução paga ou débito real usado para validar.
