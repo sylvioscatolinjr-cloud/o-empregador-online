@@ -1,5 +1,9 @@
 # O Empregador Online — contrato de continuidade e revisão de produção
 
+## Revisão da instituição de ensino — 30/10/2026
+
+Sessão school_staff conferida: cursos/treinamentos, busca pública de potenciais alunos, interesses, vínculos, acessos, planos educacionais, treinamentos, agentes e divulgação. O espaço do responsável usa os mesmos formulários principais, evitando oferta de vaga ou ranking de recrutamento para instituição; convites novos mostram permissões pertinentes ao ensino. Subusuários mantêm operações no contexto da organização e verificações no servidor. Interesses em cursos não oferecem situação de entrevista de emprego. Campos ausentes da instituição permanecem para preenchimento pelo titular, sem suposição ou publicação de curso real. Ver pilot-sumare/docs/SCHOOL-AUDIT-2026-10-30.md.
+
 ## Revisão da área de empresa — 30/10/2026
 
 Conta empresarial autenticada auditada: publicações e edição, candidaturas/etapas, avaliação com bloqueio por entrevista, busca por competência, equipes/acessos, planos, destaques, campanhas, treinamentos, afiliados e agentes. Correções: explicação coerente para geração de imagem, motivo de bloqueio por saldo/pedido pendente, orientações por perfil, validação mínima de descrição e campos de vínculo só para vagas, cancelamento da edição, favoritos próprios recarregados, remoção de campo de rua não persistido da organização e clareza dos convites por departamento. Sem envio a candidatos, publicação ou cobrança real. Ver pilot-sumare/docs/COMPANY-AUDIT-2026-10-30.md.
