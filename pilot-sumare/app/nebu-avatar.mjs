@@ -34,7 +34,7 @@ ${eyes}
 }
 
 // Figuras das brincadeiras de ociosidade (decorativas, sem texto para leitores de tela).
-export function nebuRunner({duck=false}={}){
+export function nebuRunner({duck=false,bone=false}={}){
  return `<svg class="nebu-runner-svg" width="96" height="68" viewBox="0 0 100 70" aria-hidden="true" focusable="false">
 <path d="M14 36l-6-4" stroke="#2b2a33" stroke-width="4" stroke-linecap="round"/>
 <g class="nebu-leg-b"><rect x="22" y="46" width="7" height="18" rx="3.5" fill="#fbfaf7" stroke="#2c2138"/><rect x="58" y="46" width="7" height="18" rx="3.5" fill="#fbfaf7" stroke="#2c2138"/></g>
@@ -50,13 +50,13 @@ export function nebuRunner({duck=false}={}){
 <ellipse cx="96" cy="29" rx="3.5" ry="2.6" fill="#0d0b10"/>
 <circle cx="83" cy="23" r="3.4" fill="#3a1a08"/><circle cx="83.2" cy="23" r="2.6" fill="#7a3b14"/><circle cx="83.4" cy="22.2" r=".8" fill="#fff"/>
 <g transform="translate(70 22) rotate(-10)"><path d="M0 0-6-4v8zM0 0l6-4v8z" fill="#ff7aa8"/><circle r="2" fill="#ff9cc0"/></g>
-${duck?`<g transform="translate(88 34)">${duckShape()}</g>`:''}
+${duck?`<g transform="translate(88 34)">${duckShape()}</g>`:''}${bone?`<g transform="translate(86 36)">${boneShape()}</g>`:''}
 </svg>`;
 }
 function duckShape(){return '<ellipse cx="8" cy="12" rx="9" ry="6.5" fill="#ffd23f" stroke="#c99a00"/><circle cx="13" cy="4" r="5" fill="#ffd23f" stroke="#c99a00"/><path d="M17 4l5 1.5-5 1.5z" fill="#ff8a00"/><circle cx="14" cy="3" r=".9" fill="#2c2138"/>';}
 export function duckToy(){return `<svg class="nebu-duck-svg" width="30" height="24" viewBox="-1 -2 25 22" aria-hidden="true" focusable="false">${duckShape()}</svg>`;}
-export function catSprite(){
- return `<svg class="nebu-cat-svg" width="80" height="60" viewBox="0 0 80 60" aria-hidden="true" focusable="false">
+export function catSprite({stick=false}={}){
+ return `<svg class="nebu-cat-svg" width="${stick?124:80}" height="60" viewBox="0 0 ${stick?124:80} 60" aria-hidden="true" focusable="false">
 <path d="M10 30C2 26 2 12 8 8" stroke="#d98a3a" stroke-width="5" fill="none" stroke-linecap="round"/>
 <g class="nebu-leg-b"><rect x="18" y="38" width="5" height="16" rx="2.5" fill="#d98a3a"/><rect x="46" y="38" width="5" height="16" rx="2.5" fill="#d98a3a"/></g>
 <ellipse cx="34" cy="34" rx="24" ry="11" fill="#e8a25a"/>
@@ -64,6 +64,7 @@ export function catSprite(){
 <g class="nebu-leg-a"><rect x="24" y="38" width="5" height="16" rx="2.5" fill="#e8a25a"/><rect x="52" y="38" width="5" height="16" rx="2.5" fill="#e8a25a"/></g>
 <circle cx="60" cy="24" r="11" fill="#e8a25a"/><path d="M52 17l1-10 7 7zM62 14l6-7 2 10z" fill="#e8a25a"/>
 <circle cx="64" cy="22" r="2" fill="#2c2138"/><path d="M70 26l1 1-2 1z" fill="#c94a7a"/><path d="M69 28l8-1M69 29l8 2" stroke="#2c2138" stroke-width=".6"/>
+${stick?'<g class="nebu-stick"><path d="M60 34 120 22" stroke="#8b5a2b" stroke-width="3" stroke-linecap="round"/><path d="M96 27l6-8M108 24.5l5 4" stroke="#8b5a2b" stroke-width="1.8" stroke-linecap="round"/><circle cx="105" cy="18" r="2.6" fill="#6aa84f"/><circle cx="61" cy="34" r="4" fill="#e8a25a" stroke="#c46f25"/></g>':''}
 </svg>`;
 }
 export function playToy(kind='ball'){
@@ -71,3 +72,8 @@ export function playToy(kind='ball'){
   ?`<svg class="nebu-toy-svg" width="40" height="34" viewBox="0 0 40 34" aria-hidden="true" focusable="false"><ellipse cx="18" cy="22" rx="14" ry="9" fill="#ffd23f" stroke="#c99a00"/><path d="M4 20l-4-4 6 1z" fill="#ffd23f" stroke="#c99a00"/><circle cx="30" cy="11" r="7" fill="#ffd23f" stroke="#c99a00"/><path d="M27 4l2-4 2 3 2-3 1 5z" fill="#e2412b"/><path d="M36 11l4 2-4 2z" fill="#ff8a00"/><circle cx="32" cy="9.5" r="1" fill="#2c2138"/><path d="M14 30v4M22 30v4" stroke="#ff8a00" stroke-width="2"/></svg>`
   :`<svg class="nebu-toy-svg" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="14" fill="#cfe23a" stroke="#8fa012"/><path d="M5 7c7 4 7 14 0 18M27 7c-7 4-7 14 0 18" fill="none" stroke="#fff" stroke-width="2.2"/></svg>`;
 }
+function boneShape(){return '<path d="M4 3a3 3 0 1 1 3 3h8a3 3 0 1 1 3 3 3 3 0 1 1-3 3H7a3 3 0 1 1-3-3 3 3 0 1 1 0-6z" fill="#fffaf0" stroke="#b9a98a" stroke-width="1"/>';}
+export function boneToy(){return `<svg width="26" height="18" viewBox="-1 -1 23 16" aria-hidden="true" focusable="false">${boneShape()}</svg>`;}
+export function treatSprite(){return '<svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true" focusable="false"><path d="M5 4a4 4 0 1 1 4 4h8a4 4 0 1 1 4 4 4 4 0 1 1-4 4H9a4 4 0 1 1-4-4 4 4 0 1 1 0-8z" fill="#c8813a" stroke="#8a5320" stroke-width="1"/><circle cx="11" cy="10" r=".9" fill="#8a5320"/><circle cx="15" cy="9" r=".9" fill="#8a5320"/></svg>';}
+export function butterflySprite(){return '<svg width="34" height="28" viewBox="0 0 34 28" aria-hidden="true" focusable="false"><g class="nebu-wing"><path d="M17 14C10 0 0 2 3 11c-3 7 6 12 14 3z" fill="#b48be8" stroke="#6b3fb0"/></g><g class="nebu-wing nebu-wing-r"><path d="M17 14C24 0 34 2 31 11c3 7-6 12-14 3z" fill="#f2a5b0" stroke="#c94a7a"/></g><path d="M17 7v14" stroke="#2b2a33" stroke-width="2" stroke-linecap="round"/><path d="M17 7l-3-5M17 7l3-5" stroke="#2b2a33" stroke-width=".8"/></svg>';}
+export function soapBubble(){return '<svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true" focusable="false"><circle cx="15" cy="15" r="13" fill="#e6f7ff" fill-opacity=".35" stroke="#7cc6e8" stroke-width="1.5"/><path d="M8 10a8 8 0 0 1 6-5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';}

@@ -14,11 +14,13 @@ Pedido do titular em 29/10/2026: uma assistente "Nebu" (bulldog francês fêmea,
 
 - Fica solta no canto inferior direito, sem moldura, por cima da página (só a figura recebe cliques). Esperando, pisca e mexe as orelhas.
 - Farejar: campo "Pergunte à Nebu" com botão Farejar. Busca local (sem acentos, sinônimos e palavras parecidas) nas dúvidas, passos, campos e páginas do portal, e aponta botões e títulos da tela atual ("Mostrar"), destacando o elemento.
+- Nas correrias e passeios, Nebu e gato andam pela tela toda (3 rotas que se alternam) e a Nebu deixa pegadas que somem em 3,5 s.
 - Brincadeiras só com a tela parada (`app/nebu-idle.mjs`); qualquer tecla, toque, rolagem ou movimento volta tudo ao normal:
   - 15 s: passeia pela parte de baixo da tela, fareja ("snif snif") e volta ao canto.
   - 30 s: às vezes (60%) traz a bolinha ou o frango de brinquedo para brincar de bobinho; o brinquedo sempre desvia do ponteiro ou do toque. Depois de 6 tentativas ou 20 s, "É meu!".
   - 1 min: um gato passa e ela corre latindo atrás.
-  - 2 min: dorme (às vezes antes busca o pato de brinquedo e dorme junto). Dormindo, de 25 a 45 s: pum, ou o gato chega de mansinho, cutuca 3 vezes, ela acorda e corre atrás; depois volta a dormir.
+  - 2 min: dorme (às vezes antes busca o pato de brinquedo e dorme junto). No primeiro cochilo o gato sempre vem, cerca de 25 s depois de ela dormir (uns 2 min 25 s sem mexer na tela). Nos cochilos seguintes, de 25 a 45 s: pum, ou o gato chega de mansinho e, desconfiado, cutuca 3 vezes com um galho ("toc"); ela acorda e corre atrás; depois volta a dormir.
+  - 45 s e 1 min 30 s: uma das 5 brincadeiras extras, em rodízio (sem sorteio): borboleta que pousa e ela pula latindo ("Au! Au!"); bolhas de sabão que ela estoura ("pop!"); zoomies, a corrida maluca pela tela com pegadas ("Zuuum!"); enterrar o osso ("cava, cava", deixa um montinho de terra); petisco que cai do céu ("Nhac!").
 - Com "reduzir movimento" ligado no aparelho, só o soninho, sem correria.
 - As cenas são decorativas (aria-hidden) e não bloqueiam cliques, exceto o brinquedo do bobinho.
 

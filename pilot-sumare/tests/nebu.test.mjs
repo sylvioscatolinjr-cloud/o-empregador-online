@@ -108,16 +108,30 @@ test('idle: sometimes she fetches the toy duck and sleeps next to it',()=>{
  idle.stop();assert.equal(doc.querySelector('.nebu-toy'),null);
 });
 
-test('idle: while asleep she may fart, or the cat taps her 3 times and she chases it again',()=>{
- const {doc,launcher}=idlePage(),idle=attachNebuIdle({doc,launcher,reducedMotion:false,random:seq([0.9,0.9,0,0.2,0,0.6,0.9])});
- advance(IDLE.chase);advance(3800);advance(IDLE.sleep-IDLE.chase-3800);
- assert.equal(idle.state(),'sleeping');
- advance(IDLE.sleepEventMin);assert.ok(doc.querySelector('.nebu-puff'));assert.ok(launcher.classList.contains('nebu-wiggle'));
- advance(2100);assert.equal(doc.querySelector('.nebu-puff'),null);assert.equal(idle.state(),'sleeping');
- advance(IDLE.sleepEventMin-2100);assert.equal(idle.state(),'teased');
- advance(4000);assert.equal(idle.state(),'chasing');assert.equal(doc.querySelector('.nebu-zzz'),null);
+test('idle: on her first nap the cat always comes and pokes her 3 times with a stick; later naps may bring a fart',()=>{
+ const {doc,launcher}=idlePage(),idle=attachNebuIdle({doc,launcher,reducedMotion:false,random:seq([0.9,0.9,0,0.9,0,0.2,0.9])});
+ advance(IDLE.sleep+500);assert.equal(idle.state(),'sleeping');
+ advance(IDLE.sleepEventMin);assert.equal(idle.state(),'teased');assert.ok(doc.querySelector('.nebu-stick'),'cat carries a stick');
+ let tocs=0;for(let t=0;t<5400;t+=100){advance(100);if(/toc/.test(doc.body.textContent)&&!doc.body.dataset.tocSeen){tocs++;doc.body.dataset.tocSeen='1';}if(!/toc/.test(doc.body.textContent))delete doc.body.dataset.tocSeen;}
+ assert.equal(tocs,3,'pokes 3 times');assert.equal(idle.state(),'chasing');assert.equal(doc.querySelector('.nebu-zzz'),null);
  advance(4800);assert.equal(idle.state(),'awake');
  advance(IDLE.resleep);assert.equal(idle.state(),'sleeping','goes back to sleep');
+ advance(IDLE.sleepEventMin);assert.ok(doc.querySelector('.nebu-puff'),'fart');assert.ok(launcher.classList.contains('nebu-wiggle'));
+ advance(2100);assert.equal(doc.querySelector('.nebu-puff'),null);assert.equal(idle.state(),'sleeping');
+ idle.stop();
+});
+
+test('idle: 5 extra games take turns at 45 s and 90 s, and every one returns Nebu to her corner',()=>{
+ const {doc,launcher}=idlePage(),win=doc.defaultView;win.innerWidth=1000;win.innerHeight=800;
+ const idle=attachNebuIdle({doc,launcher,reducedMotion:false,random:()=>0.9});
+ assert.deepEqual(idle.games,['butterfly','bubbles','zoomies','buryBone','treat']);
+ advance(IDLE.fun1);assert.equal(idle.state(),'fun');assert.ok(doc.querySelector('.nebu-wing'),'butterfly first');
+ advance(6300);assert.equal(idle.state(),'awake');
+ advance(IDLE.fun2-IDLE.fun1-6300);assert.equal(idle.state(),'fun');assert.ok(doc.querySelector('.nebu-stage circle[stroke="#7cc6e8"]'),'then soap bubbles');
+ advance(7000);assert.equal(idle.state(),'awake');
+ const checks=[[2,/Zuuum/,4800],[3,/cava, cava/,5400],[4,/Nhac!/,4300]];
+ for(const [i,text,ms] of checks){idle.play(i);advance(2000);assert.equal(idle.state(),'fun');assert.match(doc.querySelector('.nebu-stage').textContent,text);advance(ms-2000);assert.equal(idle.state(),'awake',idle.games[i]);assert.ok(!launcher.classList.contains('nebu-away'));}
+ assert.ok(doc.querySelector('.nebu-paw'),'running games leave paw prints');
  idle.stop();
 });
 
@@ -211,4 +225,20 @@ test('Nebu greets with the owner chosen phrase',()=>{
  const {doc,loc}=page('<main></main>','/');const n=mountNebu(doc,loc);n.idle.stop();
  assert.match(doc.querySelector('.nebu-head').textContent,/Oi, eu sou a Nebu!\s*Pergunte e eu farejo a resposta para você!/);
  assert.equal(doc.querySelector('[data-nebu-bubble]').textContent,'Oi, eu sou a Nebu! Pergunte e eu farejo a resposta para você!');
+});
+
+test('idle: Nebu leaves paw prints that fade away and roams the whole screen',()=>{
+ const {doc,launcher}=idlePage(),win=doc.defaultView;win.innerWidth=1000;win.innerHeight=800;
+ const idle=attachNebuIdle({doc,launcher,reducedMotion:false,random:()=>0.9});
+ advance(IDLE.stroll+3500);
+ const prints=doc.querySelectorAll('.nebu-paw');assert.ok(prints.length>=5,'paw prints on the way: '+prints.length);
+ assert.match(prints[0].style.transform,/rotate\(/);
+ const ys=[...prints].map(p=>Number(p.style.transform.match(/translate\([^,]+,(-?\d+)px/)[1]));
+ assert.ok(Math.min(...ys)<600,'goes up the screen, not only along the bottom');
+ advance(3700);assert.ok(![...doc.querySelectorAll('.nebu-paw')].includes(prints[0]),'old prints disappear');
+ advance(2000);assert.equal(idle.state(),'awake');
+ advance(IDLE.chase-IDLE.stroll-9200);assert.equal(idle.state(),'chasing');
+ const cat=doc.querySelector('.nebu-cat-svg').parentNode;advance(1500);
+ assert.ok(Number(cat.style.transform.match(/translate\([^,]+,(-?\d+)px/)[1])<700,'cat runs across the screen');
+ idle.stop();
 });
