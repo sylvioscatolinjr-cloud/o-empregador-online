@@ -20,10 +20,12 @@
 5. Favoritos são consultados também nas publicações próprias. Campo de rua removido do cadastro da organização porque não era persistido nem usado; rua dos anúncios é mantida e persistida normalmente.
 6. Equipe explica os dados do candidato compartilhados após aceite, pela perspectiva correta. Sem departamento, explica como habilitar convite. Etapas oferecem retorno às participações.
 
+7. Currículo recebido informa que é a cópia do envio da candidatura; alterações posteriores no perfil não reescrevem essa cópia.
+
 ## Dados, finalidade e limites
 
 Manutenção do serviço de recrutamento solicitado pelo titular, com execução do contrato/medidas a pedido do titular (art.7º,V da LGPD), preservando consentimentos específicos para currículo, vínculo, campanhas e envio de referências. Mesmos dados e papéis existentes, sem novo fornecedor, compartilhamento, retenção, concessão de acesso ou migração. Removida coleta sem persistência/finalidade no campo de rua da organização. Consulta autenticada minimizada aos recursos necessários, sem registrar CPF, senha ou conteúdo privado nos testes ou neste relatório. Candidaturas reais, avaliações e pagamentos não são usados como massa sintética. Direitos e canal de atendimento vigentes preservados. Consultados LGPD em https://normas.leg.br/?urn=urn:lex:br:federal:lei:2018-08-14;13709 e glossário ANPD https://www.gov.br/anpd/pt-br/centrais-de-conteudo/materiais-educativos-e-publicacoes/glossario-anpd/p . Testes técnicos não representam certificação jurídica integral.
 
 ## Validação e publicação
 
-Testes DOM de publicação, troca de tipo, cancelamento, perfis dos agentes, explicações da geração, bloqueio sem saldo, equipe e permissões; regressão da suíte completa e build. Publicação por branch/PR/prévia/merge. A prévia não tem banco conectado; integração autenticada é conferida no domínio oficial após deploy. Nenhuma chamada paga ou transação real nesta revisão. Testes sintéticos de banco/API cobrem operações sem alterar candidaturas ou contratar serviços na conta real.
+537 testes aprovados, zero falhas e um teste opcional de PDF privado ignorado; build aprovado. Testes DOM de publicação, troca de tipo, cancelamento, perfis dos agentes, explicações da geração, bloqueio sem saldo, equipe e permissões; regressão da suíte completa e build. Publicação por branch/PR/prévia/merge. A prévia não tem banco conectado; integração autenticada é conferida no domínio oficial após deploy. Nenhuma chamada paga ou transação real nesta revisão. Testes sintéticos de banco/API cobrem operações sem alterar candidaturas ou contratar serviços na conta real.
