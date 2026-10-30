@@ -64,3 +64,10 @@ test('uncertain evidence is downgraded and later source offsets remain aligned',
  const r=externalResult(raw,{question:'Tenho três anos de experiência em SolidWorks.'});
  assert.doesNotMatch(r.answer,/Situação: Compatível/);assert.match(r.answer,/Informação não fornecida — confirmar/);assert.equal(r.answer.slice(r.citations[0].start,r.citations[0].end),'[fonte]');
 });
+
+test('plain-text URLs must match real tool sources before becoming citations',()=>{
+ const text='1. Vaga\nLink do anúncio: https://example.org/job?utm_source=openai';
+ const data={status:'completed',output:[{type:'web_search_call',status:'completed',action:{sources:[{url:'https://example.org/job',title:'Vaga original'}]}},{content:[{type:'output_text',text,annotations:[]}]}]};
+ const result=externalResult(data);assert.equal(result.citations.length,1);assert.match(result.answer.slice(result.citations[0].start,result.citations[0].end),/^https:/);
+ data.output[1].content[0].text='Link: https://inventado.example.org/job';assert.throws(()=>externalResult(data),/No cited/);
+});
