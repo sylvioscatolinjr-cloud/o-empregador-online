@@ -1,5 +1,9 @@
 # O Empregador Online — contrato de continuidade e revisão de produção
 
+## Revisão da área de empresa — 30/10/2026
+
+Conta empresarial autenticada auditada: publicações e edição, candidaturas/etapas, avaliação com bloqueio por entrevista, busca por competência, equipes/acessos, planos, destaques, campanhas, treinamentos, afiliados e agentes. Correções: explicação coerente para geração de imagem, motivo de bloqueio por saldo/pedido pendente, orientações por perfil, validação mínima de descrição e campos de vínculo só para vagas, cancelamento da edição, favoritos próprios recarregados, remoção de campo de rua não persistido da organização e clareza dos convites por departamento. Sem envio a candidatos, publicação ou cobrança real. Ver pilot-sumare/docs/COMPANY-AUDIT-2026-10-30.md.
+
 ## Revisão da área de candidato — 30/10/2026
 
 Autorizada correção dos problemas encontrados na conta candidata: lista de cursos continua para assinatura real, formulários do Nebu não entram no tratador da conta, carregamento da carteira termina, detalhes recarregam favoritos, convite de entrevista é distinguido das etapas e textos respeitam pesquisa padrão R$2,50/ampliada R$5,00. Importação local passa a preservar tabelas/idiomas e atividades em largura total; cidade/UF não se repetem. Nenhuma alteração de preços, permissões, cobranças ou confirmação de entrevista. Currículos existentes não são migrados em lote; correção individual exige conferência com o anexo e revisão pelo titular. Ver pilot-sumare/docs/CANDIDATE-AUDIT-2026-10-30.md.
