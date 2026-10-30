@@ -1,5 +1,6 @@
 // Conteúdo da Nebu: próximos passos por página e dicas de campos.
 // Tudo é texto fixo no navegador: nada é enviado a servidores nem a fornecedores de IA.
+import {ORDER_CANDIDATES,ORDER_LISTINGS} from './nebu-coach.mjs';
 
 const step=(text,target={})=>({text,...target});
 const faq=(q,a)=>({q,a});
@@ -54,14 +55,14 @@ const guides={
  }),
  candidate:()=>({
   title:'O que fazer agora?',
-  steps:[step('Complete seu currículo. Quanto mais completo, mais você aparece.',{click:'[data-view="account"]'}),step('Defina sua meta profissional.',{click:'[data-view="goal"]'}),step('Procure vagas e cursos e candidate-se.',{click:'[data-portal="listings"]'}),step('Acompanhe as respostas em Minhas participações.',{click:'[data-portal="applications"]'})],
-  faq:[faq('Como me candidato a uma vaga?','Abra Vagas e cursos, escolha a vaga e clique para participar. A empresa recebe seu currículo e responde pelo portal.'),faq('Onde vejo se a empresa respondeu?','Em Minhas participações e no sino de Avisos. Você também pode ligar os Alertas no celular.'),...common.slice(2)]
+  steps:[step('Complete seu currículo e autorize seu cartão público. Sem o cartão, as empresas não te encontram na busca.',{click:'[data-view="account"]'}),step('Defina sua meta profissional.',{click:'[data-view="goal"]'}),step('Procure vagas e cursos e candidate-se.',{click:'[data-portal="listings"]'}),step('Acompanhe as respostas em Minhas participações.',{click:'[data-portal="applications"]'})],
+  faq:[faq('Como me candidato a uma vaga?','Abra Vagas e cursos, escolha a vaga e clique para participar. A empresa recebe seu currículo e responde pelo portal.'),faq('Como funciona a ordem dos currículos?',ORDER_CANDIDATES+' Só aparecem os cartões públicos autorizados, e a busca procura pelo título profissional e pelas competências do cartão.'),faq('Como ganho pontos profissionais?','Cadastre suas formações com comprovante em Minha formação e pontos. Depois de validadas, somam pontos: graduação 300, técnico 200, curso 1 ponto por hora, treinamento 2 pontos por hora, entre outros. O currículo em si não gera pontos.'),faq('Onde vejo se a empresa respondeu?','Em Minhas participações e no sino de Avisos. Você também pode ligar os Alertas no celular.'),...common.slice(2)]
  }),
  company:({school})=>({
   title:'O que fazer agora?',
   steps:school?[step('Complete os dados da instituição.',{click:'[data-view="account"]'}),step('Publique seus cursos e turmas.',{click:'[data-view="account"]'}),step('Veja os interesses recebidos.',{click:'[data-portal="applications"]'}),step('Busque alunos com o perfil dos seus cursos.',{click:'[data-portal="candidates"]'})]
    :[step('Complete os dados da empresa.',{click:'[data-view="account"]'}),step('Publique sua primeira vaga.',{click:'[data-view="account"]'}),step('Acompanhe as participações recebidas.',{click:'[data-portal="applications"]'}),step('Busque currículos com o perfil que você procura.',{click:'[data-portal="candidates"]'})],
-  faq:[faq('Como publico uma vaga ou curso?','Em '+(school?'Dados da instituição e cursos':'Dados da empresa e publicações')+', preencha o formulário de publicação com título, descrição e local. O CEP define a região onde ela aparece.'),faq('Como dou acesso à minha equipe?','Em Equipe, use Subusuários e permissões. O convite exige o CPF exato da pessoa e ela precisa aceitar.'),faq('Como faço meu anúncio aparecer mais?','Use Destacar na vitrine ou Turbinar anúncio. O preço aparece antes de confirmar.')]
+  faq:[faq('Como publico uma vaga ou curso?','Em '+(school?'Dados da instituição e cursos':'Dados da empresa e publicações')+', preencha o formulário de publicação com título, descrição e local. O CEP define a região onde ela aparece.'),faq('Como dou acesso à minha equipe?','Em Equipe, use Subusuários e permissões. O convite exige o CPF exato da pessoa e ela precisa aceitar.'),faq('Como faço meu anúncio aparecer mais?','Use Destacar na vitrine ou Turbinar anúncio. O preço aparece antes de confirmar.'),faq('Como funciona a ordem dos anúncios?',ORDER_LISTINGS),faq('Como vejo a pontuação de cada setor?','Crie os departamentos e convide seus funcionários em Departamentos e equipe, pelo CPF. Depois que cada um aceita o vínculo e autoriza o cartão público, a média de pontos profissionais aparece por setor na área da '+(school?'instituição':'empresa')+'.')]
  }),
  signedIn:()=>({
   title:'O que fazer agora?',
