@@ -1,5 +1,9 @@
 # O Empregador Online — contrato de continuidade e revisão de produção
 
+## Destaque turquesa no título — 29/10/2026
+
+Pedido do titular: palavras plataforma, conexão e evolução usam #02b7ca, mesmo turquesa dos arcos da marca, preservando restante do título roxo, texto e layout. Fonte grande/negrito preservada. Alteração visual sem novos dados, finalidade, base legal, acesso, retenção ou efeito financeiro. Teste do título atualizado para verificar texto acessível e três destaques.
+
 ## Alinhamento do conjunto circular da marca — 29/10/2026
 
 Pedido do titular: alinhar o início da marca circular ao texto da esquerda na homepage. Em larguras acima de650px, a coluna da marca passa de centralizada verticalmente para align-self:start; tamanho, SVG, arcos, logo e empilhamento móvel preservados. Alteração estritamente visual, sem coleta/finalidade/base legal/acesso/retenção novos ou mudança em direitos. Sem banco, carteira ou permissões envolvidos. Revisão LGPD/ANPD de continuidade aplicável; não representa certificação jurídica.
