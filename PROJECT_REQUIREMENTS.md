@@ -1,5 +1,9 @@
 # O Empregador Online — contrato de continuidade e revisão de produção
 
+## Alinhamento do conjunto circular da marca — 29/10/2026
+
+Pedido do titular: alinhar o início da marca circular ao texto da esquerda na homepage. Em larguras acima de650px, a coluna da marca passa de centralizada verticalmente para align-self:start; tamanho, SVG, arcos, logo e empilhamento móvel preservados. Alteração estritamente visual, sem coleta/finalidade/base legal/acesso/retenção novos ou mudança em direitos. Sem banco, carteira ou permissões envolvidos. Revisão LGPD/ANPD de continuidade aplicável; não representa certificação jurídica.
+
 ## Frase de lançamento — 29/10/2026
 
 Titular aprovou “Sua plataforma de conexão e evolução profissional.” para o flyer e o título principal da página inicial, substituindo “Seu talento. Seu próximo passo.”. Alteração editorial apenas: nenhuma nova coleta, finalidade de tratamento, hipótese legal, compartilhamento, acesso ou retenção de dados; direitos e transparência existentes preservados. Sem novas promessas financeiras ou de contratação. Consulta às fontes oficiais LGPD/Planalto e ANPD tentada nesta revisão, indisponíveis no acesso automatizado; não declarar certificação jurídica. Teste de regressão do título adicionado; demais recursos preservados.
