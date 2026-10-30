@@ -1,5 +1,4 @@
-import {resumeLocation} from './resume-model.mjs';
-import {validateResumeDetails,cleanImage} from './resume-model.mjs';
+import {resumeLocation,validateResumeDetails,cleanImage} from './resume-model.mjs';
 const profileFields=['display_name','city','state_code','skills','about','experience','education','courses','certifications','has_senai','senai_status','resume_path','resume_details','photo_data'];
 export function createPilotRepository({supabase,access,cohortId}) {
  async function user(){const state=await access.refresh();if(state.phase!=='active'||!['learner','pilot_owner'].includes(state.role))throw Error('O ingresso no piloto precisa estar ativo.');const {data,error}=await supabase.auth.getUser();if(error||!data?.user?.email_confirmed_at)throw Error('Entre com sua conta e confirme o e-mail.');return data.user;}

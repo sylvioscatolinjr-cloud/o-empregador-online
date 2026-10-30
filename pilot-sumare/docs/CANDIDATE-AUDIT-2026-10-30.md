@@ -19,6 +19,6 @@ Consulta em30/10: LGPD compilada disponível em https://normas.leg.br/?urn=urn:l
 
 ## Validação
 
-Testes de UI de candidato, favoritos, agenda, assinatura, carteira e navegação; tabela sintética com competências quebradas e idiomas em duas páginas; extração real PDF/DOCX, duas colunas e OCR local, sem chamada paga. Conferência adicional do anexo original autorizada para diagnosticar a falha; nenhum dado pessoal é incluído nos fixtures ou neste documento. Publicação segue branch, PR, prévia Vercel e merge. Testes não criam candidatura, compra ou campanha real.
+532 testes aprovados, zero falhas; um teste opcional de PDF privado ignorado pela suíte e anexo conferido separadamente. Build local aprovado. Testes de UI de candidato, favoritos, agenda, assinatura, carteira e navegação; tabela sintética com competências quebradas e idiomas em duas páginas; extração real PDF/DOCX, duas colunas e OCR local, sem chamada paga. Conferência adicional do anexo original autorizada para diagnosticar a falha; nenhum dado pessoal é incluído nos fixtures ou neste documento. Publicação segue branch, PR, prévia Vercel e merge. Testes não criam candidatura, compra ou campanha real.
 
 Limites: uma mensagem livre do recrutador não cria convite de agenda; só a organização pode propor o horário nesse recurso. Conteúdo importado deve ser revisado. Abertura de PDF em nova aba é comportamento normal; não depende de um evento de download.
