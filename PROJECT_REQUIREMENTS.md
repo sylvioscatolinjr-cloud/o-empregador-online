@@ -513,3 +513,7 @@ Após teste real relatado e capturas do titular, instrução da pesquisa externa
 Sem mudança de modelo, preços, carteira, quota, dados enviados ou permissões. Sintaxe e preservação de preços/abrangência/fontes obrigatórias conferidas localmente, sem API paga. Instruções não garantem obediência integral; novo teste real de qualidade com perfil fictício continua necessário. Não afirmar verificação independente dos anúncios: titular relata que links permitem candidatura; consulta externa da sessão falhou.
 
 Mesma finalidade/dados mínimos/retensão/direitos já descritos; sem nova coleta ou tratamento de currículos. Revisão oficial LGPD/ANPD tentada na sessão, ferramenta indisponível; sem certificação jurídica. Publicação segue PR e prévia.
+
+## Pesquisa externa — complemento de apresentação, 30/10/2026
+
+Preservadas as regras publicadas em cd0ded7 para evidência declarada e ausência de estimativas de contratação. Acrescentados renderizador restrito para resultados (blocos por oportunidade, títulos/listas e links seguros), aviso de preço variável no histórico e rejeição com caminho de devolução para rótulos explícitos de chance de contratação. Nenhum currículo é enviado automaticamente, nenhuma permissão ou preço foi alterado. 51 testes específicos aprovados e build local aprovado. Ver docs/PREMIUM-EXTERNAL-RESEARCH.md; validação real da qualidade e vigência de cada anúncio continua necessária.

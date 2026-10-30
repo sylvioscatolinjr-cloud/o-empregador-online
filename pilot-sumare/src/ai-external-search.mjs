@@ -31,6 +31,8 @@ export function externalResult(data){
   for(const a of c.annotations||[]){const url=safeSourceURL(a.url);if(a.type!=='url_citation'||!url||!Number.isInteger(a.start_index)||!Number.isInteger(a.end_index)||a.start_index<0||a.end_index<=a.start_index||a.end_index>c.text.length)continue;citations.push({url,title:String(a.title||new URL(url).hostname).slice(0,250),start:shift+a.start_index,end:shift+a.end_index});}
  }
  if(!answer.trim()||answer.length>16000||!citations.length)throw Error('No cited search result');
+ // Do not charge for a response that regresses to unsupported hiring forecasts.
+ if(/(?:probabilidade|chance|chances)\s+de\s+(?:contrata[çc][ãa]o|ser\s+contratad[oa])\s*[:–—-]\s*(?:\*\*)?\s*(?:alta|moderada|m[eé]dia|baixa|\d+(?:[.,]\d+)?\s*%)/iu.test(answer.replace(/\*\*/g,'')))throw Error('Unsupported hiring forecast');
  return {answer,citations:citations.slice(0,40),searchedAt:new Date().toISOString()};
 }
 

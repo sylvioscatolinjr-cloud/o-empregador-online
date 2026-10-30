@@ -58,3 +58,13 @@ Após teste real relatado e capturas do titular, instrução da pesquisa externa
 Sem mudança de modelo, preços, carteira, quota, dados enviados ou permissões. Sintaxe e preservação de preços/abrangência/fontes obrigatórias conferidas localmente, sem API paga. Instruções não garantem obediência integral; novo teste real de qualidade com perfil fictício continua necessário. Não afirmar verificação independente dos anúncios: titular relata que links permitem candidatura; consulta externa da sessão falhou.
 
 Mesma finalidade/dados mínimos/retensão/direitos já descritos; sem nova coleta ou tratamento de currículos. Revisão oficial LGPD/ANPD tentada na sessão, ferramenta indisponível; sem certificação jurídica. Publicação segue PR e prévia.
+
+## Resultado legível e proteção contra regressão — 30/10/2026
+
+A regra de evidência do commit cd0ded7 já está em produção. Esta revisão complementa a interface: blocos semânticos por oportunidade, títulos/listas, negrito e links Markdown legados interpretados por uma lista restrita; HTML do provedor permanece escapado. Endereços HTTPS específicos usam rótulo curto, citações mantêm índices e fontes, sem links aninhados. URLs com credenciais, locais e protocolos não HTTPS não viram links. Layout responsivo sem pre-wrap herdado nos blocos. Histórico informa preço da tarefa/modo antes da nova confirmação, em vez de preço fixo R$1.
+
+Proteção adicional do servidor rejeita rótulos explícitos de chance/probabilidade de contratação alta/moderada/baixa ou percentual. A rejeição entra no caminho de falha e devolução já existente; não é verificação completa de todas as afirmações do modelo. Declarações do usuário permanecem distintas de comprovação documental. O currículo salvo não é enviado automaticamente neste fluxo.
+
+Privacidade: finalidade, critérios mínimos e hipótese contratual a avaliar permanecem os descritos acima; sem nova coleta, persistência, acesso a dados de terceiros ou mudança de retenção/direitos. Fontes oficiais revistas nesta sessão: catálogo de materiais educativos da ANPD acessível; consulta ao texto compilado do Planalto bloqueada na origem. Preservadas as regras documentadas de minimização, transparência e isolamento; não se declara conformidade jurídica integral.
+
+Validação local: 51 testes específicos de API, três perfis/dois modos, preços, UI, histórico, escape/links, formatação e devolução passaram. Build aprovado. Teste real autenticado e resultado de implantação serão registrados separadamente; testes unitários não comprovam vigência de anúncios externos.
