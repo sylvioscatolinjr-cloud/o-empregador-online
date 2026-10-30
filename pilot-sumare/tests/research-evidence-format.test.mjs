@@ -52,7 +52,15 @@ test('a compatible criterion must be supported in full by a literal declared exc
  assert.doesNotThrow(()=>validateDeclaredEvidence(row('SolidWorks','três anos de experiência em SolidWorks'),profile));
  assert.doesNotThrow(()=>validateDeclaredEvidence(row('Técnico em mecânica','Técnico em mecânica'),profile));
  assert.doesNotThrow(()=>validateDeclaredEvidence(row('AutoCAD','Não fornecida','Informação não fornecida — confirmar'),profile));
- assert.throws(()=>validateDeclaredEvidence(row('SolidWorks; máquinas industriais; listas de materiais','três anos de experiência em SolidWorks'),profile),/Unsupported/);
- assert.throws(()=>validateDeclaredEvidence(row('AutoCAD','três anos de experiência em SolidWorks'),profile),/Unsupported/);
- assert.throws(()=>validateDeclaredEvidence(row('SolidWorks avançado','SolidWorks avançado'),profile),/Unsupported/);
+ assert.equal(validateDeclaredEvidence(row('SolidWorks; máquinas industriais; listas de materiais','três anos de experiência em SolidWorks'),profile).length,1);
+ assert.equal(validateDeclaredEvidence(row('AutoCAD','três anos de experiência em SolidWorks'),profile).length,1);
+ assert.equal(validateDeclaredEvidence(row('AutoCAD','AutoCAD'),'Não tenho experiência em AutoCAD.').length,1);
+ assert.equal(validateDeclaredEvidence(row('SolidWorks avançado','SolidWorks avançado'),profile).length,2);
+});
+
+test('uncertain evidence is downgraded and later source offsets remain aligned',()=>{
+ const text='Requisito do anúncio: AutoCAD\nEvidência no perfil: três anos de experiência em SolidWorks\nSituação: Compatível com a informação declarada\n[fonte]';
+ const raw=provider(text);raw.output[1].content[0].annotations[0].start_index=text.indexOf('[fonte]');raw.output[1].content[0].annotations[0].end_index=text.length;
+ const r=externalResult(raw,{question:'Tenho três anos de experiência em SolidWorks.'});
+ assert.doesNotMatch(r.answer,/Situação: Compatível/);assert.match(r.answer,/Informação não fornecida — confirmar/);assert.equal(r.answer.slice(r.citations[0].start,r.citations[0].end),'[fonte]');
 });

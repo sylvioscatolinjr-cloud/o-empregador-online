@@ -24,16 +24,22 @@ export function safeSourceURL(value){
 }
 const comparisonText=value=>String(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[“”"'`*]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
 export function validateDeclaredEvidence(answer,question){
- if(typeof question!=='string')return;
+ const edits=[];if(typeof question!=='string')return edits;
  const profile=comparisonText(question);
  const rows=answer.replace(/\*\*/g,'').matchAll(/Requisito do anúncio:\s*([^\n]+)[\s\S]*?Evidência no perfil:\s*([^\n]+)[\s\S]*?Situação:\s*([^\n]+)/giu);
  for(const row of rows){
   if(!/^(?:compat[ií]vel com a informa[çc][ãa]o declarada)/iu.test(row[3]))continue;
   const evidence=comparisonText(row[2]);
+  const before=profile.slice(Math.max(0,profile.indexOf(evidence)-45),profile.indexOf(evidence));
+  const negative=/(?:^|\s)(?:nao|sem|nunca)(?:\s|$)/.test(evidence)||/(?:^|\s)(?:nao|sem|nunca)\b[^.!?]{0,40}$/.test(before);
   // Accept only a literal declared excerpt and a single requirement supported by it.
   const criterion=comparisonText(row[1]).replace(/^(?:experiencia (?:em|com)|conhecimento (?:em|de)|dominio (?:em|de|do)|formacao (?:em|de)|curso) /,'');
-  if(!evidence||!profile.includes(evidence)||!criterion||!evidence.includes(criterion)||/[;]/.test(row[1]))throw Error('Unsupported compatible requirement');
+  if(!evidence||negative||!profile.includes(evidence)||!criterion||!evidence.includes(criterion)||/[;]/.test(row[1])){
+   const start=row.index+row[0].lastIndexOf(row[3]);edits.push({start,end:start+row[3].length,text:'Informação não fornecida — confirmar. A evidência declarada não confirma integralmente este requisito.'});
+   if(!evidence||!profile.includes(evidence)){const from=row.index+row[0].indexOf(row[2],row[0].indexOf('Evidência no perfil:'));edits.push({start:from,end:from+row[2].length,text:'Não confirmada no texto informado.'});}
+  }
  }
+ return edits;
 }
 export function externalResult(data,{question}={}){
  if(data.status!=='completed'||!(data.output||[]).some(o=>o.type==='web_search_call'&&o.status==='completed'))throw Error('Search not completed');
@@ -46,7 +52,12 @@ export function externalResult(data,{question}={}){
  if(!answer.trim()||answer.length>16000||!citations.length)throw Error('No cited search result');
  // Do not charge for a response that regresses to unsupported hiring forecasts.
  if(/(?:probabilidade|chance|chances)\s+de\s+(?:contrata[çc][ãa]o|ser\s+contratad[oa])\s*[:–—-]\s*(?:\*\*)?\s*(?:alta|moderada|m[eé]dia|baixa|\d+(?:[.,]\d+)?\s*%)/iu.test(answer.replace(/\*\*/g,'')))throw Error('Unsupported hiring forecast');
- validateDeclaredEvidence(answer,question);
+ // Downgrade unsupported positives instead of charging for an overconfident label
+ // or discarding otherwise useful sources. Keep citation offsets synchronized.
+ for(const edit of validateDeclaredEvidence(answer,question).sort((a,b)=>b.start-a.start)){
+  answer=answer.slice(0,edit.start)+edit.text+answer.slice(edit.end);const shift=edit.text.length-(edit.end-edit.start);
+  for(let i=citations.length-1;i>=0;i--){const c=citations[i];if(c.start>=edit.end){c.start+=shift;c.end+=shift;}else if(c.end>edit.start)citations.splice(i,1);}
+ }
  return {answer,citations:citations.slice(0,40),searchedAt:new Date().toISOString()};
 }
 
