@@ -93,7 +93,7 @@ const guides={
  desejos:()=>({title:'Sua lista de desejos',steps:[step('Diga o que você quer aprender.'),step('As instituições do portal usam esses pedidos para abrir novas turmas.')],faq:[]}),
  publicacoes:()=>({title:'Criando publicações',steps:[step('Escolha o formato e a qualidade da imagem.'),step('Escreva o que a publicação deve mostrar e confira o preço.'),step('Autorize a geração e baixe a imagem para postar nas suas redes.')],faq:[faq('A plataforma posta por mim?','Não. Você baixa a imagem e publica onde quiser.')]}),
  destaques:()=>({title:'Destacar na vitrine',steps:[step('Escolha o que quer destacar.'),step('Confira o período e o preço.'),step('Confirme o pagamento. O destaque entra no ar após a confirmação.')],faq:[]}),
- turbinar:()=>({title:'Turbinar anúncio',steps:[step('Escolha o anúncio e o público.'),step('Confira quantas pessoas recebem e o valor total antes de confirmar.')],faq:[faq('Quanto custa?','R$ 0,05 por pessoa que recebe o aviso. O total aparece antes da confirmação.')]}),
+ turbinar:({signedIn})=>({title:'Turbinar anúncio',steps:[step('Turbinar é exclusivo para empresas e instituições de ensino.'),step('Escolha o anúncio e o público.'),step('Confira quantas pessoas recebem e o valor total antes de confirmar.'),step('Candidatos usam esta página só para escolher se querem receber campanhas patrocinadas.')],faq:[faq('Quanto custa?','R$ 0,05 por pessoa que recebe o aviso. O total aparece antes da confirmação.'),faq('Sou candidato. Posso turbinar meu currículo?','Não. Turbinar é exclusivo para empresas e instituições de ensino. Para aparecer mais, complete o currículo, autorize seu cartão público, valide suas formações ou veja Destacar na vitrine e os planos.')]}),
  instalar:()=>({title:'Instalar o aplicativo',steps:[step('No Android, toque em Instalar ou no menu ⋮ e "Adicionar à tela inicial".'),step('No iPhone, toque em Compartilhar e depois em "Adicionar à Tela de Início".')],faq:[]}),
  legal:()=>({title:'Documentos do portal',steps:[step('Aqui estão as regras de uso e de privacidade.'),step('Dúvidas? Escreva para contato@oempregadoronline.com.br.')],faq:[]})
 };
@@ -185,7 +185,7 @@ const places=[
  ['Blog','Matérias sobre carreira, emprego e estudos.','/blog.html'],
  ['Lista de desejos de cursos','Diga o que quer aprender para as instituições abrirem turmas.','/cursos-desejados.html'],
  ['Destacar na vitrine','Faça seu perfil, vaga ou curso aparecer em destaque na página inicial.','/destaques.html'],
- ['Turbinar anúncio','Envie aviso da sua vaga ou curso para mais pessoas. R$ 0,05 por pessoa.','/turbinar.html'],
+ ['Turbinar anúncio (empresas e instituições)','Exclusivo para empresas e instituições de ensino: envie aviso da sua vaga ou curso para mais pessoas. R$ 0,05 por pessoa.','/turbinar.html'],
  ['Publicações com imagem','Crie imagens para divulgar nas redes sociais.','/publicacoes.html'],
  ['Instalar o aplicativo no celular','Coloque o portal na tela inicial do Android ou iPhone.','/instalar.html'],
  ['Termos de Uso','Regras de uso, cancelamento e reembolso.','/termos.html'],

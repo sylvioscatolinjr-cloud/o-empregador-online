@@ -78,3 +78,14 @@ test('Farejar responde sobre ordem e pontos',()=>{
  assert.match(nebuSniff('como funciona a ordem dos currículos')[0].text,/assinantes/);
  assert.match(nebuSniff('como ganho pontos')[0].title,/pontos/);
 });
+
+test('Turbinar: exclusivo de empresas e instituições, nunca sugerido a candidatos',async()=>{
+ const s=candidateStatus({profile:fullProfile,card:{visible:true,headline:'A',skills:'B'},goal:{role:'C'}});
+ for(let i=0;i<8;i++){const c=nebuCoach(s,i);assert.doesNotMatch(c.growth.text+c.growth.title,/[Tt]urbin/);}
+ for(const t of nebuCoach(candidateStatus({})).tips)assert.doesNotMatch(t.text,/[Tt]urbin/);
+ assert.match(nebuSniff('posso turbinar meu currículo')[0].text,/exclusivo para empresas e instituições/);
+ const page=await readFile(new URL('../app/turbinar.mjs',import.meta.url),'utf8');
+ assert.match(page,/data\.publisher\?'Turbinar anúncio':'Preferências de campanhas'/);
+ const sql=await readFile(new URL('../db/turbinar.sql',import.meta.url),'utf8');
+ assert.match(sql,/not in\('recruiter','school_staff','pilot_owner'\) then raise exception 'publisher only'/);
+});
