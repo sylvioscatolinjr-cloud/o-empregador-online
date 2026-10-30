@@ -491,3 +491,12 @@ Pedido do titular: botões na ordem de leitura. Menu do perfil em grupos por jor
 ## Nebu: orientação local para dificuldades — 30/10/2026
 
 Pedido do titular: eficiência sem IA paga. Regras locais separam instrução de relatos de falha; candidatura, pagamento, acesso, salvamento e pergunta de esclarecimento. Sem novas chamadas, coleta ou persistência; não diagnostica banco nem confirma operações. Seis testes focados locais e sintaxe aprovados; validação na prévia antes do merge, conforme AGENTS.md. Escopo e limites em pilot-sumare/docs/NEBU.md.
+
+
+## Preços por abrangência e bloqueio explícito — 30/10/2026
+
+Pedido expresso de Sylvio: padrão até5 oportunidades R$2,50; ampliada até10 R$5,00. Substitui o preço único anterior somente para novas solicitações. Servidor calcula250/500 pelo modo e valida preço/aceite/termosv2 antes de reservar; respostas antigas não autorizam o novo preço. Interface atualiza botão, autorização e capacidade do saldo; trocar modo desmarca o aceite. Modo proprietário mantém quota sem débito. Campos pessoais/currículo completo continuam fora deste fluxo.
+
+Botão desativado agora explica saldo insuficiente, serviço não validado, seleção ou operação em andamento. Não concede créditos nem altera dinheiro para testes. RPC de produção consultada já aceita100/250/500; nenhuma migração ou grant necessário. Cinco testes focados locais aprovados e sintaxe conferida; prévia antes do merge e qualidade real das vagas seguem verificações distintas.
+
+Privacidade: mesma finalidade e dados mínimos; apenas modo/preço autorizado já enviados têm os novos valores. Sem nova coleta, fornecedor, retenção, acesso ou transmissão de currículo. Termos e Política atualizados para transparência. Consulta oficial Supabase sobre funções concluída; fontes LGPD/ANPD e changelog indisponíveis na ferramenta de consulta nesta sessão, sem alegação de revisão jurídica completa. Preservados direitos/canal de atendimento. Nenhuma execução paga ou débito real usado para validar.
