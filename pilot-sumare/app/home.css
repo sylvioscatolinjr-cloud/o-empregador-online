@@ -4,7 +4,7 @@ html{scroll-behavior:smooth;scroll-padding-top:100px}.public-home{background:#fb
 
 .public-home .hero-art{display:block;position:relative;width:100%;max-width:470px;height:auto;aspect-ratio:1;background:none;justify-self:center}.brand-orbit{display:block;width:100%;height:auto;overflow:visible}.brand-arc-text{font-family:system-ui,sans-serif;font-size:27px;font-weight:900;fill:#543878;stroke:#543878;stroke-width:.25;paint-order:stroke fill}.brand-arc-bottom{fill:#02b7ca;stroke:#02b7ca}@media(max-width:650px){.public-home .hero-art{display:block;max-width:360px;margin:16px auto 0}.home-hero{row-gap:12px}}
 
-.opportunity,.panel{position:relative}.fictitious-watermark{position:absolute;right:12px;top:8px;font-size:12px;font-style:italic;color:#63596c;opacity:.75;pointer-events:none}.opportunity:has(.fictitious-watermark),.panel:has(>.fictitious-watermark){padding-top:32px}
+.opportunity,.panel{position:relative}.fictitious-watermark{position:absolute;right:12px;top:8px;font-size:12px;font-style:italic;color:#544760;opacity:1;pointer-events:none}.opportunity:has(.fictitious-watermark),.panel:has(>.fictitious-watermark){padding-top:32px}
 
 #jobs-grid,#courses-grid,#candidates-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;min-height:500px;height:auto;overflow:visible}.highlight-carousel>.opportunity{grid-row:1;height:auto;min-height:500px;overflow:visible;box-sizing:border-box;align-self:stretch}.highlight-carousel>[hidden]{display:flex!important;visibility:hidden;pointer-events:none}.carousel-controls{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:16px}.carousel-controls button{min-height:44px}.carousel-counter{font-size:13px;color:#756d7c;font-variant-numeric:tabular-nums}@media(max-width:950px){#jobs-grid,#courses-grid,#candidates-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:650px){#jobs-grid,#courses-grid,#candidates-grid{grid-template-columns:1fr;height:auto}.carousel-controls{gap:8px}.carousel-controls button{padding:10px;font-size:13px}}
 
@@ -15,7 +15,7 @@ html{scroll-behavior:smooth;scroll-padding-top:100px}.public-home{background:#fb
 .card-identity{position:absolute;top:14px;right:14px;width:72px;display:flex;flex-direction:column;align-items:center;gap:4px}
 .card-identity .card-image{display:block;width:64px;height:64px;border:1px solid #e6e0ec;background:white;border-radius:9px;object-fit:contain;box-sizing:border-box}
 .card-identity .card-portrait{object-fit:cover;border-radius:50%}
-.card-identity .fictitious-watermark{position:static;display:block;font-size:11px;font-style:italic;line-height:1.3;color:#63596c;opacity:.75}
+.card-identity .fictitious-watermark{position:static;display:block;font-size:11px;font-style:italic;line-height:1.3;color:#544760;opacity:1}
 /* WCAG AA contrast: restore the intended tag/eyebrow colours that .opportunity p and .home-cta p overrode. */
 .opportunity p.tag{color:#674589}.home-cta p{color:#655873}.home-cta p.eyebrow{color:var(--purple)}
 
