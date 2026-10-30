@@ -49,3 +49,12 @@ Pedido expresso de Sylvio: padrão até5 oportunidades R$2,50; ampliada até10 R
 Botão desativado agora explica saldo insuficiente, serviço não validado, seleção ou operação em andamento. Não concede créditos nem altera dinheiro para testes. RPC de produção consultada já aceita100/250/500; nenhuma migração ou grant necessário. Cinco testes focados locais aprovados e sintaxe conferida; prévia antes do merge e qualidade real das vagas seguem verificações distintas.
 
 Privacidade: mesma finalidade e dados mínimos; apenas modo/preço autorizado já enviados têm os novos valores. Sem nova coleta, fornecedor, retenção, acesso ou transmissão de currículo. Termos e Política atualizados para transparência. Consulta oficial Supabase sobre funções concluída; fontes LGPD/ANPD e changelog indisponíveis na ferramenta de consulta nesta sessão, sem alegação de revisão jurídica completa. Preservados direitos/canal de atendimento. Nenhuma execução paga ou débito real usado para validar.
+
+
+## Evidência na comparação profissional — 30/10/2026
+
+Após teste real relatado e capturas do titular, instrução da pesquisa externa reforçada: requisitos não se tornam qualificações do usuário; curso não comprova domínio avançado; experiência não infere AutoCAD/PDM/NR-12/BOMs ou outros conhecimentos. Comparação de até3 requisitos prioritários por oportunidade com evidência citada do texto fornecido, compatível/informação não fornecida/divergência declarada. Não estima chances de contratação, mesmo sob pedido. Dados declarados não são comprovados. Links específicos e disponibilidade incerta devem ser distinguidos; duplicatas agrupadas. Texto simples com rótulos, sem Markdown cru.
+
+Sem mudança de modelo, preços, carteira, quota, dados enviados ou permissões. Sintaxe e preservação de preços/abrangência/fontes obrigatórias conferidas localmente, sem API paga. Instruções não garantem obediência integral; novo teste real de qualidade com perfil fictício continua necessário. Não afirmar verificação independente dos anúncios: titular relata que links permitem candidatura; consulta externa da sessão falhou.
+
+Mesma finalidade/dados mínimos/retensão/direitos já descritos; sem nova coleta ou tratamento de currículos. Revisão oficial LGPD/ANPD tentada na sessão, ferramenta indisponível; sem certificação jurídica. Publicação segue PR e prévia.
