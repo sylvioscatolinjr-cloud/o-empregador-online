@@ -9,12 +9,12 @@ function rowsOf(items){
  }
  return rows;
 }
-function spansOf(items){
+function spansOf(items,table=false){
  const spans=[];
  for(const row of rowsOf(items)){
   let span;for(const item of row.items.sort((a,b)=>a.x-b.x)){
    const gap=span?item.x-span.right:Infinity;
-   if(!span||gap>Math.max(14,item.height*2)){
+   if(!span||gap>(table?Math.max(6,item.height*.6):Math.max(14,item.height*2))){
     span={x:item.x,y:row.y,right:item.x+item.width,height:item.height,text:item.text};spans.push(span);
    }else{
     const space=gap>Math.max(.7,item.height*.1)&&!span.text.endsWith(' ')&&!item.text.startsWith(' ')?' ':'';
@@ -47,8 +47,24 @@ function blockOf(spans,column,page){
  return {text,column,page,lines};
 }
 export function orderPositionedText(items,width,page=1){
- const spans=spansOf(items.filter(i=>i.text?.trim()&&Number.isFinite(i.x)&&Number.isFinite(i.y))),anchor=columnAnchor(spans,width);
+ const cleanItems=items.filter(i=>i.text?.trim()&&Number.isFinite(i.x)&&Number.isFinite(i.y));
+ let spans=spansOf(cleanItems);
  if(!spans.length)return {text:'',blocks:[],columns:1};
+ // A form/table has several cells on repeated rows, not independent resume columns.
+ // Keep every cell and row (including full-width activity descriptions) in reading order.
+ const tableSpans=spansOf(cleanItems,true);
+ const languageGrid=rowsOf(tableSpans).some(r=>r.items.filter(s=>/^(?:idioma|compreensão|escrita|fala|leitura)$/i.test(s.text)).length>=3);
+ if(rowsOf(spans).filter(r=>r.items.length>=3).length>=3||languageGrid&&rowsOf(tableSpans).filter(r=>r.items.length>=3).length>=3){
+  spans=tableSpans;
+  for(const span of spans){
+   if(!spans.includes(span))continue;
+   const next=spans.filter(s=>s!==span&&s.y>span.y&&s.y-span.y<=span.height*1.9&&Math.abs((s.x+s.right-span.x-span.right)/2)<span.height*2&&(/\b(?:de|do|da|dos|das|em|no|na|com|para|e)$/i.test(span.text)||/^[a-zà-ú]/.test(s.text))).sort((a,b)=>a.y-b.y)[0];
+   if(next){span.text+=' '+next.text;span.y=(span.y+next.y)/2;span.x=Math.min(span.x,next.x);span.right=Math.max(span.right,next.right);spans=spans.filter(s=>s!==next);}
+  }
+  const rows=rowsOf(spans).map(r=>({x:Math.min(...r.items.map(s=>s.x)),y:r.y,height:Math.max(...r.items.map(s=>s.height)),text:r.items.sort((a,b)=>a.x-b.x).map(s=>s.text).join(' | ')}));
+  const block={text:rows.map(r=>r.text).join('\n'),column:0,page,lines:rows};return {text:block.text,blocks:[block],columns:1,table:true};
+ }
+ const anchor=columnAnchor(spans,width);
  if(!anchor){const block=blockOf(spans,0,page);return {text:block.text,blocks:[block],columns:1};}
  const full=spans.filter(s=>s.x<anchor.split&&s.right>anchor.anchor+6).sort((a,b)=>a.y-b.y),blocks=[];let top=-Infinity;
  function addBand(bottom){const band=spans.filter(s=>s.y>top&&s.y<bottom&&!full.includes(s));for(const column of [0,1]){const part=band.filter(s=>Number(s.x>=anchor.split)===column);if(part.length)blocks.push(blockOf(part,column,page));}}

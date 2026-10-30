@@ -1,5 +1,9 @@
 # O Empregador Online — contrato de continuidade e revisão de produção
 
+## Revisão da área de candidato — 30/10/2026
+
+Autorizada correção dos problemas encontrados na conta candidata: lista de cursos continua para assinatura real, formulários do Nebu não entram no tratador da conta, carregamento da carteira termina, detalhes recarregam favoritos, convite de entrevista é distinguido das etapas e textos respeitam pesquisa padrão R$2,50/ampliada R$5,00. Importação local passa a preservar tabelas/idiomas e atividades em largura total; cidade/UF não se repetem. Nenhuma alteração de preços, permissões, cobranças ou confirmação de entrevista. Currículos existentes não são migrados em lote; correção individual exige conferência com o anexo e revisão pelo titular. Ver pilot-sumare/docs/CANDIDATE-AUDIT-2026-10-30.md.
+
 ## Destaque turquesa no título — 29/10/2026
 
 Pedido do titular: palavras plataforma, conexão e evolução usam #02b7ca, mesmo turquesa dos arcos da marca, preservando restante do título roxo, texto e layout. Fonte grande/negrito preservada. Alteração visual sem novos dados, finalidade, base legal, acesso, retenção ou efeito financeiro. Teste do título atualizado para verificar texto acessível e três destaques.
