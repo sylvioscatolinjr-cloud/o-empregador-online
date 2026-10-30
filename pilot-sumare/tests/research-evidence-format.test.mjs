@@ -71,3 +71,10 @@ test('plain-text URLs must match real tool sources before becoming citations',()
  const result=externalResult(data);assert.equal(result.citations.length,1);assert.match(result.answer.slice(result.citations[0].start,result.citations[0].end),/^https:/);
  data.output[1].content[0].text='Link: https://inventado.example.org/job';assert.throws(()=>externalResult(data),/No cited/);
 });
+test('real response variants cannot mark a whole list compatible from SolidWorks alone',()=>{
+ const question='Sou técnico em mecânica com três anos de experiência em SolidWorks e desenho mecânico 3D.';
+ const text='**Requisitos do anúncio:**\n- Ensino Médio Completo\n- Experiência em máquinas industriais\n- Domínio prático de SolidWorks\n- Listas de materiais\n**Evidência no perfil:**\n- Três anos de experiência em SolidWorks e desenho mecânico 3D\n**Situação:**\n- Compatível com a informação declarada';
+ const edits=validateDeclaredEvidence(text,question);assert.equal(edits.length,1);assert.equal(text.slice(edits[0].start,edits[0].end),'Compatível com a informação declarada');
+ assert.equal(validateDeclaredEvidence('Situação: Compatível com a informação declarada',question).length,1);
+ assert.equal(validateDeclaredEvidence('**Requisito do anúncio:** SolidWorks\n**Evidência no perfil:** três anos de experiência em SolidWorks\n**Situação:** Compatível com a informação declarada',question).length,0);
+});

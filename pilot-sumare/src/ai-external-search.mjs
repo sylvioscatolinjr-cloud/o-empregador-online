@@ -25,19 +25,20 @@ export function safeSourceURL(value){
 const comparisonText=value=>String(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[“”"'`*]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
 export function validateDeclaredEvidence(answer,question){
  const edits=[];if(typeof question!=='string')return edits;
- const profile=comparisonText(question);
- const rows=answer.replace(/\*\*/g,'').matchAll(/Requisito do anúncio:\s*([^\n]+)[\s\S]*?Evidência no perfil:\s*([^\n]+)[\s\S]*?Situação:\s*([^\n]+)/giu);
- for(const row of rows){
-  if(!/^(?:compat[ií]vel com a informa[çc][ãa]o declarada)/iu.test(row[3]))continue;
-  const evidence=comparisonText(row[2]);
-  const before=profile.slice(Math.max(0,profile.indexOf(evidence)-45),profile.indexOf(evidence));
-  const negative=/(?:^|\s)(?:nao|sem|nunca)(?:\s|$)/.test(evidence)||/(?:^|\s)(?:nao|sem|nunca)\b[^.!?]{0,40}$/.test(before);
-  // Accept only a literal declared excerpt and a single requirement supported by it.
-  const criterion=comparisonText(row[1]).replace(/^(?:experiencia (?:em|com)|conhecimento (?:em|de)|dominio (?:em|de|do)|formacao (?:em|de)|curso) /,'');
-  if(!evidence||negative||!profile.includes(evidence)||!criterion||!evidence.includes(criterion)||/[;]/.test(row[1])){
-   const start=row.index+row[0].lastIndexOf(row[3]);edits.push({start,end:start+row[3].length,text:'Informação não fornecida — confirmar. A evidência declarada não confirma integralmente este requisito.'});
-   if(!evidence||!profile.includes(evidence)){const from=row.index+row[0].indexOf(row[2],row[0].indexOf('Evidência no perfil:'));edits.push({start:from,end:from+row[2].length,text:'Não confirmada no texto informado.'});}
+ const profile=comparisonText(question),plain=answer.replace(/\*/g,' ');
+ // Keep string offsets stable while accepting legacy bold labels, bullets and plurals.
+ const rows=[...plain.matchAll(/Requisitos? do anúncio:\s*([\s\S]*?)Evidência no perfil:\s*([\s\S]*?)Situação:\s*([^\n]+)/giu)];
+ for(const positive of plain.matchAll(/Compatível com a informação declarada/giu)){
+  const row=rows.find(r=>positive.index>=r.index&&positive.index<r.index+r[0].length);
+  let valid=false;
+  if(row){
+   const evidence=comparisonText(row[2]),criterion=comparisonText(row[1]).replace(/^(?:experiencia (?:em|com)|conhecimento (?:em|de)|dominio (?:em|de|do)|formacao (?:em|de)|curso) /,'');
+   const at=profile.indexOf(evidence),before=profile.slice(Math.max(0,at-45),at);
+   const negative=/(?:^|\s)(?:nao|sem|nunca)(?:\s|$)/.test(evidence)||/(?:^|\s)(?:nao|sem|nunca)\b[^.!?]{0,40}$/.test(before);
+   valid=Boolean(evidence&&at>=0&&!negative&&criterion&&evidence.includes(criterion)&&!/[;]/.test(row[1]));
+   if(!evidence||at<0){const from=row.index+row[0].indexOf(row[2],row[0].indexOf('Evidência no perfil:'));if(!edits.some(e=>e.start===from))edits.push({start:from,end:from+row[2].length,text:'Não confirmada no texto informado.\n'});}
   }
+  if(!valid)edits.push({start:positive.index,end:positive.index+positive[0].length,text:'Informação não fornecida — confirmar. A evidência declarada não confirma integralmente este requisito'});
  }
  return edits;
 }
