@@ -504,3 +504,12 @@ Privacidade: mesma finalidade e dados mínimos; apenas modo/preço autorizado j�
 
 ## Rótulo do botão sem saldo — 30/10/2026
 Pedido expresso de Sylvio: quando a conta comum não tiver saldo para a tarefa selecionada, o botão deve ficar clicável, abrir /carteira.html sem submeter a tarefa e mostrar “Recarregue para executar a operação”. Com saldo suficiente, restaura “Confirmar e executar” com o preço do modo. Mantidos atalho de compra, motivo detalhado, autorização, preços e quota do proprietário. Mudança de texto sem nova coleta, finalidade, retenção ou transmissão; revisão LGPD oficial tentada na sessão e indisponível, sem declaração de conformidade jurídica. Sintaxe conferida; publicação segue branch/PR/prévia. Teste visual autenticado permanece separado.
+
+
+## Evidência na comparação profissional — 30/10/2026
+
+Após teste real relatado e capturas do titular, instrução da pesquisa externa reforçada: requisitos não se tornam qualificações do usuário; curso não comprova domínio avançado; experiência não infere AutoCAD/PDM/NR-12/BOMs ou outros conhecimentos. Comparação de até3 requisitos prioritários por oportunidade com evidência citada do texto fornecido, compatível/informação não fornecida/divergência declarada. Não estima chances de contratação, mesmo sob pedido. Dados declarados não são comprovados. Links específicos e disponibilidade incerta devem ser distinguidos; duplicatas agrupadas. Texto simples com rótulos, sem Markdown cru.
+
+Sem mudança de modelo, preços, carteira, quota, dados enviados ou permissões. Sintaxe e preservação de preços/abrangência/fontes obrigatórias conferidas localmente, sem API paga. Instruções não garantem obediência integral; novo teste real de qualidade com perfil fictício continua necessário. Não afirmar verificação independente dos anúncios: titular relata que links permitem candidatura; consulta externa da sessão falhou.
+
+Mesma finalidade/dados mínimos/retensão/direitos já descritos; sem nova coleta ou tratamento de currículos. Revisão oficial LGPD/ANPD tentada na sessão, ferramenta indisponível; sem certificação jurídica. Publicação segue PR e prévia.
