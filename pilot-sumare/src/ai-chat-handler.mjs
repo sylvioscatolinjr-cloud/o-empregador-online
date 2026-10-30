@@ -61,7 +61,10 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
      if(premium){searchResult=externalResult(data,{question:req.body.question});answer=searchResult.answer;}
      if(!answer||data.status==='incomplete')throw Error('incomplete provider response');
     }finally{clearTimeout(timeout);}
-   }catch{
+   }catch(error){
+    const diagnostic=({'Search not completed':'search_incomplete','No cited search result':'sources_missing','Unsupported hiring forecast':'forecast_blocked','provider rejected':'provider_rejected','incomplete provider response':'response_incomplete'})[error?.message]||(error?.name==='AbortError'?'timeout':'response_validation_failed');
+    // Operational code only: no prompt, answer, user identifier or provider payload.
+    console.error('AI_RESPONSE_FAILURE',JSON.stringify({requestId,code:diagnostic}));
     if(ownerTest.enabled)return res.status(503).json({error:'Falha na IA. Sua carteira não foi debitada; a tentativa conta no limite diário.'});
     const refund=await db.rpc('portal_ai_wallet_refund',{p_user:user.id,p_cohort:env.PILOT_COHORT_ID,p_request:requestId});
     if(refund.error)return res.status(503).json({error:'Falha na IA. A devolução dos créditos requer verificação administrativa.',requestId});
