@@ -1,5 +1,5 @@
 import {postImageContent} from './post-image-input.mjs';
-import {validateExternalInput,externalOptions,externalInstruction,externalResult} from './ai-external-search.mjs';
+import {validateExternalInput,externalSearchCost,externalOptions,externalInstruction,externalResult} from './ai-external-search.mjs';
 import {ownerTestAccess,requestedTestRole} from './owner-test-access.mjs';
 import {randomUUID} from 'node:crypto';
 import {createClient} from '@supabase/supabase-js';
@@ -29,8 +29,8 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
    if(task.mode==='publication'&&req.body?.publicationText!==true)return res.status(400).json({error:'Abra o Agente de Publicações e escolha Gerar texto ou Gerar imagem.'});
    if(task.id==='resume_review')return res.status(400).json({error:'Use a revisão conectada ao currículo salvo: carregue seus dados na tarefa Revisar meu currículo.'});
    let imageContent;try{imageContent=postImageContent(req.body,task.id==='social_posts_'+role||task.mode==='publication');if(JSON.stringify({...req.body,postImages:undefined}).length>9000)throw Error('Texto muito grande.');}catch(e){return res.status(400).json({error:e.message});}
-   const premium=task.mode==='external_search',costCents=task.costCents;
-   if(premium){try{validateExternalInput(req.body);}catch(e){return res.status(400).json({error:e.message});}if(env.AI_EXTERNAL_SEARCH_ENABLED==='false')return res.status(503).json({error:'Pesquisa externa temporariamente indisponível. Nenhum crédito consumido.'});}
+   const premium=task.mode==='external_search';let costCents=task.costCents;
+   if(premium){try{validateExternalInput(req.body);costCents=externalSearchCost(req.body.searchMode);}catch(e){return res.status(400).json({error:e.message});}if(env.AI_EXTERNAL_SEARCH_ENABLED==='false')return res.status(503).json({error:'Pesquisa externa temporariamente indisponível. Nenhum crédito consumido.'});}
    let request;
    try{request=createAgentRequest({role,question:req.body?.question,context:req.body?.context});
     request.system+=' Tarefa selecionada: '+task.instruction+(task.mode==='free_text'?'':' Limite-se a esta tarefa; pedidos de outras tarefas devem ser recusados.');}
@@ -72,3 +72,4 @@ export function aiChatHandler({env=process.env,clientFactory=createClient,fetchI
  };
 }
 export default aiChatHandler();
+
