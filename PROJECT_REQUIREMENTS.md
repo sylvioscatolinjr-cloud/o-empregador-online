@@ -1,5 +1,9 @@
 # O Empregador Online — contrato de continuidade e revisão de produção
 
+## Curso fictício e compartilhamento — 31/10/2026
+
+Super Maker preenchida como instituição fictícia, logo sintético e curso FDM publicado/marcado fictício. Sem alterar plano, carteira ou autorização. Prévia compartilhada consulta anúncio exato, independentemente dos 50 destaques, com descrição completa e as mesmas regras públicas de elegibilidade. Ver pilot-sumare/docs/SHARED-LISTING-2026-10-31.md.
+
 ## Revisão da instituição de ensino — 30/10/2026
 
 Sessão school_staff conferida: cursos/treinamentos, busca pública de potenciais alunos, interesses, vínculos, acessos, planos educacionais, treinamentos, agentes e divulgação. O espaço do responsável usa os mesmos formulários principais, evitando oferta de vaga ou ranking de recrutamento para instituição; convites novos mostram permissões pertinentes ao ensino. Subusuários mantêm operações no contexto da organização e verificações no servidor. Interesses em cursos não oferecem situação de entrevista de emprego. Campos ausentes da instituição permanecem para preenchimento pelo titular, sem suposição ou publicação de curso real. Ver pilot-sumare/docs/SCHOOL-AUDIT-2026-10-30.md.
