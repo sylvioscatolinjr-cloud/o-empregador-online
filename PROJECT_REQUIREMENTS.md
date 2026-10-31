@@ -1,5 +1,21 @@
 # O Empregador Online — contrato de continuidade e revisão de produção
 
+## Curso fictício e compartilhamento — 31/10/2026
+
+Super Maker preenchida como instituição fictícia, logo sintético e curso FDM publicado/marcado fictício. Sem alterar plano, carteira ou autorização. Prévia compartilhada consulta anúncio exato, independentemente dos 50 destaques, com descrição completa e as mesmas regras públicas de elegibilidade. Ver pilot-sumare/docs/SHARED-LISTING-2026-10-31.md.
+
+## Revisão da instituição de ensino — 30/10/2026
+
+Sessão school_staff conferida: cursos/treinamentos, busca pública de potenciais alunos, interesses, vínculos, acessos, planos educacionais, treinamentos, agentes e divulgação. O espaço do responsável usa os mesmos formulários principais, evitando oferta de vaga ou ranking de recrutamento para instituição; convites novos mostram permissões pertinentes ao ensino. Subusuários mantêm operações no contexto da organização e verificações no servidor. Interesses em cursos não oferecem situação de entrevista de emprego. Campos ausentes da instituição permanecem para preenchimento pelo titular, sem suposição ou publicação de curso real. Ver pilot-sumare/docs/SCHOOL-AUDIT-2026-10-30.md.
+
+## Revisão da área de empresa — 30/10/2026
+
+Conta empresarial autenticada auditada: publicações e edição, candidaturas/etapas, avaliação com bloqueio por entrevista, busca por competência, equipes/acessos, planos, destaques, campanhas, treinamentos, afiliados e agentes. Correções: explicação coerente para geração de imagem, motivo de bloqueio por saldo/pedido pendente, orientações por perfil, validação mínima de descrição e campos de vínculo só para vagas, cancelamento da edição, favoritos próprios recarregados, remoção de campo de rua não persistido da organização e clareza dos convites por departamento. Sem envio a candidatos, publicação ou cobrança real. Ver pilot-sumare/docs/COMPANY-AUDIT-2026-10-30.md.
+
+## Revisão da área de candidato — 30/10/2026
+
+Autorizada correção dos problemas encontrados na conta candidata: lista de cursos continua para assinatura real, formulários do Nebu não entram no tratador da conta, carregamento da carteira termina, detalhes recarregam favoritos, convite de entrevista é distinguido das etapas e textos respeitam pesquisa padrão R$2,50/ampliada R$5,00. Importação local passa a preservar tabelas/idiomas e atividades em largura total; cidade/UF não se repetem. Nenhuma alteração de preços, permissões, cobranças ou confirmação de entrevista. Currículos existentes não são migrados em lote; correção individual exige conferência com o anexo e revisão pelo titular. Ver pilot-sumare/docs/CANDIDATE-AUDIT-2026-10-30.md.
+
 ## Destaque turquesa no título — 29/10/2026
 
 Pedido do titular: palavras plataforma, conexão e evolução usam #02b7ca, mesmo turquesa dos arcos da marca, preservando restante do título roxo, texto e layout. Fonte grande/negrito preservada. Alteração visual sem novos dados, finalidade, base legal, acesso, retenção ou efeito financeiro. Teste do título atualizado para verificar texto acessível e três destaques.
@@ -513,3 +529,13 @@ Após teste real relatado e capturas do titular, instrução da pesquisa externa
 Sem mudança de modelo, preços, carteira, quota, dados enviados ou permissões. Sintaxe e preservação de preços/abrangência/fontes obrigatórias conferidas localmente, sem API paga. Instruções não garantem obediência integral; novo teste real de qualidade com perfil fictício continua necessário. Não afirmar verificação independente dos anúncios: titular relata que links permitem candidatura; consulta externa da sessão falhou.
 
 Mesma finalidade/dados mínimos/retensão/direitos já descritos; sem nova coleta ou tratamento de currículos. Revisão oficial LGPD/ANPD tentada na sessão, ferramenta indisponível; sem certificação jurídica. Publicação segue PR e prévia.
+
+## Pesquisa externa — complemento de apresentação, 30/10/2026
+
+Preservadas as regras publicadas em cd0ded7 para evidência declarada e ausência de estimativas de contratação. Acrescentados renderizador restrito para resultados (blocos por oportunidade, títulos/listas e links seguros), aviso de preço variável no histórico e rejeição com caminho de devolução para rótulos explícitos de chance de contratação. Nenhum currículo é enviado automaticamente, nenhuma permissão ou preço foi alterado. 51 testes específicos aprovados e build local aprovado. Ver docs/PREMIUM-EXTERNAL-RESEARCH.md; validação real da qualidade e vigência de cada anúncio continua necessária.
+
+Ensaio autenticado de pesquisa em 30/10: primeira execução de R$2,50 encontrou cinco resultados sem previsões de contratação, porém com um falso positivo composto e possíveis duplicatas. Complemento exige evidência literal que cubra cada requisito compatível e rejeita compostos sem suporte, com fluxo de devolução preservado. Instruções reforçam anúncios específicos/deduplicação; 53 testes específicos e build aprovados. Não afirmar que todos os anúncios estão ativos ou que a qualidade semântica está garantida.
+
+Refino final: comparações positivas sem suporte literal passam a informação não confirmada, sem descartar os demais resultados; evidências inventadas são retiradas e citações continuam alinhadas. Negação explícita não vira compatibilidade. Testes específicos: 54 aprovados; fluxo real continua sujeito à conferência das fontes.
+
+Fechamento: busca autenticada voltou a retornar três anúncios, sem estimativa de contratação. Links em texto simples são reconhecidos só quando sustentados por fontes retornadas pela ferramenta. Variante real plural/bullets passou ao teste de regressão da checagem de evidência, evitando rótulo compatível para lista inteira. 56 testes específicos/build aprovados; última checagem de formato validada localmente com a resposta observada, sem nova cobrança. Não afirmar vigência das vagas. Detalhes, falhas/devoluções e limites em pilot-sumare/docs/PREMIUM-EXTERNAL-RESEARCH.md.

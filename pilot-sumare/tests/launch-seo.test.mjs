@@ -44,14 +44,14 @@ test('quem chega por link compartilhado vê a prévia da vaga sem login e só en
  const html=await read('app/index.html'),source=(await read('app/home.mjs')).replace(/^import .*;\n/gm,'');const {document}=parseHTML(html),replaced=[];
  const id='11111111-2222-3333-4444-555555555555',item={id,kind:'job',is_fictitious:false,is_featured:false,title:'Desenhista Projetista Pleno',organization:'Empresa real',description:'Descrição completa da vaga.',city:'Campinas',state_code:'SP',modality:'Presencial',job_type:'CLT',logo_data:''};
  const client={auth:{async getSession(){return {data:{session:null}}}}};
- const context={highlightAttributes,benefitList,alternateDemoCards,cardIdentity,mountHighlightCarousel:()=>()=>{},document,location:{href:'https://portal.example/?anuncio='+id,origin:'https://portal.example',replace:u=>replaced.push(u)},URL,FormData,Response,createClient:()=>client,fetch:async url=>url.startsWith('/api/config')?Response.json({supabaseURL:'https://fixture.supabase.co',publishableKey:'fixture'}):Response.json({items:new URL(url,'https://portal.example').searchParams.get('kind')==='job'?[item]:[]})};
+ const context={highlightAttributes,benefitList,alternateDemoCards,cardIdentity,mountHighlightCarousel:()=>()=>{},document,location:{href:'https://portal.example/?anuncio='+id,origin:'https://portal.example',replace:u=>replaced.push(u)},URL,FormData,Response,createClient:()=>client,fetch:async url=>url.startsWith('/api/config')?Response.json({supabaseURL:'https://fixture.supabase.co',publishableKey:'fixture'}):Response.json({items:new URL(url,'https://portal.example').searchParams.has('id')?[item]:[]})};
  vm.createContext(context);vm.runInContext(source,context);await new Promise(r=>setTimeout(r,30));
  assert.deepEqual(replaced,[]);const dialog=document.getElementById('listing-preview');
  assert.match(dialog.textContent,/Desenhista Projetista Pleno/);assert.match(dialog.textContent,/Descrição completa da vaga/);
  assert(dialog.querySelector(`a[href="/conta.html?anuncio=${id}"]`));assert.match(dialog.textContent,/Entrar para se candidatar/);assert(dialog.querySelector('a[href^="/conta.html?cadastro=1"]'));
 });
 
-test('anúncio compartilhado que não está na vitrine continua indo para a conta',async()=>{
+test('anúncio indisponível continua indo para a conta sem expor detalhes',async()=>{
  const html=await read('app/index.html'),source=(await read('app/home.mjs')).replace(/^import .*;\n/gm,'');const {document}=parseHTML(html),replaced=[];const id='99999999-2222-3333-4444-555555555555';
  const context={highlightAttributes,benefitList,alternateDemoCards,cardIdentity,mountHighlightCarousel:()=>()=>{},document,location:{href:'https://portal.example/?anuncio='+id,origin:'https://portal.example',replace:u=>replaced.push(u)},URL,FormData,Response,createClient:()=>({auth:{async getSession(){return {data:{session:null}}}}}),fetch:async url=>url.startsWith('/api/config')?Response.json({supabaseURL:'https://x.supabase.co',publishableKey:'x'}):Response.json({items:[]})};
  vm.createContext(context);vm.runInContext(source,context);await new Promise(r=>setTimeout(r,30));

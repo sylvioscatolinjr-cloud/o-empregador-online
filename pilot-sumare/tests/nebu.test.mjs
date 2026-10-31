@@ -242,3 +242,31 @@ test('idle: Nebu leaves paw prints that fade away and roams the whole screen',()
  assert.ok(Number(cat.style.transform.match(/translate\([^,]+,(-?\d+)px/)[1])<700,'cat runs across the screen');
  idle.stop();
 });
+
+test('incentivo ao cadastro: painel mostra progresso e dicas, e o recado extra aparece uma vez',async()=>{
+ const {candidateStatus,publishNebuStatus,STATUS_EVENT}=await import('../src/nebu-coach.mjs');
+ const {doc,loc}=page('<main><nav><button data-view="account">Meu currículo</button><button data-view="goal">Meta</button></nav><form id="profile"></form><details><summary>Meu cartão</summary><form id="portal-public-card"><input name="headline"></form></details></main>','/conta.html');
+ doc.body.classList.add('signed-in');
+ const win=doc.defaultView,n=mountNebu(doc,loc);n.idle.stop();
+ publishNebuStatus(candidateStatus({profile:{display_name:'Ana'}}),win);
+ n.open();
+ const box=doc.querySelector('[data-nebu-coach]');
+ assert.equal(box.hidden,false);assert.match(box.textContent,/Seu cadastro/);assert.match(box.textContent,/Apareça para as empresas/);
+ assert.match(doc.querySelector('[data-nebu-quote]').textContent,/^“.+”$/);
+ box.querySelector('[data-nebu-focus="#portal-public-card"]').click();
+ assert.equal(doc.querySelector('details').open,true,'abre o cartão público');
+ assert.equal(doc.querySelector('#nebu-panel').hidden,true);
+ const bubble=doc.querySelector('[data-nebu-bubble]');
+ mock.timers.tick(14000);assert.equal(bubble.hidden,true);
+ doc.dispatchEvent(new win.CustomEvent(STATUS_EVENT));
+ mock.timers.tick(20000);
+ assert.equal(bubble.hidden,false);assert.match(bubble.textContent,/Seu cadastro está \d+% completo/);
+ mock.timers.tick(12000);assert.equal(bubble.hidden,true);
+ mock.timers.tick(120000);assert.equal(bubble.hidden,true,'não insiste na mesma sessão');
+ publishNebuStatus(null,win);
+});
+
+test('fora da conta não há incentivo de cadastro',()=>{
+ const {doc,loc}=page('<main></main>','/');const n=mountNebu(doc,loc);n.idle.stop();n.open();
+ assert.equal(doc.querySelector('[data-nebu-coach]').hidden,true);
+});

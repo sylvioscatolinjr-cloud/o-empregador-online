@@ -1,6 +1,6 @@
 import {createClient} from '@supabase/supabase-js';
 import {mountCreditWallet} from './credit-wallet.mjs';
-const root=document.querySelector('#wallet');let accountId,revision=0;
+const root=document.querySelector('#wallet'),loading=document.querySelector('#status');let accountId,revision=0;
 try{
  const r=await fetch('/api/subscriptions?action=config',{cache:'no-store'}),cfg=await r.json();if(!r.ok||cfg.origin!==location.origin)throw Error('Abra o endereço oficial do portal.');
  const client=createClient(cfg.supabaseURL,cfg.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
@@ -13,4 +13,4 @@ try{
  const current=await client.auth.getSession();if(rev!==revision||current.error||current.data?.session?.user?.id!==expected){clear();throw Error('Entre novamente.');}if(!r.ok)throw Error(result.error||'Carteira indisponível.');return result;
  };
  await mountCreditWallet(root,{api,isCurrent:()=>!!accountId}).show();
-}catch(e){root.textContent=e.message||'Carteira indisponível.';}
+}catch(e){root.textContent=e.message||'Carteira indisponível.';root.setAttribute('role','alert');}finally{if(loading)loading.textContent='';}

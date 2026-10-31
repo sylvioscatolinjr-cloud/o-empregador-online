@@ -119,3 +119,14 @@ header>.brand{display:block;flex:none;line-height:0}header>.brand img{display:bl
 .preview-fictitious{font-style:italic;color:#544760;margin:0 48px 8px 0}
 .not-found{max-width:640px;margin:10vh auto;padding:0 16px;text-align:center}
 .not-found .actions{justify-content:center}
+
+/* External research uses semantic blocks instead of raw Markdown. */
+#ai-answer .research-result{white-space:normal;line-height:1.65;overflow-wrap:anywhere}
+.research-result .research-date{font-size:.9rem;color:#51465e}
+.research-result .research-opportunity{padding:18px;margin:18px 0;border:1px solid #ded5e8;border-radius:12px;background:#fff;min-width:0}
+.research-result h3,.research-result h4{line-height:1.35;margin:0 0 12px}
+.research-result p{margin:10px 0}
+.research-result ul{padding-inline-start:22px;margin:10px 0}
+.research-result li{margin:6px 0}
+.research-result a{overflow-wrap:anywhere;text-decoration:underline}
+@media(max-width:600px){.research-result .research-opportunity{padding:12px;margin:12px 0}}
