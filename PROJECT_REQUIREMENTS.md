@@ -1,5 +1,9 @@
 # O Empregador Online — contrato de continuidade e revisão de produção
 
+## Teste real dos agentes — 31/10/2026
+
+Execuções pelo proprietário designado nos três perfis confirmaram respostas e cota sem débito. Histórico do candidato separado dos demais perfis. O gerador empresarial acrescentou formação obrigatória não informada; política reforçada para limitar exigências/condições aos fatos fornecidos, com lacunas a definir e sugestões separadas para aprovação. Salvaguarda probabilística, não garantia de ausência de erro; revisão humana preservada. 26 testes focados aprovados. Nenhuma publicação automática, compra, alteração de plano, permissão ou nova coleta. Finalidade/base de serviço existentes, mínimo de contexto sintético, histórico privado seletivo, retenção/direitos e acesso preservados. Consulta LGPD/Presidência e FAQ ANPD tentada nesta alteração: acesso negado/erro de backend; revisão anterior de continuidade mantida, sem certificação jurídica.
+
 ## Curso fictício e compartilhamento — 31/10/2026
 
 Super Maker preenchida como instituição fictícia, logo sintético e curso FDM publicado/marcado fictício. Sem alterar plano, carteira ou autorização. Prévia compartilhada consulta anúncio exato, independentemente dos 50 destaques, com descrição completa e as mesmas regras públicas de elegibilidade. Ver pilot-sumare/docs/SHARED-LISTING-2026-10-31.md.
